@@ -5,6 +5,7 @@ package logica.Usuario;
 
 import java.util.HashMap;
 import java.util.Map;
+import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 
 
@@ -14,12 +15,20 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String email;
-    //private DTFecha fecha;
+    private DTFecha fecha;
     private String rutaImg;
     private Map<String,Usuario> usuarioSeguido=new HashMap<>();
     private Map<String,Propuesta> propFavorita=new HashMap<>();
     public Usuario(){}
-    public Usuario(String nickname,String nombre,String apellido,String email){this.nickname=nickname; this.nombre=nombre;this.apellido=apellido;this.email=email;}
+   
+    public Usuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.fecha = fecha;
+        this.rutaImg = rutaImg;
+    }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;

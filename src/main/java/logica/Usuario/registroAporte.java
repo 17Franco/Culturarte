@@ -1,17 +1,21 @@
 
 package logica.Usuario;
 
+import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 
 public class registroAporte {
     private int moto;
     private String retorno;
-    //private DTFecha;
+    private DTFecha fecha;
     private Propuesta colabPropuesta;
 
-    public registroAporte(int moto, String retorno, Propuesta colabPropuesta) {
+ 
+
+    public registroAporte(int moto, String retorno, DTFecha fecha, Propuesta colabPropuesta) {
         this.moto = moto;
         this.retorno = retorno;
+        this.fecha = fecha;
         this.colabPropuesta = colabPropuesta;
     }
 

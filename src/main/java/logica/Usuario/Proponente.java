@@ -3,6 +3,7 @@ package logica.Usuario;
 
 import java.util.HashMap;
 import java.util.Map;
+import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 
 
@@ -15,12 +16,14 @@ public class Proponente extends Usuario{
     public Proponente() {
     }
 
-    public Proponente(String nickname, String nombre, String apellido, String email,String direccion,String biografia,String webSite) {
-        super(nickname, nombre, apellido, email);
-        this.direccion=direccion;
-        this.biografia=biografia;
-        this.webSite=webSite;
+    public Proponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+        super(nickname, nombre, apellido, email, fecha, rutaImg);
+        this.direccion = direccion;
+        this.biografia = biografia;
+        this.webSite = webSite;
     }
+
+  
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
