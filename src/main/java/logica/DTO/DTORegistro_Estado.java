@@ -1,5 +1,4 @@
 package logica.DTO;
-import logica.DTFecha.DTFecha;
 import logica._enum.Estado;
 
 import java.util.HashSet;

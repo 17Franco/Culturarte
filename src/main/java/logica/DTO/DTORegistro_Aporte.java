@@ -1,5 +1,4 @@
 package logica.DTO;
-import logica.DTFecha.DTFecha;
 import logica.DTO.DTOPropuesta;
 
 public class DTORegistro_Aporte

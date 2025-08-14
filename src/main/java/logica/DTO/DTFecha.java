@@ -1,4 +1,4 @@
-package logica.DTFecha;
+package logica.DTO;
 
 public class DTFecha
 {

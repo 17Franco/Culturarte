@@ -3,7 +3,6 @@ package logica.DTO;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTORegistro_Estado;
 import java.util.Date;
-import logica.DTFecha.DTFecha;
 
 public class DTOPropuesta 
 {
