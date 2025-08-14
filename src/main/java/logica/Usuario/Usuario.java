@@ -3,13 +3,21 @@ package logica.Usuario;
 
 //import  jakarta.persistence.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import logica.Propuesta.Propuesta;
+
+
 public class Usuario {
     
     private String nickname;
     private String nombre;
     private String apellido;
     private String email;
-    
+    //private DTFecha fecha;
+    private String rutaImg;
+    private Map<String,Usuario> usuarioSeguido=new HashMap<>();
+    private Map<String,Propuesta> propFavorita=new HashMap<>();
     public Usuario(){}
     public Usuario(String nickname,String nombre,String apellido,String email){this.nickname=nickname; this.nombre=nombre;this.apellido=apellido;this.email=email;}
 
@@ -29,6 +37,14 @@ public class Usuario {
         this.email = email;
     }
     
+    public void setRutaImg(String rutaImg) {
+        this.rutaImg = rutaImg;
+    }
+
+    public String getRutaImg() {
+        return rutaImg;
+    }
+    
     public String getNickname() {
         return nickname;
     }
@@ -45,5 +61,12 @@ public class Usuario {
         return email;
     }
     
-    
+    public void seguir(Usuario usu){
+        String n = usu.getNickname();
+        this.usuarioSeguido.put(n, usu);
+    }
+    /*public void Favorita(Propuesta prop){
+        String n = prop.
+        this.usuarioSeguido.put(n, usu);
+    }*/
 }

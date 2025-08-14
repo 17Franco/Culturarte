@@ -1,6 +1,17 @@
 
 package logica.Usuario;
 
-public class Colaborador {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Colaborador extends Usuario{
+    private Map<String,registroAporte> colaboraciones= new HashMap<>();
+
+    public Colaborador() {
+    }
+
+    public Colaborador(String nickname, String nombre, String apellido, String email) {
+        super(nickname, nombre, apellido, email);
+    }
     
 }
