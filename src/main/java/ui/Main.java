@@ -1,21 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ui;
 
-/**
- *
- * @author fran
- */
-public class Menu extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Menu.class.getName());
+import logica.Fabrica;
 
-    /**
-     * Creates new form Menu
-     */
-    public Menu() {
+public class Main extends javax.swing.JFrame {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
+
+   
+    public Main() {
         initComponents();
     }
 
@@ -44,7 +37,13 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-  
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        
+        java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

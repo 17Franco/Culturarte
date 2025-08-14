@@ -4,10 +4,26 @@
  */
 package logica;
 
+import java.util.List;
+import logica.DTO.DTOColaborador;
+import logica.DTO.DTOProponente;
+import logica.DTO.DTOUsuario;
+
 /**
  *
  * @author fran
  */
-public class IController {
+public interface IController {
+    //cu alta perfil
+    void altaUsuario(DTOUsuario usu);
+    // cu ver perfil proponente 
+    
+    List<String> listarProponente();
+    
+    DTOProponente verPerfilProponente(String nick);
+    
+    List<DTOColaborador> usuarioColPropuesta(String nombProp);
+    
+    
     
 }
