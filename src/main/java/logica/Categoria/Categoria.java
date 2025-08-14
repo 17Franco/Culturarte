@@ -1,5 +1,6 @@
-package Categoria;
-import DTO.DTOCategoria;
+package logica.Categoria;
+
+import logica.DTO.DTOCategoria;
 import java.util.HashSet;
 import java.util.Set;
 

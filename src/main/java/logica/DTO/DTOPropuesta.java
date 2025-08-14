@@ -1,5 +1,9 @@
-package DTO;
+package logica.DTO;
+
+import logica.DTO.DTOCategoria;
+import logica.DTO.DTORegistro_Estado;
 import java.util.Date;
+import logica.DTFecha.DTFecha;
 
 public class DTOPropuesta 
 {
@@ -85,12 +89,12 @@ public class DTOPropuesta
         return fechaPublicacion;
     }
 
-    public DTCategoria getCategoria()
+    public DTOCategoria getCategoria()
      {
           return categoria;
       }
 
-    public DTRegistro_Estado getRegEstado()
+    public DTORegistro_Estado getRegEstado()
      {
           return registro;
       }

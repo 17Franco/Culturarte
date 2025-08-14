@@ -1,4 +1,4 @@
-package DTFecha;
+package logica.DTFecha;
 
 public class DTFecha
 {
@@ -48,3 +48,4 @@ public class DTFecha
         yyyy = _yyyy;
     }
 
+}
