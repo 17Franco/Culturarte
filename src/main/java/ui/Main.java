@@ -42,11 +42,11 @@ public class Main extends javax.swing.JFrame {
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 401, Short.MAX_VALUE)
+            .addGap(0, 624, Short.MAX_VALUE)
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 378, Short.MAX_VALUE)
+            .addGap(0, 602, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Sistema");
@@ -97,14 +97,14 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -153,14 +153,30 @@ public class Main extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
             jMenu2.setText("Propuesta");
             jMenu2.removeAll();
-            jMenu2.add(new JMenuItem ("Alta Propuesta"));
-            
-            jMenu2.add(new JMenuItem("Modificar Propuesta"));
-            jMenu2.add(new JMenuItem("Listar Propuesta"));
-            jMenu2.add(new JMenuItem("Listar Propuesta por Estado"));
-            jMenu2.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+            AltaPropuesta PropNew = new AltaPropuesta();            
+            String[] opcionesPropuesta = { "Alta Propuesta", "Modificar Propuesta", "Listar Propuestas","Listar Historial de Estados" };
 
+            for (String op2 : opcionesPropuesta) {
+                JMenuItem item = new JMenuItem(op2);
+
+                 item.addActionListener(e -> {
+        
+                 switch (op2) {
+                    case "Alta Propuesta" -> 
+                    {
+                        fondo.add(PropNew);
+                        PropNew.setSize(fondo.getSize());
+                        PropNew.setVisible(true);
+                    }
+                                         
+                   
+              }
+         });
+                  jMenu2.add(item);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+          
+            jMenu2.setVisible(true);
+    }
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
        jMenu2.setText("Colaboracion");
             jMenu2.removeAll();
