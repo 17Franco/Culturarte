@@ -1,5 +1,7 @@
-
 package ui;
+import java.util.ArrayList;
+import java.util.List;
+import logica.DTO.DTOPropuesta;
 
 import javax.swing.JMenuItem;
 
@@ -111,11 +113,22 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        jMenu2.setText("Categoria");
-            jMenu2.removeAll();
-            jMenu2.add(new JMenuItem ("Alta Categoria"));
-           
-            jMenu2.setVisible(true);
+        
+    jMenu2.setText("Categoria");
+    jMenu2.removeAll();
+    JMenuItem altaCategoriaItem = new JMenuItem("Alta Categoria");
+    
+    altaCategoriaItem.addActionListener(e -> 
+    {
+        AltaDeCategoria altaCat = new AltaDeCategoria();
+        fondo.add(altaCat);
+        altaCat.setSize(fondo.getSize());
+        altaCat.setVisible(true);
+    });
+
+    jMenu2.add(altaCategoriaItem);
+    jMenu2.setVisible(true);
+    
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -151,13 +164,68 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-            jMenu2.setText("Propuesta");
-            jMenu2.removeAll();
-            jMenu2.add(new JMenuItem ("Alta Propuesta"));
             
-            jMenu2.add(new JMenuItem("Modificar Propuesta"));
-            jMenu2.add(new JMenuItem("Listar Propuesta"));
-            jMenu2.add(new JMenuItem("Listar Propuesta por Estado"));
+        jMenu2.setText("Propuesta");
+        jMenu2.removeAll();
+            
+            String[] opcionesPropuesta = { "Alta Propuesta", "Modificar Propuesta","Listar Propuesta", "Consultar Propuestas Por Estado" };
+            
+            for (String sel : opcionesPropuesta)
+            {
+                JMenuItem menuPropuesta = new JMenuItem(sel);
+                
+                menuPropuesta.addActionListener
+                (e -> 
+                    {
+
+                        switch (sel) 
+                        {
+                            case "Alta Propuesta" -> 
+                            {
+                                //Pendiente
+                            }
+                            case "Modificar Propuesta" -> 
+                            {
+                                //Pendiente
+                            }
+                            case "Listar Propuesta" -> 
+                            {
+                                //Pendiente
+                            }
+                            case "Consultar Propuestas Por Estado" -> 
+                            {
+                                
+                                List<DTOPropuesta> propuestaSeleccionada = new ArrayList<>();
+                                
+                                ConsultaPropuestaPorEstado consultaPorEstado = new ConsultaPropuestaPorEstado();
+                                fondo.add(consultaPorEstado);
+                                consultaPorEstado.setSize(fondo.getSize());
+                                consultaPorEstado.setVisible(true);
+                                
+                                
+                                if(consultaPorEstado.getPass() == true) //Si realmente se pulsó en "Continuar".
+                                {
+                                    propuestaSeleccionada = consultaPorEstado.getListaPropuestas(); //Se obtienen datos recabados.
+                                    ListaPropuestasPorEstado lista = new ListaPropuestasPorEstado();    //Se inicializa ventana con la lista.
+                                    
+                                    lista.SetListaPropuesta(propuestaSeleccionada);
+                                    fondo.add(lista);
+                                    lista.setSize(fondo.getSize());
+                                    lista.setVisible(true);
+                                    
+                                    
+                                }
+                                
+                            }
+                            
+                           
+                        }
+                    }
+                );
+                
+                jMenu2.add(menuPropuesta);
+            }
+            
             jMenu2.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
