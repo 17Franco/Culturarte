@@ -1,13 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package logica.Usuario;
 
-/**
- *
- * @author fran
- */
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class ManejadorUsuario {
+    private Map<String,Usuario> usuarios;
+    private static ManejadorUsuario instancia = null;
+
+    private ManejadorUsuario() {
+        usuarios = new HashMap<String, Usuario>();
+    }
+    
+    public static ManejadorUsuario getinstance() {
+        if (instancia == null)
+            instancia = new ManejadorUsuario();
+        return instancia;
+    }
+    
     
 }

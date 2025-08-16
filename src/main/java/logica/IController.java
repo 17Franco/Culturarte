@@ -24,6 +24,8 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     
+    boolean datosUsadosUsuario(String nick, String email);
+    
     
     
 }
