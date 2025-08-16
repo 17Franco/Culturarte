@@ -8,6 +8,7 @@ import java.util.List;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOUsuario;
+import logica.DTO.DTOPropuesta;
 
 /**
  *
@@ -32,6 +33,14 @@ public class Controller  implements IController {
 
     @Override
     public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    public void altaPropuesta(DTOPropuesta prop) {
+        
+    }
+
+    @Override
+    public boolean datosUsadosUsuario(String nick, String email) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

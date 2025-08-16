@@ -15,6 +15,7 @@ public class DTOUsuario {
     private Map<String,DTOUsuario> usuarioSeguido=new HashMap<>();
     private Map<String,DTOPropuesta> propFavorita=new HashMap<>();
 
+    
     public DTOUsuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
         this.nickname = nickname;
         this.nombre = nombre;

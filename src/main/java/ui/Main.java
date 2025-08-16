@@ -182,7 +182,10 @@ public class Main extends javax.swing.JFrame {
                         {
                             case "Alta Propuesta" -> 
                             {
-                                //Pendiente
+                                AltaPropuesta PropNew = new AltaPropuesta(); 
+                                fondo.add(PropNew);
+                                PropNew.setSize(fondo.getSize());
+                                PropNew.setVisible(true);
                             }
                             case "Modificar Propuesta" -> 
                             {

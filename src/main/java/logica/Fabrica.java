@@ -14,6 +14,7 @@ public class Fabrica {
         if (controller == null) {
             controller = new Controller(); // instancia única
         }
+        
         return controller;
     }
 }

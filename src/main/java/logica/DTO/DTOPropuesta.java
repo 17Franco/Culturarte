@@ -3,6 +3,7 @@ package logica.DTO;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTORegistro_Estado;
 import java.util.Date;
+import logica._enum.TipoRetorno;
 
 public class DTOPropuesta 
 {
@@ -15,10 +16,10 @@ public class DTOPropuesta
     private String precio;
     private String montoFinal;
     private Date fechaPublicacion;
-    private String retorno;
+    private TipoRetorno retorno;
     private DTOCategoria categoria;
     private DTORegistro_Estado registro;
-
+    
 
     
     public DTOPropuesta() 
@@ -26,7 +27,7 @@ public class DTOPropuesta
       
     }
 
-    public DTOPropuesta(String _titulo, String _descripcion, /*IMG_imagen,*/String _tipo, String _lugar, DTFecha _fecha, String _precio, String _montoFinal, Date _fechaPublicacion, String _retorno, DTOCategoria _categoria, DTORegistro_Estado _registro)
+    public DTOPropuesta(String _titulo, String _descripcion, /*IMG_imagen,*/String _tipo, String _lugar, DTFecha _fecha, String _precio, String _montoFinal, Date _fechaPublicacion, TipoRetorno _retorno, DTOCategoria _categoria, DTORegistro_Estado _registro)
     {
         titulo = _titulo;
         descripcion = _descripcion;
@@ -98,7 +99,7 @@ public class DTOPropuesta
           return registro;
       }
 
-    public String getRetorno() 
+    public TipoRetorno getRetorno() 
     {
         return retorno;
     }
@@ -151,7 +152,7 @@ public class DTOPropuesta
         fechaPublicacion = _fechaPublicacion;
     }
 
-    public void setRetorno(String _retorno) 
+    public void setRetorno(TipoRetorno _retorno) 
     {
         retorno = _retorno;
     }

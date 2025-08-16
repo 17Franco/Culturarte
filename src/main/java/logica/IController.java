@@ -7,6 +7,7 @@ package logica;
 import java.util.List;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
+import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOUsuario;
 
 /**
@@ -23,6 +24,10 @@ public interface IController {
     DTOProponente verPerfilProponente(String nick);
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
+    //cu alta propuesta
+    void altaPropuesta(DTOPropuesta prop);
+    
+    boolean datosUsadosUsuario(String nick, String email);
     
     
     
