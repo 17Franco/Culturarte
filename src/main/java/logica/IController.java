@@ -27,4 +27,8 @@ public interface IController {
     //cu alta propuesta
     void altaPropuesta(DTOPropuesta prop);
     
+    boolean datosUsadosUsuario(String nick, String email);
+    
+    
+    
 }
