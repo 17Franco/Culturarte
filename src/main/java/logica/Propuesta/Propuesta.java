@@ -5,25 +5,29 @@
 package logica.Propuesta;
 
 import logica._enum.TipoRetorno;
+import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
-import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Date;
 public class Propuesta {
     
-    String Titulo;
-    String Descripcion;
-    String Tipo;
-    String Lugar;
-    DTFecha Fecha;
-    String Precio;
-    String MontoTotal;
-    DTFecha FechaPublicacion;
-    String Retorno;
- // private List<Registro_Estado> historialEstados = new ArrayList<>();
+    private String Titulo;
+    private String Descripcion;
+    private String Tipo;
+  //  private File Imagen;
+    private String Lugar;
+    private DTFecha Fecha;
+    private String Precio;
+    private String MontoTotal;
+    private Date FechaPublicacion;
+    private TipoRetorno Retorno;
+    private DTOCategoria cat;
+    
+// private List<Registro_Estado> historialEstados;
+// private List<Registro> Aporte;
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,String Retorno)
+    public Propuesta(String Titulo,String Descripcion,String Tipo, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,Date FechaPublicacion,TipoRetorno Retorno)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -56,10 +60,10 @@ public class Propuesta {
     public String getMontoTotal() {
         return MontoTotal;
     }
-    public DTFecha getFechaPublicacion() {
+    public Date getFechaPublicacion() {
         return FechaPublicacion;
     }
-    public String getRetorno() {
+    public TipoRetorno getRetorno() {
         return Retorno;
     }
   /*  public List<Registro_Estado> getHistorialEstados() {
@@ -94,11 +98,11 @@ public class Propuesta {
         MontoTotal = montoTotal;
     }
 
-    public void setFechaPublicacion(DTFecha fechaPublicacion) {
+    public void setFechaPublicacion(Date fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
 
-    public void setRetorno(String retorno) {
+    public void setRetorno(TipoRetorno retorno) {
         Retorno = retorno;
     } 
 }
