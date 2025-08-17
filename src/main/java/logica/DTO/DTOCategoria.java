@@ -8,7 +8,7 @@ public class DTOCategoria
     private String nombreCategoria;
     private Set<DTOCategoria> subcategorias;
 
-    public DTOCategoria()  //Si no se agrega nada, se inicializará el set unicamente para dejarlo preparado.
+    public DTOCategoria()
     {
         subcategorias = new HashSet<>();
     }
