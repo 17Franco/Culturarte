@@ -21,7 +21,7 @@ import logica._enum.TipoRetorno;
  */
 public class Controller  implements IController {
        private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
-       
+       private ManejadorPropuesta propu=ManejadorPropuesta.getinstance();
     @Override
     public void altaUsuario(DTOUsuario usu) {
         if(usu.isProponente()){
@@ -45,8 +45,8 @@ public class Controller  implements IController {
     public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr) {
-        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, Retorno, cat, usr);
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr) {
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, cat, usr);
         ManejadorPropuesta.getinstance().nuevaPropuesta(propuesta);
     }
 
@@ -54,5 +54,7 @@ public class Controller  implements IController {
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
-    
+    public boolean existeProp(String Titulo){
+         return (propu.existeProp(Titulo));
+    }
 }

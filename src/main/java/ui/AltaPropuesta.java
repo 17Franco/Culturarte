@@ -3,10 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package ui;
-
+import java.time.LocalDate;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
@@ -23,6 +26,15 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
      */
     public AltaPropuesta(/*Map<String, DTOProponente> mapProp,Map<String, DTOCategoria> mapCat*/) {
         initComponents();
+        TituloField.setName("Título");
+        Descripcion_Field.setName("Descripción");
+        Tipo_Field.setName("Tipo");
+        Lugar_Field.setName("Lugar");
+        Precio_Field.setName("Precio");
+        Monto_Field.setName("Monto");
+        d.setName("Día");
+        m.setName("Mes");
+        a.setName("Año");
   /*      ListaUsuarios.removeAllItems();
         ListaCategoria.removeAllItems();
         Retorno1.removeAllItems();
@@ -161,6 +173,11 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         });
 
         Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarActionPerformed(evt);
+            }
+        });
 
         Imagen_Boton.setText("Subir");
         Imagen_Boton.addActionListener(new java.awt.event.ActionListener() {
@@ -176,6 +193,12 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         d.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dActionPerformed(evt);
+            }
+        });
+
+        m.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mActionPerformed(evt);
             }
         });
 
@@ -333,30 +356,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void envioDato(){  
-        String titulo = TituloField.getText();
-        String descripcion = Descripcion_Field.getText();
-        String tipo = Tipo_Field.getText();
-        String lugar = Lugar_Field.getText();
-        String precio = Precio_Field.getText();
-        String montoTotal = Monto_Field.getText();
-        int dia = Integer.parseInt(d.getText());
-        int mes = Integer.parseInt(m.getText());
-        int anio = Integer.parseInt(a.getText());
-        DTFecha fechaEvento = new DTFecha(dia, mes, anio);
-        DTOProponente proponente = (DTOProponente) ListaUsuarios.getSelectedItem();
-        DTOCategoria categoria = (DTOCategoria) ListaCategoria.getSelectedItem();
-        TipoRetorno retorno = (TipoRetorno) Retorno1.getSelectedItem();
-       
-        if (titulo.isEmpty() && descripcion.isEmpty() && tipo.isEmpty() && lugar.isEmpty() && precio.isEmpty() && montoTotal.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe completar todos los campos");
-            return; 
-        } 
-        else{
-            controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, proponente);
-            JOptionPane.showMessageDialog(this, "Propuesta creada correctamente");
-        }
-    }
            
     private void TituloFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TituloFieldActionPerformed
         
@@ -381,9 +380,46 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private void Monto_FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Monto_FieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Monto_FieldActionPerformed
+    private boolean validarCampo(List<JTextField> campos) {
+        for (JTextField campo : campos) {
+            String texto = campo.getText().trim();
+            if (!Utilities.validarNoVacio(campo)) return false;
+        }
+        if (!Utilities.validarFecha(d.getText(), m.getText(), a.getText())) {
+            return false;
+        }
 
+        return true; 
+    }
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-        envioDato();
+        String titulo = TituloField.getText();
+        String descripcion = Descripcion_Field.getText();
+        String tipo = Tipo_Field.getText();
+        String lugar = Lugar_Field.getText();
+        String precio = Precio_Field.getText();
+        String montoTotal = Monto_Field.getText();
+        String dia = d.getText(); 
+        String mes =m.getText(); 
+        String anio =a.getText();
+        LocalDate hoy = LocalDate.now();
+        DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
+        DTOProponente proponente = (DTOProponente) ListaUsuarios.getSelectedItem();
+        DTOCategoria categoria = (DTOCategoria) ListaCategoria.getSelectedItem();
+        TipoRetorno retorno = (TipoRetorno) Retorno1.getSelectedItem();
+       
+        List<JTextField> campos = Arrays.asList(TituloField,Descripcion_Field,Tipo_Field,Lugar_Field,Precio_Field,Monto_Field,d,m,a);
+        
+        if(validarCampo(campos)){
+            if(controller.existeProp(titulo)){    
+                JOptionPane.showMessageDialog(this, "Propuesta ya registrada");
+            }else{
+                Utilities.copiarImagen(rutaImagen,titulo);
+                DTFecha fechaEvento=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
+                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,fechaCreacion ,retorno, categoria, proponente);
+                JOptionPane.showMessageDialog(this, "Usuario registrado con exito");
+            }
+            
+        }
     }//GEN-LAST:event_AgregarActionPerformed
 
     private void Imagen_BotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Imagen_BotonActionPerformed
@@ -431,6 +467,22 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
 
         */
     }//GEN-LAST:event_ListaUsuariosActionPerformed
+
+    private void mActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mActionPerformed
+
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        TituloField.setText("");
+        Descripcion_Field.setText("");
+        Tipo_Field.setText("");
+        Lugar_Field.setText("");
+        Precio_Field.setText("");
+        Monto_Field.setText("");
+        d.setText("");
+        m.setText("");
+        a.setText("");
+    }//GEN-LAST:event_CancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

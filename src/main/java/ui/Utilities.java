@@ -43,7 +43,6 @@ public class Utilities {
         }
         return true;
     }
-
     public static void copiarImagen(String rutaOriginal, String nick) { //el nick es para crear la carpeta con ese nombre/si fuera propuesta le pasan ese nombre
         if (rutaOriginal == null || rutaOriginal.isEmpty()) return;
 

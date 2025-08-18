@@ -29,9 +29,9 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     //cu alta propuesta
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
     
-    
+    boolean existeProp(String Titulo);
     
     
     
