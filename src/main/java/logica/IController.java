@@ -5,7 +5,9 @@
 package logica;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -36,6 +38,7 @@ public interface IController {
     Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado);
     
     boolean altaDeCategoria(DTOCategoria categoriaIngresada);
+    Map<String, Categoria> getCategorias();
     
     
 }

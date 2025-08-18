@@ -1,170 +1,122 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package logica.DTO;
 
-import logica.DTO.DTOCategoria;
-import logica.DTO.DTORegistro_Estado;
-import java.util.Date;
 import logica._enum.TipoRetorno;
-
-public class DTOPropuesta 
-{
-    private String titulo;
-    private String descripcion;
- // private IMG imagen; Pendiente manejo de imagenes...
-    private String tipo;
-    private String lugar;
-    private DTFecha fecha;
-    private String precio;
-    private String montoFinal;
-    private Date fechaPublicacion;
-    private TipoRetorno retorno;
-    private DTOCategoria categoria;
-    private DTORegistro_Estado registro;
+import logica.DTO.DTOProponente;
+import logica.DTO.DTOCategoria;
+import logica.DTO.DTFecha;
+import java.util.Date;
+public class DTOPropuesta {
     
-
+    private String Titulo;
+    private String Descripcion;
+    private String Tipo;
+    private String Imagen;
+    private String Lugar;
+    private DTFecha Fecha;
+    private String Precio;
+    private String MontoTotal;
+    private Date FechaPublicacion;
+    private TipoRetorno Retorno;
+    private DTOCategoria cat;
+    private DTOProponente usr;
     
-    public DTOPropuesta() 
+            
+    public DTOPropuesta(){}
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,Date FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
     {
-      
+        this.Titulo=Titulo;
+        this.Descripcion=Descripcion;
+        this.Tipo=Tipo;
+        this.Imagen=Imagen;
+        this.Lugar=Lugar;
+        this.Fecha=Fecha;
+        this.Precio=Precio;
+        this.MontoTotal=MontoTotal;
+        this.FechaPublicacion=FechaPublicacion;
+        this.Retorno=Retorno;
+        this.cat=cat;
+        this.usr=usr;
+    }
+    public  String getTitulo() {
+        return Titulo;
+    }
+    public  String getDescripcion() {
+        return Descripcion;
+    }
+    public  String getTipo() {
+        return Tipo;
+    }
+    public  String getImagen() {
+        return Imagen;
+    }
+    public  String getLugar() {
+        return Lugar;
+    }
+    public  DTFecha getFecha() {
+        return Fecha;
+    }
+    public String getPrecio() {
+        return Precio;
+    }
+    public String getMontoTotal() {
+        return MontoTotal;
+    }
+    public Date getFechaPublicacion() {
+        return FechaPublicacion;
+    }
+    public TipoRetorno getRetorno() {
+        return Retorno;
+    }
+    public DTOCategoria getCategoria(){
+        return cat;
+    }
+    public DTOProponente getProponente(){
+        return usr;
+    }
+    public void setTitulo(String titulo) {
+        Titulo = titulo;
     }
 
-    public DTOPropuesta(String _titulo, String _descripcion, /*IMG_imagen,*/String _tipo, String _lugar, DTFecha _fecha, String _precio, String _montoFinal, Date _fechaPublicacion, TipoRetorno _retorno, DTOCategoria _categoria, DTORegistro_Estado _registro)
-    {
-        titulo = _titulo;
-        descripcion = _descripcion;
-        //imagen = _imagen;
-        tipo = _tipo;
-        lugar = _lugar;
-        fecha = _fecha;
-        precio = _precio;
-        montoFinal = _montoFinal;
-        fechaPublicacion = _fechaPublicacion;
-        retorno = _retorno;
-        categoria = _categoria;
-        registro = _registro;
-
+    public void setDescripcion(String descripcion) {
+        Descripcion = descripcion;
     }
 
-    public String getTitulo() 
-    {
-        return titulo;
+    public void setTipo(String tipo) {
+        Tipo = tipo;
+    }
+    public void setImagne(String Imagen) {
+        Imagen = Imagen;
+    }
+    public void setLugar(String lugar) {
+        Lugar = lugar;
     }
 
-    public String getDescripcion() 
-    {
-        return descripcion;
+    public void setFecha(DTFecha fecha) {
+        Fecha = fecha;
     }
 
-   // public IMG getImagen() 
-    {
-   //     return imagen;
+    public void setPrecio(String precio) {
+        Precio = precio;
     }
 
-    public String getTipo() 
-    {
-        return tipo;
+    public void setMontoTotal(String montoTotal) {
+        MontoTotal = montoTotal;
     }
 
-    public String getLugar() 
-    {
-        return lugar;
+    public void setFechaPublicacion(Date fechaPublicacion) {
+        FechaPublicacion = fechaPublicacion;
     }
-
-    public DTFecha getFecha() 
-    {
-        return fecha;
+    public void setRetorno(TipoRetorno retorno) {
+        Retorno = retorno;
+    } 
+    public void setCategoria(DTOCategoria Cat){
+        cat = Cat;
     }
-
-    public String getPrecio() 
-    {
-        return precio;
+    public void setProponente(DTOProponente Propo){
+        usr = Propo;
     }
-
-    public String getMontoFinal() 
-    {
-        return montoFinal;
-    }
-
-    public Date getFechaPublicacion() 
-    {
-        return fechaPublicacion;
-    }
-
-    public DTOCategoria getCategoria()
-     {
-          return categoria;
-      }
-
-    public DTORegistro_Estado getRegEstado()
-     {
-          return registro;
-      }
-
-    public TipoRetorno getRetorno() 
-    {
-        return retorno;
-    }
-
-    public void setTitulo(String _titulo) 
-    {
-        titulo = _titulo;
-    }
-
-    public void setDescripcion(String _descripcion) 
-    {
-        descripcion = _descripcion;
-    }
-
-   /*
-    public void setImagen(IMG _imagen)
-    {
-        imagen = _imagen;
-    }
-    */
-
-
-    public void setTipo(String _tipo) 
-    {
-        tipo = _tipo;
-    }
-
-    public void setLugar(String _lugar) 
-    {
-        lugar = _lugar;
-    }
-
-    public void setFecha(DTFecha _fecha) 
-    {
-        fecha = _fecha;
-    }
-
-    public void setPrecio(String _precio) 
-    {
-        precio = _precio;
-    }
-
-    public void setMontoFinal(String _montoFinal) 
-    {
-        montoFinal = _montoFinal;
-    }
-
-    public void setFechaPublicacion(Date _fechaPublicacion) 
-    {
-        fechaPublicacion = _fechaPublicacion;
-    }
-
-    public void setRetorno(TipoRetorno _retorno) 
-    {
-        retorno = _retorno;
-    }
-
-    public void setCategoria(DTOCategoria _categoria)
-    {
-        categoria = _categoria;
-     }
-
-    public void setCategoria(DTORegistro_Estado _registro)
-    {
-        registro = _registro;
-     }
-
- }
+}

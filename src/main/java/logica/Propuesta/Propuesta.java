@@ -1,18 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica.Propuesta;
 
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
-import java.util.List;
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
+
 
 public class Propuesta {
     
@@ -78,10 +71,6 @@ public class Propuesta {
     public TipoRetorno getRetorno() {
         return Retorno;
     }
-      /*  public List<Registro_Estado> getHistorialEstados() {
-        return historialEstados;
-    }
-    */
     public DTOCategoria getCategoria(){
         return cat;
     }
@@ -121,7 +110,6 @@ public class Propuesta {
     public void setFechaPublicacion(Date fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
-    
     public void setRetorno(TipoRetorno retorno) {
         Retorno = retorno;
     } 
@@ -131,16 +119,5 @@ public class Propuesta {
     public void setProponente(DTOProponente Propo){
         usr = Propo;
     }
-    
-    /*
-    public Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado)
-    {
-        
-        Set<DTOPropuesta> propuestasEncontradas = new HashSet<>();
-        
-        
-        return propuestasEncontradas;
-        
-    }
-*/
+
 }

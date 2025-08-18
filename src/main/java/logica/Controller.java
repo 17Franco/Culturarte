@@ -5,8 +5,11 @@
 package logica;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import logica.Categoria.Categoria;
 import logica.Propuesta.ManejadorPropuesta;
+import logica.Categoria.ManejadorCategoria;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -61,8 +64,18 @@ public class Controller  implements IController {
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
     {
-        //En proceso
-        throw new UnsupportedOperationException("Not supported yet.");
+       if(ManejadorCategoria.getInstance().existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
+       {    //Si no existen previamente.
+            ManejadorCategoria.getInstance().addCategoria(categoriaIngresada);
+            return true;    //Le dice a UI que todo fue correcto.
+       }
+       
+       return false;    //Le dice a ui que no se agregó nada.
+    }
+    
+    public Map<String, Categoria> getCategorias()   //bue
+    {
+        return ManejadorCategoria.getInstance().getCategorias();
     }
     
 }

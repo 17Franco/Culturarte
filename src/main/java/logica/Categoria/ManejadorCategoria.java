@@ -2,8 +2,6 @@ package logica.Categoria;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
 
 public class ManejadorCategoria 
 {
@@ -12,8 +10,7 @@ public class ManejadorCategoria
     
     private ManejadorCategoria() 
     {
-        AlmacenCategorias = new HashMap<>();
-        iniciarBDTempCategoria();
+        AlmacenCategorias = new HashMap<String, Categoria>();
     }
     
     public static ManejadorCategoria getInstance() 
@@ -23,30 +20,58 @@ public class ManejadorCategoria
         return instancia;
     }
     
-    private void iniciarBDTempCategoria() 
+    public Map<String, Categoria> getCategorias()
     {
-        Set<DTOCategoria> subcategoriasArteVisual = new HashSet<>();
-        subcategoriasArteVisual.add(new DTOCategoria("Pintura"));
-        subcategoriasArteVisual.add(new DTOCategoria("Escultura"));
-        subcategoriasArteVisual.add(new DTOCategoria("Fotografía"));
+        return AlmacenCategorias;
+    }
+    
+    public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria)
+    {
+        Categoria temp = AlmacenCategorias.get(nombreCategoria);
+        
+        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(),"",temp.getSubcategorias());
+        
+        return almacen;
+    }
+    
+    public boolean addCategoria(DTOCategoria categoriaIngresada)
+    { 
+        if(categoriaIngresada.getCatPadre() == null)  //Si no agregó como subcategoria
+        {       //la condición está negada.
+            Categoria cat1 = new Categoria(categoriaIngresada.getNombreCategoria());
+            AlmacenCategorias.put(cat1.getNombreCategoria(),cat1);
+            return true;    //agregado correctamente.
+        }
+        
+        if(categoriaIngresada.getCatPadre() != null)  //Si es una subcategoria:
+        {
+            Categoria temp = new Categoria();
+            temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Obtengo y almaceno puntero a cat padre.
+            
+            temp.addSubcategoria(categoriaIngresada);
+            
+            return true;
 
-        Set<DTOCategoria> subcategoriasMusica = new HashSet<>();
-        subcategoriasMusica.add(new DTOCategoria("Rock"));
-        subcategoriasMusica.add(new DTOCategoria("Jazz"));
-        subcategoriasMusica.add(new DTOCategoria("Clásica"));
-
-        Set<DTOCategoria> subcategoriasTeatro = new HashSet<>();
-        subcategoriasTeatro.add(new DTOCategoria("Teatro Contemporáneo"));
-        subcategoriasTeatro.add(new DTOCategoria("Teatro Clásico"));
-        subcategoriasTeatro.add(new DTOCategoria("Teatro Experimental"));
-
-        Categoria arteVisual = new Categoria("Arte Visual", subcategoriasArteVisual);
-        Categoria musica = new Categoria("Música", subcategoriasMusica);
-        Categoria teatro = new Categoria("Teatro", subcategoriasTeatro);
-
-        AlmacenCategorias.put(arteVisual.getNombreCategoria(), arteVisual);
-        AlmacenCategorias.put(musica.getNombreCategoria(), musica);
-        AlmacenCategorias.put(teatro.getNombreCategoria(), teatro);
-
+        }
+        
+        
+        return false;
+ 
+    }
+    
+    public int existe(DTOCategoria categoriaIngresada)  //Devuelve 1 si no esta la parte "Categoria-nombre" devuelve 2 si no existe con el nombre "categoria-padre"
+    {   //Devuelve 0 si existe alguna coincidencia de nombre o de categoria padre.
+        
+        if(!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria.
+        {       //Si no está y no está vacio da true, ver que es condicion negada
+            return 1;
+        }
+        
+        if(!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Busca si ya existe SubCategoria como categoria grande.
+        {       //Si no está y no está vacio da true, ver que es condicion negada
+            return 2;
+        }
+        
+        return 0;
     }
 }

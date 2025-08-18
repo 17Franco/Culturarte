@@ -9,6 +9,9 @@ public class Categoria
     private String nombreCategoria;
     private Set<DTOCategoria> subcategorias;
     
+    public Categoria() 
+    {
+    }
  
     public Categoria(String nombreCategoria) 
     {
@@ -66,30 +69,10 @@ public class Categoria
             }
         }
     }
-
-
-    public void agregarSubcategoria(Set<DTOCategoria> addCat)
-    {
-	 subcategorias.addAll(addCat);  //Sumariza subCats
-    }
-
-
-
-    /*
-    public set<DTO.DTOCategoria> buscadorCategorias (set<String> inputCategorias)
-    {
-        subcategorias = new HashSet<>();
-
-        Pendiente
-
-        if(inputCategorias != null || inputCategorias != "")
-        {
-            //Pendiente hasta obtener acceso a base de datos
-        }
-
-        return subcategorias
-    }
-
-    */
     
+    public void addSubcategoria(DTOCategoria _subCat) 
+    {
+        subcategorias.add(_subCat);
+    }
+
 }
