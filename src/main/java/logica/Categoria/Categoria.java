@@ -74,5 +74,7 @@ public class Categoria
     {
         subcategorias.add(_subCat);
     }
-
+    public String toString() {
+        return getNombreCategoria();
+    }
 }

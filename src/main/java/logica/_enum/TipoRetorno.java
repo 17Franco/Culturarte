@@ -2,6 +2,17 @@ package logica._enum;
 
 public enum TipoRetorno
 {   
-     Entrada_Gratis,
-     Porcentaje_de_Ganancia_por_concepto_de_ventas
+    EntradaGratis("Entrada Gratis"),
+    PorcentajeGanancia("Porcentaje de Ganancia");
+
+    private final String descripcion;
+
+    TipoRetorno(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    @Override
+    public String toString() {
+        return descripcion; // esto se verá en el JComboBox
+    }
 }

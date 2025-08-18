@@ -16,15 +16,20 @@ import logica._enum.TipoRetorno;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
+import logica.Usuario.Usuario;
+import logica.Usuario.ManejadorUsuario;
+import logica.Categoria.ManejadorCategoria;
+import logica.Categoria.Categoria;
 
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
     private String rutaImagen = null; 
-
+    private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
+    private ManejadorCategoria Categ=ManejadorCategoria.getInstance();
     /**
      * Creates new form AltaPropuesta
      */
-    public AltaPropuesta(/*Map<String, DTOProponente> mapProp,Map<String, DTOCategoria> mapCat*/) {
+    public AltaPropuesta() {
         initComponents();
         TituloField.setName("Título");
         Descripcion_Field.setName("Descripción");
@@ -35,22 +40,24 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         d.setName("Día");
         m.setName("Mes");
         a.setName("Año");
-  /*      ListaUsuarios.removeAllItems();
+        ListaUsuarios.removeAllItems();
         ListaCategoria.removeAllItems();
         Retorno1.removeAllItems();
         
-        for (DTOCategoria c :mapCat.values())
-        {
-            ListaCategoria.addItem(c);
+        for (Usuario u : mUsuario.getUsuarios().values()) {
+            ListaUsuarios.addItem(u); 
+         }
+        Usuario seleccionado = (Usuario) ListaUsuarios.getSelectedItem();
+        for (Categoria c : Categ.getCategorias().values()) {
+            ListaCategoria.addItem(c); 
         }
-        
-        for (DTOProponente p :mapProp.values())
-        {
-            ListaUsuarios.addItem(p);
+        Categoria selecion = (Categoria) ListaCategoria.getSelectedItem();
+        for (TipoRetorno t : TipoRetorno.values()) {
+            Retorno1.addItem(t); // enum, se muestra el nombre automáticamente
         }
-        
+        TipoRetorno selecci = (TipoRetorno) Retorno1.getSelectedItem();
         //Falta la lista de retornos
-      */  
+       
   
     }
     /**
@@ -494,15 +501,15 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private javax.swing.JButton Imagen_Boton;
     private javax.swing.JLabel IngresoCategoria;
     private javax.swing.JLabel IngresoUsuario;
-    private javax.swing.JComboBox<DTOCategoria> ListaCategoria;
-    private javax.swing.JComboBox<DTOProponente> ListaUsuarios;
+    private javax.swing.JComboBox<Categoria> ListaCategoria;
+    private javax.swing.JComboBox<Usuario> ListaUsuarios;
     private javax.swing.JLabel Lugar;
     private javax.swing.JTextField Lugar_Field;
     private javax.swing.JLabel Monto_A_Recaudar;
     private javax.swing.JTextField Monto_Field;
     private javax.swing.JLabel Precio_Entrada;
     private javax.swing.JTextField Precio_Field;
-    private javax.swing.JComboBox<String> Retorno1;
+    private javax.swing.JComboBox<TipoRetorno> Retorno1;
     private javax.swing.JLabel Tipo;
     private javax.swing.JTextField Tipo_Field;
     private javax.swing.JLabel Titulo;

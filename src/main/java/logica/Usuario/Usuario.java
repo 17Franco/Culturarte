@@ -69,7 +69,9 @@ public class Usuario {
     public String getEmail() {
         return email;
     }
-    
+    public String toString() {
+        return getNickname();
+    }
     public void seguir(Usuario usu){
         String n = usu.getNickname();
         this.usuarioSeguido.put(n, usu);
