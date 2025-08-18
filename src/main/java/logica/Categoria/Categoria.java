@@ -1,44 +1,46 @@
 package logica.Categoria;
-
 import logica.DTO.DTOCategoria;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Iterator;
 
 public class Categoria 
 {
     private String nombreCategoria;
     private Set<DTOCategoria> subcategorias;
     
+    public Categoria() 
+    {
+    }
  
     public Categoria(String nombreCategoria) 
-	{
+    {
         this.nombreCategoria = nombreCategoria;
         this.subcategorias = new HashSet<>(); //Son lo mismo hashSet == nullptr
     }
     
     // Para añadir subcategoría desde el inicio...
-    public Categoria(String _nombreCategoria, String subCat) //se puede modificar para recibir una lista de string.
-	{
+    public Categoria(String _nombreCategoria, Set<DTOCategoria> subCat) //se puede modificar para recibir una lista de string.
+    {
         nombreCategoria = _nombreCategoria;
 
-       subcategorias = new HashSet<>(); 
+        subcategorias = new HashSet<>(); 
 
-		if(subCat != null && subCat != "") //Si se especifican una o más subcategorías...
-		{   
-				//Pendiente añadir una función que devuelva uno o más DataType buscando a partir de un string o set de string con categorías para agregar al set...
-
-				//subcategorias.add(DTO.DTOCategoria);
-		}
+        subcategorias = subCat;
+        
 		
-	}
+    }
 
     public String getNombreCategoria() 
-	{
+    {
         return nombreCategoria;
     }
 
    
-    //public Set<DTO.DTOCategoria> getSubcategorias(){return subcategorias; }
+   public Set<DTOCategoria> getSubcategorias()
+   {
+       return subcategorias; 
+   }
 
 
     public void setNombreCategoria(String _nombreCategoria) 
@@ -48,42 +50,31 @@ public class Categoria
  
     
     public void setSubcategorias(Set<DTOCategoria> _subcategorias) 
-	{
-        subcategorias = _subcategorias;
+    {
+        subcategorias.addAll(_subcategorias);   //.addAll para sumarizar set anterior y nuevo
     }
 
  
-	/*
-	public void eliminarSubcategoria(String categoria)
-	{
-		Pendiente buscador set de DTO.DTOCategoria por string o set de string
-        subcategorias.remove(DTO.DTOCategoria);
-	}
-	*/
-
-	/*
-	public void agregarSubcategoria(String categoria)
-	{
-		 subcategorias.add(DTO.DTOCategoria);
-	}
-	*/
-
-
-
-	/*
-	public set<DTO.DTOCategoria> buscadorCategorias (set<String> inputCategorias)
-	{
-		subcategorias = new HashSet<>();
-
-		Pendiente
-
-		    if(inputCategorias != null || inputCategorias != "")
+    public void eliminarSubcategoria(String subCatAEliminar)
+    {
+        Iterator<DTOCategoria> iterator = subcategorias.iterator();
+        
+        while(iterator.hasNext()) 
+        {
+            DTOCategoria subcategoriasIT = iterator.next();
+            
+            if (subcategoriasIT.getNombreCategoria().equals("subCatAEliminar")) 
             {
-				//Pendiente hasta obtener acceso a base de datos
-			}
-		
-		return subcategorias
-	}
-
-	 */
+                iterator.remove();
+            }
+        }
+    }
+    
+    public void addSubcategoria(DTOCategoria _subCat) 
+    {
+        subcategorias.add(_subCat);
+    }
+    public String toString() {
+        return getNombreCategoria();
+    }
 }

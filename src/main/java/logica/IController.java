@@ -5,17 +5,18 @@
 package logica;
 
 import java.util.List;
-import logica.DTO.DTOColaborador;
+import java.util.Map;
+import java.util.Set;
+import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
-import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTOColaborador;
+import logica.DTO.DTOProponente;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
 import logica._enum.TipoRetorno;
-/**
- *
- * @author fran
- */
+
+
 public interface IController {
     //cu alta perfil
     void altaUsuario(DTOUsuario usu);
@@ -30,10 +31,14 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     //cu alta propuesta
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
     
+    boolean existeProp(String Titulo);
     
+    Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado);
     
+    boolean altaDeCategoria(DTOCategoria categoriaIngresada);
+    Map<String, Categoria> getCategorias();
     
     
 }

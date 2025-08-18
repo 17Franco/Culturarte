@@ -52,5 +52,7 @@ public class ManejadorUsuario {
         }
         return false;
     }
-    
+    public Map<String, Usuario> getUsuarios() {
+    return usuarios;
+}
 }

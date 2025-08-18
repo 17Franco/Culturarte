@@ -201,6 +201,11 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         jLabel9.setText("Dia");
 
         txtEmail.setName("Email"); // NOI18N
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -501,6 +506,10 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
              web = txtWeb.getText();
         }
     }//GEN-LAST:event_proponenteActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

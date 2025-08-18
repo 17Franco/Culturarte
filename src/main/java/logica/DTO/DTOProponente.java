@@ -31,5 +31,4 @@ public class DTOProponente extends DTOUsuario{
         return webSite;
     }
     
-    
 }

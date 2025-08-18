@@ -11,6 +11,7 @@ import logica.Propuesta.Propuesta;
 
 public class ManejadorPropuesta {
     private Map<String,Propuesta> propuestasp;
+    
     private static ManejadorPropuesta instancia = null;
 
     private ManejadorPropuesta() {
@@ -26,6 +27,14 @@ public class ManejadorPropuesta {
         if (p != null) 
         {
             propuestasp.put(p.getTitulo(), p);
+        }
+    }
+        public boolean existeProp(String Titulo){
+        Propuesta prop = propuestasp.get(Titulo); // devuelve null si no existe
+        if (prop!= null) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
