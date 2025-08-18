@@ -47,7 +47,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         for (Usuario u : mUsuario.getUsuarios().values()) {
             ListaUsuarios.addItem(u); 
          }
-        Usuario seleccionado = (Usuario) ListaUsuarios.getSelectedItem();
+        Usuario seleccionado = (Usuario) ListaUsuarios.getSelectedItem();//Falta ADAPTARLO A PORPONENTES
         for (Categoria c : Categ.getCategorias().values()) {
             ListaCategoria.addItem(c); 
         }
