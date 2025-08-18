@@ -5,9 +5,15 @@
 package logica;
 
 import java.util.List;
+import java.util.Set;
+import logica.Propuesta.ManejadorPropuesta;
+import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOUsuario;
+import logica.DTO.DTFecha;
+import logica.Propuesta.Propuesta;
+import logica._enum.TipoRetorno;
 import logica.DTO.DTOPropuesta;
 
 /**
@@ -35,13 +41,28 @@ public class Controller  implements IController {
     public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    public void altaPropuesta(DTOPropuesta prop) {
-        
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr) {
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, Retorno, cat, usr);
+        ManejadorPropuesta.getinstance().nuevaPropuesta(propuesta);
     }
 
     @Override
     public boolean datosUsadosUsuario(String nick, String email) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado)
+    {
+        //En proceso
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
+    {
+        //En proceso
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
