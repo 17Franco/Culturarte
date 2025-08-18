@@ -5,10 +5,14 @@
 package logica;
 
 import java.util.List;
+import java.util.Set;
+import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
+import logica._enum.TipoRetorno;
 
 /**
  *
@@ -25,10 +29,13 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     //cu alta propuesta
-    void altaPropuesta(DTOPropuesta prop);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
     
     boolean datosUsadosUsuario(String nick, String email);
     
+    Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado);
+    
+    boolean altaDeCategoria(DTOCategoria categoriaIngresada);
     
     
 }
