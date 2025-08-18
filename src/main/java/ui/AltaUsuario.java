@@ -298,7 +298,8 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_colaboradorActionPerformed
 
     private void btnFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
+         rutaImagenTemp=Utilities.elejirArchivo();
+        /*  JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Seleccionar imagen");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
      
@@ -312,10 +313,11 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
             File archivo = fileChooser.getSelectedFile();
             rutaImagenTemp= archivo.getAbsolutePath(); 
            
-        }
+        }*/
+     
     }//GEN-LAST:event_btnFileActionPerformed
 
-   public void copiarImagen(String rutaOriginal, String nick) {
+ /*  public void copiarImagen(String rutaOriginal, String nick) {
         if (rutaOriginal == null || rutaOriginal.isEmpty()) {   // veo si se eligio una img si no se eligio no hace nada
             rutaImagenTemp = null; 
             return;
@@ -337,8 +339,8 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Error copiando la imagen");
             rutaImagenTemp = null;
         }
-    }
-    private boolean validarNoVacio(JTextField campo, String texto) {
+    }*/
+   /* private boolean validarNoVacio(JTextField campo, String texto) {
         if (texto.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Por favor completa el campo: " + campo.getName(),
@@ -348,7 +350,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
             return false;
         }
         return true;
-    }
+    }*/
 
     private boolean validarEmail(JTextField campo, String texto) {
         if (!texto.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
@@ -374,7 +376,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         return true;
     }
 
-    private boolean validarFecha(String dia, String mes, String anio) {
+  /*  private boolean validarFecha(String dia, String mes, String anio) {
         try {
             int d = Integer.parseInt(dia);
             int m = Integer.parseInt(mes);
@@ -395,12 +397,12 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
                 JOptionPane.WARNING_MESSAGE);
             return false;
         }
-    }
+    }*/
 
     private boolean validarCampos(List<JTextField> campos) {
         for (JTextField campo : campos) {
             String texto = campo.getText().trim();
-            if (!validarNoVacio(campo, texto)) return false;
+            if (!Utilities.validarNoVacio(campo, texto)) return false;
             
             if (campo == txtEmail && !validarEmail(campo, texto)) return false;
             
@@ -408,7 +410,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         }
 
 
-        if (!validarFecha(txtDia.getText(), txtMes.getText(), txtAnio.getText())) {
+        if (!Utilities.validarFecha(txtDia.getText(), txtMes.getText(), txtAnio.getText())) {
             return false;
         }
 
@@ -433,7 +435,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
             if(controller.existeUsuario(nickName, email)){
                 JOptionPane.showMessageDialog(this, "Usuario ya registrado");
             }else{
-                    copiarImagen(rutaImagenTemp,nickName);
+                    Utilities.copiarImagen(rutaImagenTemp,nickName);
                     DTFecha f=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
                     if(proponente.isSelected()){
                         DTOProponente p=new DTOProponente(direccion,biografia,web,nickName,nom,apelli,email,f,rutaImagenTemp,true);
