@@ -73,6 +73,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDialog1 = new javax.swing.JDialog();
+        jDialog2 = new javax.swing.JDialog();
         txtNick = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -103,6 +104,17 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
@@ -138,11 +150,6 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(proponente);
         proponente.setText("Proponenete");
-        proponente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proponenteActionPerformed(evt);
-            }
-        });
 
         btnFile.setText("File");
         btnFile.addActionListener(new java.awt.event.ActionListener() {
@@ -454,7 +461,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
        
     }//GEN-LAST:event_txtDiaActionPerformed
 
-    private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proponenteActionPerformed
+    private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {                                           
         optionPanel.setVisible(true);
         Object[] options={"Aceptar"};
          int result = JOptionPane.showOptionDialog(
@@ -473,7 +480,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
              biografia = txtBiografia.getText();
              web = txtWeb.getText();
         }
-    }//GEN-LAST:event_proponenteActionPerformed
+    }                                          
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         txtNick.setText("");
@@ -497,6 +504,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton cancelar;
     private javax.swing.JRadioButton colaborador;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

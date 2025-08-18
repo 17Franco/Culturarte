@@ -6,10 +6,12 @@ package logica;
 
 import java.util.List;
 import logica.DTO.DTOColaborador;
+import logica.DTO.DTOCategoria;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
-
+import logica._enum.TipoRetorno;
 /**
  *
  * @author fran
@@ -28,7 +30,7 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     //cu alta propuesta
-    void altaPropuesta(DTOPropuesta prop);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
     
     
     
