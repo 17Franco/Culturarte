@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica.Propuesta;
 
 import logica._enum.TipoRetorno;
@@ -9,7 +5,8 @@ import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
 import java.util.Date;
-import java.util.Map;
+
+
 public class Propuesta {
     
     private String Titulo;
@@ -122,4 +119,5 @@ public class Propuesta {
     public void setProponente(DTOProponente Propo){
         usr = Propo;
     }
+
 }

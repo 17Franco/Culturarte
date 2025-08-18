@@ -5,7 +5,11 @@
 package logica;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import logica.Categoria.Categoria;
 import logica.Propuesta.ManejadorPropuesta;
+import logica.Categoria.ManejadorCategoria;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -14,6 +18,7 @@ import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.ManejadorUsuario;
 import logica._enum.TipoRetorno;
+import logica.DTO.DTOPropuesta;
 
 /**
  *
@@ -54,6 +59,31 @@ public class Controller  implements IController {
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
+    
+    @Override
+    public Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado)
+    {
+        //En proceso
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
+    {
+       if(ManejadorCategoria.getInstance().existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
+       {    //Si no existen previamente.
+            ManejadorCategoria.getInstance().addCategoria(categoriaIngresada);
+            return true;    //Le dice a UI que todo fue correcto.
+       }
+       
+       return false;    //Le dice a ui que no se agregó nada.
+    }
+    
+    public Map<String, Categoria> getCategorias()
+    {
+        return ManejadorCategoria.getInstance().getCategorias();
+    }
+    
     public boolean existeProp(String Titulo){
          return (propu.existeProp(Titulo));
     }

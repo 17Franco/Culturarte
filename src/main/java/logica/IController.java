@@ -5,12 +5,17 @@
 package logica;
 
 import java.util.List;
-import logica.DTO.DTOColaborador;
+import java.util.Map;
+import java.util.Set;
+import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
+import logica.DTO.DTOPropuesta;
+import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
 import logica._enum.TipoRetorno;
+
 /**
  *
  * @author fran
@@ -33,6 +38,10 @@ public interface IController {
     
     boolean existeProp(String Titulo);
     
+    Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado);
+    
+    boolean altaDeCategoria(DTOCategoria categoriaIngresada);
+    Map<String, Categoria> getCategorias();
     
     
 }
