@@ -16,10 +16,7 @@ import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
 import logica._enum.TipoRetorno;
 
-/**
- *
- * @author fran
- */
+
 public interface IController {
     //cu alta perfil
     void altaUsuario(DTOUsuario usu);
