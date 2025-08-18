@@ -5,16 +5,21 @@
 package logica.Propuesta;
 
 import logica._enum.TipoRetorno;
+import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
+
 public class Propuesta {
     
     private String Titulo;
     private String Descripcion;
     private String Tipo;
-  //  private File Imagen;
+    private String Imagen;
     private String Lugar;
     private DTFecha Fecha;
     private String Precio;
@@ -22,22 +27,26 @@ public class Propuesta {
     private Date FechaPublicacion;
     private TipoRetorno Retorno;
     private DTOCategoria cat;
+    private DTOProponente usr;
     
-// private List<Registro_Estado> historialEstados;
-// private List<Registro> Aporte;
+  //  private Map<String,Registro_Estado> historialEstados;
+  //  private Map<String, Registro> Aporte;
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,Date FechaPublicacion,TipoRetorno Retorno)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
         this.Tipo=Tipo;
+        this.Imagen=Imagen;
         this.Lugar=Lugar;
         this.Fecha=Fecha;
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
         this.Retorno=Retorno;
+        this.cat=cat;
+        this.usr=usr;
     }
     public  String getTitulo() {
         return Titulo;
@@ -47,6 +56,9 @@ public class Propuesta {
     }
     public  String getTipo() {
         return Tipo;
+    }
+    public  String getImagen() {
+        return Imagen;
     }
     public  String getLugar() {
         return Lugar;
@@ -66,10 +78,16 @@ public class Propuesta {
     public TipoRetorno getRetorno() {
         return Retorno;
     }
-  /*  public List<Registro_Estado> getHistorialEstados() {
+      /*  public List<Registro_Estado> getHistorialEstados() {
         return historialEstados;
     }
     */
+    public DTOCategoria getCategoria(){
+        return cat;
+    }
+    public DTOProponente getProponente(){
+        return usr;
+    }
     public void setTitulo(String titulo) {
         Titulo = titulo;
     }
@@ -81,7 +99,9 @@ public class Propuesta {
     public void setTipo(String tipo) {
         Tipo = tipo;
     }
-
+    public void setImagne(String Imagen) {
+        Imagen = Imagen;
+    }
     public void setLugar(String lugar) {
         Lugar = lugar;
     }
@@ -101,8 +121,26 @@ public class Propuesta {
     public void setFechaPublicacion(Date fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
-
+    
     public void setRetorno(TipoRetorno retorno) {
         Retorno = retorno;
     } 
+    public void setCategoria(DTOCategoria Cat){
+        cat = Cat;
+    }
+    public void setProponente(DTOProponente Propo){
+        usr = Propo;
+    }
+    
+    /*
+    public Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado)
+    {
+        
+        Set<DTOPropuesta> propuestasEncontradas = new HashSet<>();
+        
+        
+        return propuestasEncontradas;
+        
+    }
+*/
 }
