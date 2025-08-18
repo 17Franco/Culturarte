@@ -73,7 +73,7 @@ public class Controller  implements IController {
        return false;    //Le dice a ui que no se agregó nada.
     }
     
-    public Map<String, Categoria> getCategorias()   //bue
+    public Map<String, Categoria> getCategorias()
     {
         return ManejadorCategoria.getInstance().getCategorias();
     }
