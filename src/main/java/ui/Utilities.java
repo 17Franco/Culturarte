@@ -32,8 +32,8 @@ public class Utilities {
            return archivo.getAbsolutePath(); 
         }else return "null";
     }
-    public static boolean validarNoVacio(JTextField campo, String texto) { //le paso el campo para mostrar el nombre en el cartel 
-        if (texto.isEmpty()) {
+    public static boolean validarNoVacio(JTextField campo) { 
+        if (campo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null,
                 "Por favor completa el campo: " + campo.getName(),
                 "Campo vacío",

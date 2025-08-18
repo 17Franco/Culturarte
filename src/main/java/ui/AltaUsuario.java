@@ -402,7 +402,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private boolean validarCampos(List<JTextField> campos) {
         for (JTextField campo : campos) {
             String texto = campo.getText().trim();
-            if (!Utilities.validarNoVacio(campo, texto)) return false;
+            if (!Utilities.validarNoVacio(campo)) return false;
             
             if (campo == txtEmail && !validarEmail(campo, texto)) return false;
             
