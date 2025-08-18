@@ -1,5 +1,4 @@
 package logica.DTO;
-
 import java.util.HashSet;
 import java.util.Set;
 
