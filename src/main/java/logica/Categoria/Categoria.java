@@ -23,10 +23,8 @@ public class Categoria
 
         subcategorias = new HashSet<>(); 
 
-        if(subCat != null) //Si se especifican una o más subcategorías...
-        {   
-            subcategorias = subCat;  //Se añaden las nuevas subCategorías.
-        }
+        subcategorias = subCat;
+        
 		
     }
 
