@@ -8,7 +8,6 @@ import java.util.List;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOProponente;
-import logica.DTO.DTOPropuesta;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
 import logica._enum.TipoRetorno;
