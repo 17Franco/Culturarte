@@ -353,7 +353,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             return; 
         } 
         else{
-            controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, proponente);
+           // controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, proponente);
             JOptionPane.showMessageDialog(this, "Propuesta creada correctamente");
         }
     }
