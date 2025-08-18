@@ -42,9 +42,8 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="newCat" min="-2" pref="264" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="botonAgregarCategoria" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="scrollLista" min="-2" pref="367" max="-2" attributes="0"/>
