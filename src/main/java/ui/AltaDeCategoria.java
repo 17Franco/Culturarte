@@ -1,11 +1,14 @@
 package ui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author klaas
  */
 public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
+    String nombreCategoriaIngresada;
     /**
      * Creates new form Alta_Categoria
      */
@@ -166,7 +169,13 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_campoNombreNuevaCategoriaActionPerformed
 
     private void botonAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarCategoriaActionPerformed
-        // TODO add your handling code here:
+       
+        
+        if(nombreCategoriaIngresada.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre de categoría!");
+        }
+        
     }//GEN-LAST:event_botonAgregarCategoriaActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
