@@ -32,7 +32,7 @@ public class Controller  implements IController {
     }
 
     @Override
-    public List<String> listarProponente() {
+    public List<String> listarUsuario(String tipo) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

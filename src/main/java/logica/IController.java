@@ -24,7 +24,7 @@ public interface IController {
     
     // cu ver perfil proponente 
     
-    List<String> listarProponente();
+    List<String> listarUsuario(String tipo);
     
     DTOProponente verPerfilProponente(String nick);
     

@@ -132,12 +132,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-            AltaUsuario Alta=new AltaUsuario();
+            //AltaUsuario Alta=new AltaUsuario();
             jMenu2.setText("Usuario");
             jMenu2.removeAll();
             
             
-            String[] opcionesUsuario = { "Alta Usuario", "Modificar Usuario", "Listar Usuarios" };
+            String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Listar Usuarios" };
 
             for (String op : opcionesUsuario) {
                 JMenuItem item = new JMenuItem(op);
@@ -147,11 +147,18 @@ public class Main extends javax.swing.JFrame {
                  switch (op) {
                     case "Alta Usuario" -> 
                     {
+                        AltaUsuario Alta=new AltaUsuario();
                         fondo.add(Alta);
                         Alta.setSize(fondo.getSize());
                         Alta.setVisible(true);
                     }
-                                         
+                    case "Consulta Proponente" ->
+                    {
+                        ConsultaProponente ConsultaP=new ConsultaProponente();
+                        fondo.add(ConsultaP);
+                        ConsultaP.setSize(fondo.getSize());
+                        ConsultaP.setVisible(true);
+                    }                    
                    
               }
          });
