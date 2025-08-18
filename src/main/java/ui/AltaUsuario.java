@@ -40,6 +40,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDialog1 = new javax.swing.JDialog();
+        jDialog2 = new javax.swing.JDialog();
         nick = new javax.swing.JTextField();
         nombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -73,6 +74,17 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -99,6 +111,11 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(proponente);
         proponente.setText("Proponenete");
+        proponente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proponenteActionPerformed(evt);
+            }
+        });
 
         btnFile.setText("File");
         btnFile.addActionListener(new java.awt.event.ActionListener() {
@@ -301,6 +318,10 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
        
     }//GEN-LAST:event_dActionPerformed
 
+    private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proponenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_proponenteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField a;
@@ -313,6 +334,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JTextField d;
     private javax.swing.JTextField email;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
