@@ -66,7 +66,7 @@ public class ManejadorCategoria
         {       //Si no está y no está vacio da true, ver que es condicion negada
             return 1;
         }
-        
+        //Esta opcion aun no tiene uso previsto
         if(!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Busca si ya existe SubCategoria como categoria grande.
         {       //Si no está y no está vacio da true, ver que es condicion negada
             return 2;
