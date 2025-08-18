@@ -15,8 +15,8 @@ import java.util.Map;
 public class DTOColaborador extends DTOUsuario{
     private Map<String,DTORegistro_Aporte> colaboraciones= new HashMap<>();
 
-    public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
-        super(nickname, nombre, apellido, email, fecha, rutaImg);
+    public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
+        super(nickname, nombre, apellido, email, fecha, rutaImg,isProponente);
     }
     
     

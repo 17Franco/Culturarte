@@ -17,6 +17,9 @@ import logica.DTO.DTOUsuario;
 public interface IController {
     //cu alta perfil
     void altaUsuario(DTOUsuario usu);
+    
+    boolean existeUsuario(String nick, String email);
+    
     // cu ver perfil proponente 
     
     List<String> listarProponente();
@@ -27,7 +30,7 @@ public interface IController {
     //cu alta propuesta
     void altaPropuesta(DTOPropuesta prop);
     
-    boolean datosUsadosUsuario(String nick, String email);
+    
     
     
     

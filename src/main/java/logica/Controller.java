@@ -9,16 +9,22 @@ import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOUsuario;
 import logica.DTO.DTOPropuesta;
+import logica.Usuario.ManejadorUsuario;
 
 /**
  *
  * @author fran
  */
 public class Controller  implements IController {
-
+       private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
+       
     @Override
     public void altaUsuario(DTOUsuario usu) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(usu.isProponente()){
+            mUsuario.addProponente((DTOProponente) usu);
+        }else{
+            mUsuario.addColaborador((DTOColaborador) usu);
+        }
     }
 
     @Override
@@ -35,13 +41,14 @@ public class Controller  implements IController {
     public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
     public void altaPropuesta(DTOPropuesta prop) {
         
     }
 
     @Override
-    public boolean datosUsadosUsuario(String nick, String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean existeUsuario(String nick, String email) {
+           return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
     
 }

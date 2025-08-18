@@ -14,15 +14,18 @@ public class DTOUsuario {
     private String rutaImg;
     private Map<String,DTOUsuario> usuarioSeguido=new HashMap<>();
     private Map<String,DTOPropuesta> propFavorita=new HashMap<>();
+    private boolean isProponente;
 
     
-    public DTOUsuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+    
+    public DTOUsuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.fecha = fecha;
         this.rutaImg = rutaImg;
+        this.isProponente=isProponente;
     }
 
     public String getNickname() {
@@ -40,7 +43,9 @@ public class DTOUsuario {
     public String getEmail() {
         return email;
     }
-
+    public boolean isProponente() {
+        return isProponente;
+    }
     public DTFecha getFecha() {
         return fecha;
     }

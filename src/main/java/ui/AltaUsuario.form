@@ -46,120 +46,140 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="btnFile" min="-2" pref="110" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="proponente" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="colaborador" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtDia" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                      <Component id="nick" min="-2" pref="246" max="-2" attributes="0"/>
-                                      <Component id="nombre" min="-2" pref="246" max="-2" attributes="0"/>
-                                      <Component id="apellido" min="-2" pref="246" max="-2" attributes="0"/>
-                                      <Component id="email" alignment="0" min="-2" pref="246" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="d" min="-2" pref="39" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="m" min="-2" pref="32" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="a" min="-2" pref="50" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtMes" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtAnio" min="-2" pref="50" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                              <Component id="txtNombre" min="-2" pref="246" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                              <Component id="txtApellido" min="-2" pref="246" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                              <Component id="txtNick" min="-2" pref="246" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cancelar" alignment="0" min="-2" pref="246" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="aceptar" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="txtEmail" alignment="1" pref="246" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="colaborador" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="proponente" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                  <Component id="btnFile" alignment="0" min="-2" pref="246" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="aceptar" min="-2" pref="110" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cancelar" min="-2" pref="110" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="31" max="32767" attributes="0"/>
+              <EmptySpace pref="143" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="nick" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtNick" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="nombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="apellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtApellido" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="email" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="a" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="m" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="d" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtEmail" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="colaborador" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="proponente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-              <Component id="btnFile" min="-2" pref="38" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtDia" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtMes" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtAnio" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="aceptar" min="-2" pref="38" max="-2" attributes="0"/>
-                  <Component id="cancelar" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
+                  <Component id="proponente" min="-2" max="-2" attributes="0"/>
+                  <Component id="colaborador" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnFile" min="-2" pref="37" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="aceptar" min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Component id="cancelar" min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace pref="88" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="nick">
+    <Component class="javax.swing.JTextField" name="txtNick">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="NickName" noResource="true"/>
+      </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="nombre">
+    <Component class="javax.swing.JTextField" name="txtNombre">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Nombre" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -181,9 +201,10 @@
         <Property name="text" type="java.lang.String" value="Email"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="apellido">
-    </Component>
-    <Component class="javax.swing.JTextField" name="email">
+    <Component class="javax.swing.JTextField" name="txtApellido">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Apellido" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="colaborador">
       <Properties>
@@ -204,6 +225,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Proponenete"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="proponenteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnFile">
       <Properties>
@@ -225,9 +249,15 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Liberation Sans" size="18" style="1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Ingrese los siguientes datos"/>
       </Properties>
     </Component>
@@ -236,14 +266,23 @@
         <Property name="text" type="java.lang.String" value="Fecha Nacimiento"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="d">
+    <Component class="javax.swing.JTextField" name="txtDia">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Dia" noResource="true"/>
+      </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDiaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="m">
+    <Component class="javax.swing.JTextField" name="txtMes">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Mes" noResource="true"/>
+      </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="a">
+    <Component class="javax.swing.JTextField" name="txtAnio">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Anio" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -258,6 +297,11 @@
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dia"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtEmail">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Email" noResource="true"/>
       </Properties>
     </Component>
   </SubComponents>
