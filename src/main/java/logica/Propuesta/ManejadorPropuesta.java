@@ -6,14 +6,12 @@ package logica.Propuesta;
 
 import java.util.HashMap;
 import java.util.Map;
-import logica.Propuesta.Propuesta;
 import logica.DTO.DTOPropuesta;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Calendar;
-import logica.DTO.DTFecha;
-import java.util.Date;
+import logica._enum.Estado;
+
 
 
 public class ManejadorPropuesta {
@@ -48,42 +46,41 @@ public class ManejadorPropuesta {
 
     }
         
-        public Set<DTOPropuesta> obtenerPropuestas(String Estado)
+    public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) 
+    {
+        //La variable Estado permite elegir entre obtener un set por estado o todos los que haya. 
+        //Si se le ingresa "" te manda todas las propuestas.
+
+        Set<DTOPropuesta> temp = new HashSet<>();
+
+        Iterator<Map.Entry<String, Propuesta>> ct;  //Se crea iterador
+        ct = propuestasp.entrySet().iterator();         //Se configura tipo de iterator
+
+        while (ct.hasNext()) 
         {
-            //La variable Estado permite elegir entre obtener un set por estado o todos los que haya. 
-            //Si pones "" te manda todas las propuestas.
-            
-            Set<DTOPropuesta> temp = new HashSet<>();
-            
-            Iterator <Map.Entry  <String, Propuesta> > ct;  //Se crea iterador
-            ct = propuestasp.entrySet().iterator();         //Se configura tipo de iterator
+            Map.Entry<String, Propuesta> entry = ct.next();    //Pasa al siguiente
+            Propuesta punteroV = entry.getValue();
 
-            while (ct.hasNext()) 
+            DTOPropuesta almacenTemp = new DTOPropuesta();
+
+            if (estadoInput.isEmpty()) //Si no se especifica, se agregan todos.
             {
-                Map.Entry <String, Propuesta> entry = ct.next();    //Pasa al siguiente
-                Propuesta punteroV = entry.getValue();
-
-                DTOPropuesta almacenTemp = new DTOPropuesta();
+                almacenTemp.extraerDatosPropuesta(punteroV);
+                temp.add(almacenTemp);
+            } 
+            else //Si se especifica...
+            {
                 
-                if(Estado.isEmpty())    //Si no se especifica, se agregan todos.
+                if((punteroV.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
                 {
                     almacenTemp.extraerDatosPropuesta(punteroV);
                     temp.add(almacenTemp);
                 }
-                else    //Si se especifica...
-                {
-                    if(punteroV.get)
-                    {
-                        almacenTemp.extraerDatosPropuesta(punteroV);
-                        temp.add(almacenTemp);
-                    }
-                }
             }
-            
-            
-            
-            return temp;
         }
+
+        return temp;
+    }
         
         
 }
