@@ -88,8 +88,8 @@ public class Controller  implements IController {
          return (propu.existeProp(Titulo));
     }
     @Override
-    public Set<DTOPropuesta> obtenerPropuestas()
+    public Set<DTOPropuesta> obtenerPropuestas(String _estado)
     {
-        return ManejadorPropuesta.getinstance().obtenerPropuestas();
+        return ManejadorPropuesta.getinstance().obtenerPropuestas(_estado);
     }
 }
