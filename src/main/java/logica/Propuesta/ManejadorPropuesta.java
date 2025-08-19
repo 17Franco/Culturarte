@@ -52,7 +52,6 @@ public class ManejadorPropuesta {
         //Si se le ingresa "" te manda todas las propuestas.
 
         Set<DTOPropuesta> temp = new HashSet<>();
-
         Iterator<Map.Entry<String, Propuesta>> ct;  //Se crea iterador
         ct = propuestasp.entrySet().iterator();         //Se configura tipo de iterator
 
@@ -70,9 +69,10 @@ public class ManejadorPropuesta {
             } 
             else //Si se especifica...
             {
+                //if((punteroV.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
+                {                System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
+                    //Pendiente solucionar problema con las funciones de la condición.
                 
-                if((punteroV.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
-                {
                     almacenTemp.extraerDatosPropuesta(punteroV);
                     temp.add(almacenTemp);
                 }
