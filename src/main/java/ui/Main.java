@@ -6,6 +6,10 @@ import logica.DTO.DTOCategoria;
 import javax.swing.JMenuItem;
 import java.util.Map;
 import ui.AltaPropuesta;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
+
 public class Main extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
@@ -196,28 +200,11 @@ public class Main extends javax.swing.JFrame {
                                 //Pendiente
                             }
                             case "Consultar Propuestas Por Estado" -> 
-                            {
-                                
-                                List<DTOPropuesta> propuestaSeleccionada = new ArrayList<>();
-                                
+                            {                           
                                 ConsultaPropuestaPorEstado consultaPorEstado = new ConsultaPropuestaPorEstado();
                                 fondo.add(consultaPorEstado);
                                 consultaPorEstado.setSize(fondo.getSize());
                                 consultaPorEstado.setVisible(true);
-                                
-                                
-                                if(consultaPorEstado.getPass() == true) //Si realmente se pulsó en "Continuar".
-                                {
-                                    propuestaSeleccionada = consultaPorEstado.getListaPropuestas(); //Se obtienen datos recabados.
-                                    ListaPropuestasPorEstado lista = new ListaPropuestasPorEstado();    //Se inicializa ventana con la lista.
-                                    
-                                    lista.SetListaPropuesta(propuestaSeleccionada);
-                                    fondo.add(lista);
-                                    lista.setSize(fondo.getSize());
-                                    lista.setVisible(true);
-                                    
-                                    
-                                }
                                 
                             }
                             
