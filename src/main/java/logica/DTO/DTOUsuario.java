@@ -46,9 +46,12 @@ public class DTOUsuario {
     public boolean isProponente() {
         return isProponente;
     }
+
+
     public DTFecha getFecha() {
         return fecha;
     }
+    
 
     public String getRutaImg() {
         return rutaImg;

@@ -30,6 +30,7 @@ public interface IController {
     DTOProponente verPerfilProponente(String nick);
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
+    
     //cu alta propuesta
     void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
     
@@ -40,5 +41,6 @@ public interface IController {
     boolean altaDeCategoria(DTOCategoria categoriaIngresada);
     Map<String, Categoria> getCategorias();
     
+    Map<String,DTOUsuario> listarDtoUsuario(char tipo);
     
 }

@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,8 @@ import logica.Propuesta.Propuesta;
 import logica.Usuario.ManejadorUsuario;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOPropuesta;
+import logica.Usuario.Proponente;
+import logica.Usuario.Usuario;
 
 /**
  *
@@ -27,6 +30,8 @@ import logica.DTO.DTOPropuesta;
 public class Controller  implements IController {
        private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
        private ManejadorPropuesta propu=ManejadorPropuesta.getinstance();
+       
+       
     @Override
     public void altaUsuario(DTOUsuario usu) {
         if(usu.isProponente()){
@@ -86,5 +91,24 @@ public class Controller  implements IController {
     
     public boolean existeProp(String Titulo){
          return (propu.existeProp(Titulo));
+    }
+    
+    @Override
+    public Map<String, DTOUsuario> listarDtoUsuario(char tipo) {
+        Map<String, DTOUsuario> usr = new HashMap<>();
+        if(mUsuario.getUsuarios().isEmpty()){
+              return null;
+         }else{
+            
+            for(Usuario u: mUsuario.getUsuarios().values()){
+                if(u instanceof Proponente){
+                    DTOProponente aux =new DTOProponente(((Proponente) u).getDireccion(),((Proponente) u).getBiografia(),((Proponente) u).getWebSite(),u.getNickname(),u.getNombre(),u.getApellido(),u.getEmail(),u.getFecha(),u.getRutaImg(),true);
+                }else{
+                    //DTOColaborador aux= new DTOColaborador();
+                }
+                
+            }
+            return usr;
+        }
     }
 }

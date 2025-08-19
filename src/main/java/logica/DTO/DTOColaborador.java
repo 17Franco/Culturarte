@@ -4,7 +4,9 @@
  */
 package logica.DTO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -13,7 +15,7 @@ import java.util.Map;
  * @author fran
  */
 public class DTOColaborador extends DTOUsuario{
-    private Map<String,DTORegistro_Aporte> colaboraciones= new HashMap<>();
+    private List<DTORegistro_Aporte> colaboraciones= new ArrayList<>();
 
     public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
         super(nickname, nombre, apellido, email, fecha, rutaImg,isProponente);

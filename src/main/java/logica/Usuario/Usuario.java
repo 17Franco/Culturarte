@@ -4,6 +4,7 @@ package logica.Usuario;
 //import  jakarta.persistence.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
@@ -19,6 +20,7 @@ public class Usuario {
     private String rutaImg;
     private Map<String,Usuario> usuarioSeguido=new HashMap<>();
     private Map<String,Propuesta> propFavorita=new HashMap<>();
+    private List<registroAporte> colaboraciones;
     public Usuario(){}
    
     public Usuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
@@ -64,6 +66,10 @@ public class Usuario {
 
     public String getApellido() {
         return apellido;
+    }
+
+    public DTFecha getFecha() {
+        return fecha;
     }
 
     public String getEmail() {

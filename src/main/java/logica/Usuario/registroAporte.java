@@ -9,14 +9,15 @@ public class registroAporte {
     private String retorno;
     private DTFecha fecha;
     private Propuesta colabPropuesta;
-
+    private Colaborador colaborador;
  
 
-    public registroAporte(int moto, String retorno, DTFecha fecha, Propuesta colabPropuesta) {
+    public registroAporte(int moto, String retorno, DTFecha fecha, Propuesta colabPropuesta,Colaborador colaborador) {
         this.moto = moto;
         this.retorno = retorno;
         this.fecha = fecha;
         this.colabPropuesta = colabPropuesta;
+        this.colaborador=colaborador;
     }
 
     public void setMoto(int moto) {

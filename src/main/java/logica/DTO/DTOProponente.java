@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 public class DTOProponente extends DTOUsuario{
-      private String direccion;
+    private String direccion;
     private String biografia;
     private String webSite;
     private Map<String,DTOPropuesta> propCreadas=new HashMap<>();
