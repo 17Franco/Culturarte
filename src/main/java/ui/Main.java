@@ -193,7 +193,10 @@ public class Main extends javax.swing.JFrame {
                             }
                             case "Listar Propuesta" -> 
                             {
-                                //Pendiente
+                                ListaPropuesta PropNew = new ListaPropuesta(); 
+                                fondo.add(PropNew);
+                                PropNew.setSize(fondo.getSize());
+                                PropNew.setVisible(true);
                             }
                             case "Consultar Propuestas Por Estado" -> 
                             {

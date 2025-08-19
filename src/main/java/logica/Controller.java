@@ -82,7 +82,7 @@ public class Controller  implements IController {
        
        return false;    //Le dice a ui que no se agregó nada.
     }
-    
+    @Override
     public Map<String, Categoria> getCategorias()
     {
         return ManejadorCategoria.getInstance().getCategorias();
@@ -90,6 +90,11 @@ public class Controller  implements IController {
     
     public boolean existeProp(String Titulo){
          return (propu.existeProp(Titulo));
+    }
+    @Override
+    public Set<DTOPropuesta> obtenerPropuestas(String _estado)
+    {
+        return ManejadorPropuesta.getinstance().obtenerPropuestas(_estado);
     }
     public List<String> ListaProponentes()
     {

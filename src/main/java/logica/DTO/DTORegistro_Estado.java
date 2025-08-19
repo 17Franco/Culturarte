@@ -1,57 +1,30 @@
 package logica.DTO;
 import logica._enum.Estado;
-
-import java.util.HashSet;
-import java.util.Set;
+import logica.Propuesta.Registro_Estado;
 
 public class DTORegistro_Estado 
 {
     private DTFecha fechaReg;
-    private Estado estados;
-    private Set<DTORegistro_Estado> historial;
+    private Estado estado;
 
     public DTORegistro_Estado() 
     {
-        historial = new HashSet<>();
     }
 
     public DTORegistro_Estado(DTFecha _fechaReg, Estado _estados)
     {
         fechaReg = _fechaReg;
-        estados = _estados;
-        historial = new HashSet<>();
+        estado = _estados;
     }
-
-    public DTORegistro_Estado(DTFecha _fechaReg, Estado _estados, Set<DTORegistro_Estado> _historial) 
-    {
-        fechaReg = _fechaReg;
-        estados = _estados;
-
-            if (_historial != null)
-            {
-                historial = _historial;
-            }
-
-            if (_historial == null)
-            {
-                historial = new HashSet<>();
-
-            }
-    }
-  
+    
     public DTFecha getFechaReg() 
     {
         return fechaReg;
     }
 
-    public Estado getEstados() 
+    public Estado getEstado() 
     {
-        return estados;
-    }
-
-    public Set<DTORegistro_Estado> getHistorial() 
-    {
-        return historial;
+        return estado;
     }
 
     public void setFechaReg(DTFecha _fechaReg) 
@@ -59,13 +32,15 @@ public class DTORegistro_Estado
         fechaReg = _fechaReg;
     }
 
-    public void setEstados(Estado _estados) 
+    public void setEstado(Estado _estados) 
     {
-        estados = _estados;
-    }
-
-    public void setHistorial(Set<DTORegistro_Estado> _historial) 
+        estado = _estados;
+    }   
+    
+    public void extraerDatos(Registro_Estado i)
     {
-        historial = _historial;
+        estado = i.getEstado();
+        fechaReg = i.getFechaReg();
     }
+    
 }

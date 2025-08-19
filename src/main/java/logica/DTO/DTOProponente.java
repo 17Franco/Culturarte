@@ -3,6 +3,7 @@ package logica.DTO;
 
 import java.util.HashMap;
 import java.util.Map;
+import logica.Usuario.Proponente;
 
 
 
@@ -30,5 +31,4 @@ public class DTOProponente extends DTOUsuario{
     public String getWebSite() {
         return webSite;
     }
-    
 }

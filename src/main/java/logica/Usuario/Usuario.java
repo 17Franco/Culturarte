@@ -6,6 +6,7 @@ package logica.Usuario;
 import java.util.HashMap;
 import java.util.Map;
 import logica.DTO.DTFecha;
+import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
 
 
@@ -81,3 +82,4 @@ public class Usuario {
         this.usuarioSeguido.put(n, usu);
     }*/
 }
+

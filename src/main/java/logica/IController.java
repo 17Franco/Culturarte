@@ -41,6 +41,7 @@ public interface IController {
     boolean altaDeCategoria(DTOCategoria categoriaIngresada);
     Map<String, Categoria> getCategorias();
     
+    Set<DTOPropuesta> obtenerPropuestas(String _estado);
     List<String> ListaProponentes();
     List<String> ListaCategoria();
 }
