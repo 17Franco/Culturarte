@@ -140,10 +140,14 @@ public class Propuesta {
         //Registro_Estados almacen = new Registro_Estados(input.getFecha(),input.getEstados());
         //historialEstados.add(0,almacen);
     }
-    public Estado estadoActual(Registro_Estado input)   //Devuelve el ultimo estado
+    
+    public DTORegistro_Estado getUltimoEstado()
     {
-        Estado almacen = input.getEstado();
-        
+        DTORegistro_Estado almacen = new DTORegistro_Estado();
+        almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
         return almacen;
     }
+    
+
+
 }
