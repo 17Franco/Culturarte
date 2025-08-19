@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import logica.DTO.DTOProponente;
 import logica.DTO.DTOUsuario;
 import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
+import logica.Usuario.Usuario;
 import logica.Usuario.ManejadorUsuario;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOPropuesta;
@@ -29,6 +31,7 @@ import logica.Usuario.Usuario;
  */
 public class Controller  implements IController {
        private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
+       private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
        private ManejadorPropuesta propu=ManejadorPropuesta.getinstance();
        
        
@@ -43,20 +46,21 @@ public class Controller  implements IController {
 
     @Override
     public List<String> listarUsuario(String tipo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
     public DTOProponente verPerfilProponente(String nick) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
     public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr) {
-        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, cat, usr);
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr) {
+        
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr));
         ManejadorPropuesta.getinstance().nuevaPropuesta(propuesta);
     }
 
@@ -83,7 +87,7 @@ public class Controller  implements IController {
        
        return false;    //Le dice a ui que no se agregó nada.
     }
-    
+    @Override
     public Map<String, Categoria> getCategorias()
     {
         return ManejadorCategoria.getInstance().getCategorias();
@@ -111,4 +115,28 @@ public class Controller  implements IController {
             return usr;
         }
     }
-}
+        
+       @Override
+        public Set<DTOPropuesta> obtenerPropuestas(String estado){
+           return  propu.obtenerPropuestas(estado);
+        }
+
+        @Override
+        public List<String> ListaProponentes(){
+            List<String> aux = new ArrayList<>();
+            for (Usuario c : mUsuario.getUsuarios().values()){
+               if (c instanceof Proponente){
+                    aux.add(c.getNickname());
+               }
+            }
+                return aux;    
+        }
+
+        public List<String> ListaCategoria(){
+            List<String> aux2 = new ArrayList<>();
+            for (Categoria c : mCategoria.getCategoria().values()){
+                aux2.add(c.getNombreCategoria());
+            }
+                return aux2; 
+        }
+    }

@@ -4,11 +4,17 @@
  */
 package logica.DTO;
 
+import java.util.ArrayList;
+import java.util.List;
+import logica.Categoria.Categoria;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
-import java.util.Date;
+import logica.Propuesta.Propuesta;
+import logica.Propuesta.Registro_Estado;
+import logica.Usuario.Proponente;
+
 public class DTOPropuesta {
     
     private String Titulo;
@@ -19,14 +25,16 @@ public class DTOPropuesta {
     private DTFecha Fecha;
     private String Precio;
     private String MontoTotal;
-    private Date FechaPublicacion;
+    private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
     private DTOCategoria cat;
     private DTOProponente usr;
+    private Proponente usrP;
+    private List<Registro_Estado> historialEstados = new ArrayList<>();
     
             
     public DTOPropuesta(){}
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,Date FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -40,6 +48,9 @@ public class DTOPropuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
+    }
+    public  Proponente getusrP() {
+        return usrP;
     }
     public  String getTitulo() {
         return Titulo;
@@ -65,7 +76,7 @@ public class DTOPropuesta {
     public String getMontoTotal() {
         return MontoTotal;
     }
-    public Date getFechaPublicacion() {
+    public DTFecha getFechaPublicacion() {
         return FechaPublicacion;
     }
     public TipoRetorno getRetorno() {
@@ -76,6 +87,13 @@ public class DTOPropuesta {
     }
     public DTOProponente getProponente(){
         return usr;
+    }
+    public List<Registro_Estado> getHistorialEstados() {
+        return historialEstados;
+    }
+    public void setusrP (Proponente u)
+    {
+        usrP= usrP;
     }
     public void setTitulo(String titulo) {
         Titulo = titulo;
@@ -88,7 +106,7 @@ public class DTOPropuesta {
     public void setTipo(String tipo) {
         Tipo = tipo;
     }
-    public void setImagne(String Imagen) {
+    public void setImagen(String Imagen) {
         Imagen = Imagen;
     }
     public void setLugar(String lugar) {
@@ -107,7 +125,7 @@ public class DTOPropuesta {
         MontoTotal = montoTotal;
     }
 
-    public void setFechaPublicacion(Date fechaPublicacion) {
+    public void setFechaPublicacion(DTFecha fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
     public void setRetorno(TipoRetorno retorno) {
@@ -119,4 +137,25 @@ public class DTOPropuesta {
     public void setProponente(DTOProponente Propo){
         usr = Propo;
     }
+    public void extraerDatosPropuesta(Propuesta in)
+    {
+        Titulo = in.getTitulo();
+        Descripcion = in.getDescripcion();
+        Tipo = in.getTipo();
+        Imagen = in.getImagen();
+        Lugar = in.getLugar();
+        Fecha = in.getFecha();           
+        Precio = in.getPrecio();
+        MontoTotal = in.getMontoTotal();
+        FechaPublicacion = in.getFechaPublicacion();
+        Retorno = in.getRetorno();
+        cat = in.getCategoria().CrearDT();
+        usrP = in.getProponente();
+        historialEstados = in.getHistorialEstados();
+    }
+    public void setHistorialEstados(List<Registro_Estado> _historial) 
+    {
+        historialEstados = _historial;
+    }
+    
 }

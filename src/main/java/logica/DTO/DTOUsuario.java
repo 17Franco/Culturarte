@@ -1,7 +1,9 @@
 
 package logica.DTO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -12,8 +14,8 @@ public class DTOUsuario {
     private String email;
     private DTFecha fecha;
     private String rutaImg;
-    private Map<String,DTOUsuario> usuarioSeguido=new HashMap<>();
-    private Map<String,DTOPropuesta> propFavorita=new HashMap<>();
+    private List<String> usuarioSeguido=new ArrayList<>();
+    private List<String> propFavorita=new ArrayList<>();
     private boolean isProponente;
 
     

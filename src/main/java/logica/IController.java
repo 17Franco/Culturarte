@@ -32,7 +32,7 @@ public interface IController {
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     
     //cu alta propuesta
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr);
     
     boolean existeProp(String Titulo);
     
@@ -43,4 +43,7 @@ public interface IController {
     
     Map<String,DTOUsuario> listarDtoUsuario(char tipo);
     
+    Set<DTOPropuesta> obtenerPropuestas(String estado);
+    List<String> ListaProponentes();
+    List<String> ListaCategoria();
 }

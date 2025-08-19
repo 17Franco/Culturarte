@@ -14,18 +14,12 @@ import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTFecha;
-import logica.DTO.DTOProponente;
+import logica.Usuario.Proponente;
+import logica.DTO.DTOUsuario;
 import logica.DTO.DTOCategoria;
-import logica.Usuario.Usuario;
-import logica.Usuario.ManejadorUsuario;
-import logica.Categoria.ManejadorCategoria;
-import logica.Categoria.Categoria;
-
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
     private String rutaImagen = null; 
-    private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
-    private ManejadorCategoria Categ=ManejadorCategoria.getInstance();
     /**
      * Creates new form AltaPropuesta
      */
@@ -42,23 +36,18 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         a.setName("Año");
         ListaUsuarios.removeAllItems();
         ListaCategoria.removeAllItems();
-        Retorno1.removeAllItems();
-        
-        for (Usuario u : mUsuario.getUsuarios().values()) {
+        Retorno1.removeAllItems(); 
+        for (String u : controller.ListaProponentes()) {
             ListaUsuarios.addItem(u); 
          }
-        Usuario seleccionado = (Usuario) ListaUsuarios.getSelectedItem();//Falta ADAPTARLO A PORPONENTES
-        for (Categoria c : Categ.getCategorias().values()) {
+
+        for (String c : controller.ListaCategoria()) {
             ListaCategoria.addItem(c); 
-        }
-        Categoria selecion = (Categoria) ListaCategoria.getSelectedItem();
+         } 
+    
         for (TipoRetorno t : TipoRetorno.values()) {
-            Retorno1.addItem(t); // enum, se muestra el nombre automáticamente
+            Retorno1.addItem(t);
         }
-        TipoRetorno selecci = (TipoRetorno) Retorno1.getSelectedItem();
-        //Falta la lista de retornos
-       
-  
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -294,7 +283,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Cancelar))
                                 .addComponent(Imagen_Boton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,10 +399,14 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         String anio =a.getText();
         LocalDate hoy = LocalDate.now();
         DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
-        DTOProponente proponente = (DTOProponente) ListaUsuarios.getSelectedItem();
-        DTOCategoria categoria = (DTOCategoria) ListaCategoria.getSelectedItem();
+  
+        ListaUsuarios.getSelectedItem();
+        ListaCategoria.getSelectedItem();
+        
         TipoRetorno retorno = (TipoRetorno) Retorno1.getSelectedItem();
-       
+        String usuarios = (String) ListaUsuarios.getSelectedItem(); 
+        String categoria = (String) ListaCategoria.getSelectedItem();
+        
         List<JTextField> campos = Arrays.asList(TituloField,Descripcion_Field,Tipo_Field,Lugar_Field,Precio_Field,Monto_Field,d,m,a);
         
         if(validarCampo(campos)){
@@ -422,8 +415,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             }else{
                 Utilities.copiarImagen(rutaImagen,titulo);
                 DTFecha fechaEvento=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
-                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,fechaCreacion ,retorno, categoria, proponente);
-                JOptionPane.showMessageDialog(this, "Usuario registrado con exito");
+                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,fechaCreacion ,retorno,categoria, usuarios);
+                JOptionPane.showMessageDialog(this, "Propuesta registrado con exito");
             }
             
         }
@@ -501,8 +494,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private javax.swing.JButton Imagen_Boton;
     private javax.swing.JLabel IngresoCategoria;
     private javax.swing.JLabel IngresoUsuario;
-    private javax.swing.JComboBox<Categoria> ListaCategoria;
-    private javax.swing.JComboBox<Usuario> ListaUsuarios;
+    private javax.swing.JComboBox<String> ListaCategoria;
+    private javax.swing.JComboBox<String> ListaUsuarios;
     private javax.swing.JLabel Lugar;
     private javax.swing.JTextField Lugar_Field;
     private javax.swing.JLabel Monto_A_Recaudar;

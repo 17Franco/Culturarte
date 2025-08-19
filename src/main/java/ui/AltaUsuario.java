@@ -485,6 +485,14 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
          txtWeb.setText("");
          
     }//GEN-LAST:event_cancelarActionPerformed
+/*
+    private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        
+    }                                          
+*/
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
 
     private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proponenteActionPerformed
         optionPanel.setVisible(true);
@@ -506,10 +514,6 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
              web = txtWeb.getText();
         }
     }//GEN-LAST:event_proponenteActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,7 +1,9 @@
 package ui;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
 import logica.DTO.DTOPropuesta;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -11,24 +13,38 @@ import logica.DTO.DTOPropuesta;
 //Esta UI solo muestra una lista de propuestas por estado al usuario, es parte de "ConsultaPropuestasPorEstado"
 public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
 
-    List<DTOPropuesta> lista; //ista a mostrar
+    Set<DTOPropuesta> lista; //ista a mostrar
     
     public ListaPropuestasPorEstado() 
     {
-        lista = new ArrayList<>();
         initComponents();
+        lista = new HashSet<>();
     }
     
-    public void SetListaPropuesta(List<DTOPropuesta> _lista)
+    public void SetListaPropuesta(Set<DTOPropuesta> _lista)
     {
         lista = _lista;
         
     }
     
-    //public void agregarDatos a la JTABLE pendiente()
-    //{
-        //Pendiente
-    //}
+    public void actualizarTabla() 
+    {
+        DefaultTableModel contenido = new DefaultTableModel();
+        contenido.addColumn("Nombre");
+        contenido.addColumn("Descripción");
+        
+        if(lista.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "No hay ninguna propuesta en este estado actualmente");
+        }
+
+        for(DTOPropuesta ct : lista) 
+        {
+            contenido.addRow(new Object[]{ct.getTitulo(), ct.getDescripcion()});
+        }
+
+        jTable1.setModel(contenido);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
