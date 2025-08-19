@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import logica.Categoria.Categoria;
+import logica.Usuario.Proponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOColaborador;
@@ -31,7 +32,7 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     //cu alta propuesta
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, DTOCategoria cat, DTOProponente usr);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr);
     
     boolean existeProp(String Titulo);
     
@@ -40,5 +41,6 @@ public interface IController {
     boolean altaDeCategoria(DTOCategoria categoriaIngresada);
     Map<String, Categoria> getCategorias();
     
-    
+    List<String> ListaProponentes();
+    List<String> ListaCategoria();
 }

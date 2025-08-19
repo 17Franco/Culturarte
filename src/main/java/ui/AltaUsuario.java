@@ -150,6 +150,11 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(proponente);
         proponente.setText("Proponenete");
+        proponente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proponenteActionPerformed(evt);
+            }
+        });
 
         btnFile.setText("File");
         btnFile.addActionListener(new java.awt.event.ActionListener() {
@@ -465,28 +470,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private void txtDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDiaActionPerformed
        
     }//GEN-LAST:event_txtDiaActionPerformed
-
-    private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        optionPanel.setVisible(true);
-        Object[] options={"Aceptar"};
-         int result = JOptionPane.showOptionDialog(
-            this,                  // ventana padre
-            optionPanel,           // panel con los campos extra
-            "Datos de Proponente", // título
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            options,
-            options[0]
-        );
-
-        if (result == JOptionPane.OK_OPTION) {
-             direccion = txtDireccion.getText();
-             biografia = txtBiografia.getText();
-             web = txtWeb.getText();
-        }
-    }                                          
-
+                                        
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         txtNick.setText("");
         txtNombre.setText("");
@@ -504,6 +488,27 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proponenteActionPerformed
+             optionPanel.setVisible(true);
+        Object[] options={"Aceptar"};
+         int result = JOptionPane.showOptionDialog(
+            this,                  // ventana padre
+            optionPanel,           // panel con los campos extra
+            "Datos de Proponente", // título
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
+             direccion = txtDireccion.getText();
+             biografia = txtBiografia.getText();
+             web = txtWeb.getText();
+        }
+    }//GEN-LAST:event_proponenteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

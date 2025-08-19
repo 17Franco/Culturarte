@@ -5,7 +5,8 @@ import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
 import java.util.Date;
-
+import logica.Categoria.Categoria;
+import logica.Usuario.Proponente;
 
 public class Propuesta {
     
@@ -19,14 +20,13 @@ public class Propuesta {
     private String MontoTotal;
     private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
-    private DTOCategoria cat;
-    private DTOProponente usr;
-    
+    private Categoria cat;
+    private Proponente usr;
   //  private Map<String,Registro_Estado> historialEstados;
   //  private Map<String, Registro> Aporte;
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente ust)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -71,10 +71,10 @@ public class Propuesta {
     public TipoRetorno getRetorno() {
         return Retorno;
     }
-    public DTOCategoria getCategoria(){
+    public Categoria getCategoria(){
         return cat;
     }
-    public DTOProponente getProponente(){
+    public Proponente getProponente(){
         return usr;
     }
     public void setTitulo(String titulo) {
@@ -113,10 +113,10 @@ public class Propuesta {
     public void setRetorno(TipoRetorno retorno) {
         Retorno = retorno;
     } 
-    public void setCategoria(DTOCategoria Cat){
+    public void setCategoria(Categoria Cat){
         cat = Cat;
     }
-    public void setProponente(DTOProponente Propo){
+    public void setProponente(Proponente Propo){
         usr = Propo;
     }
 

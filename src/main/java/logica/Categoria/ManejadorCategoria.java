@@ -2,6 +2,7 @@ package logica.Categoria;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
 import java.util.Map;
+import logica.Categoria.Categoria;
 
 public class ManejadorCategoria 
 {
@@ -58,7 +59,12 @@ public class ManejadorCategoria
         return false;
  
     }
-    
+    public Categoria buscadorC(String nombreCat){
+        Categoria u = AlmacenCategorias.get(nombreCat); 
+        
+        return u;
+    }
+   
     public int existe(DTOCategoria categoriaIngresada)  //Devuelve 1 si no esta la parte "Categoria-nombre" devuelve 2 si no existe con el nombre "categoria-padre"
     {   //Devuelve 0 si existe alguna coincidencia de nombre o de categoria padre.
         
@@ -73,5 +79,8 @@ public class ManejadorCategoria
         }
         
         return 0;
+    }
+    public Map<String, Categoria> getCategoria() {
+    return AlmacenCategorias;
     }
 }

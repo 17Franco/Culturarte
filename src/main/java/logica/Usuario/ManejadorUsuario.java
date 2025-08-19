@@ -43,7 +43,11 @@ public class ManejadorUsuario {
             return false;
         }
     }
-    
+     public Usuario buscador(String nick){
+        Usuario u = usuarios.get(nick); 
+        
+        return u;
+    }
     public boolean emailUsado(String email){
         for (Usuario u : usuarios.values()) {
             if (u.getEmail().equalsIgnoreCase(email)) {
@@ -54,5 +58,5 @@ public class ManejadorUsuario {
     }
     public Map<String, Usuario> getUsuarios() {
     return usuarios;
-}
+    }
 }
