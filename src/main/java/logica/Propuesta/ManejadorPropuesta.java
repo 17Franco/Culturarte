@@ -69,10 +69,9 @@ public class ManejadorPropuesta {
             } 
             else //Si se especifica...
             {
-                //if((punteroV.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
-                {                System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-                    //Pendiente solucionar problema con las funciones de la condición.
-                
+                if((punteroV.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
+                {              
+                    //Pendiente de revisión hasta que se puedan ingresar un registro_estado a cada propuesta
                     almacenTemp.extraerDatosPropuesta(punteroV);
                     temp.add(almacenTemp);
                 }
