@@ -144,7 +144,7 @@ public class Propuesta {
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();
-        if(!historialEstados.isEmpty()) //Si no está vacío
+        if(!historialEstados.isEmpty())
         {
             almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
             return almacen;
