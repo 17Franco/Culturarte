@@ -42,4 +42,5 @@ public class DTORegistro_Estado
         estado = i.getEstado();
         fechaReg = i.getFechaReg();
     }
+    
 }
