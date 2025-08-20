@@ -43,4 +43,14 @@ public class DTORegistro_Estado
         fechaReg = i.getFechaReg();
     }
     
+    public String getEstadoString() //Me sirve más asi para mostrar
+    {
+        return estado.toString();
+    }
+    
+    public String getFechaRegString() //Lo mismo
+    {
+        return fechaReg.getDay() + "/" + fechaReg.getMonth() + "/"+ fechaReg.getYear();
+    }
+    
 }
