@@ -1,6 +1,7 @@
 package ui;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import logica.DTO.DTOPropuesta;
 import javax.swing.table.DefaultTableModel;
@@ -13,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 //Esta UI solo muestra una lista de propuestas por estado al usuario, es parte de "ConsultaPropuestasPorEstado"
 public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
 
-    Set<DTOPropuesta> lista; //ista a mostrar
+    Set<DTOPropuesta> lista; //lista a mostrar
     
     public ListaPropuestasPorEstado() 
     {
@@ -24,58 +25,54 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
     public void SetListaPropuesta(Set<DTOPropuesta> _lista)
     {
         lista = _lista;
+        actualizarTabla();  //Luego de actualizar la lista se debe refrescar la tabla.
         
     }
     
     public void actualizarTabla() 
     {
-        DefaultTableModel contenido = new DefaultTableModel();
-        contenido.addColumn("Nombre");
-        contenido.addColumn("Descripción");
+        String[] c1 = {"Nombre","Descripción"};
         
-        if(lista.isEmpty())
+        DefaultTableModel tabla = new DefaultTableModel(c1, 0); //Se inicializa directamente
+
+        for(DTOPropuesta ct : lista) //Iteracion para ir ingresando contenido.
         {
-            JOptionPane.showMessageDialog(this, "No hay ninguna propuesta en este estado actualmente");
+            tabla.addRow(new Object[]{ct.getTitulo(), ct.getDescripcion()});
         }
 
-        for(DTOPropuesta ct : lista) 
-        {
-            contenido.addRow(new Object[]{ct.getTitulo(), ct.getDescripcion()});
-        }
-
-        jTable1.setModel(contenido);
+        jTable1.setModel(tabla);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollTabla = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        subtitulo = new javax.swing.JLabel();
+        botonAtras = new javax.swing.JButton();
+        botonContinuar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Listado de Propuestas");
 
-        jScrollPane1.setViewportView(jTable1);
+        scrollTabla.setViewportView(jTable1);
 
-        jLabel1.setText("Seleccione una propuesta...");
+        subtitulo.setText("Seleccione una propuesta...");
 
-        jButton1.setText("Atrás");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonAtras.setText("Atrás");
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonAtrasActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Siguiente...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonContinuar.setText("Siguiente...");
+        botonContinuar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonContinuarActionPerformed(evt);
             }
         });
 
@@ -87,45 +84,53 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(scrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jButton1)
+                            .addComponent(botonAtras)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2)))
-                    .addComponent(jLabel1))
+                            .addComponent(botonContinuar)))
+                    .addComponent(subtitulo))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(subtitulo)
                 .addGap(11, 11, 11)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(botonAtras)
+                    .addComponent(botonContinuar))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
+        
+        ConsultaPropuestaPorEstado setup = new ConsultaPropuestaPorEstado();            //Se inicializa ventana con el setup de Consulta.
+       
+        JDesktopPane fondo1 = this.getDesktopPane();
+        fondo1.add(setup);
+        setup.setSize(fondo1.getSize());
+        setup.setVisible(true);
+        
+        this.dispose();
+    }//GEN-LAST:event_botonAtrasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void botonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContinuarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_botonContinuarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton botonAtras;
+    private javax.swing.JButton botonContinuar;
     private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane scrollTabla;
+    private javax.swing.JLabel subtitulo;
     // End of variables declaration//GEN-END:variables
 }
