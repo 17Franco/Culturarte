@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica.DTO;
-
 import java.util.ArrayList;
 import java.util.List;
 import logica.Categoria.Categoria;
@@ -156,6 +151,17 @@ public class DTOPropuesta {
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {
         historialEstados = _historial;
+    }
+    
+    public DTORegistro_Estado getUltimoEstado() 
+    {
+        DTORegistro_Estado almacen = new DTORegistro_Estado();
+        if (!historialEstados.isEmpty()) {
+            almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
+            return almacen;
+        }
+
+        return almacen;
     }
     
 }
