@@ -5,6 +5,8 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import logica.DTO.DTOPropuesta;
 import javax.swing.table.DefaultTableModel;
+import java.util.Iterator;
+
 
 /**
  *
@@ -15,11 +17,13 @@ import javax.swing.table.DefaultTableModel;
 public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
 
     Set<DTOPropuesta> lista; //lista a mostrar
+    String elemento; //Elemento seleccionado de la tabla.
     
     public ListaPropuestasPorEstado() 
     {
         initComponents();
         lista = new HashSet<>();
+        botonContinuar.setVisible(false);
     }
     
     public void SetListaPropuesta(Set<DTOPropuesta> _lista)
@@ -27,6 +31,28 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
         lista = _lista;
         actualizarTabla();  //Luego de actualizar la lista se debe refrescar la tabla.
         
+    }
+    
+    public DTOPropuesta extraerSeleccionadoLista()
+    {
+        Iterator<DTOPropuesta> ct = lista.iterator();
+        
+        while(ct.hasNext()) 
+        {
+            DTOPropuesta nodo = ct.next();
+            
+            if(nodo.getTitulo().equals(elemento)) 
+            {
+                return nodo;   
+            }
+        }
+        
+        return null;    //Algo raro pasó ahi si llega a esto...
+    }
+    
+    public void SetElementoSeleccionadoTabla(String _elemento)
+    {
+        elemento = _elemento;
     }
     
     public void actualizarTabla() 
@@ -40,7 +66,7 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
             tabla.addRow(new Object[]{ct.getTitulo(), ct.getDescripcion()});
         }
 
-        jTable1.setModel(tabla);
+        tablaPropuestasFiltradas.setModel(tabla);
     }
 
     @SuppressWarnings("unchecked")
@@ -48,17 +74,23 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         scrollTabla = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaPropuestasFiltradas = new javax.swing.JTable();
         subtitulo = new javax.swing.JLabel();
         botonAtras = new javax.swing.JButton();
         botonContinuar = new javax.swing.JButton();
+        botonSalir = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Listado de Propuestas");
 
-        scrollTabla.setViewportView(jTable1);
+        tablaPropuestasFiltradas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPropuestasFiltradasMouseClicked(evt);
+            }
+        });
+        scrollTabla.setViewportView(tablaPropuestasFiltradas);
 
         subtitulo.setText("Seleccione una propuesta...");
 
@@ -76,6 +108,13 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
             }
         });
 
+        botonSalir.setText("Salir");
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,8 +125,10 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(scrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(botonAtras)
+                            .addComponent(botonSalir)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonAtras)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(botonContinuar)))
                     .addComponent(subtitulo))
                 .addContainerGap(7, Short.MAX_VALUE))
@@ -102,7 +143,8 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAtras)
-                    .addComponent(botonContinuar))
+                    .addComponent(botonContinuar)
+                    .addComponent(botonSalir))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -122,15 +164,40 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonAtrasActionPerformed
 
     private void botonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContinuarActionPerformed
-        // TODO add your handling code here:
+        DTOPropuesta almacenDatos = extraerSeleccionadoLista();                 //Se extrae y prepara el elemento a mostrar a continuación.
+        
+        MostrarDatosPropuesta mostrar = new MostrarDatosPropuesta();            //Se inicializa ventana con datos.
+        mostrar.SetDatosPropuesta(almacenDatos);                                //Se le ingresan esos datos preparados
+
+        JDesktopPane fondo3Final = this.getDesktopPane();
+        fondo3Final.add(mostrar);
+        mostrar.setSize(fondo3Final.getSize());
+        mostrar.setVisible(true);
+
+        this.dispose(); //Para cerrar la ventana.
+        
     }//GEN-LAST:event_botonContinuarActionPerformed
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void tablaPropuestasFiltradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPropuestasFiltradasMouseClicked
+        //Acá se almacena el dato clicado.
+        int fila = tablaPropuestasFiltradas.getSelectedRow();   //Se obtiene la fila seleccionada
+        elemento  = tablaPropuestasFiltradas.getValueAt(fila, 0).toString(); //Elemento seleccionado, se almacena unicamente el nombre de la propuesta y forzado a String (variable de UI).
+        
+        botonContinuar.setVisible(true); //Se habilita botón para continuar
+        
+    }//GEN-LAST:event_tablaPropuestasFiltradasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonContinuar;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton botonSalir;
     private javax.swing.JScrollPane scrollTabla;
     private javax.swing.JLabel subtitulo;
+    private javax.swing.JTable tablaPropuestasFiltradas;
     // End of variables declaration//GEN-END:variables
 }
