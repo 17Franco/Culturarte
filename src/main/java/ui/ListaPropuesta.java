@@ -10,8 +10,7 @@ import javax.swing.JOptionPane;
 public class ListaPropuesta extends javax.swing.JInternalFrame {
 
     private IController controller = Fabrica.getInstance();
-    
- 
+   
    public ListaPropuesta() {
         initComponents();
 
