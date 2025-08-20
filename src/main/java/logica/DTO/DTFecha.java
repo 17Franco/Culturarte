@@ -47,5 +47,10 @@ public class DTFecha
     {
         yyyy = _yyyy;
     }
+    
+    public String getFechaString()
+    {
+        return d + "/" + mm + "/" + yyyy;
+    }
 
 }
