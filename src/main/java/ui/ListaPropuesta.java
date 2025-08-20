@@ -15,7 +15,6 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
         initComponents();
 
         //Control de vacio para categoria sino no muestra la lista y no deja hacer nada
-        //lo mismo para usuario aunque en si nunca va a haber 0 usuarios
         Set<DTOPropuesta> propuestas = controller.obtenerPropuestas("");
         DefaultListModel<String> modeloLista = new DefaultListModel<>();
         for (DTOPropuesta p : propuestas) {
