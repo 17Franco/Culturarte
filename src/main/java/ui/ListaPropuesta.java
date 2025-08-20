@@ -120,12 +120,11 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-
         //TODO
     }//GEN-LAST:event_formFocusLost
 
     private void ListaPropuestaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaPropuestaMouseClicked
-  
+
     }//GEN-LAST:event_ListaPropuestaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
