@@ -10,8 +10,7 @@ import javax.swing.JOptionPane;
 public class ListaPropuesta extends javax.swing.JInternalFrame {
 
     private IController controller = Fabrica.getInstance();
-    
- 
+   
    public ListaPropuesta() {
         initComponents();
 
@@ -39,8 +38,16 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
                 if (propuestaSeleccionada != null) {
                     StringBuilder info = new StringBuilder();
                     info.append("Título: ").append(propuestaSeleccionada.getTitulo()).append("\n")
-                    .append("Descripción: ").append(propuestaSeleccionada.getDescripcion()).append("\n");
-                    //falta poner datos extras como si tiene imagen,estado,monto recaudado y lista de colabroadores
+                    .append("Descripción: ").append(propuestaSeleccionada.getDescripcion()).append("\n")
+                    .append("Tipo: ").append(propuestaSeleccionada.getTipo()).append("\n") 
+                    .append("Lugar: ").append(propuestaSeleccionada.getLugar()).append("\n")
+                    .append("Fecha: ").append(propuestaSeleccionada.getFecha().getFechaString()).append("\n") 
+                    .append("Precio: ").append(propuestaSeleccionada.getPrecio()).append("\n")
+                    .append("MontoFinal: ").append(propuestaSeleccionada.getMontoTotal()).append("\n")
+                    .append("Fecha de Publicacion: ").append(propuestaSeleccionada.getFechaPublicacion().getFechaString()).append("\n")
+                    .append("Tipo de Retorno: ").append(propuestaSeleccionada.getRetorno()).append("\n")
+                    .append("Estado Actual: ").append(propuestaSeleccionada.getEstado()).append("\n");
+                    //falta poner datos extras como si tiene imagen 
                     if (propuestaSeleccionada.getProponente() != null)
                         info.append("Proponente: ").append(propuestaSeleccionada.getProponente().getNickname()).append("\n");
                         JOptionPane.showMessageDialog(null, info.toString(), "Propuesta", JOptionPane.INFORMATION_MESSAGE);
@@ -93,12 +100,13 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -107,8 +115,8 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         jLabel1.getAccessibleContext().setAccessibleDescription("");
@@ -121,12 +129,11 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-
         //TODO
     }//GEN-LAST:event_formFocusLost
 
     private void ListaPropuestaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaPropuestaMouseClicked
-  
+
     }//GEN-LAST:event_ListaPropuestaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

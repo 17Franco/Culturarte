@@ -184,9 +184,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblNick">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel5"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
@@ -194,9 +191,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblNombre">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel7"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
@@ -204,9 +198,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblApellido">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel9"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
@@ -214,9 +205,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblFecha">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel14"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
@@ -224,9 +212,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblEmail">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel12"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
@@ -234,9 +219,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblDireccion">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel17"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel16">
           <Properties>
@@ -244,9 +226,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblBiografia">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel18"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
           <Properties>
@@ -254,9 +233,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblWeb">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel19"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

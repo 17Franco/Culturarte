@@ -17,6 +17,7 @@ import logica.DTO.DTFecha;
 import logica.Usuario.Proponente;
 import logica.DTO.DTOUsuario;
 import logica.DTO.DTOCategoria;
+import logica._enum.Estado;
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
     private String rutaImagen = null; 
@@ -415,7 +416,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             }else{
                 Utilities.copiarImagen(rutaImagen,titulo);
                 DTFecha fechaEvento=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
-                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,fechaCreacion ,retorno,categoria, usuarios);
+                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,fechaCreacion ,retorno,categoria, usuarios,Estado.INGRESADA);
                 JOptionPane.showMessageDialog(this, "Propuesta registrado con exito");
             }
             

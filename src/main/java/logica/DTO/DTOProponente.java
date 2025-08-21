@@ -3,7 +3,7 @@ package logica.DTO;
 
 import java.util.HashMap;
 import java.util.Map;
-import logica.Usuario.Proponente;
+
 
 
 

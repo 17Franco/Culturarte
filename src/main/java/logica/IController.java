@@ -14,37 +14,37 @@ import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
+import logica._enum.Estado;
 import logica._enum.TipoRetorno;
 
 
 public interface IController {
-    //cu alta perfil
+    //Usuarios
     void altaUsuario(DTOUsuario usu);
     
     boolean existeUsuario(String nick, String email);
     
     boolean existe(String nick);
-    // cu ver perfil proponente 
     
-    List<String> listarUsuario(String tipo);
+    List<String> ListaProponentes();
     
+   
     DTOProponente getDTOProponente(String nick);
+    //Fin Usuario
     
-    List<DTOColaborador> usuarioColPropuesta(String nombProp);
-    
-    //cu alta propuesta
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr);
+    //Propuestas
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
     
     boolean existeProp(String Titulo);
     
-    Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado);
-    
-    boolean altaDeCategoria(DTOCategoria categoriaIngresada);
-    Map<String, Categoria> getCategorias();
-    
-    Map<String,DTOUsuario> listarDtoUsuario(char tipo);
-    
     Set<DTOPropuesta> obtenerPropuestas(String estado);
-    List<String> ListaProponentes();
+    //Fin Propuesta
+    
+    //Categoria
+    boolean altaDeCategoria(DTOCategoria categoriaIngresada);
+    
+    Map<String, Categoria> getCategorias();
+  
     List<String> ListaCategoria();
+    //Fin Categoria
 }

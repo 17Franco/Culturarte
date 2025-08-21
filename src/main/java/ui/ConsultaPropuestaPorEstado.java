@@ -15,7 +15,6 @@ public class ConsultaPropuestaPorEstado extends javax.swing.JInternalFrame {
 
     Set<DTOPropuesta> almacenTabla;            //Almacena la tabla recibida desde la base de datos.
     private String estadoSeleccionado;     //Almacen para el estado.
-    private Boolean confirmacion;
     private IController controller = Fabrica.getInstance();
             
             
@@ -27,23 +26,6 @@ public class ConsultaPropuestaPorEstado extends javax.swing.JInternalFrame {
         estadoSeleccionado = "";
         botonContinuar.setVisible(false);   //Esto es para que el botón solo aparezca si se presiona una de las opciones!
        
-    }
-    
-    public Set<DTOPropuesta> getSetPropuestas()
-    {
-        return almacenTabla;
-    }
-    
-    public String getEstadoSeleccionado()
-    {
-        
-        return estadoSeleccionado;
-        
-    }
-    
-    public boolean getPass()
-    {
-        return confirmacion;
     }
 
     @SuppressWarnings("unchecked")
@@ -226,26 +208,33 @@ public class ConsultaPropuestaPorEstado extends javax.swing.JInternalFrame {
 
     private void botonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContinuarActionPerformed
         
-        estadoSeleccionado = getEstadoSeleccionado();           //El estado para la consulta de base de datos se guarda aca (String).
-        Set<DTOPropuesta> almacenTabla = new HashSet<>();       //Almacen temporal.
+        Set<DTOPropuesta> almacenTabla = controller.obtenerPropuestas(estadoSeleccionado);  //Se almacenan las propuestas seleccionadas.
         
-        almacenTabla = controller.obtenerPropuestas(estadoSeleccionado);
+        if(!almacenTabla.isEmpty()) //Si existen propuestas en ese estado...
+        {   
+            ListaPropuestasPorEstado lista = new ListaPropuestasPorEstado();            //Se inicializa ventana con la lista.
+            lista.SetListaPropuesta(almacenTabla);                                      //Se le ingresan datos seleccionados por user
 
-        ListaPropuestasPorEstado lista = new ListaPropuestasPorEstado();        //Se inicializa ventana con la lista.
-        lista.SetListaPropuesta(almacenTabla);                                   //Se le ingresan datos seleccionados por user
-        
-        JDesktopPane fondo2 = this.getDesktopPane();
-        fondo2.add(lista);
-        lista.setSize(fondo2.getSize());
-        lista.setVisible(true);
-
-        this.dispose(); //Para cerrar la ventana.
-        
+            JDesktopPane fondo2 = this.getDesktopPane();
+            fondo2.add(lista);
+            lista.setSize(fondo2.getSize());
+            lista.setVisible(true);
+            
+            this.dispose(); //Para cerrar la ventana.
+        }  
+                
+        if(almacenTabla.isEmpty())  //Si no existen propuestas en ese estado...
+        {
+            JOptionPane.showMessageDialog(this, "No hay ninguna propuesta en este estado actualmente");
+            botonContinuar.setVisible(false);   //Se oculta para molestar y que seleccione otro estado lel.
+        }
+ 
     }//GEN-LAST:event_botonContinuarActionPerformed
 
     private void botonPropuestasPublicadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPropuestasPublicadasActionPerformed
         estadoSeleccionado = "PUBLICADA";   //Para almacenar el resultado del botón presionado.
         botonContinuar.setVisible(true);    //Se habilita el botón "continuar".
+
     }//GEN-LAST:event_botonPropuestasPublicadasActionPerformed
 
     private void botonPropuestasEnFinanciacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPropuestasEnFinanciacionActionPerformed

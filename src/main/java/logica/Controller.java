@@ -5,7 +5,6 @@
 package logica;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,9 +25,8 @@ import logica.DTO.DTORegistro_Aporte;
 import logica.DTO.DTORegistro_Estado;
 import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Proponente;
-import logica.Usuario.Usuario;
 import logica.Usuario.registroAporte;
-
+import logica._enum.Estado;
 /**
  *
  * @author fran
@@ -36,7 +34,7 @@ import logica.Usuario.registroAporte;
 public class Controller  implements IController {
        private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
        private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
-       private ManejadorPropuesta propu=ManejadorPropuesta.getinstance();
+       private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
        
        
     @Override
@@ -47,21 +45,41 @@ public class Controller  implements IController {
             mUsuario.addColaborador((DTOColaborador) usu);
         }
     }
-
-    @Override
-    public List<String> listarUsuario(String tipo) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    
+     public boolean existe(String nick){
+            return mUsuario.existe(nick);
     }
+     
+    @Override
+    public boolean existeUsuario(String nick, String email) {
+           return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
+    }
+    
+    @Override
+     public List<String> ListaProponentes(){
+         List<String> aux = new ArrayList<>();
+         for (Usuario c : mUsuario.getUsuarios().values()){
+            if (c instanceof Proponente){
+                 aux.add(c.getNickname());
+            }
+         }
+             return aux;    
+     }
+     
+     
+    //devulve un dtoRegistroAPORTE
     public DTORegistro_Aporte getDTOAporte(registroAporte r,String titulo){
         return new DTORegistro_Aporte(r.getMoto(),r.getRetorno(),r.getFecha(),titulo,r.getColaborador().getNickname());
     }
+    
+    //Devuelve un dto de estado
     public DTORegistro_Estado getDTORegistroEstado(Registro_Estado r){
         return new DTORegistro_Estado(r.getFechaReg(),r.getEstado());
     }
     
-    
+    //devuelve un dtyoPropuesta con el historial de estado y aportes Recibido
     public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
-            DTOPropuesta propuesta= new DTOPropuesta(p.getTitulo(),p.getDescripcion(),p.getTipo(),p.getImagen(),p.getLugar(),p.getFecha(),p.getPrecio(),p.getMontoTotal(),p.getFechaPublicacion(),p.getRetorno(),p.getCategoria().CrearDT(),prop);
+            DTOPropuesta propuesta= new DTOPropuesta(p.getTitulo(),p.getDescripcion(),p.getTipo(),p.getImagen(),p.getLugar(),p.getFecha(),p.getPrecio(),p.getMontoTotal(),p.getFechaPublicacion(),p.getRetorno(),p.getCategoria().CrearDT(),prop,p.getEstadoAct());
             List<Registro_Estado> r=p.getHistorialEstados();
             List<registroAporte> rA = p.getAporte();
             
@@ -75,6 +93,7 @@ public class Controller  implements IController {
 
             return propuesta;
     }
+    
     @Override
     //me crea un dtoProponente completo incluido las propuestas que el usuario creo
     public DTOProponente getDTOProponente(String nick) { 
@@ -90,97 +109,49 @@ public class Controller  implements IController {
            return resu;
     }
 
-   
-
-    @Override
-    public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
     
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr) {
-
-        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr));
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
+        
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
         ((Proponente) mUsuario.buscador(usr)).setPropCreada(propuesta);
-        ManejadorPropuesta.getinstance().nuevaPropuesta(propuesta);
+        mPropuesta.nuevaPropuesta(propuesta);
     }
-
     @Override
-    public boolean existeUsuario(String nick, String email) {
-           return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
+     public Set<DTOPropuesta> obtenerPropuestas(String estado){
+        return  mPropuesta.obtenerPropuestas(estado);
+     }
+     
+      public boolean existeProp(String Titulo){
+         return (mPropuesta.existeProp(Titulo));
     }
-    
-    @Override
-    public Set<DTOPropuesta> consultaPropuestas_porEstado(String estadoSeleccionado)
-    {
-        //En proceso
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  
     
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
     {
-       if(ManejadorCategoria.getInstance().existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
+       if(mCategoria.existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
        {    //Si no existen previamente.
-            ManejadorCategoria.getInstance().addCategoria(categoriaIngresada);
+            mCategoria.addCategoria(categoriaIngresada);
             return true;    //Le dice a UI que todo fue correcto.
        }
        
        return false;    //Le dice a ui que no se agregó nada.
     }
+    
     @Override
     public Map<String, Categoria> getCategorias()
     {
-        return ManejadorCategoria.getInstance().getCategorias();
+        return mCategoria.getCategorias();
     }
     
-    public boolean existeProp(String Titulo){
-         return (propu.existeProp(Titulo));
-    }
-    
-    @Override
-    public Map<String, DTOUsuario> listarDtoUsuario(char tipo) {
-        Map<String, DTOUsuario> usr = new HashMap<>();
-        if(mUsuario.getUsuarios().isEmpty()){
-              return null;
-         }else{
-            
-            for(Usuario u: mUsuario.getUsuarios().values()){
-                if(u instanceof Proponente){
-                    DTOProponente aux =new DTOProponente(((Proponente) u).getDireccion(),((Proponente) u).getBiografia(),((Proponente) u).getWebSite(),u.getNickname(),u.getNombre(),u.getApellido(),u.getEmail(),u.getFecha(),u.getRutaImg(),true);
-                }else{
-                    //DTOColaborador aux= new DTOColaborador();
-                }
-                
-            }
-            return usr;
-        }
-    }
-        
-       @Override
-        public Set<DTOPropuesta> obtenerPropuestas(String estado){
-           return  propu.obtenerPropuestas(estado);
-        }
+   
+     public List<String> ListaCategoria(){
+         List<String> aux2 = new ArrayList<>();
+         for (Categoria c : mCategoria.getCategoria().values()){
+             aux2.add(c.getNombreCategoria());
+         }
+             return aux2; 
+     }
 
-        @Override
-        public List<String> ListaProponentes(){
-            List<String> aux = new ArrayList<>();
-            for (Usuario c : mUsuario.getUsuarios().values()){
-               if (c instanceof Proponente){
-                    aux.add(c.getNickname());
-               }
-            }
-                return aux;    
-        }
-
-        public List<String> ListaCategoria(){
-            List<String> aux2 = new ArrayList<>();
-            for (Categoria c : mCategoria.getCategoria().values()){
-                aux2.add(c.getNombreCategoria());
-            }
-                return aux2; 
-        }
-        
-        public boolean existe(String nick){
-            return mUsuario.existe(nick);
-        }
-    }
+       
+}

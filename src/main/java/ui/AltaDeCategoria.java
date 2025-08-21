@@ -37,7 +37,6 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     private void llenarTabla()
     {
         Map<String, Categoria> almacenDatos = controller.getCategorias();
-        //int cantidadFilas = almacenDatos.size();    //Se obtiene la cantidad de filas necesarias.
         String[] columnas = {"Categorías disponibles:"};
         
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);

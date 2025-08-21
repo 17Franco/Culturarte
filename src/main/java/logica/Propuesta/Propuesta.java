@@ -1,5 +1,6 @@
 package logica.Propuesta;
 
+import java.time.LocalDate;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTFecha;
 import logica.Categoria.Categoria;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import logica.DTO.DTORegistro_Estado;
 import logica.Usuario.registroAporte;
+import logica._enum.Estado;
 
 
 public class Propuesta {
@@ -24,11 +26,12 @@ public class Propuesta {
     private TipoRetorno Retorno;
     private Categoria cat;
     private Proponente usr;
+    private Estado estadoAct; 
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
     private List<registroAporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente ust)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -41,7 +44,12 @@ public class Propuesta {
         this.FechaPublicacion=FechaPublicacion;
         this.Retorno=Retorno;
         this.cat=cat;
-        this.usr=ust;
+        this.usr=usr;
+        this.estadoAct=estadoAct;   
+        this.historialEstados.add(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct));
+    }
+    public Estado getEstadoAct(){
+        return  this.estadoAct;
     }
     public  String getTitulo() {
         return Titulo;
@@ -142,12 +150,16 @@ public class Propuesta {
         //Registro_Estados almacen = new Registro_Estados(input.getFecha(),input.getEstados());
         //historialEstados.add(0,almacen);
     }
-    
+       
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();
-        almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
+        if(!historialEstados.isEmpty())
+        {
+            almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
+            return almacen;
+        }
+        
         return almacen;
     }
-
 }

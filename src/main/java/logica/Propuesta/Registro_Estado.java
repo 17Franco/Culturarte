@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica.Propuesta;
 import logica.DTO.DTFecha;
 import logica._enum.Estado;
@@ -14,7 +10,7 @@ import logica._enum.Estado;
 public class Registro_Estado {
 
     private DTFecha fechaReg;
-    private Estado estado = Estado.INGRESADA;
+    private Estado estado;
 
     public Registro_Estado() 
     {

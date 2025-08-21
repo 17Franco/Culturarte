@@ -1,5 +1,7 @@
 package logica.DTO;
 
+import java.time.LocalDate;
+
 public class DTFecha
 {
     private int d;
@@ -10,7 +12,11 @@ public class DTFecha
     public DTFecha() 
     {
     }
-
+    public DTFecha(LocalDate fecha) {
+    this.d = fecha.getDayOfMonth();
+    this.mm = fecha.getMonthValue();
+    this.yyyy = fecha.getYear();
+}
     public DTFecha(int _d, int _mm, int _yyyy) 
     {
         d = _d;
@@ -46,6 +52,11 @@ public class DTFecha
     public void setYear(int _yyyy) 
     {
         yyyy = _yyyy;
+    }
+    
+    public String getFechaString()
+    {
+        return d + "/" + mm + "/" + yyyy;
     }
 
 }

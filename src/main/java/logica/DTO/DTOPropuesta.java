@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica.DTO;
-
 import java.util.ArrayList;
 import java.util.List;
 import logica.Categoria.Categoria;
@@ -14,6 +9,7 @@ import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Proponente;
+import logica._enum.Estado;
 
 public class DTOPropuesta {
     
@@ -29,11 +25,13 @@ public class DTOPropuesta {
     private TipoRetorno Retorno;
     private DTOCategoria cat;
     private DTOProponente usr;
+    
+    private Estado EstadoAct;
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
-    private List<DTORegistro_Aporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
+    private List<DTORegistro_Aporte> aporte =new ArrayList<>();
             
     public DTOPropuesta(){}
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust,Estado EstadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -47,6 +45,10 @@ public class DTOPropuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=ust;
+        this.EstadoAct=EstadoAct;
+    }
+    public Estado getEstado(){
+        return EstadoAct;
     }
     public  String getTitulo() {
         return Titulo;
@@ -145,13 +147,14 @@ public class DTOPropuesta {
         Retorno = in.getRetorno();
         cat = in.getCategoria().CrearDT();
        // historialEstados = in.getHistorialEstados();
+        EstadoAct = in.getEstadoAct();
     }
     public void setHistorialEstados(DTORegistro_Estado historial) 
     {
          historialEstados.add(historial); 
     }
     public void setAportes(DTORegistro_Aporte a){
-        Aporte.add(a);
+        aporte.add(a);
     }
 
     public DTOCategoria getCat() {
@@ -163,7 +166,7 @@ public class DTOPropuesta {
     }
 
     public List<DTORegistro_Aporte> getAporte() {
-        return Aporte;
+        return aporte;
     }
     
     public DTORegistro_Estado obtenerPrimero(){
@@ -171,6 +174,17 @@ public class DTOPropuesta {
              return  historialEstados.getFirst();
         }
         return null;
+    }
+    
+    public DTORegistro_Estado getUltimoEstado() 
+    {
+        DTORegistro_Estado almacen = new DTORegistro_Estado();
+        if (!historialEstados.isEmpty()) {
+            almacen.DTOextraerDatos(historialEstados.get(0)); //El ultimo nodo se almacena en el DTO
+            return almacen;
+        }
+
+        return almacen;
     }
     
 }

@@ -117,50 +117,34 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
 
         jLabel4.setText("NickName");
         jPanel1.add(jLabel4);
-
-        lblNick.setText("jLabel5");
         jPanel1.add(lblNick);
 
         jLabel6.setText("Nombre");
         jPanel1.add(jLabel6);
-
-        lblNombre.setText("jLabel7");
         jPanel1.add(lblNombre);
 
         jLabel8.setText("Apellido");
         jPanel1.add(jLabel8);
-
-        lblApellido.setText("jLabel9");
         jPanel1.add(lblApellido);
 
         jLabel10.setText("Fecha");
         jPanel1.add(jLabel10);
-
-        lblFecha.setText("jLabel14");
         jPanel1.add(lblFecha);
 
         jLabel13.setText("Email");
         jPanel1.add(jLabel13);
-
-        lblEmail.setText("jLabel12");
         jPanel1.add(lblEmail);
 
         jLabel11.setText("Direccion");
         jPanel1.add(jLabel11);
-
-        lblDireccion.setText("jLabel17");
         jPanel1.add(lblDireccion);
 
         jLabel16.setText("Biografia");
         jPanel1.add(jLabel16);
-
-        lblBiografia.setText("jLabel18");
         jPanel1.add(lblBiografia);
 
         jLabel15.setText("Web");
         jPanel1.add(jLabel15);
-
-        lblWeb.setText("jLabel19");
         jPanel1.add(lblWeb);
 
         lblImagen.setText("No file");
