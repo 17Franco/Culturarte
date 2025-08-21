@@ -1,23 +1,23 @@
 
 package ui;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Aporte;
 import logica.DTO.DTORegistro_Estado;
 import logica.Fabrica;
 import logica.IController;
+import logica._enum.Estado;
 
 public class ConsultaProponente extends javax.swing.JInternalFrame {
      private IController controller = Fabrica.getInstance();
@@ -25,12 +25,8 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
     public ConsultaProponente() {
         initComponents();
         
-       // PerfilProponente.setVisible(false);
-        lblPropuestas.setVisible(false);
-       // Propuestas.setVisible(false);
-        jScrollPane1.setVisible(false);
-       // jScrollPane2.setVisible(false);
         Proponentes.removeAllItems(); 
+        
         Proponentes.addItem("SeleccionarUsuario"); 
         for (String u : controller.ListaProponentes()) {
             Proponentes.addItem(u); 
@@ -79,7 +75,11 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         lblWeb = new javax.swing.JLabel();
         lblImagen = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(542, 622));
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setPreferredSize(new java.awt.Dimension(490, 555));
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel1.setText("Consulta Perfil Proponente");
@@ -155,34 +155,34 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblPropuestas)
                 .addGap(193, 193, 193))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Proponentes, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(105, 105, 105))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(184, 184, 184))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(Proponentes, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(105, 105, 105))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(192, 192, 192))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(127, 127, 127)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,11 +227,30 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         }
         return null;
     }
-    private void mostrarPropuestas(String titulo, int monto, DTORegistro_Estado estado, List<String> usuarios){
-    
+    private void mostrarPropuestas(String titulo, int monto, Estado estado, List<String> usuarios,DefaultTableModel modelo){
+        
+        
+        
+        JComboBox<String> comboUsuarios =new JComboBox<>();
+        
+         for (String u : usuarios) {
+           comboUsuarios.addItem(u); 
+        }
+         
+         modelo.addRow(new Object[]{titulo, monto, comboUsuarios, estado});
+         
+        // Configurar la columna "Usuarios" para que renderice y edite con JComboBox
+        TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
+            columnaUsuarios.setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+            return (JComboBox<String>) value; // dibuja el combo directamente
+        });
+        columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox<>()));
+       
+         
     }
     private void mostrarPerfilProponente(DTOProponente usr) {
-
+        
+         
         lblNick.setText(usr.getNickname());
         lblNombre.setText(usr.getNombre());
         lblApellido.setText(usr.getApellido());
@@ -244,13 +263,21 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         ImageIcon icon=new ImageIcon(usr.getRutaImg());
         Image img =icon.getImage().getScaledInstance(lblImagen.getWidth(),lblImagen.getHeight(), Image.SCALE_SMOOTH);
         lblImagen.setIcon(new ImageIcon(img));
-
-
-        for(DTOPropuesta p: usr.getPropCreadas().values()){
+        
+        String[] columnas = {"Título", "Monto Recaudado", "Usuarios", "Estado"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+        Propuestas.setModel(modelo);
+        
+       
+        List<DTOPropuesta> propuestas = new ArrayList<>(usr.getPropCreadas().values());
+        if(!propuestas.isEmpty()){
+        propuestas.sort(Comparator.comparing(p -> p.obtenerPrimero().getEstado()));
+        }
+        for(DTOPropuesta p: propuestas){
             //System.out.println("jhola");
             List<String> colaboradores=colaboracionPropuesta(p.getAporte());
             int monto=montoRecaudado(p.getAporte());
-            mostrarPropuestas(p.getTitulo(),monto,p.obtenerPrimero(),colaboradores);
+            mostrarPropuestas(p.getTitulo(),monto,p.getEstado(),colaboradores,modelo);
         }
     }
 
