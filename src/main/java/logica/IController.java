@@ -15,6 +15,7 @@ import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOUsuario;
+import logica._enum.Estado;
 import logica._enum.TipoRetorno;
 
 
@@ -32,7 +33,7 @@ public interface IController {
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     //cu alta propuesta
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
     
     boolean existeProp(String Titulo);
     
