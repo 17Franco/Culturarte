@@ -224,11 +224,36 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
        jMenu2.setText("Colaboracion");
-            jMenu2.removeAll();
-            jMenu2.add(new JMenuItem ("Colaborar a Propuesta"));
-            jMenu2.add(new JMenuItem("Consultar Propuesta"));
-            jMenu2.add(new JMenuItem("Cancelar Colaboracion"));
-            jMenu2.setVisible(true);
+       jMenu2.removeAll();
+             String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Propuesta", "Cancelar Colaboracion" };
+
+    for (String op : opcionesColaboracion) {
+        JMenuItem menuItem = new JMenuItem(op);
+
+        menuItem.addActionListener(e -> {
+            switch (op) {
+                case "Colaborar a Propuesta" -> {
+                    RegistrarColaboracionAPropuesta frame = new RegistrarColaboracionAPropuesta();
+                    fondo.add(frame);
+                    frame.setSize(fondo.getSize());
+                    frame.setVisible(true);
+                }
+                case "Consultar Propuesta" -> {
+                    // Aquí iría tu clase o lógica para consultar propuesta
+                    // Por ejemplo: ConsultarPropuesta frame = new ConsultarPropuesta();
+                    // fondo.add(frame); frame.setSize(fondo.getSize()); frame.setVisible(true);
+                }
+                case "Cancelar Colaboracion" -> {
+                    // Aquí iría tu lógica para cancelar colaboración
+                    JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
+                }
+            }
+        });
+
+        jMenu2.add(menuItem);
+    }
+
+    jMenu2.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
