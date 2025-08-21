@@ -156,10 +156,4 @@ public class Propuesta {
         
         return almacen;
     }
-/*
-        public Registro_Estado getUltimoEstado() {
-        if (historialEstados.isEmpty()) return null;
-        return historialEstados.get(historialEstados.size() - 1); // último añadido
-    }
-*/
 }
