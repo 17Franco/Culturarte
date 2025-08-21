@@ -9,6 +9,7 @@ import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Proponente;
+import logica._enum.Estado;
 
 public class DTOPropuesta {
     
@@ -25,11 +26,12 @@ public class DTOPropuesta {
     private DTOCategoria cat;
     private DTOProponente usr;
     private Proponente usrP;
+    private Estado EstadoAct;
     private List<Registro_Estado> historialEstados = new ArrayList<>();
     
             
     public DTOPropuesta(){}
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust,Estado EstadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -43,6 +45,10 @@ public class DTOPropuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
+        this.EstadoAct=EstadoAct;
+    }
+    public Estado getEstado(){
+        return EstadoAct;
     }
     public  Proponente getusrP() {
         return usrP;
@@ -147,6 +153,7 @@ public class DTOPropuesta {
         cat = in.getCategoria().CrearDT();
         usrP = in.getProponente();
         historialEstados = in.getHistorialEstados();
+        EstadoAct = in.getEstadoAct();
     }
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {

@@ -10,7 +10,7 @@ import logica._enum.Estado;
 public class Registro_Estado {
 
     private DTFecha fechaReg;
-    private Estado estado = Estado.INGRESADA;
+    private Estado estado;
 
     public Registro_Estado() 
     {
