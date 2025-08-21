@@ -22,8 +22,12 @@ import logica.Usuario.Usuario;
 import logica.Usuario.ManejadorUsuario;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTORegistro_Aporte;
+import logica.DTO.DTORegistro_Estado;
+import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Proponente;
 import logica.Usuario.Usuario;
+import logica.Usuario.registroAporte;
 
 /**
  *
@@ -48,19 +52,55 @@ public class Controller  implements IController {
     public List<String> listarUsuario(String tipo) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
-
-    @Override
-    public DTOProponente verPerfilProponente(String nick) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public DTORegistro_Aporte getDTOAporte(registroAporte r,String titulo){
+        return new DTORegistro_Aporte(r.getMoto(),r.getRetorno(),r.getFecha(),titulo,r.getColaborador().getNickname());
     }
+    public DTORegistro_Estado getDTORegistroEstado(Registro_Estado r){
+        return new DTORegistro_Estado(r.getFechaReg(),r.getEstado());
+    }
+    
+    
+    public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
+            DTOPropuesta propuesta= new DTOPropuesta(p.getTitulo(),p.getDescripcion(),p.getTipo(),p.getImagen(),p.getLugar(),p.getFecha(),p.getPrecio(),p.getMontoTotal(),p.getFechaPublicacion(),p.getRetorno(),p.getCategoria().CrearDT(),prop);
+            List<Registro_Estado> r=p.getHistorialEstados();
+            List<registroAporte> rA = p.getAporte();
+            
+            for(Registro_Estado re:r){
+                propuesta.setHistorialEstados(getDTORegistroEstado(re));
+            }
+            
+            for(registroAporte registro:rA){
+                propuesta.setAportes(getDTOAporte(registro,propuesta.getTitulo()));
+            }
+
+            return propuesta;
+    }
+    @Override
+    //me crea un dtoProponente completo incluido las propuestas que el usuario creo
+    public DTOProponente getDTOProponente(String nick) { 
+           Proponente usr= (Proponente) mUsuario.buscador(nick);
+           DTOProponente resu=new DTOProponente(usr.getDireccion(),usr.getBiografia(),usr.getWebSite(),usr.getNickname(),usr.getNombre(),usr.getApellido(),usr.getEmail(),usr.getFecha(),usr.getRutaImg(),true);
+          
+           Map<String,Propuesta> p=usr.getPropCreadas();
+           
+           for(Propuesta prop:p.values()){
+               resu.addDTOPropuesta(getDTOPropuesta(prop,resu));
+           }
+           
+           return resu;
+    }
+
+   
 
     @Override
     public List<DTOColaborador> usuarioColPropuesta(String nombProp) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
+    
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr) {
-        
+
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr));
+        ((Proponente) mUsuario.buscador(usr)).setPropCreada(propuesta);
         ManejadorPropuesta.getinstance().nuevaPropuesta(propuesta);
     }
 
@@ -138,5 +178,9 @@ public class Controller  implements IController {
                 aux2.add(c.getNombreCategoria());
             }
                 return aux2; 
+        }
+        
+        public boolean existe(String nick){
+            return mUsuario.existe(nick);
         }
     }

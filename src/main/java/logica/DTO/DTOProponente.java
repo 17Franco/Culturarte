@@ -31,4 +31,14 @@ public class DTOProponente extends DTOUsuario{
     public String getWebSite() {
         return webSite;
     }
+    
+    public void addDTOPropuesta(DTOPropuesta p){
+        propCreadas.put(p.getTitulo(), p);
+    }
+
+    public Map<String, DTOPropuesta> getPropCreadas() {
+        return propCreadas;
+    }
+    
+    
 }

@@ -29,9 +29,8 @@ public class DTOPropuesta {
     private TipoRetorno Retorno;
     private DTOCategoria cat;
     private DTOProponente usr;
-    private Proponente usrP;
-    private List<Registro_Estado> historialEstados = new ArrayList<>();
-    
+    private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
+    private List<DTORegistro_Aporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public DTOPropuesta(){}
     public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust)
@@ -47,10 +46,7 @@ public class DTOPropuesta {
         this.FechaPublicacion=FechaPublicacion;
         this.Retorno=Retorno;
         this.cat=cat;
-        this.usr=usr;
-    }
-    public  Proponente getusrP() {
-        return usrP;
+        this.usr=ust;
     }
     public  String getTitulo() {
         return Titulo;
@@ -88,12 +84,8 @@ public class DTOPropuesta {
     public DTOProponente getProponente(){
         return usr;
     }
-    public List<Registro_Estado> getHistorialEstados() {
+    public List<DTORegistro_Estado> getHistorialEstados() {
         return historialEstados;
-    }
-    public void setusrP (Proponente u)
-    {
-        usrP= usrP;
     }
     public void setTitulo(String titulo) {
         Titulo = titulo;
@@ -106,9 +98,11 @@ public class DTOPropuesta {
     public void setTipo(String tipo) {
         Tipo = tipo;
     }
+
     public void setImagen(String Imagen) {
-        Imagen = Imagen;
+        this.Imagen = Imagen;
     }
+   
     public void setLugar(String lugar) {
         Lugar = lugar;
     }
@@ -150,12 +144,33 @@ public class DTOPropuesta {
         FechaPublicacion = in.getFechaPublicacion();
         Retorno = in.getRetorno();
         cat = in.getCategoria().CrearDT();
-        usrP = in.getProponente();
-        historialEstados = in.getHistorialEstados();
+       // historialEstados = in.getHistorialEstados();
     }
-    public void setHistorialEstados(List<Registro_Estado> _historial) 
+    public void setHistorialEstados(DTORegistro_Estado historial) 
     {
-        historialEstados = _historial;
+         historialEstados.add(historial); 
+    }
+    public void setAportes(DTORegistro_Aporte a){
+        Aporte.add(a);
+    }
+
+    public DTOCategoria getCat() {
+        return cat;
+    }
+
+    public DTOProponente getUsr() {
+        return usr;
+    }
+
+    public List<DTORegistro_Aporte> getAporte() {
+        return Aporte;
+    }
+    
+    public DTORegistro_Estado obtenerPrimero(){
+        if(!historialEstados.isEmpty()){
+             return  historialEstados.getFirst();
+        }
+        return null;
     }
     
 }

@@ -7,6 +7,7 @@ import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
 import logica.DTO.DTORegistro_Estado;
+import logica.Usuario.registroAporte;
 
 
 public class Propuesta {
@@ -24,8 +25,7 @@ public class Propuesta {
     private Categoria cat;
     private Proponente usr;
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
-    
-    //private Map<String, Registro> Aporte;
+    private List<registroAporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
     public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente ust)
@@ -41,7 +41,7 @@ public class Propuesta {
         this.FechaPublicacion=FechaPublicacion;
         this.Retorno=Retorno;
         this.cat=cat;
-        this.usr=usr;
+        this.usr=ust;
     }
     public  String getTitulo() {
         return Titulo;
@@ -130,6 +130,12 @@ public class Propuesta {
     {
         historialEstados = _historial;
     }
+
+    public List<registroAporte> getAporte() {
+        return Aporte;
+    }
+
+   
     
     public void agregarNuevoEstado(DTORegistro_Estado input)
     {   

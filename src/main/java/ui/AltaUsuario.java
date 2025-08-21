@@ -452,7 +452,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
             if(controller.existeUsuario(nickName, email)){
                 JOptionPane.showMessageDialog(this, "Usuario ya registrado");
             }else{
-                    Utilities.copiarImagen(rutaImagenTemp,nickName);
+                    rutaImagenTemp=Utilities.copiarImagen(rutaImagenTemp,nickName);
                     DTFecha f=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
                     if(proponente.isSelected()){
                         DTOProponente p=new DTOProponente(direccion,biografia,web,nickName,nom,apelli,email,f,rutaImagenTemp,true);

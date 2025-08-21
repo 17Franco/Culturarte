@@ -23,11 +23,12 @@ public interface IController {
     
     boolean existeUsuario(String nick, String email);
     
+    boolean existe(String nick);
     // cu ver perfil proponente 
     
     List<String> listarUsuario(String tipo);
     
-    DTOProponente verPerfilProponente(String nick);
+    DTOProponente getDTOProponente(String nick);
     
     List<DTOColaborador> usuarioColPropuesta(String nombProp);
     

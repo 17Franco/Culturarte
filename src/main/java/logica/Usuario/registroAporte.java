@@ -43,6 +43,14 @@ public class registroAporte {
     public Propuesta getColabPropuesta() {
         return colabPropuesta;
     }
+
+    public DTFecha getFecha() {
+        return fecha;
+    }
+
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
     
     
 }

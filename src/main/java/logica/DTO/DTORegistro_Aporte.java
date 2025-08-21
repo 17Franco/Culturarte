@@ -6,19 +6,21 @@ public class DTORegistro_Aporte
     private int monto;
     private String retornoEsperado;
     private DTFecha fechaDeAporte;
-    private DTOPropuesta propuestaFinanciada;
+    private String propuestaFinanciada; // guardo solo el titulo
+    private String colaborador; // guardo solo el nick 
 
     public DTORegistro_Aporte()
     {
         //Agrego algo por que me da error el compilador jaja
     }
 
-    public DTORegistro_Aporte(int _monto, String _retornoEsperado, DTFecha _fechaDeAporte, DTOPropuesta _propuestaFinanciada)
+    public DTORegistro_Aporte(int _monto, String _retornoEsperado, DTFecha _fechaDeAporte, String _propuestaFinanciada, String _colaborador)
     {
         monto = _monto;
         retornoEsperado = _retornoEsperado;
         fechaDeAporte = _fechaDeAporte;
         propuestaFinanciada = _propuestaFinanciada;
+        colaborador=_colaborador;
     }
 
     public int getMonto() 
@@ -36,11 +38,7 @@ public class DTORegistro_Aporte
         return fechaDeAporte;
     }
 
-    public DTOPropuesta getPropuestaFinanciada() 
-    {
-        return propuestaFinanciada;
-    }
-
+    
     public void setMonto(int _monto) 
     {
         monto = _monto;
@@ -56,9 +54,24 @@ public class DTORegistro_Aporte
         fechaDeAporte = _fechaDeAporte;
     }
 
-    public void setPropuestaFinanciada(DTOPropuesta _propuestaFinanciada) 
-    {
-        propuestaFinanciada = _propuestaFinanciada;
+    public String getPropuestaFinanciada() {
+        return propuestaFinanciada;
     }
 
+    public String getColaborador() {
+        return colaborador;
+    }
+
+    public void setPropuestaFinanciada(String propuestaFinanciada) {
+        this.propuestaFinanciada = propuestaFinanciada;
+    }
+
+    public void setColaborador(String colaborador) {
+        this.colaborador = colaborador;
+    }
+
+    
+
+    
+    
 }

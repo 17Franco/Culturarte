@@ -49,6 +49,12 @@ public class Proponente extends Usuario{
         return direccion;
     }
 
+    public Map<String, Propuesta> getPropCreadas() {
+        return propCreadas;
+    }
+    public void setPropCreada(Propuesta p){
+        propCreadas.put(p.getTitulo(), p);
+    }
     
     
 }

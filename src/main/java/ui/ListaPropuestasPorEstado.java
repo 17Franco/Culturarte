@@ -5,10 +5,6 @@ import javax.swing.JOptionPane;
 import logica.DTO.DTOPropuesta;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author klaas
- */
 
 //Esta UI solo muestra una lista de propuestas por estado al usuario, es parte de "ConsultaPropuestasPorEstado"
 public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
@@ -66,18 +62,8 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
         jLabel1.setText("Seleccione una propuesta...");
 
         jButton1.setText("Atrás");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton2.setText("Siguiente...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,14 +97,6 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

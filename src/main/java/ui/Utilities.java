@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 public class Utilities {
     
+    //permite elejir un archivo
     public static String elejirArchivo(){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Seleccionar imagen");
@@ -30,8 +31,9 @@ public class Utilities {
         if (resultado == JFileChooser.APPROVE_OPTION) {
             File archivo = fileChooser.getSelectedFile();
            return archivo.getAbsolutePath(); 
-        }else return "null";
+        }else return null;
     }
+    //validacion de campo
     public static boolean validarNoVacio(JTextField campo) { 
         if (campo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null,
@@ -43,8 +45,13 @@ public class Utilities {
         }
         return true;
     }
-    public static void copiarImagen(String rutaOriginal, String nick) { //el nick es para crear la carpeta con ese nombre/si fuera propuesta le pasan ese nombre
-        if (rutaOriginal == null || rutaOriginal.isEmpty()) return;
+    
+    
+    //copia la img seleccionada y la guarda en la LA CARPETA NomUsuario/IMG
+    public static String copiarImagen(String rutaOriginal, String nick) {
+        if (rutaOriginal == null || rutaOriginal.isEmpty()) {
+            return null; // retornamos null si no hay ruta
+        }
 
         File archivo = new File(rutaOriginal);
         String carpetaDestino = "IMG" + File.separator + nick;
@@ -56,11 +63,14 @@ public class Utilities {
 
         try {
             Files.copy(origen, destino, StandardCopyOption.REPLACE_EXISTING);
+            return destino.toString(); // convertimos Path a String
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error copiando la imagen");
+            return null; // en caso de error devolvemos null
         }
     }
+
     
     public static boolean validarFecha(String dia, String mes, String anio) {
         try {
