@@ -79,7 +79,7 @@ public class Controller  implements IController {
     
     //devuelve un dtyoPropuesta con el historial de estado y aportes Recibido
     public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
-            DTOPropuesta propuesta= new DTOPropuesta(p.getTitulo(),p.getDescripcion(),p.getTipo(),p.getImagen(),p.getLugar(),p.getFecha(),p.getPrecio(),p.getMontoTotal(),p.getFechaPublicacion(),p.getRetorno(),p.getCategoria().CrearDT(),prop,p.getEstadoAct());
+            DTOPropuesta propuesta= new DTOPropuesta(p.getTitulo(),p.getDescripcion(),p.getTipo(),p.getImagen(),p.getLugar(),p.getFecha(),p.getPrecio(),p.getMontoTotal(),p.getFechaPublicacion(),p.getRetorno(),p.getCategoria().CrearDT(),prop,p.getEstadoAct(), p.getHistorialEstados());
             List<Registro_Estado> r=p.getHistorialEstados();
             List<registroAporte> rA = p.getAporte();
             
@@ -114,6 +114,7 @@ public class Controller  implements IController {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
         ((Proponente) mUsuario.buscador(usr)).setPropCreada(propuesta);
+
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override
@@ -147,7 +148,7 @@ public class Controller  implements IController {
    
      public List<String> ListaCategoria(){
          List<String> aux2 = new ArrayList<>();
-         for (Categoria c : mCategoria.getCategoria().values()){
+         for (Categoria c : mCategoria.getCategorias().values()){
              aux2.add(c.getNombreCategoria());
          }
              return aux2; 
