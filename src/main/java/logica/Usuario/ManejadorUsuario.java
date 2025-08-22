@@ -3,9 +3,11 @@ package logica.Usuario;
 
 import java.util.HashMap;
 import java.util.Map;
+import logica.DTO.DTFecha;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOUsuario;
+
 
 
 public class ManejadorUsuario {
@@ -14,6 +16,17 @@ public class ManejadorUsuario {
 
     private ManejadorUsuario() {
         usuarios = new HashMap<String, Usuario>();
+        
+        DTFecha a = new DTFecha(30,01,2024);
+        DTFecha b = new DTFecha(12,02,2023);
+        //Borrar luego
+        Proponente p1 = new Proponente("Calle Falsa 123", "Bio", "www.web.com",
+                "nick1", "Juan", "Pérez", "juan@mail.com",
+                a, "img1.png");
+        Colaborador c1 = new Colaborador("nick2", "Ana", "López", "ana@mail.com",
+                b, "img2.png");
+        usuarios.put(p1.getNickname(), p1);
+        usuarios.put(c1.getNickname(), c1);
     }
     
     public static ManejadorUsuario getinstance() {
