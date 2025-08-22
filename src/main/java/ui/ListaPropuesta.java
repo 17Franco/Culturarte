@@ -24,8 +24,11 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
         ListaPropuesta.setModel(modeloLista);
         ListaPropuesta.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
-            if (e.getClickCount() == 2) {
+        public void mouseClicked(java.awt.event.MouseEvent e) 
+        {
+            
+            if (e.getClickCount() == 2) 
+            {
                 String tituloSeleccionado = ListaPropuesta.getSelectedValue();
                 Set<DTOPropuesta> propuestas = controller.obtenerPropuestas("");
                 DTOPropuesta propuestaSeleccionada = null;
