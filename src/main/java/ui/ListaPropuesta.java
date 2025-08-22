@@ -5,6 +5,7 @@ import logica.Fabrica;
 import logica.IController;
 import java.util.Set;
 import javax.swing.DefaultListModel;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 
 public class ListaPropuesta extends javax.swing.JInternalFrame {
@@ -36,21 +37,14 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
                     }
                 }
                 if (propuestaSeleccionada != null) {
-                    StringBuilder info = new StringBuilder();
-                    info.append("Título: ").append(propuestaSeleccionada.getTitulo()).append("\n")
-                    .append("Descripción: ").append(propuestaSeleccionada.getDescripcion()).append("\n")
-                    .append("Tipo: ").append(propuestaSeleccionada.getTipo()).append("\n") 
-                    .append("Lugar: ").append(propuestaSeleccionada.getLugar()).append("\n")
-                    .append("Fecha: ").append(propuestaSeleccionada.getFecha().getFechaString()).append("\n") 
-                    .append("Precio: ").append(propuestaSeleccionada.getPrecio()).append("\n")
-                    .append("MontoFinal: ").append(propuestaSeleccionada.getMontoTotal()).append("\n")
-                    .append("Fecha de Publicacion: ").append(propuestaSeleccionada.getFechaPublicacion().getFechaString()).append("\n")
-                    .append("Tipo de Retorno: ").append(propuestaSeleccionada.getRetorno()).append("\n")
-                    .append("Estado Actual: ").append(propuestaSeleccionada.getEstado()).append("\n");
-                    //falta poner datos extras como si tiene imagen 
-                    if (propuestaSeleccionada.getProponente() != null)
-                        info.append("Proponente: ").append(propuestaSeleccionada.getProponente().getNickname()).append("\n");
-                        JOptionPane.showMessageDialog(null, info.toString(), "Propuesta", JOptionPane.INFORMATION_MESSAGE);
+                    MostrarDatosPropuesta mostrar = new MostrarDatosPropuesta();           
+                    mostrar.SetDatosPropuesta(propuestaSeleccionada);                               
+                    JDesktopPane fond = getDesktopPane();
+                    if (fond != null) {
+                        fond.add(mostrar);
+                        mostrar.setSize(fond.getSize());
+                        mostrar.setVisible(true);
+                    }
                 }
             }
         }
@@ -115,8 +109,8 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jLabel1.getAccessibleContext().setAccessibleDescription("");
