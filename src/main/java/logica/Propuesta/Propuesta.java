@@ -41,11 +41,7 @@ public class Propuesta {
         this.FechaPublicacion=FechaPublicacion;
         this.Retorno=Retorno;
         this.cat=cat;
-        this.usr=usr;
-        
-        
-        
-        
+        this.usr=usr; 
     }
     public  String getTitulo() {
         return Titulo;
@@ -88,51 +84,51 @@ public class Propuesta {
         return historialEstados;
     }
     public void setTitulo(String titulo) {
-        Titulo = titulo;
+        this.Titulo = titulo;
     }
 
     public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+        this.Descripcion = descripcion;
     }
 
     public void setTipo(String tipo) {
-        Tipo = tipo;
+        this.Tipo = tipo;
     }
     public void setImagne(String Imagen) {
-        Imagen = Imagen;
+        this.Imagen = Imagen;
     }
     public void setLugar(String lugar) {
-        Lugar = lugar;
+        this.Lugar = lugar;
     }
 
     public void setFecha(DTFecha fecha) {
-        Fecha = fecha;
+        this.Fecha = fecha;
     }
 
     public void setPrecio(String precio) {
-        Precio = precio;
+        this.Precio = precio;
     }
 
     public void setMontoTotal(String montoTotal) {
-        MontoTotal = montoTotal;
+        this.MontoTotal = montoTotal;
     }
 
     public void setFechaPublicacion(DTFecha FechaPublicacion) {
-        FechaPublicacion = FechaPublicacion;
+        this.FechaPublicacion = FechaPublicacion;
     }
     public void setRetorno(TipoRetorno retorno) {
-        Retorno = retorno;
+        this.Retorno = retorno;
     } 
     public void setCategoria(Categoria Cat){
-        cat = Cat;
+        this.cat = Cat;
     }
     public void setProponente(Proponente Propo){
-        usr = Propo;
+        this.usr = Propo;
     }
 
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {
-        historialEstados = _historial;
+        this.historialEstados = _historial;
     }
     
     public void agregarNuevoEstado(DTORegistro_Estado input)

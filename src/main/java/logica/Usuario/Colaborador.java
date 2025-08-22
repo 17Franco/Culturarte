@@ -16,5 +16,8 @@ public class Colaborador extends Usuario{
     }
 
     
-    
+    @Override
+    public boolean isColaborador() {
+        return true;
+    };
 }

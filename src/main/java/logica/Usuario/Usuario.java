@@ -81,5 +81,12 @@ public class Usuario {
         String n = prop.
         this.usuarioSeguido.put(n, usu);
     }*/
+    
+    public DTFecha getFecha() {
+        return fecha;
+    }
+    public boolean isColaborador() {
+        return false;
+    };
 }
 

@@ -17,8 +17,8 @@ public class Main extends javax.swing.JFrame {
    
     public Main() {
         initComponents();
-            jMenu2.setVisible(false);
-            setLocationRelativeTo(null);
+        jMenu2.setVisible(false);
+        setLocationRelativeTo(null);
     }
             
     /**
@@ -48,11 +48,11 @@ public class Main extends javax.swing.JFrame {
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+            .addGap(0, 643, Short.MAX_VALUE)
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGap(0, 870, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Sistema");
@@ -103,14 +103,14 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,6 +154,7 @@ public class Main extends javax.swing.JFrame {
                         fondo.add(Alta);
                         Alta.setSize(fondo.getSize());
                         Alta.setVisible(true);
+                        break;
                     }
                                          
                    
@@ -190,10 +191,12 @@ public class Main extends javax.swing.JFrame {
                                 fondo.add(PropNew);
                                 PropNew.setSize(fondo.getSize());
                                 PropNew.setVisible(true);
+                                break;
                             }
                             case "Modificar Propuesta" -> 
                             {
                                 //Pendiente
+                                 break;
                             }
                             case "Listar Propuesta" -> 
                             {
@@ -201,6 +204,7 @@ public class Main extends javax.swing.JFrame {
                                 fondo.add(PropNew);
                                 PropNew.setSize(fondo.getSize());
                                 PropNew.setVisible(true);
+                                 break;
                             }
                             case "Consultar Propuestas Por Estado" -> 
                             {                           
@@ -208,6 +212,7 @@ public class Main extends javax.swing.JFrame {
                                 fondo.add(consultaPorEstado);
                                 consultaPorEstado.setSize(fondo.getSize());
                                 consultaPorEstado.setVisible(true);
+                                 break;
                                 
                             }
                             
@@ -237,15 +242,18 @@ public class Main extends javax.swing.JFrame {
                     fondo.add(frame);
                     frame.setSize(fondo.getSize());
                     frame.setVisible(true);
+                    break;
                 }
                 case "Consultar Propuesta" -> {
                     // Aquí iría tu clase o lógica para consultar propuesta
                     // Por ejemplo: ConsultarPropuesta frame = new ConsultarPropuesta();
                     // fondo.add(frame); frame.setSize(fondo.getSize()); frame.setVisible(true);
+                     break;
                 }
                 case "Cancelar Colaboracion" -> {
                     // Aquí iría tu lógica para cancelar colaboración
                     JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
+                     break;
                 }
             }
         });

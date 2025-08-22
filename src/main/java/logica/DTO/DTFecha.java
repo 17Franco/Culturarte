@@ -6,6 +6,11 @@ public class DTFecha
     private int mm;
     private int yyyy;
 
+    @Override
+    public String toString() {
+        return "" + this.d + "/" + this.mm + "/" + this.yyyy;
+    }
+
     
     public DTFecha() 
     {

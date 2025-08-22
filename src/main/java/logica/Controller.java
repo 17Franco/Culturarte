@@ -22,6 +22,8 @@ import logica.Usuario.ManejadorUsuario;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOPropuesta;
 import logica.Usuario.Proponente;
+import logica.Colaboracion.ManejadorColaboracion;
+import logica.DTO.DTOColaboracion;
 /**
  *
  * @author fran
@@ -30,6 +32,7 @@ public class Controller  implements IController {
        private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
        private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
        private ManejadorPropuesta propu=ManejadorPropuesta.getinstance();
+       private ManejadorColaboracion mColaboraciones = ManejadorColaboracion.getInstance();
     @Override
     public void altaUsuario(DTOUsuario usu) {
         if(usu.isProponente()){
@@ -103,6 +106,11 @@ public class Controller  implements IController {
            if (c instanceof Proponente){
                 aux.add(c.getNickname());
            }
+           
+           
+           
+           
+           
         }
             return aux;    
     }
@@ -112,5 +120,30 @@ public class Controller  implements IController {
             aux2.add(c.getNombreCategoria());
         }
             return aux2; 
+    }
+    
+    @Override
+    public Set<DTOPropuesta> ListarPropuestas() {
+        return propu.obtenerPropuestas("");
+    }
+    
+    @Override
+    public void AltaColaboracion(DTOColaboracion colaboracion){
+        mColaboraciones.addColaboracion(colaboracion);
+    }
+
+    @Override
+    public Set<DTOColaborador> ListarColaboradres() {
+        return mUsuario.listColaboradores();
+    }
+
+    @Override
+    public Set<DTOColaboracion> ListarColaboracionesDeColaborador(String nickname) {
+        return mColaboraciones.getColaboracionesDeColaborador(nickname);
+    }
+    
+    @Override
+    public void CancelarColaboracion(DTOColaboracion colaboracion){
+         mColaboraciones.deleteColaboracion(colaboracion);
     }
 }
