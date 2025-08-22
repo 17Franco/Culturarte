@@ -16,27 +16,27 @@ public class SeguirUsuario extends javax.swing.JInternalFrame {
     
     
     public void cargarComboBox(){
-         // filtrar cambios válidos
-            String item = (String) jcbUsuario1.getSelectedItem();
-            if(item != null && controller.existe(item)){
-                jcbUsuarioASeguir.removeAllItems(); 
-                jcbUsuarioASeguir.addItem("SeleccionarUsuario"); 
-                //1 dependiendo del cual selecciono me traigo sus seguidos
-                List<String> usuariosSeguidos = new ArrayList<>();
-                usuariosSeguidos=controller.ListaSeguidosPorUsuario(item);
-                //2 en jcbUsuarioASeguido debo mostrar usuarios no seguidos y tampoco el seleccionado en jcbUsuarioASeguir
-                for(String u: controller.ListaUsuarios()){
-                    if(!u.equals(item) && !usuariosSeguidos.contains(u)){
-                        jcbUsuarioASeguir.addItem(u);
-                    }
-                }
-                //habilito jcbUsuarioASeguir 
-                jcbUsuarioASeguir.setEnabled(true);
-                // verificar datos cuando doy al btnSeguir 
-            }
+            // filtrar cambios válidos
+           String item = (String) jcbUsuario1.getSelectedItem();
+           if(item != null && controller.existe(item)){
+               jcbUsuarioASeguir.removeAllItems(); 
+               jcbUsuarioASeguir.addItem("SeleccionarUsuario"); 
+               //1 dependiendo del cual selecciono me traigo sus seguidos
+               List<String> usuariosSeguidos = new ArrayList<>();
+               usuariosSeguidos=controller.ListaSeguidosPorUsuario(item);
+               //2 en jcbUsuarioASeguido debo mostrar usuarios no seguidos y tampoco el seleccionado en jcbUsuarioASeguir
+               for(String u: controller.ListaUsuarios()){
+                   if(!u.equals(item) && !usuariosSeguidos.contains(u)){
+                       jcbUsuarioASeguir.addItem(u);
+                   }
+               }
+               //habilito jcbUsuarioASeguir 
+               jcbUsuarioASeguir.setEnabled(true);
+               // verificar datos cuando doy al btnSeguir 
+           }
     }
     public SeguirUsuario() {
-        initComponents();
+         initComponents();
         jcbUsuario1.removeAllItems(); 
         jcbUsuarioASeguir.removeAllItems(); 
         

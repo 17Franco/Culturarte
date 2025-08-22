@@ -96,14 +96,12 @@ public class Controller  implements IController {
      public boolean seguir(String nick1,String nick2){
         Usuario usuario1 = mUsuario.buscador(nick1);
         Usuario usuario2 = mUsuario.buscador(nick2);
-        
         if (usuario1 == null || usuario2 == null) return false;
         if (nick1.equals(nick2)) return false;
         if (usuario1.getUsuarioSeguido().containsKey(nick2)) return false;
 
         usuario1.seguir(usuario2);
         return true;
-         
      }
      
     // Funciones que devuelven Distintos DTO 
