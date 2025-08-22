@@ -22,24 +22,28 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         
         DTORegistro_Estado ultimoEstado = datos.getUltimoEstado();
         
-        listaFinal.addElement(datos.getTitulo());
-        listaFinal.addElement(datos.getDescripcion());
-        listaFinal.addElement(datos.getTipo());
-        listaFinal.addElement(datos.getLugar());
-        listaFinal.addElement(datos.getFecha().getFechaString());
-        listaFinal.addElement(datos.getPrecio());
-        listaFinal.addElement(datos.getMontoTotal());
-        listaFinal.addElement(datos.getFechaPublicacion().getFechaString());
-        listaFinal.addElement(datos.getRetorno().toString());
-        listaFinal.addElement(datos.getCategoria().getNombreCategoria());
-        listaFinal.addElement(datos.getProponente().getNombre());
-        listaFinal.addElement(datos.getTitulo());
-        listaFinal.addElement(ultimoEstado.getEstadoString());      //Estado actual
-        listaFinal.addElement(ultimoEstado.getFechaRegString());    //Muestra la fecha del ultimo estado
+        listaFinal.addElement("Título:                                 " + datos.getTitulo());
+        listaFinal.addElement("Descripción:                       " + datos.getDescripcion());
+        listaFinal.addElement("Tipo de espectáculo:          " + datos.getTipo());
+        listaFinal.addElement("Lugar de realización:          " + datos.getLugar());
+        listaFinal.addElement("Fecha inicio:                       " + datos.getFecha().getFechaString());
+        listaFinal.addElement("Recaudación inicial:            " + datos.getPrecio());
+        listaFinal.addElement("Recaudación esperada:      " + datos.getMontoTotal());
+        listaFinal.addElement("Fecha de publicación:         " + datos.getFechaPublicacion().getFechaString());
+        listaFinal.addElement("Ganancia esperada:           " + datos.getRetorno().toString());
+        listaFinal.addElement("Categoría:                           " + datos.getCategoria().getNombreCategoria());
+        listaFinal.addElement("Usuario Proponente:           " + datos.nickProponenteToString());
+        listaFinal.addElement("Estado actual:                     " + ultimoEstado.getEstado().toString());                         //Estado actual
+        listaFinal.addElement("En este estado desde:        " + ultimoEstado.getFechaRegString());               //Muestra la fecha del ultimo estado
 
+        listaDatos.setSelectionModel(new javax.swing.DefaultListSelectionModel()    //Para que no se pueda seleccionar
+        {@Override
+            public void setSelectionInterval(int index0, int index1) {}
+        });
+        
         listaDatos.setModel(listaFinal);
         
-        listaDatos.setFixedCellHeight(50); //(Distancia vertical entre elementos) Hasta que no se pueda probar, no puedo saber cuanto ajustar el parámetro
+        listaDatos.setFixedCellHeight(20); //(Distancia vertical entre elementos)
     }
 
     public void SetDatosPropuesta(DTOPropuesta almacenDatos)
@@ -60,18 +64,8 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         listaDatos = new javax.swing.JList<>();
         subTituloEtiqueta = new javax.swing.JLabel();
         botonSalir = new javax.swing.JButton();
-        labelTitulo = new javax.swing.JLabel();
-        labDescripcion = new javax.swing.JLabel();
-        labelProp = new javax.swing.JLabel();
-        labelPrecio = new javax.swing.JLabel();
-        labelFecha = new javax.swing.JLabel();
-        labelMonto = new javax.swing.JLabel();
-        labelFechaPubl = new javax.swing.JLabel();
-        labelCat = new javax.swing.JLabel();
-        labelNombreProponente = new javax.swing.JLabel();
         panelDeImagen = new javax.swing.JPanel();
         lel = new javax.swing.JLabel();
-        borrarLuego = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -86,6 +80,7 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        listaDatos.setToolTipText("");
         scrollpanel.setViewportView(listaDatos);
 
         subTituloEtiqueta.setText("Informacón general de la propuesta");
@@ -97,58 +92,33 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
             }
         });
 
-        labelTitulo.setText("Título");
-
-        labDescripcion.setText("Descripción");
-
-        labelProp.setText("Tipo de Propuesta");
-
-        labelPrecio.setText("Precio");
-
-        labelFecha.setText("Fecha");
-
-        labelMonto.setText("Monto a recaudar");
-
-        labelFechaPubl.setText("Fecha de Publicación");
-
-        labelCat.setText("Categoría");
-
-        labelNombreProponente.setText("Proponente");
-
         panelDeImagen.setBackground(new java.awt.Color(153, 255, 153));
 
         lel.setFont(new java.awt.Font("Gayathri Thin", 1, 14)); // NOI18N
         lel.setForeground(new java.awt.Color(0, 0, 0));
-        lel.setText("404_imagen_de_propuesta_not_found_lol");
+        lel.setText("404_imagen_de_propuesta_not_found");
 
         javax.swing.GroupLayout panelDeImagenLayout = new javax.swing.GroupLayout(panelDeImagen);
         panelDeImagen.setLayout(panelDeImagenLayout);
         panelDeImagenLayout.setHorizontalGroup(
             panelDeImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDeImagenLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(158, Short.MAX_VALUE)
                 .addComponent(lel)
                 .addGap(16, 16, 16))
         );
         panelDeImagenLayout.setVerticalGroup(
             panelDeImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDeImagenLayout.createSequentialGroup()
-                .addGap(0, 54, Short.MAX_VALUE)
+                .addGap(0, 70, Short.MAX_VALUE)
                 .addComponent(lel))
         );
-
-        borrarLuego.setText("aun hay que ajustar altura de la Jlist");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(borrarLuego)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonSalir)
-                .addGap(16, 16, 16))
+            .addComponent(panelDeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -156,20 +126,11 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
                         .addComponent(subTituloEtiqueta))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelProp)
-                            .addComponent(labDescripcion)
-                            .addComponent(labelTitulo)
-                            .addComponent(labelPrecio)
-                            .addComponent(labelFecha)
-                            .addComponent(labelMonto)
-                            .addComponent(labelFechaPubl)
-                            .addComponent(labelCat)
-                            .addComponent(labelNombreProponente))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(panelDeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scrollpanel))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonSalir)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,33 +138,12 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(subTituloEtiqueta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelDeImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelTitulo)
-                        .addGap(4, 4, 4)
-                        .addComponent(labDescripcion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelProp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelPrecio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelFecha)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelMonto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelFechaPubl)
-                        .addGap(3, 3, 3)
-                        .addComponent(labelCat)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelNombreProponente))
-                    .addComponent(scrollpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonSalir)
-                    .addComponent(borrarLuego))
-                .addContainerGap())
+                .addComponent(panelDeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(scrollpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonSalir)
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -215,17 +155,7 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel borrarLuego;
     private javax.swing.JButton botonSalir;
-    private javax.swing.JLabel labDescripcion;
-    private javax.swing.JLabel labelCat;
-    private javax.swing.JLabel labelFecha;
-    private javax.swing.JLabel labelFechaPubl;
-    private javax.swing.JLabel labelMonto;
-    private javax.swing.JLabel labelNombreProponente;
-    private javax.swing.JLabel labelPrecio;
-    private javax.swing.JLabel labelProp;
-    private javax.swing.JLabel labelTitulo;
     private javax.swing.JLabel lel;
     private javax.swing.JList<String> listaDatos;
     private javax.swing.JPanel panelDeImagen;
