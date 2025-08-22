@@ -77,7 +77,6 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Consulta Proponente");
         setPreferredSize(new java.awt.Dimension(490, 555));
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N

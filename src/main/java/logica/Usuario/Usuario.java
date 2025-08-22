@@ -89,10 +89,5 @@ public class Usuario {
         String n = prop.
         this.usuarioSeguido.put(n, usu);
     }*/
-
-    public Map<String, Usuario> getUsuarioSeguido() {
-        return usuarioSeguido;
-    }
-    
 }
 

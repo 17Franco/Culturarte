@@ -4,7 +4,6 @@ package logica.Usuario;
 import java.util.HashMap;
 import java.util.Map;
 import logica.DTO.DTFecha;
-import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
 
@@ -65,5 +64,4 @@ public class Proponente extends Usuario{
      public boolean isProponente(){
          return true;
      }
-   
 }
