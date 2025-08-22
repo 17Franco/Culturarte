@@ -46,7 +46,7 @@ public class Propuesta {
         this.cat=cat;
         this.usr=usr;
         this.estadoAct=estadoAct;   
-        this.historialEstados.add(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct));
+        this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!
     }
     public Estado getEstadoAct(){
         return  this.estadoAct;
@@ -102,8 +102,8 @@ public class Propuesta {
     public void setTipo(String tipo) {
         Tipo = tipo;
     }
-    public void setImagne(String Imagen) {
-        Imagen = Imagen;
+    public void setImagne(String imagen) {
+        Imagen = imagen;
     }
     public void setLugar(String lugar) {
         Lugar = lugar;
@@ -121,8 +121,8 @@ public class Propuesta {
         MontoTotal = montoTotal;
     }
 
-    public void setFechaPublicacion(DTFecha FechaPublicacion) {
-        FechaPublicacion = FechaPublicacion;
+    public void setFechaPublicacion(DTFecha _FechaPublicacion) {
+        FechaPublicacion = _FechaPublicacion;
     }
     public void setRetorno(TipoRetorno retorno) {
         Retorno = retorno;
@@ -143,14 +143,6 @@ public class Propuesta {
         return Aporte;
     }
 
-   
-    
-    public void agregarNuevoEstado(DTORegistro_Estado input)
-    {   
-        //Registro_Estados almacen = new Registro_Estados(input.getFecha(),input.getEstados());
-        //historialEstados.add(0,almacen);
-    }
-       
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();

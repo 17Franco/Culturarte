@@ -14,9 +14,6 @@ import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTFecha;
-import logica.Usuario.Proponente;
-import logica.DTO.DTOUsuario;
-import logica.DTO.DTOCategoria;
 import logica._enum.Estado;
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();

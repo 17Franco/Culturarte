@@ -2,7 +2,6 @@ package ui;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
 import logica.DTO.DTOPropuesta;
 import javax.swing.table.DefaultTableModel;
 import java.util.Iterator;
@@ -36,9 +35,10 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
         while(ct.hasNext()) 
         {
             DTOPropuesta nodo = ct.next();
-            
+
             if(nodo.getTitulo().equals(elemento)) 
             {
+                
                 return nodo;   
             }
         }
@@ -55,7 +55,13 @@ public class ListaPropuestasPorEstado extends javax.swing.JInternalFrame {
     {
         String[] c1 = {"Nombre","Descripción"};
         
-        DefaultTableModel tabla = new DefaultTableModel(c1, 0); //Se inicializa directamente
+        DefaultTableModel tabla = new DefaultTableModel(c1, 0) //Se inicializa directamente
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Impide que se pueda editar
+            }
+        };
 
         for(DTOPropuesta ct : lista) //Iteracion para ir ingresando contenido.
         {

@@ -56,20 +56,21 @@ public class ManejadorPropuesta {
         while (ct.hasNext()) 
         {
             Map.Entry<String, Propuesta> entry = ct.next();    //Pasa al siguiente
-            Propuesta punteroV = entry.getValue();
+            Propuesta punteroPropuesta = entry.getValue();
 
             DTOPropuesta almacenTemp = new DTOPropuesta();
 
             if (estadoInput.isEmpty()) //Si no se especifica, se agregan todos.
             {
-                almacenTemp.extraerDatosPropuesta(punteroV);
+                almacenTemp.extraerDatosPropuesta(punteroPropuesta);
                 temp.add(almacenTemp);
             } 
-            else //Si se especifica...
-            {
-                if((punteroV.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
-                {   //Pendiente de revisión hasta que se puedan ingresar un registro_estado a cada propuesta
-                    almacenTemp.extraerDatosPropuesta(punteroV);
+            
+            if (!(estadoInput.isEmpty()))   //Si se especifica estado...
+            { 
+                if((punteroPropuesta.getUltimoEstado().getEstado()) == Estado.valueOf(estadoInput)) //Se compara el enum en la posicion actual con el string que ingresa.
+                {   
+                    almacenTemp.extraerDatosPropuesta(punteroPropuesta);
                     temp.add(almacenTemp);
                 }
             }

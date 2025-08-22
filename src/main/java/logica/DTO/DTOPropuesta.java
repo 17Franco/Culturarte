@@ -1,15 +1,15 @@
 package logica.DTO;
 import java.util.ArrayList;
 import java.util.List;
-import logica.Categoria.Categoria;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
-import logica.Propuesta.Registro_Estado;
-import logica.Usuario.Proponente;
 import logica._enum.Estado;
+import logica.Propuesta.Registro_Estado;
+
+
 
 public class DTOPropuesta {
     
@@ -24,14 +24,14 @@ public class DTOPropuesta {
     private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
     private DTOCategoria cat;
-    private DTOProponente usr;
-    
+    private DTOProponente usr; 
     private Estado EstadoAct;
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
     private List<DTORegistro_Aporte> aporte =new ArrayList<>();
             
     public DTOPropuesta(){}
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente ust,Estado EstadoAct)
+    
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -44,8 +44,15 @@ public class DTOPropuesta {
         this.FechaPublicacion=FechaPublicacion;
         this.Retorno=Retorno;
         this.cat=cat;
-        this.usr=ust;
+        this.usr = usr;
         this.EstadoAct=EstadoAct;
+        
+        for (int i = 0; i < _historialEstados.size(); i++)   //Pasa de Lista Class normal a lista de DTO
+        {
+            historialEstados.add(new DTORegistro_Estado(_historialEstados.get(i).getFechaReg(), _historialEstados.get(i).getEstado()));
+        }
+       
+        
     }
     public Estado getEstado(){
         return EstadoAct;
@@ -83,7 +90,14 @@ public class DTOPropuesta {
     public DTOCategoria getCategoria(){
         return cat;
     }
-    public DTOProponente getProponente(){
+    public DTOProponente getProponente()
+    {
+        if(usr == null) //Control de error, no es reelevante al uso.
+        {   DTFecha a = new DTFecha(30,12,9999);
+            DTOProponente b = new DTOProponente("Error","Error","Error","Error","Error","Error","Error",a,"NO",true);
+           return b;
+        }
+        
         return usr;
     }
     public List<DTORegistro_Estado> getHistorialEstados() {
@@ -146,7 +160,22 @@ public class DTOPropuesta {
         FechaPublicacion = in.getFechaPublicacion();
         Retorno = in.getRetorno();
         cat = in.getCategoria().CrearDT();
-       // historialEstados = in.getHistorialEstados();
+
+        usr = new DTOProponente(in.getProponente().getDireccion(),in.getProponente().getBiografia(),
+                in.getProponente().getWebSite(),
+                in.getProponente().getNickname(),
+                in.getProponente().getNombre(),
+                in.getProponente().getApellido(),
+                in.getProponente().getEmail(),
+                in.getProponente().getFecha(),
+                in.getProponente().getRutaImg(),
+                true);
+        
+        for (int i = 0; i < in.getHistorialEstados().size(); i++) 
+        {
+            historialEstados.add(new DTORegistro_Estado(in.getHistorialEstados().get(i).getFechaReg(), in.getHistorialEstados().get(i).getEstado()));
+        }
+
         EstadoAct = in.getEstadoAct();
     }
     public void setHistorialEstados(DTORegistro_Estado historial) 
@@ -185,6 +214,15 @@ public class DTOPropuesta {
         }
 
         return almacen;
+    }
+    public String nickProponenteToString ()
+    {
+        if(usr == null)
+        {
+            return "NO_USER_(NO_EXISTE)";
+        }
+        
+        return usr.getNickname();
     }
     
     public DTOPropuesta(Propuesta p,DTOProponente proponente){

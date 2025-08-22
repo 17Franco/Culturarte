@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica;
 
 import java.util.ArrayList;
@@ -169,7 +165,7 @@ public class Controller  implements IController {
    
      public List<String> ListaCategoria(){
          List<String> aux2 = new ArrayList<>();
-         for (Categoria c : mCategoria.getCategoria().values()){
+         for (Categoria c : mCategoria.getCategorias().values()){
              aux2.add(c.getNombreCategoria());
          }
              return aux2; 

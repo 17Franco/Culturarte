@@ -19,11 +19,22 @@ public class DTORegistro_Estado
     
     public DTFecha getFechaReg() 
     {
+        if(fechaReg == null)    //No debería pasar
+        {
+            DTFecha a = new DTFecha(30,12,9999);
+            return a;    //Parche temporal
+        }
+        
         return fechaReg;
     }
 
     public Estado getEstado() 
     {
+        if(estado == null)  //No debería pasar, parche para debug sólo
+        {
+            return Estado.CANCELADA;    //Parche temporal
+        }
+        
         return estado;
     }
 
@@ -51,11 +62,22 @@ public class DTORegistro_Estado
     
     public String getEstadoString() //Me sirve más asi para mostrar
     {
+        if (estado == null) //No debería pasar
+        {
+
+            return Estado.CANCELADA.toString();    //Parche temporal
+        }
+        
         return estado.toString();
     }
     
     public String getFechaRegString() //Lo mismo
     {
+        if (fechaReg == null) //No debería pasar
+        {
+            
+            return "31/12/9999 (ERROR)";    //Parche temporal
+        }
         return fechaReg.getDay() + "/" + fechaReg.getMonth() + "/"+ fechaReg.getYear();
     }
     
