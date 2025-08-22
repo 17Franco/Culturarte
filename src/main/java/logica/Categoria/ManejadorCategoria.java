@@ -12,6 +12,25 @@ public class ManejadorCategoria
     private ManejadorCategoria() 
     {
         AlmacenCategorias = new HashMap<String, Categoria>();
+        
+        
+        Categoria arte = new Categoria("Arte");
+        Categoria tecnologia = new Categoria("Tecnología");
+        Categoria musica = new Categoria("Música");
+
+        DTOCategoria dtoSub1 = new DTOCategoria("Pintura", "Arte", null);
+        DTOCategoria dtoSub2 = new DTOCategoria("Escultura", "Arte", null);
+        arte.addSubcategoria(dtoSub1);
+        arte.addSubcategoria(dtoSub2);
+
+        DTOCategoria dtoSub3 = new DTOCategoria("Software", "Tecnología", null);
+        DTOCategoria dtoSub4 = new DTOCategoria("Hardware", "Tecnología", null);
+        tecnologia.addSubcategoria(dtoSub3);
+        tecnologia.addSubcategoria(dtoSub4);
+
+        AlmacenCategorias.put(arte.getNombreCategoria(), arte);
+        AlmacenCategorias.put(tecnologia.getNombreCategoria(), tecnologia);
+        AlmacenCategorias.put(musica.getNombreCategoria(), musica);
     }
     
     public static ManejadorCategoria getInstance() 
@@ -80,7 +99,5 @@ public class ManejadorCategoria
         
         return 0;
     }
-    public Map<String, Categoria> getCategoria() {
-    return AlmacenCategorias;
-    }
+  
 }
