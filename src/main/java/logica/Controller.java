@@ -24,6 +24,7 @@ import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Aporte;
 import logica.DTO.DTORegistro_Estado;
 import logica.Propuesta.Registro_Estado;
+import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
 import logica.Usuario.registroAporte;
 import logica._enum.Estado;
@@ -32,7 +33,7 @@ import logica._enum.Estado;
  * @author fran
  */
 public class Controller  implements IController {
-       private ManejadorUsuario mUsuario=ManejadorUsuario.getinstance();
+       private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
        private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
        private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
        
@@ -63,9 +64,18 @@ public class Controller  implements IController {
                  aux.add(c.getNickname());
             }
          }
-             return aux;    
+        return aux;    
      }
-     
+     @Override
+     public List<String> ListaColaborador(){
+         List<String> aux = new ArrayList<>();
+         for (Usuario c : mUsuario.getUsuarios().values()){
+            if (c instanceof Colaborador){
+                 aux.add(c.getNickname());
+            }
+         }
+        return aux;    
+     }
      
     //devulve un dtoRegistroAPORTE
     public DTORegistro_Aporte getDTOAporte(registroAporte r,String titulo){
@@ -79,7 +89,7 @@ public class Controller  implements IController {
     
     //devuelve un dtyoPropuesta con el historial de estado y aportes Recibido
     public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
-            DTOPropuesta propuesta= new DTOPropuesta(p.getTitulo(),p.getDescripcion(),p.getTipo(),p.getImagen(),p.getLugar(),p.getFecha(),p.getPrecio(),p.getMontoTotal(),p.getFechaPublicacion(),p.getRetorno(),p.getCategoria().CrearDT(),prop,p.getEstadoAct());
+            DTOPropuesta propuesta= new DTOPropuesta(p,prop);
             List<Registro_Estado> r=p.getHistorialEstados();
             List<registroAporte> rA = p.getAporte();
             
@@ -98,7 +108,7 @@ public class Controller  implements IController {
     //me crea un dtoProponente completo incluido las propuestas que el usuario creo
     public DTOProponente getDTOProponente(String nick) { 
            Proponente usr= (Proponente) mUsuario.buscador(nick);
-           DTOProponente resu=new DTOProponente(usr.getDireccion(),usr.getBiografia(),usr.getWebSite(),usr.getNickname(),usr.getNombre(),usr.getApellido(),usr.getEmail(),usr.getFecha(),usr.getRutaImg(),true);
+           DTOProponente resu=new DTOProponente(usr);
           
            Map<String,Propuesta> p=usr.getPropCreadas();
            
@@ -108,12 +118,24 @@ public class Controller  implements IController {
            
            return resu;
     }
+     public DTOColaborador getDTOColaborador(String nick) { 
+           Colaborador usr= (Colaborador) mUsuario.buscador(nick);
+           DTOColaborador resu=new DTOColaborador(usr);
+          
+          List<registroAporte> registro=usr.getColaboraciones();
+           
+          for(registroAporte r:registro){
+              resu.setColaboracion(getDTOAporte(r,r.getColabPropuesta().getTitulo()));
+          }
+           
+           return resu;
+    }
 
     
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
-        ((Proponente) mUsuario.buscador(usr)).setPropCreada(propuesta);
+        ((Proponente) mUsuario.buscador(usr)).setPropuestaCreada(propuesta);
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override

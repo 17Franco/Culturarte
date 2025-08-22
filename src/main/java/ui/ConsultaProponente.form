@@ -87,7 +87,7 @@
               <Component id="lblPropuestas" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="190" max="-2" attributes="0"/>
-              <EmptySpace pref="70" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -140,7 +140,7 @@
                   <Data value="null"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="MontoRecaudado" type="java.lang.Object">
+                <Column editable="true" title="Recaudacion" type="java.lang.Object">
                   <Data value=""/>
                   <Data value=""/>
                   <Data value=""/>

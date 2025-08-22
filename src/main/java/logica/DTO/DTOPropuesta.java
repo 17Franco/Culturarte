@@ -187,4 +187,20 @@ public class DTOPropuesta {
         return almacen;
     }
     
+    public DTOPropuesta(Propuesta p,DTOProponente proponente){
+         this.Titulo=p.getTitulo();
+        this.Descripcion=p.getDescripcion();
+        this.Tipo=p.getTipo();
+        this.Imagen=p.getImagen();
+        this.Lugar=p.getLugar();
+        this.Fecha=p.getFecha();
+        this.Precio=p.getPrecio();
+        this.MontoTotal=p.getMontoTotal();
+        this.FechaPublicacion=p.getFechaPublicacion();
+        this.Retorno=p.getRetorno();
+        this.cat=p.getCategoria().CrearDT();
+        this.usr=proponente;
+        this.EstadoAct=p.getEstadoAct();
+    }
+    
 }

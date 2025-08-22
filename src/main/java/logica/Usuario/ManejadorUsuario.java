@@ -10,43 +10,35 @@ import logica.DTO.DTOUsuario;
 
 public class ManejadorUsuario {
     private Map<String,Usuario> usuarios;
+    
     private static ManejadorUsuario instancia = null;
 
     private ManejadorUsuario() {
         usuarios = new HashMap<String, Usuario>();
     }
     
-    public static ManejadorUsuario getinstance() {
+    public static ManejadorUsuario getInstance() {
         if (instancia == null)
             instancia = new ManejadorUsuario();
         return instancia;
     }
     
     public void addProponente(DTOProponente u){
-
-        Proponente p=new Proponente(u.getDireccion(),u.getBiografia(),u.getWebSite(),u.getNickname(),u.getNombre(),u.getApellido(),u.getEmail(),u.getFecha(),u.getRutaImg());
+        Proponente p=new Proponente(u);
         usuarios.put(u.getNickname(),p);
-       
+    }
+   
+     public void addColaborador(DTOColaborador u){
+        Colaborador p=new Colaborador(u);
+        usuarios.put(u.getNickname(),p);
+    }
+     
+    public boolean existe(String nick){
+      return usuarios.containsKey(nick);
     }
     
-     public void addColaborador(DTOColaborador u){
-
-        Colaborador p=new Colaborador(u.getNickname(),u.getNombre(),u.getApellido(),u.getEmail(),u.getFecha(),u.getRutaImg());
-        usuarios.put(u.getNickname(),p);
-       
-    }
-    public boolean existe(String nick){
-        Usuario u = usuarios.get(nick); // devuelve null si no existe
-        if (u != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
      public Usuario buscador(String nick){
-        Usuario u = usuarios.get(nick); 
-        
-        return u;
+        return usuarios.get(nick);
     }
     public boolean emailUsado(String email){
         for (Usuario u : usuarios.values()) {
@@ -56,6 +48,7 @@ public class ManejadorUsuario {
         }
         return false;
     }
+    
     public Map<String, Usuario> getUsuarios() {
     return usuarios;
     }

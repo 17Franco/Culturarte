@@ -8,13 +8,11 @@ import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Aporte;
-import logica.DTO.DTORegistro_Estado;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.Estado;
@@ -103,7 +101,7 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
                 {null, "", null, null}
             },
             new String [] {
-                "Nombre", "MontoRecaudado", "Usuarios", "Estado"
+                "Nombre", "Recaudacion", "Usuarios", "Estado"
             }
         ));
         jScrollPane1.setViewportView(Propuestas);
@@ -201,7 +199,7 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
                 .addComponent(lblPropuestas)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

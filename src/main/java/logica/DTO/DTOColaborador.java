@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import logica.Usuario.Colaborador;
 
 
 /**
@@ -20,6 +21,11 @@ public class DTOColaborador extends DTOUsuario{
     public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
         super(nickname, nombre, apellido, email, fecha, rutaImg,isProponente);
     }
-    
-    
+    public void setColaboracion(DTORegistro_Aporte r){
+            colaboraciones.add(r);
+    }
+      public DTOColaborador(Colaborador c){
+        super(c.getNickname(), c.getNombre(), c.getApellido(),c.getEmail(), c.getFecha(), c.getRutaImg(),false);
+        
+    }
 }

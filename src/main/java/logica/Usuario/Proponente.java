@@ -4,6 +4,7 @@ package logica.Usuario;
 import java.util.HashMap;
 import java.util.Map;
 import logica.DTO.DTFecha;
+import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
 
 
@@ -23,8 +24,6 @@ public class Proponente extends Usuario{
         this.webSite = webSite;
     }
 
-  
-
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -36,7 +35,10 @@ public class Proponente extends Usuario{
     public void setWebSite(String webSite) {
         this.webSite = webSite;
     }
-
+    public void setPropuestaCreada(Propuesta p){
+        propCreadas.put(p.getTitulo(), p);
+    }
+    
     public String getBiografia() {
         return biografia;
     }
@@ -52,9 +54,10 @@ public class Proponente extends Usuario{
     public Map<String, Propuesta> getPropCreadas() {
         return propCreadas;
     }
-    public void setPropCreada(Propuesta p){
-        propCreadas.put(p.getTitulo(), p);
+    public Proponente(DTOProponente dto){
+        super(dto.getNickname(), dto.getNombre(), dto.getApellido(),dto.getEmail(), dto.getFecha(), dto.getRutaImg());
+        this.direccion = dto.getDireccion();
+        this.biografia = dto.getBiografia();
+        this.webSite = dto.getWebSite();
     }
-    
-    
 }

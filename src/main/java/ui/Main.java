@@ -128,7 +128,7 @@ public class Main extends javax.swing.JFrame {
         jMenu2.removeAll();
 
 
-        String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Listar Usuarios" };
+        String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Consulta Colaborador" };
 
         for (String op : opcionesUsuario) {
             JMenuItem item = new JMenuItem(op);
@@ -149,7 +149,14 @@ public class Main extends javax.swing.JFrame {
                         fondo.add(ConsultaP);
                         ConsultaP.setSize(fondo.getSize());
                         ConsultaP.setVisible(true);
-                    }                    
+                    }
+                    case "Consulta Colaborador" ->
+                    {
+                        ConsultaColaborador ConsultaC=new ConsultaColaborador();
+                        fondo.add(ConsultaC);
+                        ConsultaC.setSize(fondo.getSize());
+                        ConsultaC.setVisible(true);
+                    }   
                 }
             });
              jMenu2.add(item);
