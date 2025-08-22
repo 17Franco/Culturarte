@@ -2,7 +2,7 @@ package ui;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Estado;
 import javax.swing.DefaultListModel;
-
+import javax.swing.ImageIcon;
 /**
  *
  * @author klaas
@@ -10,16 +10,16 @@ import javax.swing.DefaultListModel;
 public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
 
     DTOPropuesta datos = new DTOPropuesta();
- 
-    public MostrarDatosPropuesta() {
+    
+    public MostrarDatosPropuesta() 
+    {
         initComponents();
-        
+       
     }
     
     public void inicializarLista() 
     {
         DefaultListModel<String> listaFinal = new DefaultListModel<>();
-        
         DTORegistro_Estado ultimoEstado = datos.getUltimoEstado();
         
         listaFinal.addElement("Título:                                 " + datos.getTitulo());
@@ -48,8 +48,22 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
 
     public void SetDatosPropuesta(DTOPropuesta almacenDatos)
     {
-        datos = almacenDatos;   //datos seleccionados que vienen de la UI anterior se almacenan
+        datos = almacenDatos;                                   //datos seleccionados que vienen de la UI anterior se almacenan
+        
+        if(almacenDatos.getImagen() != null)                 //Si existe una imagen ingresada...    
+        {   //Si alguien modifica el ingreso de la direccion de la imagen esto va a fallar.
+            setImagen(almacenDatos.getImagen());        //Se ingresa en la etiqueta
+        }
+            
         inicializarLista();
+    }
+    
+    public void setImagen(String dirImagen) 
+    {
+        ImageIcon bannerPropuesta = new ImageIcon(dirImagen);
+        
+        lel.setIcon(bannerPropuesta);   //Se ingresa la imagen pelada (capaz que hay que controlar el tamaño)
+        lel.setText("");                //Quitar el mensaje de que no hay imagen
     }
     /**
      * This method is called from within the constructor to initialize the form.

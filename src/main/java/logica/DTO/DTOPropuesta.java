@@ -51,7 +51,7 @@ public class DTOPropuesta {
         {
             historialEstados.add(new DTORegistro_Estado(_historialEstados.get(i).getFechaReg(), _historialEstados.get(i).getEstado()));
         }
-        //historialEstados = _historialEstados;
+       
         
     }
     public Estado getEstado(){
