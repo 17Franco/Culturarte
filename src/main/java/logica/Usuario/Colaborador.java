@@ -30,4 +30,8 @@ public class Colaborador extends Usuario{
         super(dto.getNickname(), dto.getNombre(), dto.getApellido(),dto.getEmail(), dto.getFecha(), dto.getRutaImg());
         
     }
+        
+     public boolean isColaborador(){
+         return true;
+     }
 }

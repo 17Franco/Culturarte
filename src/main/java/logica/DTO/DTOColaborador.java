@@ -18,14 +18,17 @@ import logica.Usuario.Colaborador;
 public class DTOColaborador extends DTOUsuario{
     private List<DTORegistro_Aporte> colaboraciones= new ArrayList<>();
 
-    public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
-        super(nickname, nombre, apellido, email, fecha, rutaImg,isProponente);
+    public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+        super(nickname, nombre, apellido, email, fecha, rutaImg);
     }
     public void setColaboracion(DTORegistro_Aporte r){
             colaboraciones.add(r);
     }
       public DTOColaborador(Colaborador c){
-        super(c.getNickname(), c.getNombre(), c.getApellido(),c.getEmail(), c.getFecha(), c.getRutaImg(),false);
-        
+        super(c.getNickname(), c.getNombre(), c.getApellido(),c.getEmail(), c.getFecha(), c.getRutaImg());  
     }
+      
+     public boolean isColaborador(){
+         return true;
+     }
 }

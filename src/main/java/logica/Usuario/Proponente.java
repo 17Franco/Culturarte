@@ -60,4 +60,8 @@ public class Proponente extends Usuario{
         this.biografia = dto.getBiografia();
         this.webSite = dto.getWebSite();
     }
+    
+     public boolean isProponente(){
+         return true;
+     }
 }

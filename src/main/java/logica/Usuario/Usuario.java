@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import logica.DTO.DTFecha;
-import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
 
 
@@ -54,10 +53,6 @@ public class Usuario {
         this.rutaImg = rutaImg;
     }
 
-    public String getRutaImg() {
-        return rutaImg;
-    }
-    
     public String getNickname() {
         return nickname;
     }
@@ -77,9 +72,15 @@ public class Usuario {
     public String getEmail() {
         return email;
     }
-    public String toString() {
-        return getNickname();
+    
+     public String getRutaImg() {
+        return rutaImg;
     }
+     
+    /*public String toString() {///?????
+        return getNickname();
+    }*/
+    
     public void seguir(Usuario usu){
         String n = usu.getNickname();
         this.usuarioSeguido.put(n, usu);

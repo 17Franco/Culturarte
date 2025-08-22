@@ -16,18 +16,17 @@ public class DTOUsuario {
     private String rutaImg;
     private List<String> usuarioSeguido=new ArrayList<>();
     private List<String> propFavorita=new ArrayList<>();
-    private boolean isProponente;
 
     
     
-    public DTOUsuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
+    public DTOUsuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.fecha = fecha;
         this.rutaImg = rutaImg;
-        this.isProponente=isProponente;
+        
     }
 
     public String getNickname() {
@@ -45,9 +44,7 @@ public class DTOUsuario {
     public String getEmail() {
         return email;
     }
-    public boolean isProponente() {
-        return isProponente;
-    }
+   
 
 
     public DTFecha getFecha() {

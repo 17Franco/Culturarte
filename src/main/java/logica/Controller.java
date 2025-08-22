@@ -36,7 +36,7 @@ public class Controller  implements IController {
        
     @Override
     public void altaUsuario(DTOUsuario usu) {
-        if(usu.isProponente()){
+        if(usu instanceof DTOProponente){
             mUsuario.addProponente((DTOProponente) usu);
         }else{
             mUsuario.addColaborador((DTOColaborador) usu);

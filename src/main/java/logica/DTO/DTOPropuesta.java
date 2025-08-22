@@ -94,7 +94,7 @@ public class DTOPropuesta {
     {
         if(usr == null) //Control de error, no es reelevante al uso.
         {   DTFecha a = new DTFecha(30,12,9999);
-            DTOProponente b = new DTOProponente("Error","Error","Error","Error","Error","Error","Error",a,"NO",true);
+            DTOProponente b = new DTOProponente("Error","Error","Error","Error","Error","Error","Error",a,"NO");
            return b;
         }
         
@@ -168,8 +168,7 @@ public class DTOPropuesta {
                 in.getProponente().getApellido(),
                 in.getProponente().getEmail(),
                 in.getProponente().getFecha(),
-                in.getProponente().getRutaImg(),
-                true);
+                in.getProponente().getRutaImg());
         
         for (int i = 0; i < in.getHistorialEstados().size(); i++) 
         {

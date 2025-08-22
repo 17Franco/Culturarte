@@ -14,8 +14,8 @@ public class DTOProponente extends DTOUsuario{
     private String webSite;
     private Map<String,DTOPropuesta> propCreadas=new HashMap<>();
 
-    public DTOProponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg,boolean isProponente) {
-        super(nickname, nombre, apellido, email, fecha, rutaImg,isProponente);
+    public DTOProponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+        super(nickname, nombre, apellido, email, fecha, rutaImg);
         this.direccion = direccion;
         this.biografia = biografia;
         this.webSite = webSite;
@@ -41,10 +41,14 @@ public class DTOProponente extends DTOUsuario{
         return propCreadas;
     }
     public DTOProponente(Proponente p){
-        super(p.getNickname(), p.getNombre(), p.getApellido(),p.getEmail(), p.getFecha(), p.getRutaImg(),true);
+        super(p.getNickname(), p.getNombre(), p.getApellido(),p.getEmail(), p.getFecha(), p.getRutaImg());
         this.direccion = p.getDireccion();
         this.biografia = p.getBiografia();
         this.webSite = p.getWebSite();
+    }
+        
+    public boolean isProponente(){
+        return true;
     }
     
 }

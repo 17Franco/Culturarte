@@ -383,10 +383,10 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
                     rutaImagenTemp=Utilities.copiarImagen(rutaImagenTemp,nickName);
                     DTFecha f=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
                     if(proponente.isSelected()){
-                        DTOProponente p=new DTOProponente(direccion,biografia,web,nickName,nom,apelli,email,f,rutaImagenTemp,true);
+                        DTOProponente p=new DTOProponente(direccion,biografia,web,nickName,nom,apelli,email,f,rutaImagenTemp);
                         controller.altaUsuario(p);
                     }else{
-                         DTOColaborador c=new DTOColaborador(nickName,nom,apelli,email,f,rutaImagenTemp,false);
+                         DTOColaborador c=new DTOColaborador(nickName,nom,apelli,email,f,rutaImagenTemp);
                         controller.altaUsuario(c);  
                     }   
                     JOptionPane.showMessageDialog(this, "Usuario registrado con exito");
