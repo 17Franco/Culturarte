@@ -91,7 +91,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +189,10 @@ public class Main extends javax.swing.JFrame {
                             }
                             case "Modificar Propuesta" -> 
                             {
-                                //Pendiente
+                                ModificarDatosPropuesta MProp = new ModificarDatosPropuesta(); 
+                                fondo.add(MProp);
+                                MProp.setSize(fondo.getSize());
+                                MProp.setVisible(true);
                             }
                             case "Listar Propuesta" -> 
                             {

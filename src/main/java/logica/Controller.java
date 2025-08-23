@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -170,6 +171,20 @@ public class Controller  implements IController {
          }
              return aux2; 
      }
-
-       
+     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,String precio, String montoTotal, TipoRetorno retorno,String categoria, String usuarios, Estado estado) {  
+        Propuesta propuestaSeleccionada = null;
+        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
+        if (propuestaSeleccionada != null){
+            propuestaSeleccionada.setDescripcion(descripcion);
+            propuestaSeleccionada.setTipo(tipo);
+            propuestaSeleccionada.setImagne(rutaImagen);
+            propuestaSeleccionada.setLugar(lugar);
+            propuestaSeleccionada.setFecha(fechaEvento);
+            propuestaSeleccionada.setPrecio(precio);
+            propuestaSeleccionada.setMontoTotal(montoTotal);
+            propuestaSeleccionada.setRetorno(retorno);
+            propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
+            propuestaSeleccionada.setEstadoAct(estado); //este no lo actualiza reviso despues ,pero esta llegando el dato que quiero para cambiar
+        }
+     }    
 }

@@ -43,7 +43,12 @@ public class ManejadorPropuesta {
         }
         
     }
-        
+    public Propuesta buscarPropuestaPorTitulo(String titulo) {
+        if (propuestasp.containsKey(titulo)) {
+            return propuestasp.get(titulo);
+        }
+        return null;
+    }  
     public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) 
     {
         //La variable Estado permite elegir entre obtener un set por estado o todos los que haya. 

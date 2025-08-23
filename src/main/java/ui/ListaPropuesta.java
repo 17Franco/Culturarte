@@ -6,7 +6,6 @@ import logica.IController;
 import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
 
 public class ListaPropuesta extends javax.swing.JInternalFrame {
 
@@ -22,36 +21,7 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
             modeloLista.addElement(p.getTitulo());
         }
         ListaPropuesta.setModel(modeloLista);
-        ListaPropuesta.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) 
-        {
-            
-            if (e.getClickCount() == 2) 
-            {
-                String tituloSeleccionado = ListaPropuesta.getSelectedValue();
-                Set<DTOPropuesta> propuestas = controller.obtenerPropuestas("");
-                DTOPropuesta propuestaSeleccionada = null;
 
-                for (DTOPropuesta p : propuestas) {
-                    if (p.getTitulo().equals(tituloSeleccionado)) {
-                        propuestaSeleccionada = p;
-                        break;
-                    }
-                }
-                if (propuestaSeleccionada != null) {
-                    MostrarDatosPropuesta mostrar = new MostrarDatosPropuesta();           
-                    mostrar.SetDatosPropuesta(propuestaSeleccionada);                               
-                    JDesktopPane fond = getDesktopPane();
-                    if (fond != null) {
-                        fond.add(mostrar);
-                        mostrar.setSize(fond.getSize());
-                        mostrar.setVisible(true);
-                    }
-                }
-            }
-        }
-    });
     }
     @SuppressWarnings("unchecked")
 
@@ -104,7 +74,7 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(117, 117, 117)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,7 +83,7 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jLabel1.getAccessibleContext().setAccessibleDescription("");
@@ -130,7 +100,29 @@ public class ListaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formFocusLost
 
     private void ListaPropuestaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaPropuestaMouseClicked
+           if (evt.getClickCount() == 2) 
+            {
+                String tituloSeleccionado = ListaPropuesta.getSelectedValue();
+                Set<DTOPropuesta> propuestas = controller.obtenerPropuestas("");
+                DTOPropuesta propuestaSeleccionada = null;
 
+                for (DTOPropuesta p : propuestas) {
+                    if (p.getTitulo().equals(tituloSeleccionado)) {
+                        propuestaSeleccionada = p;
+                        break;
+                    }
+                }
+                if (propuestaSeleccionada != null) {
+                    MostrarDatosPropuesta mostrar = new MostrarDatosPropuesta();           
+                    mostrar.SetDatosPropuesta(propuestaSeleccionada);                               
+                    JDesktopPane fond = getDesktopPane();
+                    if (fond != null) {
+                        fond.add(mostrar);
+                        mostrar.setSize(fond.getSize());
+                        mostrar.setVisible(true);
+                    }
+                }
+            }
     }//GEN-LAST:event_ListaPropuestaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

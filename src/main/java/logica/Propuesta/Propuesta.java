@@ -133,7 +133,9 @@ public class Propuesta {
     public void setProponente(Proponente Propo){
         usr = Propo;
     }
-
+    public void setEstadoAct(Estado Estad){
+        estadoAct = Estad;
+    }
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {
         historialEstados = _historial;
