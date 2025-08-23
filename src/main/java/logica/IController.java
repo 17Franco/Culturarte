@@ -26,12 +26,19 @@ public interface IController {
     
     boolean existe(String nick);
     
+   
+    
     List<String> ListaProponentes();
+    
     List<String> ListaColaborador();
+    
+  
    
     DTOProponente getDTOProponente(String nick);
     
     DTOColaborador getDTOColaborador(String nick);
+    
+   
     //Fin Usuario
     
     //Propuestas

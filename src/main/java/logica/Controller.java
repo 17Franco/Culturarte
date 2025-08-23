@@ -51,6 +51,7 @@ public class Controller  implements IController {
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
+ 
     
     @Override
      public List<String> ListaProponentes(){
@@ -72,8 +73,11 @@ public class Controller  implements IController {
          }
         return aux;    
      }
+       
+
+
      
-    //devulve un dtoRegistroAPORTE
+    // Funciones que devuelven Distintos DTO 
     public DTORegistro_Aporte getDTOAporte(registroAporte r,String titulo){
         return new DTORegistro_Aporte(r.getMoto(),r.getRetorno(),r.getFecha(),titulo,r.getColaborador().getNickname());
     }
