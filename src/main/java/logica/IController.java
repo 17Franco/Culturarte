@@ -26,7 +26,7 @@ public interface IController {
     
     boolean existe(String nick);
     
-   
+    List<String> ListaUsuarios();
     
     List<String> ListaProponentes();
     
@@ -34,11 +34,13 @@ public interface IController {
     
   
    
+    List<String>ListaSeguidosPorUsuario(String nick);
+    
     DTOProponente getDTOProponente(String nick);
     
     DTOColaborador getDTOColaborador(String nick);
     
-   
+    boolean seguir(String nick1,String nick2);
     //Fin Usuario
     
     //Propuestas

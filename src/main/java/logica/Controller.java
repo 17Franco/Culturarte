@@ -29,11 +29,11 @@ import logica._enum.Estado;
  * @author fran
  */
 public class Controller  implements IController {
-       private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
-       private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
-       private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
+    private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
+    private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
+    private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
        
-       
+    //Usuarios
     @Override
     public void altaUsuario(DTOUsuario usu) {
         if(usu instanceof DTOProponente){
@@ -43,16 +43,24 @@ public class Controller  implements IController {
         }
     }
     
-     public boolean existe(String nick){
-            return mUsuario.existe(nick);
-    }
-     
     @Override
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
  
     
+     public boolean existe(String nick){
+            return mUsuario.existe(nick);
+    }
+    
+     @Override
+     public List<String> ListaUsuarios(){
+         List<String> aux = new ArrayList<>();
+         for (Usuario c : mUsuario.getUsuarios().values()){
+                 aux.add(c.getNickname());
+         }
+        return aux;    
+     }
     @Override
      public List<String> ListaProponentes(){
          List<String> aux = new ArrayList<>();
@@ -73,21 +81,43 @@ public class Controller  implements IController {
          }
         return aux;    
      }
-       
+     @Override
+     public List<String> ListaSeguidosPorUsuario(String nick){
+         List<String> aux = new ArrayList<>();
+         Usuario usuario = mUsuario.buscador(nick);
+         if (usuario != null && usuario.getUsuarioSeguido() != null) {
+            for(Usuario u:usuario.getUsuarioSeguido().values()){
+                aux.add(u.getNickname());
+            }
+         }
+         return aux;
+     }
+     
+     @Override
+     public boolean seguir(String nick1,String nick2){
+        Usuario usuario1 = mUsuario.buscador(nick1);
+        Usuario usuario2 = mUsuario.buscador(nick2);
+        
+        if (usuario1 == null || usuario2 == null) return false;
+        if (nick1.equals(nick2)) return false;
+        if (usuario1.getUsuarioSeguido().containsKey(nick2)) return false;
 
-
+        usuario1.seguir(usuario2);
+        return true;
+         
+     }
      
     // Funciones que devuelven Distintos DTO 
     public DTORegistro_Aporte getDTOAporte(registroAporte r,String titulo){
         return new DTORegistro_Aporte(r.getMoto(),r.getRetorno(),r.getFecha(),titulo,r.getColaborador().getNickname());
     }
     
-    //Devuelve un dto de estado
+  
     public DTORegistro_Estado getDTORegistroEstado(Registro_Estado r){
         return new DTORegistro_Estado(r.getFechaReg(),r.getEstado());
     }
     
-    //devuelve un dtyoPropuesta con el historial de estado y aportes Recibido
+    //devuelve un dtoPropuesta con el historial de estado y aportes Recibido
     public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
             DTOPropuesta propuesta= new DTOPropuesta(p,prop);
             List<Registro_Estado> r=p.getHistorialEstados();
@@ -130,8 +160,9 @@ public class Controller  implements IController {
            
            return resu;
     }
-
+     //Fin de Devolucion de DTO
     
+     //Propuesta
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
@@ -146,8 +177,9 @@ public class Controller  implements IController {
       public boolean existeProp(String Titulo){
          return (mPropuesta.existeProp(Titulo));
     }
-  
-    
+      //Fin Propuesta
+      
+      //Categoria
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
     {
@@ -174,6 +206,6 @@ public class Controller  implements IController {
          }
              return aux2; 
      }
-
+     //Fin Categoria
        
 }
