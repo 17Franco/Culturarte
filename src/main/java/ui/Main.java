@@ -128,7 +128,7 @@ public class Main extends javax.swing.JFrame {
         jMenu2.removeAll();
 
 
-        String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Consulta Colaborador","Seguir Usuario" };
+        String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Consulta Colaborador","Seguir Usuario","Dejar de seguir usuario"};
 
         for (String op : opcionesUsuario) {
             JMenuItem item = new JMenuItem(op);
@@ -163,7 +163,14 @@ public class Main extends javax.swing.JFrame {
                         fondo.add(SeguirU);
                         SeguirU.setSize(fondo.getSize());
                         SeguirU.setVisible(true);
-                    }  
+                    }
+                    case "Dejar de seguir usuario" ->
+                    {
+                        DejarDeSeguirUsuario unfollow = new DejarDeSeguirUsuario();
+                        fondo.add(unfollow);
+                        unfollow.setSize(fondo.getSize());
+                        unfollow.setVisible(true);
+                    }
                 }
             });
              jMenu2.add(item);
