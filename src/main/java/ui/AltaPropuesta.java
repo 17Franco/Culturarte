@@ -477,15 +477,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_mActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        TituloField.setText("");
-        Descripcion_Field.setText("");
-        Tipo_Field.setText("");
-        Lugar_Field.setText("");
-        Precio_Field.setText("");
-        Monto_Field.setText("");
-        d.setText("");
-        m.setText("");
-        a.setText("");
+        this.dispose();
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void Retorno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Retorno1ActionPerformed

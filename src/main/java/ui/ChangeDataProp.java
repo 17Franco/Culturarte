@@ -9,6 +9,7 @@ import java.util.List;
 import logica.DTO.DTOPropuesta;
 import logica._enum.TipoRetorno;
 import java.io.File;
+import java.time.LocalDate;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -16,6 +17,7 @@ import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTFecha;
+import logica.DTO.DTORegistro_Estado;
 import logica._enum.Estado;
 
 /**
@@ -182,6 +184,11 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         });
 
         Cerrar.setText("Cerrar");
+        Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarActionPerformed(evt);
+            }
+        });
 
         Modificar.setText("Modificar");
         Modificar.addActionListener(new java.awt.event.ActionListener() {
@@ -327,7 +334,7 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
- 
+
         String auxTitulo = datos.getTitulo();
         String auxUsuario = datos.getProponente().getNickname();
         String descripcion = DescripcionField.getText();
@@ -336,12 +343,12 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         String dia = d.getText();
         String montoTotal = MontoTotalField.getText();
         TipoRetorno retorno = (TipoRetorno) TipoRetorno1.getSelectedItem();
-        Estado newEstado = (Estado) EstadoM.getSelectedItem();
         String precio = PrecioEntradaField.getText();
         String auxCat = (String) CateM.getSelectedItem();
         String mes =m.getText();
         String anio =a.getText();
-         
+        Estado newEstado = (Estado) EstadoM.getSelectedItem();
+        
         List<JTextField> campos = Arrays.asList(DescripcionField,TipoField,LugarField,PrecioEntradaField,MontoTotalField,d,m,a);
 
             if(validarCampo(campos)){
@@ -409,6 +416,10 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     private void aActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aActionPerformed
         
     }//GEN-LAST:event_aActionPerformed
+
+    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_CerrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

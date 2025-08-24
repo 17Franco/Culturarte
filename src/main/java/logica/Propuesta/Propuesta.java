@@ -156,4 +156,9 @@ public class Propuesta {
         
         return almacen;
     }
+    public void addEstHistorial(Estado aux1){
+        
+        Registro_Estado nuevoReg = new Registro_Estado(new DTFecha(LocalDate.now()),aux1);
+        this.historialEstados.add(0,nuevoReg);
+    } 
 }

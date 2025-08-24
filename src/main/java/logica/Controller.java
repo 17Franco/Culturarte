@@ -1,4 +1,5 @@
 package logica;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -223,7 +224,8 @@ public class Controller  implements IController {
             propuestaSeleccionada.setMontoTotal(montoTotal);
             propuestaSeleccionada.setRetorno(retorno);
             propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
-            propuestaSeleccionada.setEstadoAct(estado); //este no lo actualiza reviso despues ,pero esta llegando el dato que quiero para cambiar
+            propuestaSeleccionada.setEstadoAct(estado);
+            propuestaSeleccionada.addEstHistorial(estado);
         }
      }
 

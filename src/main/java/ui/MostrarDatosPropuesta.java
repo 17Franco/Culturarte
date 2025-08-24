@@ -80,6 +80,8 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         botonSalir = new javax.swing.JButton();
         panelDeImagen = new javax.swing.JPanel();
         lel = new javax.swing.JLabel();
+        TotalColaboradores = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -128,21 +130,34 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
                 .addComponent(lel))
         );
 
+        TotalColaboradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalColaboradoresActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Colabroadores");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelDeImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(subTituloEtiqueta))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(subTituloEtiqueta)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(scrollpanel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(TotalColaboradores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(botonSalir)))
                 .addContainerGap())
         );
@@ -156,7 +171,10 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(scrollpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(botonSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonSalir)
+                    .addComponent(TotalColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(14, 14, 14))
         );
 
@@ -167,9 +185,20 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         this.dispose(); //Finaliza caso de uso
     }//GEN-LAST:event_botonSalirActionPerformed
 
+    private void TotalColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalColaboradoresActionPerformed
+     /*   
+        TotalColaboradores.removeAllItems();            //aca lleno el combobox con los colaboradores de la lista de colaboradores (aporte)
+        for (String u : datos..ListaColaboradores()) {
+            TotalColaboradores.addItem(u);
+        }
+     */
+    }//GEN-LAST:event_TotalColaboradoresActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> TotalColaboradores;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lel;
     private javax.swing.JList<String> listaDatos;
     private javax.swing.JPanel panelDeImagen;
