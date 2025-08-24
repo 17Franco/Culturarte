@@ -1,7 +1,6 @@
 package logica;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,6 +106,12 @@ public class Controller  implements IController {
         return true;
          
      }
+     
+    @Override
+    public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow) 
+    {
+       return (mUsuario.buscador(usuarioActual).unfollow(mUsuario.buscador(usuarioToUnfollow)));   
+    }
      
     // Funciones que devuelven Distintos DTO 
     public DTORegistro_Aporte getDTOAporte(registroAporte r,String titulo){
@@ -222,5 +227,6 @@ public class Controller  implements IController {
             propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
             propuestaSeleccionada.setEstadoAct(estado); //este no lo actualiza reviso despues ,pero esta llegando el dato que quiero para cambiar
         }
-     }    
+     }
+
 }
