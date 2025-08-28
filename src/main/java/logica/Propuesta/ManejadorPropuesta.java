@@ -28,6 +28,7 @@ public class ManejadorPropuesta {
             instancia = new ManejadorPropuesta();
         return instancia;
     }
+    
     public void nuevaPropuesta(Propuesta p) {
         if (p != null) 
         {
@@ -77,6 +78,10 @@ public class ManejadorPropuesta {
         }
 
         return temp;
+    }
+    
+    public Propuesta getPropuesta(String titulo){
+        return propuestasp.get(titulo); 
     }
         
         

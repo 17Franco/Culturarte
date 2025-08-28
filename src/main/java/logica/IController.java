@@ -47,6 +47,8 @@ public interface IController {
     boolean existeProp(String Titulo);
     
     Set<DTOPropuesta> obtenerPropuestas(String estado);
+    
+    String creadorPropuesta(String titulo);
     //Fin Propuesta
     
     //Categoria

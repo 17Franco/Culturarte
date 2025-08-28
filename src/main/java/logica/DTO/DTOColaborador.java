@@ -31,4 +31,9 @@ public class DTOColaborador extends DTOUsuario{
      public boolean isColaborador(){
          return true;
      }
+
+    public List<DTORegistro_Aporte> getColaboraciones() {
+        return colaboraciones;
+    }
+     
 }

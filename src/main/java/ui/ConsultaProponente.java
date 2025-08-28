@@ -32,6 +32,7 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         
         
         Proponentes.addActionListener(e -> {
+            limpiador();
             // filtrar cambios válidos
             String item = (String) Proponentes.getSelectedItem();
             if(item != null && controller.existe(item)){
@@ -205,6 +206,20 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void limpiador(){
+        lblNick.setText("");
+        lblNombre.setText("");
+        lblApellido.setText("");
+        lblFecha.setText("");
+        lblEmail.setText("");
+        lblImagen.setIcon(null);
+        lblDireccion.setText("");
+        lblBiografia.setText("");
+        lblWeb.setText("");
+        //DefaultTableModel modelo = (DefaultTableModel) Propuestas.getModel();
+       // modelo.setRowCount(0);
+    }
+    
     private int montoRecaudado(List<DTORegistro_Aporte> aportes){
         int aux=0;
         if(aportes.isEmpty()){
@@ -282,10 +297,7 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
 
 
     private void ProponentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProponentesActionPerformed
-         /* if(controller.existe((String) Proponentes.getSelectedItem())){
-               DTOProponente usr=controller.getDTOProponente((String) Proponentes.getSelectedItem());
-              mostrarPerfilProponente(usr);
-          }*/
+
        
     }//GEN-LAST:event_ProponentesActionPerformed
 

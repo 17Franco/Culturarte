@@ -1,6 +1,8 @@
 package ui;
 
 
+import java.beans.PropertyVetoException;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenuItem;
 
 public class Main extends javax.swing.JFrame {
@@ -13,7 +15,8 @@ public class Main extends javax.swing.JFrame {
         jMenu2.setVisible(false);
         setLocationRelativeTo(null);
     }
-           
+       
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,6 +107,33 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+        private void abrirInternalFrame(Class<? extends JInternalFrame> claseFrame) {
+        // Buscar si ya existe una instancia abierta
+        for (JInternalFrame frame : fondo.getAllFrames()) {//recorre cada internalframe abierto
+            if (claseFrame.isInstance(frame)) { // pregunta si es el que quiero crear 
+                try {
+                    frame.setIcon(false);  //si entra y esta minimizado lo maximiza 
+                    frame.setSelected(true);// y lo selecciona ("le da el foco")
+                } catch (PropertyVetoException ex) { //captura un error 
+                    ex.printStackTrace();
+                }
+                frame.toFront();//si esta atras de otros internal lo pasa para el rente 
+                return;
+            }
+        }
+
+        // Si no existe crea el internal frame que le pasamos por parametro
+        try {
+            JInternalFrame ventana = claseFrame.getDeclaredConstructor().newInstance();
+            fondo.add(ventana); // lo anade al desktop pane
+            ventana.setSize(fondo.getSize()); // le da el tamano del desktop pane
+            ventana.setVisible(true); 
+        } catch (Exception e) { // captura error en caso de que no pueda crearlo 
+            e.printStackTrace();
+        }
+    }
+
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         
         jMenu2.setText("Categoria");
@@ -138,31 +168,31 @@ public class Main extends javax.swing.JFrame {
                 switch (op) {
                     case "Alta Usuario" -> 
                     {
-                        AltaUsuario Alta=new AltaUsuario();
-                        fondo.add(Alta);
-                        Alta.setSize(fondo.getSize());
-                        Alta.setVisible(true);
+                        abrirInternalFrame(AltaUsuario.class);
+                       // fondo.add(Alta);
+                        //Alta.setSize(fondo.getSize());
+                        //Alta.setVisible(true);
                     }
                     case "Consulta Proponente" ->
                     {
-                        ConsultaProponente ConsultaP=new ConsultaProponente();
-                        fondo.add(ConsultaP);
-                        ConsultaP.setSize(fondo.getSize());
-                        ConsultaP.setVisible(true);
+                         abrirInternalFrame(ConsultaProponente.class);
+                       // fondo.add(ConsultaP);
+                        //ConsultaP.setSize(fondo.getSize());
+                        //ConsultaP.setVisible(true);
                     }
                     case "Consulta Colaborador" ->
                     {
-                        ConsultaColaborador ConsultaC=new ConsultaColaborador();
-                        fondo.add(ConsultaC);
-                        ConsultaC.setSize(fondo.getSize());
-                        ConsultaC.setVisible(true);
+                       abrirInternalFrame(ConsultaColaborador.class);
+                        //fondo.add(ConsultaC);
+                        //ConsultaC.setSize(fondo.getSize());
+                        //ConsultaC.setVisible(true);
                     }  
                     case "Seguir Usuario" ->
                     {
-                        SeguirUsuario SeguirU=new SeguirUsuario();
-                        fondo.add(SeguirU);
-                        SeguirU.setSize(fondo.getSize());
-                        SeguirU.setVisible(true);
+                        abrirInternalFrame(SeguirUsuario.class);
+                        //fondo.add(SeguirU);
+                        //SeguirU.setSize(fondo.getSize());
+                        //SeguirU.setVisible(true);
                     }  
                 }
             });

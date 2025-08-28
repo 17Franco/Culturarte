@@ -2,9 +2,12 @@ package ui;
 
 
 import java.awt.Image;
+import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
+import logica.DTO.DTORegistro_Aporte;
 import logica.Fabrica;
 import logica.IController;
 
@@ -42,6 +45,11 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         lblEmail.setText("");
         lblImagen.setIcon(null);
     }
+    
+    private void mostrarColaboraciones(String tituloP,String NickProponente,int monto, String estado){
+    
+    
+    }
     private void mostrarPerfilColaborador(DTOColaborador usr) {
         
         lblNick.setText(usr.getNickname());
@@ -53,6 +61,28 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         ImageIcon icon=new ImageIcon(usr.getRutaImg());
         Image img =icon.getImage().getScaledInstance(lblImagen.getWidth(),lblImagen.getHeight(), Image.SCALE_SMOOTH);
         lblImagen.setIcon(new ImageIcon(img));
+        
+        String[] columnas = {"TítuloPropuesta", "Creador", "Recaudacion", "Estado"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+        Colaboraciones.setModel(modelo);
+        
+        List<DTORegistro_Aporte> registros=usr.getColaboraciones();
+        
+        
+        for(DTORegistro_Aporte r:registros){
+            //titulo propuesta r.getPropuestaFinanciada();  aca lo tengo
+            String titulo= r.getPropuestaFinanciada();
+            //necesito nombre proponente que la creo
+            String nombreProponente=controller.creadorPropuesta(titulo);
+            //necesito monto recuadado por la propuesta 
+            
+            //y nesesito el estado de la propuesta 
+            
+            
+        }
+        //String nombrePropuesta=usr.
+        
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -74,7 +104,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         Proponentes = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Propuestas = new javax.swing.JTable();
+        Colaboraciones = new javax.swing.JTable();
         lblImagen = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblPropuestas = new javax.swing.JLabel();
@@ -113,7 +143,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
 
         Proponentes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        Propuestas.setModel(new javax.swing.table.DefaultTableModel(
+        Colaboraciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", "", null, null},
                 {null, "", null, null},
@@ -125,10 +155,10 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
                 {null, "", null, null}
             },
             new String [] {
-                "TituloPropuesta", "Proponente", "Recaudacion", "Estado"
+                "TituloPropuesta", "Creador", "Recaudacion", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(Propuestas);
+        jScrollPane1.setViewportView(Colaboraciones);
 
         lblImagen.setText("No File");
         lblImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -200,8 +230,8 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Colaboraciones;
     private javax.swing.JComboBox<String> Proponentes;
-    private javax.swing.JTable Propuestas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;

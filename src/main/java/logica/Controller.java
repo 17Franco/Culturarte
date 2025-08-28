@@ -174,6 +174,11 @@ public class Controller  implements IController {
       public boolean existeProp(String Titulo){
          return (mPropuesta.existeProp(Titulo));
     }
+      
+      @Override
+      public String creadorPropuesta(String titulo){
+          return mPropuesta.getPropuesta(titulo).getProponente().getNickname();
+      }
       //Fin Propuesta
       
       //Categoria
