@@ -10,7 +10,11 @@ import logica.DTO.DTOPropuesta;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
+import logica.Categoria.Categoria;
+import logica.DTO.DTFecha;
+import logica.Usuario.Proponente;
 import logica._enum.Estado;
+import logica._enum.TipoRetorno;
 
 
 
@@ -19,9 +23,6 @@ public class ManejadorPropuesta {
     
     private static ManejadorPropuesta instancia = null;
 
-    private ManejadorPropuesta() {
-        propuestasp = new HashMap<String, Propuesta>();
-    }
     
     public static ManejadorPropuesta getinstance() {
         if (instancia == null)
@@ -84,5 +85,32 @@ public class ManejadorPropuesta {
         return temp;
     }
         
-        
+
+    private void addDummyEntry(int i) {
+        Propuesta p1 = new Propuesta();
+        p1.setTitulo("titulo" + i);
+        p1.setCategoria(new Categoria("cat" + i));
+        p1.setDescripcion("desc"+i);
+        p1.setFecha(new DTFecha(1,2,3)); //
+        p1.setFechaPublicacion(new DTFecha(1,3,4));
+        p1.setImagne("img"+i);
+        p1.setLugar("lugar"+i);
+        p1.setRetorno(TipoRetorno.EntradaGratis);
+        p1.setTipo("tipo"+i);
+        p1.setPrecio("precio"+i);
+        p1.setMontoTotal("monto"+i);
+        Proponente prop1 = new Proponente();
+        prop1.setNickname("nick" + i);
+        p1.setProponente(prop1);
+        propuestasp.put(p1.getTitulo(), p1);
+    }
+    // esto esta hecho asi para tener datos para cargar en el formulario , para ahcer pruebas rapidas sin tener que setear todo de cero en cada ocasion  
+    private ManejadorPropuesta() {
+        propuestasp = new HashMap<String, Propuesta>();
+        for (int i = 0; i < 10; i++){
+            this.addDummyEntry(i);
+        }
+    }
+    
+    
 }

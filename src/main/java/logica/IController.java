@@ -13,6 +13,7 @@ import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTFecha;
+import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOUsuario;
 import logica._enum.Estado;
 import logica._enum.TipoRetorno;
@@ -61,4 +62,14 @@ public interface IController {
   
     List<String> ListaCategoria();
     //Fin Categoria
+        //cu Registrar colaboracion a Propuesta
+    Set<DTOPropuesta> ListarPropuestas();
+    void AltaColaboracion(DTOColaboracion colaboracion); 
+    
+    // cu Consulta de colaboracion a Propuesta
+    Set<DTOColaborador> ListarColaboradres();
+    Set<DTOColaboracion> ListarColaboracionesDeColaborador(String nickname);
+    
+    // cu cancelar Colaboracion a Propuesta
+    void CancelarColaboracion(DTOColaboracion colaboracion);
 }

@@ -239,5 +239,7 @@ public class DTOPropuesta {
         this.usr=proponente;
         this.EstadoAct=p.getEstadoAct();
     }
+
+   
     
 }

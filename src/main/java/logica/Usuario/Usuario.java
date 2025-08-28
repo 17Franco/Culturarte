@@ -77,7 +77,9 @@ public class Usuario {
      public String getRutaImg() {
         return rutaImg;
     }
-     
+    public boolean isColaborador() {
+        return false;
+    };
     /*public String toString() {///?????
         return getNickname();
     }*/

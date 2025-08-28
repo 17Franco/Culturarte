@@ -2,7 +2,9 @@
 package logica.Usuario;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -64,5 +66,17 @@ public class ManejadorUsuario {
     
     public Map<String, Usuario> getUsuarios() {
     return usuarios;
+    }
+    public Set<DTOColaborador> listColaboradores(){
+        Set<DTOColaborador> results = new HashSet<DTOColaborador>();
+        for (Usuario u : usuarios.values()) {
+            if (u.isColaborador()) {
+                DTOColaborador dtoColaborador = new DTOColaborador(
+                        u.getNickname(), u.getNombre(), u.getApellido(), u.getEmail(), 
+                        u.getFecha(), u.getRutaImg());// si borro , !u.isColaborador() queda bien
+                results.add(dtoColaborador);
+            }
+        }
+        return results;
     }
 }

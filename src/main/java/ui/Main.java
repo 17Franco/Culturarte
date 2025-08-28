@@ -1,5 +1,14 @@
 package ui;
-
+import java.util.ArrayList;
+import java.util.List;
+import logica.DTO.DTOPropuesta;
+import logica.DTO.DTOCategoria;
+import javax.swing.JMenuItem;
+import java.util.Map;
+import ui.AltaPropuesta;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
 
 import javax.swing.JMenuItem;
 
@@ -36,11 +45,11 @@ public class Main extends javax.swing.JFrame {
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+            .addGap(0, 531, Short.MAX_VALUE)
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGap(0, 585, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Sistema");
@@ -91,14 +100,14 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         pack();
@@ -233,14 +242,47 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        jMenu2.setText("Colaboracion");
-        jMenu2.removeAll();
-        jMenu2.add(new JMenuItem ("Colaborar a Propuesta"));
-        jMenu2.add(new JMenuItem("Consultar Propuesta"));
-        jMenu2.add(new JMenuItem("Cancelar Colaboracion"));
-        jMenu2.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    
+    jMenu2.setText("Colaboracion");
+    jMenu2.removeAll();
+        String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Propuesta", "Cancelar Colaboracion" };
 
+
+  for (String op : opcionesColaboracion) {
+        JMenuItem menuItem = new JMenuItem(op);
+
+        menuItem.addActionListener(e -> {
+            switch (op) {
+                case "Colaborar a Propuesta" -> {
+                    RegistrarColaboracionAPropuesta frame = new RegistrarColaboracionAPropuesta();
+                    fondo.add(frame);
+                    frame.setSize(fondo.getSize());
+                    frame.setVisible(true);
+                    break;
+                }
+                case "Consultar Propuesta" -> {
+                    
+                    // ConsultarPropuesta frame = new ConsultarPropuesta();
+                    // fondo.add(frame); frame.setSize(fondo.getSize()); frame.setVisible(true);
+                     break;
+                }
+                case "Cancelar Colaboracion" -> {
+                    // Aquí iría tu lógica para cancelar colaboración
+                    JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
+                     break;
+                }
+            }
+        });
+
+        jMenu2.add(menuItem);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    jMenu2.setVisible(true);
+    
+    /**
+     *
+     * @param args
+     */
+    }
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
