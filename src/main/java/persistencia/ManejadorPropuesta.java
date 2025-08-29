@@ -2,15 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package logica.Propuesta;
+package persistencia;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import logica.DTO.DTOPropuesta;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import logica.Categoria.Categoria;
+import logica.Colaboracion.Colaboracion;
+import logica.DTO.DTFecha;
+import logica.Propuesta.Propuesta;
+import logica.Usuario.Proponente;
 import logica._enum.Estado;
+import logica._enum.TipoRetorno;
 
 
 
@@ -19,15 +27,13 @@ public class ManejadorPropuesta {
     
     private static ManejadorPropuesta instancia = null;
 
-    private ManejadorPropuesta() {
-        propuestasp = new HashMap<String, Propuesta>();
-    }
     
     public static ManejadorPropuesta getinstance() {
         if (instancia == null)
             instancia = new ManejadorPropuesta();
         return instancia;
     }
+    
     public void nuevaPropuesta(Propuesta p) {
         if (p != null) 
         {
@@ -43,12 +49,30 @@ public class ManejadorPropuesta {
         }
         
     }
+        
+        public int getMontoRecaudado(String titulo){
+            Propuesta p=buscarPropuestaPorTitulo(titulo);
+            int recaudado=0;
+            for(Colaboracion c: p.getAporte()){
+                recaudado=recaudado+c.getMonto();
+            }
+            return recaudado;
+        }
     public Propuesta buscarPropuestaPorTitulo(String titulo) {
         if (propuestasp.containsKey(titulo)) {
             return propuestasp.get(titulo);
         }
         return null;
     }  
+    
+    public List<String> listColaboradores(String titulo){
+       Propuesta p=buscarPropuestaPorTitulo(titulo);
+       List<String> colab=new ArrayList<>();
+       for(Colaboracion c: p.getAporte()){
+           colab.add(c.getColaborador().getNickname());
+       }
+       return colab;
+    }
     public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) 
     {
         //La variable Estado permite elegir entre obtener un set por estado o todos los que haya. 
@@ -83,6 +107,37 @@ public class ManejadorPropuesta {
 
         return temp;
     }
+    
+    public Propuesta getPropuesta(String titulo){
+        return propuestasp.get(titulo); 
+    }
         
-        
+
+    private void addDummyEntry(int i) {
+        Propuesta p1 = new Propuesta();
+        p1.setTitulo("titulo" + i);
+        p1.setCategoria(new Categoria("cat" + i));
+        p1.setDescripcion("desc"+i);
+        p1.setFecha(new DTFecha(1,2,3)); //
+        p1.setFechaPublicacion(new DTFecha(1,3,4));
+        p1.setImagne("img"+i);
+        p1.setLugar("lugar"+i);
+        p1.setRetorno(TipoRetorno.EntradaGratis);
+        p1.setTipo("tipo"+i);
+        p1.setPrecio(i);
+        p1.setMontoTotal(i);
+        Proponente prop1 = new Proponente();
+        prop1.setNickname("nick" + i);
+        p1.setProponente(prop1);
+        propuestasp.put(p1.getTitulo(), p1);
+    }
+    // esto esta hecho asi para tener datos para cargar en el formulario , para ahcer pruebas rapidas sin tener que setear todo de cero en cada ocasion  
+    private ManejadorPropuesta() {
+        propuestasp = new HashMap<String, Propuesta>();
+        for (int i = 0; i < 10; i++){
+            this.addDummyEntry(i);
+        }
+    }
+    
+    
 }

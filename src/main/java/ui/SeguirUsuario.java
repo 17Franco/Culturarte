@@ -63,6 +63,10 @@ public class SeguirUsuario extends javax.swing.JInternalFrame {
         jcbUsuario1 = new javax.swing.JComboBox<>();
         btnSeguir = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Seguir Usuario");
 
         jLabel1.setText("Usuario");
@@ -129,6 +133,8 @@ public class SeguirUsuario extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo realizar la acción");
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un usuario");
         }
 
     }//GEN-LAST:event_btnSeguirActionPerformed

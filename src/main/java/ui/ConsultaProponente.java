@@ -1,6 +1,7 @@
 
 package ui;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,11 +9,13 @@ import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
-import logica.DTO.DTORegistro_Aporte;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.Estado;
@@ -32,6 +35,7 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         
         
         Proponentes.addActionListener(e -> {
+            limpiador();
             // filtrar cambios válidos
             String item = (String) Proponentes.getSelectedItem();
             if(item != null && controller.existe(item)){
@@ -205,48 +209,51 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private int montoRecaudado(List<DTORegistro_Aporte> aportes){
-        int aux=0;
-        if(aportes.isEmpty()){
-           for(DTORegistro_Aporte a: aportes){
-               aux=aux+a.getMonto();
-           }
-        }
-        return aux;
+    private void limpiador(){
+        lblNick.setText("");
+        lblNombre.setText("");
+        lblApellido.setText("");
+        lblFecha.setText("");
+        lblEmail.setText("");
+        lblImagen.setIcon(null);
+        lblDireccion.setText("");
+        lblBiografia.setText("");
+        lblWeb.setText("");
+        //DefaultTableModel modelo = (DefaultTableModel) Propuestas.getModel();
+       // modelo.setRowCount(0);
     }
     
-    private List<String> colaboracionPropuesta(List<DTORegistro_Aporte> aportes){
-        
-        if(aportes.isEmpty()){
-            List<String> aux=new ArrayList<>();
-           for(DTORegistro_Aporte a: aportes){
-               aux.add(a.getColaborador());
-           }
-           return aux;
+   
+   private void mostrarPropuestas(String titulo, int monto, Estado estado, List<String> usuarios, DefaultTableModel modelo) {
+
+    modelo.addRow(new Object[]{titulo, monto, "Colaboradores", estado});
+
+    // Columna 2Usuarios con editor tipo combo
+    TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
+
+    // solo muestra el texto seleccionado
+    columnaUsuarios.setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        JLabel label = new JLabel();
+        label.setOpaque(true);
+        if (isSelected) label.setBackground(table.getSelectionBackground());
+        if (value != null) label.setText(value.toString());
+        return label;
+    });
+
+    // crear combo con los items correctos
+    columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox<>()) {
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value,
+                                                     boolean isSelected, int row, int column) {
+            JComboBox<String> combo = new JComboBox<>();
+            for (String u : usuarios) combo.addItem(u);
+            if (value != null) combo.setSelectedItem(value);
+            return combo;
         }
-        return null;
-    }
-    private void mostrarPropuestas(String titulo, int monto, Estado estado, List<String> usuarios,DefaultTableModel modelo){
-        
-        
-        
-        JComboBox<String> comboUsuarios =new JComboBox<>();
-        
-         for (String u : usuarios) {
-           comboUsuarios.addItem(u); 
-        }
-         
-         modelo.addRow(new Object[]{titulo, monto, comboUsuarios, estado});
-         
-        // Configurar la columna "Usuarios" para que renderice y edite con JComboBox
-        TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
-            columnaUsuarios.setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
-            return (JComboBox<String>) value; // dibuja el combo directamente
-        });
-        columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox<>()));
-       
-         
-    }
+    });
+    Propuestas.setRowHeight(20);
+}
+
     private void mostrarPerfilProponente(DTOProponente usr) {
         
          
@@ -274,18 +281,15 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         }
         for(DTOPropuesta p: propuestas){
             //System.out.println("jhola");
-            List<String> colaboradores=colaboracionPropuesta(p.getAporte());
-            int monto=montoRecaudado(p.getAporte());
+            List<String> colaboradores=controller.colaboradoresAPropuesta(p.getTitulo());
+            int monto=controller.getMontoRecaudado(p.getTitulo());
             mostrarPropuestas(p.getTitulo(),monto,p.getEstado(),colaboradores,modelo);
         }
     }
 
 
     private void ProponentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProponentesActionPerformed
-         /* if(controller.existe((String) Proponentes.getSelectedItem())){
-               DTOProponente usr=controller.getDTOProponente((String) Proponentes.getSelectedItem());
-              mostrarPerfilProponente(usr);
-          }*/
+
        
     }//GEN-LAST:event_ProponentesActionPerformed
 

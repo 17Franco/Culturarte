@@ -1,12 +1,20 @@
 
-package logica.Usuario;
+package persistencia;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTFecha;
+import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
-import logica.DTO.DTOUsuario;
+import logica.Usuario.Colaborador;
+import logica.Usuario.Proponente;
+import logica.Usuario.Usuario;
 
 
 
@@ -63,6 +71,41 @@ public class ManejadorUsuario {
     }
     
     public Map<String, Usuario> getUsuarios() {
-    return usuarios;
+        return usuarios;
+    }
+    
+    public Set<DTOColaborador> listColaboradores(){
+        Set<DTOColaborador> results = new HashSet<DTOColaborador>();
+        for (Usuario u : usuarios.values()) {
+            if (u.isColaborador()) {
+                DTOColaborador dtoColaborador = new DTOColaborador(
+                        u.getNickname(), u.getNombre(), u.getApellido(), u.getEmail(), 
+                        u.getFecha(), u.getRutaImg());// si borro , !u.isColaborador() queda bien
+                results.add(dtoColaborador);
+            }
+        }
+        return results;
+    }
+    
+    
+    public boolean existeColaboracion(String colaborador, String titulo){
+        Colaborador c=(Colaborador) buscador(colaborador);
+        for (Colaboracion colab : c.getColaboraciones()) {
+            if (colab.getPropuesta().getTitulo().equals(titulo)) {
+                return true; 
+            }
+        }
+        return false; 
+    }
+    
+    public List<DTOColaboracion> getDTOColaboraciones(String nick){
+        Colaborador c=(Colaborador) buscador(nick);
+        List<DTOColaboracion> resu=new ArrayList<>();
+                
+        for(Colaboracion colab: c.getColaboraciones()){
+            DTOColaboracion DTOColab = new DTOColaboracion(colab);
+            resu.add(DTOColab);
+        }
+        return resu;
     }
 }

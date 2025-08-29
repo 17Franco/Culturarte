@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTFecha;
+
 import logica.DTO.DTOColaborador;
 
 public class Colaborador extends Usuario{
-    private List<registroAporte> colaboraciones= new ArrayList<>();
+    private List<Colaboracion> colaboraciones= new ArrayList<>();
 
     public Colaborador() {
     }
@@ -18,11 +20,11 @@ public class Colaborador extends Usuario{
         super(nickname, nombre, apellido, email, fecha, rutaImg);
     }
 
-    public List<registroAporte> getColaboraciones() {
+    public List<Colaboracion> getColaboraciones() {
         return colaboraciones;
     }
 
-    public void setColaboraciones(registroAporte r){
+    public void setColaboraciones(Colaboracion r){
         colaboraciones.add(r);
     }
     

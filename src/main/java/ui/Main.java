@@ -1,6 +1,17 @@
 package ui;
+import java.util.ArrayList;
+import java.util.List;
+import logica.DTO.DTOPropuesta;
+import logica.DTO.DTOCategoria;
+import javax.swing.JMenuItem;
+import java.util.Map;
+import ui.AltaPropuesta;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
 
-
+import java.beans.PropertyVetoException;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenuItem;
 
 public class Main extends javax.swing.JFrame {
@@ -13,7 +24,8 @@ public class Main extends javax.swing.JFrame {
         jMenu2.setVisible(false);
         setLocationRelativeTo(null);
     }
-           
+       
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -40,7 +52,7 @@ public class Main extends javax.swing.JFrame {
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGap(0, 558, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Sistema");
@@ -91,18 +103,45 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+
+        private void abrirInternalFrame(Class<? extends JInternalFrame> claseFrame) {
+        // Buscar si ya existe una instancia abierta
+        for (JInternalFrame frame : fondo.getAllFrames()) {//recorre cada internalframe abierto
+            if (claseFrame.isInstance(frame)) { // pregunta si es el que quiero crear 
+                try {
+                    frame.setIcon(false);  //si entra y esta minimizado lo maximiza 
+                    frame.setSelected(true);// y lo selecciona ("le da el foco")
+                } catch (PropertyVetoException ex) { //captura un error 
+                    ex.printStackTrace();
+                }
+                frame.toFront();//si esta atras de otros internal lo pasa para el rente 
+                return;
+            }
+        }
+
+        // Si no existe crea el internal frame que le pasamos por parametro
+        try {
+            JInternalFrame ventana = claseFrame.getDeclaredConstructor().newInstance();
+            fondo.add(ventana); // lo anade al desktop pane
+            ventana.setSize(fondo.getSize()); // le da el tamano del desktop pane
+            ventana.setVisible(true); 
+        } catch (Exception e) { // captura error en caso de que no pueda crearlo 
+            e.printStackTrace();
+        }
+    }
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         
@@ -138,39 +177,32 @@ public class Main extends javax.swing.JFrame {
                 switch (op) {
                     case "Alta Usuario" -> 
                     {
-                        AltaUsuario Alta=new AltaUsuario();
-                        fondo.add(Alta);
-                        Alta.setSize(fondo.getSize());
-                        Alta.setVisible(true);
+                        abrirInternalFrame(AltaUsuario.class);
+                       // fondo.add(Alta);
+                        //Alta.setSize(fondo.getSize());
+                        //Alta.setVisible(true);
                     }
                     case "Consulta Proponente" ->
                     {
-                        ConsultaProponente ConsultaP=new ConsultaProponente();
-                        fondo.add(ConsultaP);
-                        ConsultaP.setSize(fondo.getSize());
-                        ConsultaP.setVisible(true);
+                         abrirInternalFrame(ConsultaProponente.class);
+                       // fondo.add(ConsultaP);
+                        //ConsultaP.setSize(fondo.getSize());
+                        //ConsultaP.setVisible(true);
                     }
                     case "Consulta Colaborador" ->
                     {
-                        ConsultaColaborador ConsultaC=new ConsultaColaborador();
-                        fondo.add(ConsultaC);
-                        ConsultaC.setSize(fondo.getSize());
-                        ConsultaC.setVisible(true);
+                       abrirInternalFrame(ConsultaColaborador.class);
+                        //fondo.add(ConsultaC);
+                        //ConsultaC.setSize(fondo.getSize());
+                        //ConsultaC.setVisible(true);
                     }  
                     case "Seguir Usuario" ->
                     {
-                        SeguirUsuario SeguirU=new SeguirUsuario();
-                        fondo.add(SeguirU);
-                        SeguirU.setSize(fondo.getSize());
-                        SeguirU.setVisible(true);
-                    }
-                    case "Dejar de seguir usuario" ->
-                    {
-                        DejarDeSeguirUsuario unfollow = new DejarDeSeguirUsuario();
-                        fondo.add(unfollow);
-                        unfollow.setSize(fondo.getSize());
-                        unfollow.setVisible(true);
-                    }
+                        abrirInternalFrame(SeguirUsuario.class);
+                        //fondo.add(SeguirU);
+                        //SeguirU.setSize(fondo.getSize());
+                        //SeguirU.setVisible(true);
+                    }  
                 }
             });
              jMenu2.add(item);
@@ -233,14 +265,47 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        jMenu2.setText("Colaboracion");
-        jMenu2.removeAll();
-        jMenu2.add(new JMenuItem ("Colaborar a Propuesta"));
-        jMenu2.add(new JMenuItem("Consultar Propuesta"));
-        jMenu2.add(new JMenuItem("Cancelar Colaboracion"));
-        jMenu2.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    
+    jMenu2.setText("Colaboracion");
+    jMenu2.removeAll();
+        String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Propuesta", "Cancelar Colaboracion" };
 
+
+  for (String op : opcionesColaboracion) {
+        JMenuItem menuItem = new JMenuItem(op);
+
+        menuItem.addActionListener(e -> {
+            switch (op) {
+                case "Colaborar a Propuesta" -> {
+                    AltaColaboracion frame = new AltaColaboracion();
+                    fondo.add(frame);
+                    frame.setSize(fondo.getSize());
+                    frame.setVisible(true);
+                    break;
+                }
+                case "Consultar Propuesta" -> {
+                    
+                    // ConsultarPropuesta frame = new ConsultarPropuesta();
+                    // fondo.add(frame); frame.setSize(fondo.getSize()); frame.setVisible(true);
+                     break;
+                }
+                case "Cancelar Colaboracion" -> {
+                    // Aquí iría tu lógica para cancelar colaboración
+                    JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
+                     break;
+                }
+            }
+        });
+
+        jMenu2.add(menuItem);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    jMenu2.setVisible(true);
+    
+    /**
+     *
+     * @param args
+     */
+    }
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));

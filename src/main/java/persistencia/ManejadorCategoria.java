@@ -1,7 +1,8 @@
-package logica.Categoria;
+package persistencia;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
 import java.util.Map;
+import logica.Categoria.Categoria;
 import logica.Categoria.Categoria;
 
 public class ManejadorCategoria 

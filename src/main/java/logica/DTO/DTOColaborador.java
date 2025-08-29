@@ -11,17 +11,14 @@ import java.util.Map;
 import logica.Usuario.Colaborador;
 
 
-/**
- *
- * @author fran
- */
+
 public class DTOColaborador extends DTOUsuario{
-    private List<DTORegistro_Aporte> colaboraciones= new ArrayList<>();
+    private List<DTOColaboracion> colaboraciones= new ArrayList<>();
 
     public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
         super(nickname, nombre, apellido, email, fecha, rutaImg);
     }
-    public void setColaboracion(DTORegistro_Aporte r){
+    public void setColaboracion(DTOColaboracion r){
             colaboraciones.add(r);
     }
       public DTOColaborador(Colaborador c){
@@ -31,4 +28,9 @@ public class DTOColaborador extends DTOUsuario{
      public boolean isColaborador(){
          return true;
      }
+
+    public List<DTOColaboracion> getColaboraciones() {
+        return colaboraciones;
+    }
+     
 }

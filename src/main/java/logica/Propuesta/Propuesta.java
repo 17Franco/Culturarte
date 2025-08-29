@@ -7,8 +7,8 @@ import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
+import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTORegistro_Estado;
-import logica.Usuario.registroAporte;
 import logica._enum.Estado;
 
 
@@ -20,17 +20,17 @@ public class Propuesta {
     private String Imagen;
     private String Lugar;
     private DTFecha Fecha;
-    private String Precio;
-    private String MontoTotal;
+    private int Precio; //tambien debe ser int 
+    private int MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
     private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
     private Categoria cat;
     private Proponente usr;
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
-    private List<registroAporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
+    private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -44,8 +44,7 @@ public class Propuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
-        this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!
-    //  this.Aporte.add(new registroAporte(monto,retorno,(new DTFecha(LocalDate.now())),propustacolaborada,colaborador));    
+        this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!  
     }
     public  String getTitulo() {
         return Titulo;
@@ -65,10 +64,10 @@ public class Propuesta {
     public  DTFecha getFecha() {
         return Fecha;
     }
-    public String getPrecio() {
+    public int getPrecio() {
         return Precio;
     }
-    public String getMontoTotal() {
+    public int getMontoTotal() {
         return MontoTotal;
     }
     public DTFecha getFechaPublicacion() {
@@ -86,9 +85,6 @@ public class Propuesta {
     public List<Registro_Estado> getHistorialEstados() 
     {
         return historialEstados;
-    }
-    public List<registroAporte> getAporte() {
-        return Aporte;
     }
     public void setTitulo(String titulo) {
         Titulo = titulo;
@@ -111,11 +107,11 @@ public class Propuesta {
         Fecha = fecha;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(int precio) {
         Precio = precio;
     }
 
-    public void setMontoTotal(String montoTotal) {
+    public void setMontoTotal(int montoTotal) {
         MontoTotal = montoTotal;
     }
 
@@ -135,6 +131,13 @@ public class Propuesta {
     {
         historialEstados = _historial;
     }
+
+    public List<Colaboracion> getAporte() {
+        return Aporte;
+    }
+    public void setColaboracion(Colaboracion c){
+        Aporte.add(c);
+    }
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();
@@ -148,8 +151,5 @@ public class Propuesta {
     public void addEstHistorial(Estado aux1){     
         Registro_Estado nuevoReg = new Registro_Estado(new DTFecha(LocalDate.now()),aux1);
         this.historialEstados.add(0,nuevoReg);
-    } 
-    public void addAporteHistorial(registroAporte aux2){     
-        this.Aporte.add(aux2);
     } 
 }

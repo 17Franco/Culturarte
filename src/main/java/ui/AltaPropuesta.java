@@ -396,8 +396,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         String descripcion = Descripcion_Field.getText();
         String tipo = Tipo_Field.getText();
         String lugar = Lugar_Field.getText();
-        String precio = Precio_Field.getText();
-        String montoTotal = Monto_Field.getText();
+        int precio = Integer.parseInt(Precio_Field.getText());
+        int montoTotal = Integer.parseInt(Monto_Field.getText());
         String dia = d.getText(); 
         String mes =m.getText(); 
         String anio =a.getText();
