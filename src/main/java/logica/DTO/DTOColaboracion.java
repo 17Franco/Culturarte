@@ -8,7 +8,7 @@ import logica._enum.TipoRetorno;
 
 
 public class DTOColaboracion {
-      private TipoRetorno tipoRetorno;
+        private TipoRetorno tipoRetorno;
 
         private int monto;
 
@@ -34,7 +34,7 @@ public class DTOColaboracion {
         }
         return this.creado.equals(obj.creado);
     }
-
+    public DTOColaboracion(){}
     public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, DTFecha creado) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;

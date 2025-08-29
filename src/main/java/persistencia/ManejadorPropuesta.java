@@ -124,8 +124,8 @@ public class ManejadorPropuesta {
         p1.setLugar("lugar"+i);
         p1.setRetorno(TipoRetorno.EntradaGratis);
         p1.setTipo("tipo"+i);
-        p1.setPrecio("precio"+i);
-        p1.setMontoTotal("monto"+i);
+        p1.setPrecio(i);
+        p1.setMontoTotal(i);
         Proponente prop1 = new Proponente();
         prop1.setNickname("nick" + i);
         p1.setProponente(prop1);

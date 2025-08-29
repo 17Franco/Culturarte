@@ -341,9 +341,9 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         String tipo = TipoField.getText();
         String lugar = LugarField.getText();
         String dia = d.getText();
-        String montoTotal = MontoTotalField.getText();
+        int precio = Integer.parseInt(PrecioEntradaField.getText());
+        int montoTotal = Integer.parseInt(MontoTotalField.getText());
         TipoRetorno retorno = (TipoRetorno) TipoRetorno1.getSelectedItem();
-        String precio = PrecioEntradaField.getText();
         String auxCat = (String) CateM.getSelectedItem();
         String mes =m.getText();
         String anio =a.getText();

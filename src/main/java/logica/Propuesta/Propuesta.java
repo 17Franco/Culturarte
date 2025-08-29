@@ -20,18 +20,17 @@ public class Propuesta {
     private String Imagen;
     private String Lugar;
     private DTFecha Fecha;
-    private String Precio; //tambien debe ser int 
-    private String MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
+    private int Precio; //tambien debe ser int 
+    private int MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
     private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
     private Categoria cat;
     private Proponente usr;
-    private Estado estadoAct; 
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
     private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -45,11 +44,7 @@ public class Propuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
-        this.estadoAct=estadoAct;   
-        this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!
-    }
-    public Estado getEstadoAct(){
-        return  this.estadoAct;
+        this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!  
     }
     public  String getTitulo() {
         return Titulo;
@@ -69,10 +64,10 @@ public class Propuesta {
     public  DTFecha getFecha() {
         return Fecha;
     }
-    public String getPrecio() {
+    public int getPrecio() {
         return Precio;
     }
-    public String getMontoTotal() {
+    public int getMontoTotal() {
         return MontoTotal;
     }
     public DTFecha getFechaPublicacion() {
@@ -94,7 +89,6 @@ public class Propuesta {
     public void setTitulo(String titulo) {
         Titulo = titulo;
     }
-
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
     }
@@ -113,11 +107,11 @@ public class Propuesta {
         Fecha = fecha;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(int precio) {
         Precio = precio;
     }
 
-    public void setMontoTotal(String montoTotal) {
+    public void setMontoTotal(int montoTotal) {
         MontoTotal = montoTotal;
     }
 
@@ -132,9 +126,6 @@ public class Propuesta {
     }
     public void setProponente(Proponente Propo){
         usr = Propo;
-    }
-    public void setEstadoAct(Estado Estad){
-        estadoAct = Estad;
     }
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {
@@ -155,11 +146,9 @@ public class Propuesta {
             almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
             return almacen;
         }
-        
         return almacen;
     }
-    public void addEstHistorial(Estado aux1){
-        
+    public void addEstHistorial(Estado aux1){     
         Registro_Estado nuevoReg = new Registro_Estado(new DTFecha(LocalDate.now()),aux1);
         this.historialEstados.add(0,nuevoReg);
     } 

@@ -51,8 +51,8 @@ public interface IController {
     //Fin Usuario
     
     //Propuestas
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
-    void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,String precio, String montoTotal, TipoRetorno retorno, String categoria, String usuarios, Estado estado);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, int Precio, int MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
+    void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,int precio, int montoTotal, TipoRetorno retorno, String categoria, String usuarios, Estado estado);
     boolean existeProp(String Titulo);
     
     Set<DTOPropuesta> obtenerPropuestas(String estado);

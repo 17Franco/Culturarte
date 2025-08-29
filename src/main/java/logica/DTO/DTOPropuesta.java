@@ -1,6 +1,7 @@
 package logica.DTO;
 import java.util.ArrayList;
 import java.util.List;
+import logica.Colaboracion.Colaboracion;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOCategoria;
@@ -19,8 +20,8 @@ public class DTOPropuesta {
     private String Imagen;
     private String Lugar;
     private DTFecha Fecha;
-    private String Precio;
-    private String MontoTotal;
+    private int Precio;
+    private int MontoTotal;
     private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
     private DTOCategoria cat;
@@ -31,7 +32,7 @@ public class DTOPropuesta {
             
     public DTOPropuesta(){}
     
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados)
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -51,7 +52,10 @@ public class DTOPropuesta {
         {
             historialEstados.add(new DTORegistro_Estado(_historialEstados.get(i).getFechaReg(), _historialEstados.get(i).getEstado()));
         }
-       
+       for (int b = 0; b < _colaboradores.size(); b++) 
+        {
+            aporte.add(new DTOColaboracion(_colaboradores.get(b).getTipoRetorno(), _colaboradores.get(b).getMonto(), _colaboradores.get(b).getColaborador().getNickname(), _colaboradores.get(b).getPropuesta().getTitulo(), _colaboradores.get(b).getCreado()));
+        }
         
     }
     public Estado getEstado(){
@@ -75,10 +79,10 @@ public class DTOPropuesta {
     public  DTFecha getFecha() {
         return Fecha;
     }
-    public String getPrecio() {
+    public int getPrecio() {
         return Precio;
     }
-    public String getMontoTotal() {
+    public int getMontoTotal() {
         return MontoTotal;
     }
     public DTFecha getFechaPublicacion() {
@@ -127,11 +131,11 @@ public class DTOPropuesta {
         Fecha = fecha;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(int precio) {
         Precio = precio;
     }
 
-    public void setMontoTotal(String montoTotal) {
+    public void setMontoTotal(int montoTotal) {
         MontoTotal = montoTotal;
     }
 
@@ -174,27 +178,28 @@ public class DTOPropuesta {
         {
             historialEstados.add(new DTORegistro_Estado(in.getHistorialEstados().get(i).getFechaReg(), in.getHistorialEstados().get(i).getEstado()));
         }
-
-        EstadoAct = in.getEstadoAct();
+        for (int b = 0; b < in.getAporte().size(); b++) 
+        {
+            aporte.add(new DTOColaboracion(in.getAporte().get(b).getTipoRetorno(), in.getAporte().get(b).getMonto(), in.getAporte().get(b).getColaborador().getNickname(), in.getAporte().get(b).getPropuesta().getTitulo(), in.getAporte().get(b).getCreado()));
+        }
     }
+        
     public void setHistorialEstados(DTORegistro_Estado historial) 
     {
          historialEstados.add(historial); 
     }
-    public void setAportes(DTOColaboracion a){
-        aporte.add(a);
+   public void setColaboracion(DTOColaboracion c){
+        aporte.add(c);
     }
-
+    public List<DTOColaboracion> getAporte() {
+        return aporte;
+    }
     public DTOCategoria getCat() {
         return cat;
     }
 
     public DTOProponente getUsr() {
         return usr;
-    }
-
-    public List<DTOColaboracion> getAporte() {
-        return aporte;
     }
     
     public DTORegistro_Estado obtenerPrimero(){
@@ -237,7 +242,6 @@ public class DTOPropuesta {
         this.Retorno=p.getRetorno();
         this.cat=p.getCategoria().CrearDT();
         this.usr=proponente;
-        this.EstadoAct=p.getEstadoAct();
     }
 
    

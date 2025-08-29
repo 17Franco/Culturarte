@@ -185,7 +185,7 @@ public class Controller  implements IController {
     
    
     @Override
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
         ((Proponente) mUsuario.buscador(usr)).setPropuestaCreada(propuesta);
@@ -207,7 +207,7 @@ public class Controller  implements IController {
       }
       @Override
       public String estadoPropuestas(String titulo){
-          return mPropuesta.getPropuesta(titulo).getEstadoAct().name();
+          return mPropuesta.getPropuesta(titulo).getUltimoEstado().getEstadoString();
       }
       //Fin Propuesta
       
@@ -239,7 +239,7 @@ public class Controller  implements IController {
              return aux2; 
      }
      
-     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,String precio, String montoTotal, TipoRetorno retorno,String categoria, String usuarios, Estado estado) {  
+     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,int precio, int montoTotal, TipoRetorno retorno,String categoria, String usuarios, Estado estado) {  
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
         if (propuestaSeleccionada != null){
@@ -252,7 +252,6 @@ public class Controller  implements IController {
             propuestaSeleccionada.setMontoTotal(montoTotal);
             propuestaSeleccionada.setRetorno(retorno);
             propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
-            propuestaSeleccionada.setEstadoAct(estado);
             propuestaSeleccionada.addEstHistorial(estado);
         }
      }
@@ -265,12 +264,12 @@ public class Controller  implements IController {
     public void altaColaboracion(DTOColaboracion colaboracion){
         Propuesta p=mPropuesta.getPropuesta(colaboracion.getPropuesta());
         Colaborador c= (Colaborador) mUsuario.buscador(colaboracion.getColaborador());
-      
+        
         Colaboracion colab= new Colaboracion(colaboracion,c,p);
         c.setColaboraciones(colab);
         p.setColaboracion(colab);
         mColaboraciones.addColaboracion(colab);
-     
+        
     }
 
     public Set<DTOColaborador> ListarColaboradores() {

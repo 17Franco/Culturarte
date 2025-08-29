@@ -329,7 +329,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
 
     // 4️⃣ Validar monto máximo
     int montoAInvertir = Integer.parseInt(campoMonto.getText());
-    int montoMax = Integer.parseInt(propuestaSeleccionada.getMontoTotal()); //maximo que recauda la propuesta
+    int montoMax = propuestaSeleccionada.getMontoTotal(); //maximo que recauda la propuesta
     int montoActual = controller.getMontoRecaudado(titulo); //lo que tiene recaudado por ahora
     int disponible = montoMax - montoActual;//lo que queda por recaudar
 
@@ -356,7 +356,6 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         DTOColaboracion colab = new DTOColaboracion(retornoEnum, montoAInvertir, colaborador, titulo, fecha);
 
         controller.altaColaboracion(colab); //si llego hasta aca es porque cumple con no haber colaborado a la propuesta antes y no a alcanzado el monto
-      
         JOptionPane.showMessageDialog(this, "Colaboración registrada correctamente");
        
         

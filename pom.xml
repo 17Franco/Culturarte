@@ -14,7 +14,7 @@
                 <configuration>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
-                    </compilerArgs>
+                    </compilerArgs> 
                 </configuration>
             </plugin>
         </plugins>
