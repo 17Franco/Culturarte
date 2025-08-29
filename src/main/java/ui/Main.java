@@ -1,5 +1,14 @@
 package ui;
-
+import java.util.ArrayList;
+import java.util.List;
+import logica.DTO.DTOPropuesta;
+import logica.DTO.DTOCategoria;
+import javax.swing.JMenuItem;
+import java.util.Map;
+import ui.AltaPropuesta;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
 
 import java.beans.PropertyVetoException;
 import javax.swing.JInternalFrame;
@@ -43,7 +52,7 @@ public class Main extends javax.swing.JFrame {
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGap(0, 558, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Sistema");
@@ -101,7 +110,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,7 +167,7 @@ public class Main extends javax.swing.JFrame {
         jMenu2.removeAll();
 
 
-        String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Consulta Colaborador","Seguir Usuario" };
+        String[] opcionesUsuario = { "Alta Usuario", "Consulta Proponente", "Consulta Colaborador","Seguir Usuario","Dejar de seguir usuario"};
 
         for (String op : opcionesUsuario) {
             JMenuItem item = new JMenuItem(op);
@@ -226,7 +235,10 @@ public class Main extends javax.swing.JFrame {
                             }
                             case "Modificar Propuesta" -> 
                             {
-                                //Pendiente
+                                ModificarDatosPropuesta MProp = new ModificarDatosPropuesta(); 
+                                fondo.add(MProp);
+                                MProp.setSize(fondo.getSize());
+                                MProp.setVisible(true);
                             }
                             case "Listar Propuesta" -> 
                             {
@@ -253,14 +265,47 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        jMenu2.setText("Colaboracion");
-        jMenu2.removeAll();
-        jMenu2.add(new JMenuItem ("Colaborar a Propuesta"));
-        jMenu2.add(new JMenuItem("Consultar Propuesta"));
-        jMenu2.add(new JMenuItem("Cancelar Colaboracion"));
-        jMenu2.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    
+    jMenu2.setText("Colaboracion");
+    jMenu2.removeAll();
+        String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Propuesta", "Cancelar Colaboracion" };
 
+
+  for (String op : opcionesColaboracion) {
+        JMenuItem menuItem = new JMenuItem(op);
+
+        menuItem.addActionListener(e -> {
+            switch (op) {
+                case "Colaborar a Propuesta" -> {
+                    AltaColaboracion frame = new AltaColaboracion();
+                    fondo.add(frame);
+                    frame.setSize(fondo.getSize());
+                    frame.setVisible(true);
+                    break;
+                }
+                case "Consultar Propuesta" -> {
+                    
+                    // ConsultarPropuesta frame = new ConsultarPropuesta();
+                    // fondo.add(frame); frame.setSize(fondo.getSize()); frame.setVisible(true);
+                     break;
+                }
+                case "Cancelar Colaboracion" -> {
+                    // Aquí iría tu lógica para cancelar colaboración
+                    JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
+                     break;
+                }
+            }
+        });
+
+        jMenu2.add(menuItem);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    jMenu2.setVisible(true);
+    
+    /**
+     *
+     * @param args
+     */
+    }
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));

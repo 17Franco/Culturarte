@@ -204,6 +204,12 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Retorno");
 
+        Retorno1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Retorno1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -471,16 +477,12 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_mActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        TituloField.setText("");
-        Descripcion_Field.setText("");
-        Tipo_Field.setText("");
-        Lugar_Field.setText("");
-        Precio_Field.setText("");
-        Monto_Field.setText("");
-        d.setText("");
-        m.setText("");
-        a.setText("");
+        this.dispose();
     }//GEN-LAST:event_CancelarActionPerformed
+
+    private void Retorno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Retorno1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retorno1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

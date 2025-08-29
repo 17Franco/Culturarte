@@ -5,9 +5,8 @@ import java.awt.Image;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
-import logica.DTO.DTOProponente;
-import logica.DTO.DTORegistro_Aporte;
 import logica.Fabrica;
 import logica.IController;
 
@@ -46,9 +45,9 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         lblImagen.setIcon(null);
     }
     
-    private void mostrarColaboraciones(String tituloP,String NickProponente,int monto, String estado){
-    
-    
+    private void mostrarColaboraciones(String tituloP,String NickProponente,int monto, String estado,DefaultTableModel modelo){
+        
+    modelo.addRow(new Object[]{tituloP, NickProponente,monto, estado});
     }
     private void mostrarPerfilColaborador(DTOColaborador usr) {
         
@@ -66,17 +65,22 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         Colaboraciones.setModel(modelo);
         
-        List<DTORegistro_Aporte> registros=usr.getColaboraciones();
+        List<DTOColaboracion> registros=controller.colaboraciones(usr.getNickname()); //me traigo las colaboraciones echas por el user seleccionado
         
         
-        for(DTORegistro_Aporte r:registros){
+        for(DTOColaboracion r:registros){
             //titulo propuesta r.getPropuestaFinanciada();  aca lo tengo
-            String titulo= r.getPropuestaFinanciada();
+            String titulo= r.getPropuesta();
             //necesito nombre proponente que la creo
+            
             String nombreProponente=controller.creadorPropuesta(titulo);
             //necesito monto recuadado por la propuesta 
-            
+            int monto = controller.getMontoRecaudado(titulo);
+               
             //y nesesito el estado de la propuesta 
+            String estado =controller.estadoPropuestas(titulo);
+            
+            mostrarColaboraciones(titulo,nombreProponente,monto,estado,modelo);
             
             
         }

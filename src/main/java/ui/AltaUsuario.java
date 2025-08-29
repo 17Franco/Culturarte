@@ -5,17 +5,9 @@
 package ui;
 
 import java.awt.GridLayout;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JFileChooser;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,10 +18,7 @@ import logica.DTO.DTOProponente;
 import logica.Fabrica;
 import logica.IController;
 
-/**
- *
- * @author fran
- */
+
 public class AltaUsuario extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
     private String rutaImagenTemp = null; 

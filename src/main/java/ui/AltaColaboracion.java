@@ -1,0 +1,392 @@
+
+package ui;
+
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Function;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import logica.DTO.DTFecha;
+import logica.DTO.DTOColaboracion;
+import logica.DTO.DTOPropuesta;
+import logica.Fabrica;
+import logica.IController;
+import logica._enum.TipoRetorno;
+import static ui.Utilities.validarNoVacio;
+
+/**
+ *
+ * @author fran
+ */
+public class AltaColaboracion extends javax.swing.JInternalFrame {
+
+        private IController controller = Fabrica.getInstance();
+    
+        DTOPropuesta propuestaSeleccionada;
+        List<DTOPropuesta> propuestas;
+        
+        private JDialog dialog;
+        private JTextField tituloField;
+        private JTextField descField;
+        private JTextField tipoField;
+        private JTextField lugarField;
+        private JTextField fechaField;
+        private JTextField precioField;
+        private JTextField montoField;
+        private JTextField retornoField;
+        private JLabel imgLabel;
+
+        
+    public AltaColaboracion() {
+        initComponents();
+        
+        
+         propuestas = new java.util.ArrayList<>(controller.ListarPropuestas());
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // el adm solo puede seleccionar una sola opcion
+                
+        String[] cols = {"Titulo", "Nickname"};
+        DefaultTableModel model =  new DefaultTableModel(cols, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+        for (DTOPropuesta p : propuestas) {
+            model.addRow(new Object[]{ p.getTitulo(), p.getProponente().getNickname()});
+        }
+        jTable1.setModel(model);
+        jTable1.setRowSorter(new javax.swing.table.TableRowSorter<>(model));
+        jTable1.setVisible(true);
+        
+        jTable1.getSelectionModel().addListSelectionListener(e -> {
+            if (e.getValueIsAdjusting()) return; // evita eventos intermedios
+
+                int viewRow = jTable1.getSelectedRow();
+                if (viewRow >= 0) {
+                    int modelRow = jTable1.convertRowIndexToModel(viewRow); 
+                    propuestaSeleccionada = propuestas.get(modelRow);
+                    mostrarPopup(propuestaSeleccionada);
+                    tipoRetornocbox.removeAllItems(); 
+                    tipoRetornocbox.addItem("SeleccionarRetorno"); 
+                    tipoRetornocbox.addItem(propuestaSeleccionada.getRetorno().name());
+             }
+        }); 
+        
+        Colaborador.removeAllItems(); 
+        
+        Colaborador.addItem("SeleccionarUsuario"); 
+        for (String u : controller.ListaColaborador()) {
+            Colaborador.addItem(u); 
+        }
+        tipoRetornocbox.removeAllItems(); 
+        tipoRetornocbox.addItem("SeleccionarRetorno"); 
+    }
+    
+    private void mostrarPopup(DTOPropuesta propuesta) {
+         if (dialog == null) {
+            dialog = new JDialog((Frame) null, "Detalle de Propuesta", true);
+            dialog.setSize(350, 450);
+            dialog.setLayout(new BorderLayout(10, 10));
+
+            JPanel mainPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+            mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            // Inicializamos campos
+            tituloField = createField();
+            descField = createField();
+            tipoField = createField();
+            lugarField = createField();
+            fechaField = createField();
+            precioField = createField();
+            montoField = createField();
+            retornoField = createField();
+            imgLabel = new JLabel("", JLabel.CENTER);
+
+            // Agregamos etiquetas y campos
+            mainPanel.add(new JLabel("Título:"));
+            mainPanel.add(tituloField);
+
+            mainPanel.add(new JLabel("Descripción:"));
+            mainPanel.add(descField);
+
+            mainPanel.add(new JLabel("Tipo:"));
+            mainPanel.add(tipoField);
+
+            mainPanel.add(new JLabel("Lugar:"));
+            mainPanel.add(lugarField);
+
+            mainPanel.add(new JLabel("Fecha:"));
+            mainPanel.add(fechaField);
+
+            mainPanel.add(new JLabel("Precio:"));
+            mainPanel.add(precioField);
+
+            mainPanel.add(new JLabel("Monto total:"));
+            mainPanel.add(montoField);
+
+            mainPanel.add(new JLabel("Retorno:"));
+            mainPanel.add(retornoField);
+
+            // Panel para la imagen
+            JPanel imagePanel = new JPanel();
+            imagePanel.add(imgLabel);
+
+            dialog.add(mainPanel, BorderLayout.CENTER);
+            dialog.add(imagePanel, BorderLayout.SOUTH);
+    }
+
+    // Actualizamos valores cada vez que se abre
+    tituloField.setText(propuesta.getTitulo());
+    descField.setText(propuesta.getDescripcion());
+    tipoField.setText(propuesta.getTipo());
+    lugarField.setText(propuesta.getLugar());
+    fechaField.setText(propuesta.getFecha() != null ? propuesta.getFecha().toString() : "-");
+    precioField.setText(String.valueOf(propuesta.getPrecio()));
+    montoField.setText(String.valueOf(propuesta.getMontoTotal()));
+    retornoField.setText(propuesta.getRetorno() != null ? propuesta.getRetorno().name() : "-");
+
+    // Imagen
+    if (propuesta.getImagen() != null && !propuesta.getImagen().isEmpty()) {
+        ImageIcon icon = new ImageIcon(propuesta.getImagen());
+        Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        imgLabel.setIcon(new ImageIcon(img));
+        imgLabel.setText("");
+    } else {
+        imgLabel.setIcon(null);
+        imgLabel.setText("Sin imagen");
+    }
+
+    dialog.setLocationRelativeTo(null);
+    dialog.setVisible(true);
+}
+
+    private JTextField createField() {
+        JTextField field = new JTextField();
+        field.setEditable(false);
+        return field;
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        Colaborador = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        tipoRetornocbox = new javax.swing.JComboBox<>();
+        campoMonto = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        BtnConfirmar = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        Colaborador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel1.setText("Colaboracion a Propuesta");
+
+        campoMonto.setName("Monto"); // NOI18N
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setToolTipText("");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        BtnConfirmar.setText("Confirmar");
+        BtnConfirmar.setToolTipText("");
+        BtnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnConfirmarActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Tipo de retorno");
+
+        jLabel11.setText("Monto");
+
+        jLabel13.setText("Colaborador");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Titulo", "Nickname"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(BtnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(139, 139, 139)
+                                    .addComponent(jLabel13))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(121, 121, 121)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Colaborador, 0, 156, Short.MAX_VALUE)
+                                    .addComponent(tipoRetornocbox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(campoMonto)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 2, Short.MAX_VALUE)))
+                .addGap(81, 81, 81))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Colaborador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(tipoRetornocbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnConfirmar)
+                    .addComponent(btnCancelar))
+                .addGap(72, 72, 72))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    
+    
+        private TipoRetorno tipoRetorno(String descripcion) {
+        for (TipoRetorno t : TipoRetorno.values()) {
+            if (t.toString().equals(descripcion)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    private void BtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConfirmarActionPerformed
+       String colaborador=(String) Colaborador.getSelectedItem();
+       String retorno=(String)  tipoRetornocbox.getSelectedItem();
+        if("SeleccionarUsuario".equals(colaborador) && !"SeleccionarRetorno".equals(retorno)){
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un usuario o un retorno valido");
+            return;
+        }
+        if(!validarNoVacio(campoMonto)){
+            //JOptionPane.showMessageDialog(this, "Ingrese un monto válido");
+            return;
+         }
+        String titulo = propuestaSeleccionada.getTitulo();
+
+        // 3️⃣ Validar que el colaborador no haya invertido antes
+        if (controller.colaboracionExiste(colaborador, titulo)) {
+            JOptionPane.showMessageDialog(this, "Este usuario ya colaboró en esta propuesta");
+            return;
+        }
+
+    // 4️⃣ Validar monto máximo
+    int montoAInvertir = Integer.parseInt(campoMonto.getText());
+    int montoMax = Integer.parseInt(propuestaSeleccionada.getMontoTotal()); //maximo que recauda la propuesta
+    int montoActual = controller.getMontoRecaudado(titulo); //lo que tiene recaudado por ahora
+    int disponible = montoMax - montoActual;//lo que queda por recaudar
+
+    if (disponible <= 0) { //si ya llego al maximo no permito invetir 
+        JOptionPane.showMessageDialog(this, "La propuesta ya alcanzó el monto máximo");
+        return;
+    }
+
+    if (montoAInvertir > disponible) { // si supero lo disponible pregunto si quiere inverti lo que queda disponible
+            int opcion = JOptionPane.showConfirmDialog(this,
+            "Solo quedan " + disponible + " disponibles. ¿Desea invertir esa cantidad en lugar de " + montoAInvertir + "?",
+            "Monto máximo excedido",
+            JOptionPane.YES_NO_OPTION);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                montoAInvertir = disponible;
+            } else {
+                return;
+            }
+        }
+        
+        TipoRetorno retornoEnum = tipoRetorno(retorno);
+        DTFecha fecha = new DTFecha(LocalDate.now());
+        DTOColaboracion colab = new DTOColaboracion(retornoEnum, montoAInvertir, colaborador, titulo, fecha);
+
+        controller.altaColaboracion(colab); //si llego hasta aca es porque cumple con no haber colaborado a la propuesta antes y no a alcanzado el monto
+      
+        JOptionPane.showMessageDialog(this, "Colaboración registrada correctamente");
+       
+        
+                       
+    }//GEN-LAST:event_BtnConfirmarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        propuestaSeleccionada=null;
+        
+        Colaborador.removeAllItems(); 
+        Colaborador.addItem("SeleccionarUsuario"); 
+                
+        tipoRetornocbox.removeAllItems(); 
+        tipoRetornocbox.addItem("SeleccionarRetorno"); 
+        
+        campoMonto.setText("");
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnConfirmar;
+    private javax.swing.JComboBox<String> Colaborador;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JTextField campoMonto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> tipoRetornocbox;
+    // End of variables declaration//GEN-END:variables
+}

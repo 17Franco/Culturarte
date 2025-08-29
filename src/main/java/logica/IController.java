@@ -13,6 +13,8 @@ import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTFecha;
+import logica.Colaboracion.Colaboracion;
+import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOUsuario;
 import logica._enum.Estado;
 import logica._enum.TipoRetorno;
@@ -31,6 +33,9 @@ public interface IController {
     List<String> ListaProponentes();
     
     List<String> ListaColaborador();
+    
+    List<DTOColaboracion>  colaboraciones(String nick);
+  
    
     List<String>ListaSeguidosPorUsuario(String nick);
     
@@ -38,17 +43,23 @@ public interface IController {
     
     DTOColaborador getDTOColaborador(String nick);
     
+    List<String> colaboradoresAPropuesta(String titulo);
     boolean seguir(String nick1,String nick2);
+    
+    boolean unFollowUser(String usuarioActual, String usuarioToUnfollow);
+            
     //Fin Usuario
     
     //Propuestas
     void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, String Precio, String MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
-    
+    void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,String precio, String montoTotal, TipoRetorno retorno, String categoria, String usuarios, Estado estado);
     boolean existeProp(String Titulo);
     
     Set<DTOPropuesta> obtenerPropuestas(String estado);
     
     String creadorPropuesta(String titulo);
+    
+    String estadoPropuestas(String titulo);
     //Fin Propuesta
     
     //Categoria
@@ -58,4 +69,17 @@ public interface IController {
   
     List<String> ListaCategoria();
     //Fin Categoria
+    
+    //cu Registrar colaboracion a Propuesta
+    Set<DTOPropuesta> ListarPropuestas();
+    
+    void altaColaboracion(DTOColaboracion colaboracion); 
+    boolean colaboracionExiste(String colaborador, String titulo);
+    int  getMontoRecaudado(String titulo);
+    // cu Consulta de colaboracion a Propuesta
+    Set<DTOColaborador> ListarColaboradres();
+    Set<Colaboracion> ListarColaboracionesDeColaborador(String nickname);
+    
+    // cu cancelar Colaboracion a Propuesta
+    void CancelarColaboracion(Colaboracion colaboracion);
 }

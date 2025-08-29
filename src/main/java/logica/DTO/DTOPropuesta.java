@@ -27,7 +27,7 @@ public class DTOPropuesta {
     private DTOProponente usr; 
     private Estado EstadoAct;
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
-    private List<DTORegistro_Aporte> aporte =new ArrayList<>();
+    private List<DTOColaboracion> aporte =new ArrayList<>();
             
     public DTOPropuesta(){}
     
@@ -181,7 +181,7 @@ public class DTOPropuesta {
     {
          historialEstados.add(historial); 
     }
-    public void setAportes(DTORegistro_Aporte a){
+    public void setAportes(DTOColaboracion a){
         aporte.add(a);
     }
 
@@ -193,7 +193,7 @@ public class DTOPropuesta {
         return usr;
     }
 
-    public List<DTORegistro_Aporte> getAporte() {
+    public List<DTOColaboracion> getAporte() {
         return aporte;
     }
     
@@ -239,5 +239,7 @@ public class DTOPropuesta {
         this.usr=proponente;
         this.EstadoAct=p.getEstadoAct();
     }
+
+   
     
 }

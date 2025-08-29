@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
+import java.util.Iterator;
 
 
 public class Usuario {
@@ -20,7 +21,7 @@ public class Usuario {
     private String rutaImg;
     private Map<String,Usuario> usuarioSeguido=new HashMap<>();
     private Map<String,Propuesta> propFavorita=new HashMap<>();
-    private List<registroAporte> colaboraciones;
+    
     
     public Usuario(){}
    
@@ -76,7 +77,9 @@ public class Usuario {
      public String getRutaImg() {
         return rutaImg;
     }
-     
+    public boolean isColaborador() {
+        return false;
+    };
     /*public String toString() {///?????
         return getNickname();
     }*/
@@ -92,6 +95,32 @@ public class Usuario {
 
     public Map<String, Usuario> getUsuarioSeguido() {
         return usuarioSeguido;
+    }
+    
+    public boolean unfollow(Usuario usr)
+    {
+        if(usr != null) //Raro que suceda pero por las dudas...
+        {
+            if(!usuarioSeguido.isEmpty())
+            {
+                Iterator<Map.Entry<String, Usuario>> ct = usuarioSeguido.entrySet().iterator();
+
+                while(ct.hasNext()) 
+                {
+                    Map.Entry<String,Usuario> nodoActual = ct.next();
+
+                    if(nodoActual.getValue() == usr)
+                    {
+                        ct.remove();    //Se borra el nodo del usuario a dejar de seguir desde el iterator.
+                        return true;
+                    }
+
+                }
+            }
+        }
+        
+        return false;   //Posible error
+        
     }
     
 }

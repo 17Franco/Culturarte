@@ -8,6 +8,11 @@ public class DTFecha
     private int mm;
     private int yyyy;
 
+     @Override
+    public String toString() {
+        return "" + this.d + "/" + this.mm + "/" + this.yyyy;
+    }// para que me aparesca un formato mas parecido a una fecha fntostring
+
     
     public DTFecha() 
     {

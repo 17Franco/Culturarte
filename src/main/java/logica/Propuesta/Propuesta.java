@@ -7,8 +7,8 @@ import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
+import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTORegistro_Estado;
-import logica.Usuario.registroAporte;
 import logica._enum.Estado;
 
 
@@ -20,15 +20,15 @@ public class Propuesta {
     private String Imagen;
     private String Lugar;
     private DTFecha Fecha;
-    private String Precio;
-    private String MontoTotal;
+    private String Precio; //tambien debe ser int 
+    private String MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
     private DTFecha FechaPublicacion;
     private TipoRetorno Retorno;
     private Categoria cat;
     private Proponente usr;
     private Estado estadoAct; 
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
-    private List<registroAporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
+    private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
     public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, String Precio, String MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
@@ -133,16 +133,20 @@ public class Propuesta {
     public void setProponente(Proponente Propo){
         usr = Propo;
     }
-
+    public void setEstadoAct(Estado Estad){
+        estadoAct = Estad;
+    }
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {
         historialEstados = _historial;
     }
 
-    public List<registroAporte> getAporte() {
+    public List<Colaboracion> getAporte() {
         return Aporte;
     }
-
+    public void setColaboracion(Colaboracion c){
+        Aporte.add(c);
+    }
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();
@@ -154,4 +158,9 @@ public class Propuesta {
         
         return almacen;
     }
+    public void addEstHistorial(Estado aux1){
+        
+        Registro_Estado nuevoReg = new Registro_Estado(new DTFecha(LocalDate.now()),aux1);
+        this.historialEstados.add(0,nuevoReg);
+    } 
 }
