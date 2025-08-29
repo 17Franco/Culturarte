@@ -1,6 +1,7 @@
 
 package logica.DTO;
 
+import java.time.LocalDate;
 import logica.Colaboracion.Colaboracion;
 import logica.Usuario.Colaborador;
 import logica._enum.TipoRetorno;

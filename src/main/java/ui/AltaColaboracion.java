@@ -352,7 +352,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         }
         
         TipoRetorno retornoEnum = tipoRetorno(retorno);
-        DTFecha fecha = new DTFecha(LocalDate.now());
+        DTFecha  fecha = new DTFecha(LocalDate.now());
         DTOColaboracion colab = new DTOColaboracion(retornoEnum, montoAInvertir, colaborador, titulo, fecha);
 
         controller.altaColaboracion(colab); //si llego hasta aca es porque cumple con no haber colaborado a la propuesta antes y no a alcanzado el monto

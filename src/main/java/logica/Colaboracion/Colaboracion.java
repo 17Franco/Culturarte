@@ -1,5 +1,6 @@
 package logica.Colaboracion;
 
+import java.time.LocalDate;
 import logica.DTO.DTFecha;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
