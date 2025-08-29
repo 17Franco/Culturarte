@@ -26,7 +26,6 @@ public class Propuesta {
     private TipoRetorno Retorno;
     private Categoria cat;
     private Proponente usr;
-    private Estado estadoAct; 
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
     private List<registroAporte> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
@@ -45,11 +44,8 @@ public class Propuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
-        this.estadoAct=estadoAct;   
         this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!
-    }
-    public Estado getEstadoAct(){
-        return  this.estadoAct;
+    //  this.Aporte.add(new registroAporte(monto,retorno,(new DTFecha(LocalDate.now())),propustacolaborada,colaborador));    
     }
     public  String getTitulo() {
         return Titulo;
@@ -91,10 +87,12 @@ public class Propuesta {
     {
         return historialEstados;
     }
+    public List<registroAporte> getAporte() {
+        return Aporte;
+    }
     public void setTitulo(String titulo) {
         Titulo = titulo;
     }
-
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
     }
@@ -133,18 +131,10 @@ public class Propuesta {
     public void setProponente(Proponente Propo){
         usr = Propo;
     }
-    public void setEstadoAct(Estado Estad){
-        estadoAct = Estad;
-    }
     public void setHistorialEstados(List<Registro_Estado> _historial) 
     {
         historialEstados = _historial;
     }
-
-    public List<registroAporte> getAporte() {
-        return Aporte;
-    }
-
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();
@@ -153,12 +143,13 @@ public class Propuesta {
             almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
             return almacen;
         }
-        
         return almacen;
     }
-    public void addEstHistorial(Estado aux1){
-        
+    public void addEstHistorial(Estado aux1){     
         Registro_Estado nuevoReg = new Registro_Estado(new DTFecha(LocalDate.now()),aux1);
         this.historialEstados.add(0,nuevoReg);
+    } 
+    public void addAporteHistorial(registroAporte aux2){     
+        this.Aporte.add(aux2);
     } 
 }

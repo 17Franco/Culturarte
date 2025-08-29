@@ -224,7 +224,6 @@ public class Controller  implements IController {
             propuestaSeleccionada.setMontoTotal(montoTotal);
             propuestaSeleccionada.setRetorno(retorno);
             propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
-            propuestaSeleccionada.setEstadoAct(estado);
             propuestaSeleccionada.addEstHistorial(estado);
         }
      }

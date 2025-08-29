@@ -174,8 +174,6 @@ public class DTOPropuesta {
         {
             historialEstados.add(new DTORegistro_Estado(in.getHistorialEstados().get(i).getFechaReg(), in.getHistorialEstados().get(i).getEstado()));
         }
-
-        EstadoAct = in.getEstadoAct();
     }
     public void setHistorialEstados(DTORegistro_Estado historial) 
     {
@@ -237,7 +235,6 @@ public class DTOPropuesta {
         this.Retorno=p.getRetorno();
         this.cat=p.getCategoria().CrearDT();
         this.usr=proponente;
-        this.EstadoAct=p.getEstadoAct();
     }
     
 }
