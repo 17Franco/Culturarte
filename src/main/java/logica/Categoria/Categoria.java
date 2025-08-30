@@ -3,11 +3,18 @@ import logica.DTO.DTOCategoria;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
+import jakarta.persistence.*;
+import java.util.*;
 
+@Entity
 public class Categoria 
 {
+    @Id
     private String nombreCategoria;
-    private Set<DTOCategoria> subcategorias;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subCategorias") 
+    private Set<Categoria> subcategorias;
     
     public Categoria() 
     {
@@ -20,7 +27,7 @@ public class Categoria
     }
     
     // Para añadir subcategoría desde el inicio...
-    public Categoria(String _nombreCategoria, Set<DTOCategoria> subCat) //se puede modificar para recibir una lista de string.
+    public Categoria(String _nombreCategoria, Set<Categoria> subCat) //se puede modificar para recibir una lista de string.
     {
         nombreCategoria = _nombreCategoria;
 
@@ -37,7 +44,7 @@ public class Categoria
     }
 
    
-   public Set<DTOCategoria> getSubcategorias()
+   public Set<Categoria> getSubcategorias()
    {
        return subcategorias; 
    }
@@ -49,7 +56,7 @@ public class Categoria
     }
  
     
-    public void setSubcategorias(Set<DTOCategoria> _subcategorias) 
+    public void setSubcategorias(Set<Categoria> _subcategorias) 
     {
         subcategorias.addAll(_subcategorias);   //.addAll para sumarizar set anterior y nuevo
     }
@@ -57,11 +64,11 @@ public class Categoria
  
     public void eliminarSubcategoria(String subCatAEliminar)
     {
-        Iterator<DTOCategoria> iterator = subcategorias.iterator();
+        Iterator<Categoria> iterator = subcategorias.iterator();
         
         while(iterator.hasNext()) 
         {
-            DTOCategoria subcategoriasIT = iterator.next();
+            Categoria subcategoriasIT = iterator.next();
             
             if (subcategoriasIT.getNombreCategoria().equals("subCatAEliminar")) 
             {
@@ -70,7 +77,7 @@ public class Categoria
         }
     }
     
-    public void addSubcategoria(DTOCategoria _subCat) 
+    public void addSubcategoria(Categoria _subCat) 
     {
         subcategorias.add(_subCat);
     }

@@ -1,24 +1,30 @@
 
 package logica.Usuario;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MapKey;
+import jakarta.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import logica.DTO.DTFecha;
-import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
 
-
+@Entity
 public class Proponente extends Usuario{
     private String direccion;
     private String biografia;
     private String webSite;
+    
+    @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapKey(name = "Titulo")  
     private Map<String,Propuesta> propCreadas=new HashMap<>();
 
     public Proponente() {
     }
 
-    public Proponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+    public Proponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         super(nickname, nombre, apellido, email, fecha, rutaImg);
         this.direccion = direccion;
         this.biografia = biografia;

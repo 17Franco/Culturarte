@@ -202,6 +202,13 @@ public class Main extends javax.swing.JFrame {
                         //fondo.add(SeguirU);
                         //SeguirU.setSize(fondo.getSize());
                         //SeguirU.setVisible(true);
+                    }
+                    case "Dejar de seguir usuario" ->
+                    {
+                        abrirInternalFrame(DejarDeSeguirUsuario.class);
+                        //fondo.add(SeguirU);
+                        //SeguirU.setSize(fondo.getSize());
+                        //SeguirU.setVisible(true);
                     }  
                 }
             });

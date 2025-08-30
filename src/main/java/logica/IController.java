@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,6 @@ import logica.DTO.DTOCategoria;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
-import logica.DTO.DTFecha;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOUsuario;
@@ -51,8 +51,8 @@ public interface IController {
     //Fin Usuario
     
     //Propuestas
-    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, int Precio, int MontoTotal, DTFecha fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
-    void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,int precio, int montoTotal, TipoRetorno retorno, String categoria, String usuarios, Estado estado);
+    void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate fechaPublicacio,TipoRetorno Retorno, String cat, String usr,Estado est);
+    void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, TipoRetorno retorno, String categoria, String usuarios, Estado estado);
     boolean existeProp(String Titulo);
     
     Set<DTOPropuesta> obtenerPropuestas(String estado);

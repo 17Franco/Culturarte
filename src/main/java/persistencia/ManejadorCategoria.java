@@ -19,13 +19,13 @@ public class ManejadorCategoria
         Categoria tecnologia = new Categoria("Tecnología");
         Categoria musica = new Categoria("Música");
 
-        DTOCategoria dtoSub1 = new DTOCategoria("Pintura", "Arte", null);
-        DTOCategoria dtoSub2 = new DTOCategoria("Escultura", "Arte", null);
+        Categoria dtoSub1 = new Categoria("Pintura", null);
+        Categoria dtoSub2 = new Categoria("Escultura", null);
         arte.addSubcategoria(dtoSub1);
         arte.addSubcategoria(dtoSub2);
 
-        DTOCategoria dtoSub3 = new DTOCategoria("Software", "Tecnología", null);
-        DTOCategoria dtoSub4 = new DTOCategoria("Hardware", "Tecnología", null);
+        Categoria dtoSub3 = new Categoria("Software", null);
+        Categoria dtoSub4 = new Categoria("Hardware", null);
         tecnologia.addSubcategoria(dtoSub3);
         tecnologia.addSubcategoria(dtoSub4);
 
@@ -46,18 +46,18 @@ public class ManejadorCategoria
         return AlmacenCategorias;
     }
     
-    public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria)
+    public Categoria obtenerCategoriaPorNombre(String nombreCategoria)
     {
         Categoria temp = AlmacenCategorias.get(nombreCategoria);
         
-        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(),"",temp.getSubcategorias());
+        Categoria almacen = new Categoria(temp.getNombreCategoria(),temp.getSubcategorias());
         
         return almacen;
     }
     
-    public boolean addCategoria(DTOCategoria categoriaIngresada)
+    public boolean addCategoria(Categoria categoriaIngresada)
     { 
-        if(categoriaIngresada.getCatPadre() == null)  //Si no agregó como subcategoria
+        /*if(categoriaIngresada.getCatPadre() == null)  //Si no agregó como subcategoria
         {       //la condición está negada.
             Categoria cat1 = new Categoria(categoriaIngresada.getNombreCategoria());
             AlmacenCategorias.put(cat1.getNombreCategoria(),cat1);
@@ -73,7 +73,7 @@ public class ManejadorCategoria
             
             return true;
 
-        }
+        }*/
         
         
         return false;
@@ -85,10 +85,10 @@ public class ManejadorCategoria
         return u;
     }
    
-    public int existe(DTOCategoria categoriaIngresada)  //Devuelve 1 si no esta la parte "Categoria-nombre" devuelve 2 si no existe con el nombre "categoria-padre"
+    public int existe(Categoria categoriaIngresada)  //Devuelve 1 si no esta la parte "Categoria-nombre" devuelve 2 si no existe con el nombre "categoria-padre"
     {   //Devuelve 0 si existe alguna coincidencia de nombre o de categoria padre.
         
-        if(!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria.
+       /* if(!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria.
         {       //Si no está y no está vacio da true, ver que es condicion negada
             return 1;
         }
@@ -97,7 +97,7 @@ public class ManejadorCategoria
         {       //Si no está y no está vacio da true, ver que es condicion negada
             return 2;
         }
-        
+        */
         return 0;
     }
   

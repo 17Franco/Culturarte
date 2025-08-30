@@ -1,4 +1,5 @@
 package ui;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import logica.DTO.DTOPropuesta;
@@ -33,10 +34,10 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         listaFinal.addElement("Descripción:                       " + datos.getDescripcion());
         listaFinal.addElement("Tipo de espectáculo:          " + datos.getTipo());
         listaFinal.addElement("Lugar de realización:          " + datos.getLugar());
-        listaFinal.addElement("Fecha inicio:                       " + datos.getFecha().getFechaString());
+        listaFinal.addElement("Fecha inicio:                       " + datos.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         listaFinal.addElement("Recaudación inicial:            " + datos.getPrecio());
         listaFinal.addElement("Recaudación esperada:      " + datos.getMontoTotal());
-        listaFinal.addElement("Fecha de publicación:         " + datos.getFechaPublicacion().getFechaString());
+        listaFinal.addElement("Fecha de publicación:         " + datos.getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         listaFinal.addElement("Ganancia esperada:           " + datos.getRetorno().toString());
         listaFinal.addElement("Categoría:                           " + datos.getCategoria().getNombreCategoria());
         listaFinal.addElement("Usuario Proponente:           " + datos.nickProponenteToString());

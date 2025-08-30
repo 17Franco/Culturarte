@@ -54,7 +54,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         lblNick.setText(usr.getNickname());
         lblNombre.setText(usr.getNombre());
         lblApellido.setText(usr.getApellido());
-        lblFecha.setText(Integer.toString(usr.getFecha().getDay())+"/"+ Integer.toString(usr.getFecha().getMonth())+"/"+Integer.toString(usr.getFecha().getYear()));
+        lblFecha.setText(Integer.toString(usr.getFecha().getDayOfMonth())+"/"+ usr.getFecha().getMonthValue()+"/"+usr.getFecha().getYear());
         lblEmail.setText(usr.getEmail());
        
         ImageIcon icon=new ImageIcon(usr.getRutaImg());

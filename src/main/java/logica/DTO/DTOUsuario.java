@@ -1,6 +1,7 @@
 
 package logica.DTO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,14 +13,14 @@ public class DTOUsuario {
     private String nombre;
     private String apellido;
     private String email;
-    private DTFecha fecha;
+    private LocalDate fecha;
     private String rutaImg;
     private List<String> usuarioSeguido=new ArrayList<>();
     private List<String> propFavorita=new ArrayList<>();
 
     
     
-    public DTOUsuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+    public DTOUsuario(String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -47,7 +48,7 @@ public class DTOUsuario {
    
 
 
-    public DTFecha getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
     
@@ -72,7 +73,7 @@ public class DTOUsuario {
         this.email = email;
     }
 
-    public void setFecha(DTFecha fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

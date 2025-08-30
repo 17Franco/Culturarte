@@ -1,6 +1,7 @@
 package logica;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOUsuario;
-import logica.DTO.DTFecha;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
@@ -185,7 +185,7 @@ public class Controller  implements IController {
     
    
     @Override
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
         ((Proponente) mUsuario.buscador(usr)).setPropuestaCreada(propuesta);
@@ -215,11 +215,11 @@ public class Controller  implements IController {
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
     {
-       if(mCategoria.existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
+       /*if(mCategoria.existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
        {    //Si no existen previamente.
             mCategoria.addCategoria(categoriaIngresada);
             return true;    //Le dice a UI que todo fue correcto.
-       }
+       }*/
        
        return false;    //Le dice a ui que no se agregó nada.
     }
@@ -239,7 +239,7 @@ public class Controller  implements IController {
              return aux2; 
      }
      
-     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, DTFecha fechaEvento,int precio, int montoTotal, TipoRetorno retorno,String categoria, String usuarios, Estado estado) {  
+     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, TipoRetorno retorno,String categoria, String usuarios, Estado estado) {  
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
         if (propuestaSeleccionada != null){

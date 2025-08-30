@@ -1,24 +1,34 @@
 package logica.Colaboracion;
 
 import java.time.LocalDate;
-import logica.DTO.DTFecha;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
 import logica._enum.TipoRetorno;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
-
+@Entity
 public class Colaboracion {
     
+         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;  
+         
+         @Enumerated(EnumType.STRING)
         private TipoRetorno tipoRetorno;
 
         private int monto;
-
+        
+        @ManyToOne
+        @JoinColumn(name = "colaborador")
         private Colaborador colaborador;
-
+        
+        @ManyToOne
+        @JoinColumn(name = "propuesta")
         private Propuesta propuesta;
 
-        private DTFecha creado;
+        private LocalDate creado;
     
     
     public boolean equals(Colaboracion obj) {
@@ -37,7 +47,7 @@ public class Colaboracion {
         return this.creado.equals(obj.creado);
     }
 
-     public Colaboracion(TipoRetorno tipoRetorno, int monto, Colaborador colaborador, Propuesta propuesta, DTFecha creado) {
+     public Colaboracion(TipoRetorno tipoRetorno, int monto, Colaborador colaborador, Propuesta propuesta, LocalDate creado) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
         this.colaborador = colaborador;
@@ -52,12 +62,12 @@ public class Colaboracion {
          propuesta=p;
      }
      
-    public DTFecha getCreado() {
+    public LocalDate getCreado() {
         return creado;
     }
 
     
-    public void setCreado(DTFecha creado) {
+    public void setCreado(LocalDate creado) {
         this.creado = creado;
     }
 

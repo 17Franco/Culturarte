@@ -3,29 +3,54 @@ package logica.Usuario;
 
 //import  jakarta.persistence.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MapKey;
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 import java.util.Iterator;
 
-
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
-    
+    @Id
     private String nickname;
+    
     private String nombre;
     private String apellido;
     private String email;
-    private DTFecha fecha;
+    private LocalDate fecha;
     private String rutaImg;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "usuario_seguidos",
+        joinColumns = @JoinColumn(name = "seguidor"),          // el que sigue
+        inverseJoinColumns = @JoinColumn(name = "seguido")     // al que sigo
+    )
+    @MapKey(name = "nickname")
     private Map<String,Usuario> usuarioSeguido=new HashMap<>();
+    
+    @ManyToMany
+    @JoinTable(
+        name = "propuesta_favorita",
+        joinColumns = @JoinColumn(name = "usuario"),          // el usuario
+        inverseJoinColumns = @JoinColumn(name = "propuesta")     // la prop favorita
+    )
+    @MapKey(name = "Titulo") // asigna 
     private Map<String,Propuesta> propFavorita=new HashMap<>();
     
     
     public Usuario(){}
    
-    public Usuario(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+    public Usuario(String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -66,7 +91,7 @@ public class Usuario {
         return apellido;
     }
 
-    public DTFecha getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 

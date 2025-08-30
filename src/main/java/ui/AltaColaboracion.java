@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import logica.DTO.DTFecha;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
@@ -352,8 +351,8 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         }
         
         TipoRetorno retornoEnum = tipoRetorno(retorno);
-        DTFecha  fecha = new DTFecha(LocalDate.now());
-        DTOColaboracion colab = new DTOColaboracion(retornoEnum, montoAInvertir, colaborador, titulo, fecha);
+       // DTFecha  fecha = new DTFecha(LocalDate.now());
+        DTOColaboracion colab = new DTOColaboracion(retornoEnum, montoAInvertir, colaborador, titulo, LocalDate.now());
 
         controller.altaColaboracion(colab); //si llego hasta aca es porque cumple con no haber colaborado a la propuesta antes y no a alcanzado el monto
         JOptionPane.showMessageDialog(this, "Colaboración registrada correctamente");

@@ -5,6 +5,7 @@
 package ui;
 
 import java.awt.GridLayout;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import logica.DTO.DTFecha;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.Fabrica;
@@ -358,7 +358,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Usuario ya registrado");
             }else{
                     rutaImagenTemp=Utilities.copiarImagen(rutaImagenTemp,nickName);
-                    DTFecha f=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
+                    LocalDate f=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
                     if(proponente.isSelected()){
                         DTOProponente p=new DTOProponente(direccion,biografia,web,nickName,nom,apelli,email,f,rutaImagenTemp);
                         controller.altaUsuario(p);
