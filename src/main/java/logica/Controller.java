@@ -215,13 +215,18 @@ public class Controller  implements IController {
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
     {
-       if(mCategoria.existe(categoriaIngresada) == 1) //por ahora la opcion "2" no se usa
-       {    //Si no existen previamente.
-            mCategoria.addCategoria(categoriaIngresada);
-            return true;    //Le dice a UI que todo fue correcto.
+       if(mCategoria.existe(categoriaIngresada) == 0)               //Si no existe como categoría padre...
+       {    
+            return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
        }
-       
+ 
        return false;    //Le dice a ui que no se agregó nada.
+    }
+    
+    @Override
+    public int existe(DTOCategoria categoriaIngresada)
+    {
+        return mCategoria.existe(categoriaIngresada);
     }
     
     @Override
