@@ -196,8 +196,8 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 .addGap(11, 11, 11)
                 .addComponent(subTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollLista, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(scrollLista, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelAgregarCategoria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -260,13 +260,13 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 if (controller.existe(temp) == 4) //Si user se equivoca e ingresa una categoría padre inexistente...
                 {
                     JOptionPane.showMessageDialog(this, "La categoría padre ingresada es incorrecta!");
-                    //catPadreInput.setText("Es subcategoría de...");
+                   
                 }
                 
                 if (controller.existe(temp) == 2) 
                 {
                     JOptionPane.showMessageDialog(this, "Esa subcategoría ya existe!");
-                    //catPadreInput.setText("Es subcategoría de...");
+                  
                 }
                 
                 if (controller.existe(temp) == 3) 
