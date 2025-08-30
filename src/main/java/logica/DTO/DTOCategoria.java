@@ -1,11 +1,12 @@
 package logica.DTO;
 import java.util.HashSet;
 import java.util.Set;
+import logica.Categoria.Categoria;
 
 public class DTOCategoria 
 {
     private String nombreCategoria;
-    private Set<DTOCategoria> subcategorias;
+    private Set<Categoria> subcategorias;
     private String catPadre;     //Es para saber si la ingreso como subcategoría o si no.
 
     public DTOCategoria()
@@ -27,7 +28,7 @@ public class DTOCategoria
     }
 
     
-    public DTOCategoria(String _nombreCategoria, String _catPadre, Set<DTOCategoria> _subcategorias)
+    public DTOCategoria(String _nombreCategoria, String _catPadre, Set<Categoria> _subcategorias)
     {
         nombreCategoria = _nombreCategoria;
         catPadre = _catPadre;
@@ -55,7 +56,7 @@ public class DTOCategoria
         return catPadre;
     }
 
-    public Set<DTOCategoria> getSubcategorias() 
+    public Set<Categoria> getSubcategorias() 
     {
         return subcategorias;
     }
@@ -70,7 +71,7 @@ public class DTOCategoria
         catPadre = _catPadre;
     }
 
-    public void setSubcategorias(Set<DTOCategoria> _subcategorias) 
+    public void setSubcategorias(Set<Categoria> _subcategorias) 
     {
         subcategorias = _subcategorias;
     }
