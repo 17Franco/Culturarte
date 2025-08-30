@@ -195,7 +195,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel8.setText("Anio");
+        jLabel8.setText("Año");
 
         jLabel9.setText("Mes");
 
