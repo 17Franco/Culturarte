@@ -26,6 +26,11 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
         llenarTabla();  //mostrar todas las Categorias disponibles.
         
         catPadreInput.setVisible(false);
+        listaCategorias.setRowSelectionAllowed(false);
+        listaCategorias.setColumnSelectionAllowed(false);
+        listaCategorias.setCellSelectionEnabled(false);
+        listaCategorias.setFocusable(false);
+
     }
 
     /**
@@ -39,16 +44,17 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
         Map<String, Categoria> almacenDatos = controller.getCategorias();
         String[] columnas = {"Categorías disponibles:"};
         
-        DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
-        
+        DefaultTableModel tabla = new DefaultTableModel(columnas, 0)
+        { @Override public boolean isCellEditable(int row, int column) {return false;} };   //Evita que escriban...
+
         for (Categoria cat : almacenDatos.values()) 
         {
-            String nombreCat = cat.getNombreCategoria();
-            //Queda pendiente agregar las subcategorias a la vista de ser necesario.
+            String nombreCat = cat.getNombreCategoria() + cat.StringSubcategorias();
             tabla.addRow(new Object[]{nombreCat});
         }
         
         listaCategorias.setModel(tabla);
+        
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -164,19 +170,25 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(labelAgregarCategoria)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(esSubCategoriaCheck))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(newCat, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(botonAgregarCategoria)))
-                    .addComponent(scrollLista, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(subTitulo)
-                    .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(subTitulo)
+                            .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scrollLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(7, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(newCat, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(esSubCategoriaCheck))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelAgregarCategoria)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(botonAgregarCategoria)))
+                        .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,18 +196,18 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 .addGap(11, 11, 11)
                 .addComponent(subTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollLista, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelAgregarCategoria)
-                    .addComponent(esSubCategoriaCheck))
+                .addComponent(scrollLista, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(labelAgregarCategoria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(esSubCategoriaCheck))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAgregarCategoria))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -227,43 +239,69 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_newCatActionPerformed
 
     private void botonAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarCategoriaActionPerformed
- 
-        if(newCat.getText().isEmpty() && catPadreInput.getText().equals("Ingrese nombre categoría..."))    //Si no puso nada...
+    
+        if(newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))    //Si no puso nada...
         {
             JOptionPane.showMessageDialog(this, "Ingrese un nombre de categoría!");
         }
         
         if(!newCat.getText().equals("Ingrese nombre categoría...") && !catPadreInput.getText().equals("Es subcategoría de..."))  //Si agrega categoria y subcat...
-        {
+        {  
             DTOCategoria temp = new DTOCategoria(newCat.getText(),catPadreInput.getText()); 
             
-            if(controller.altaDeCategoria(temp))    //Se ingresa la Subcategoría.
-            {
+            if(controller.existe(temp) == 0)    //Ingreso de nueva categoría padre.
+            {   
+                controller.altaDeCategoria(temp);
                 JOptionPane.showMessageDialog(this, "Subcategoría ingresada correctamente!");
             }
             else
             {
-                JOptionPane.showMessageDialog(this, "Esa subcategoría ya existe!");
-                catPadreInput.setText("Es subcategoría de...");
+                
+                if (controller.existe(temp) == 4) //Si user se equivoca e ingresa una categoría padre inexistente...
+                {
+                    JOptionPane.showMessageDialog(this, "La categoría padre ingresada es incorrecta!");
+                    //catPadreInput.setText("Es subcategoría de...");
+                }
+                
+                if (controller.existe(temp) == 2) 
+                {
+                    JOptionPane.showMessageDialog(this, "Esa subcategoría ya existe!");
+                    //catPadreInput.setText("Es subcategoría de...");
+                }
+                
+                if (controller.existe(temp) == 3) 
+                {
+                    JOptionPane.showMessageDialog(this, "No es posible agregar una categoría padre como subcategoría actualmente.");
+                }    
             }
+    
         }
         
         if(!newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))  //Si es categoria padre
-        {
+        {   
             DTOCategoria temp = new DTOCategoria(newCat.getText()); 
-            if(controller.altaDeCategoria(temp))    //Se ingresa la Categoría.
+            
+            if (controller.existe(temp) == 5) 
             {
+                JOptionPane.showMessageDialog(this, "Esa categoría ya existe!");
+                
+            }
+            
+            if(controller.existe(temp) == 0)    //Se ingresa la Categoría.
+            {
+                controller.altaDeCategoria(temp);
                 JOptionPane.showMessageDialog(this, "Categoría ingresada correctamente!");
                 newCat.setText("Ingrese nombre categoría...");
             }
-            else
+            
+            if(controller.existe(temp) == 6) //Si la categoría a ingresar era una subcategoría
             {
-                JOptionPane.showMessageDialog(this, "Esa categoría ya existe!");
-                newCat.setText("Ingrese nombre categoría...");
+                JOptionPane.showMessageDialog(this, newCat.getText() + " es una subcategoría, no puede ser una categoría padre");
             }
+
         }
 
-            llenarTabla();  //Se actualizan los datos
+        llenarTabla();  //Se actualizan los datos
         
     }//GEN-LAST:event_botonAgregarCategoriaActionPerformed
 
