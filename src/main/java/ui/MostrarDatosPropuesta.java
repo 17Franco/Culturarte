@@ -38,7 +38,7 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         listaFinal.addElement("Recaudación inicial:            " + datos.getPrecio());
         listaFinal.addElement("Recaudación esperada:      " + datos.getMontoTotal());
         listaFinal.addElement("Fecha de publicación:         " + datos.getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        listaFinal.addElement("Ganancia esperada:           " + datos.getRetorno().toString());
+        listaFinal.addElement("Ganancia Aceptada:           " + datos.getRetorno().toString());
         listaFinal.addElement("Categoría:                           " + datos.getCategoria().getNombreCategoria());
         listaFinal.addElement("Usuario Proponente:           " + datos.nickProponenteToString());
         listaFinal.addElement("Estado actual:                     " + ultimoEstado.getEstado().toString());                         //Estado actual

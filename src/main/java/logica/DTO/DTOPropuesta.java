@@ -21,7 +21,7 @@ public class DTOPropuesta {
     private int Precio;
     private int MontoTotal;
     private LocalDate FechaPublicacion;
-    private TipoRetorno Retorno;
+    private List<TipoRetorno> Retorno = new ArrayList<>();
     private DTOCategoria cat;
     private DTOProponente usr; 
     private Estado EstadoAct;
@@ -30,7 +30,7 @@ public class DTOPropuesta {
             
     public DTOPropuesta(){}
     
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -41,7 +41,6 @@ public class DTOPropuesta {
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
-        this.Retorno=Retorno;
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
@@ -86,7 +85,7 @@ public class DTOPropuesta {
     public LocalDate getFechaPublicacion() {
         return FechaPublicacion;
     }
-    public TipoRetorno getRetorno() {
+    public List<TipoRetorno> getRetorno() {
         return Retorno;
     }
     public DTOCategoria getCategoria(){
@@ -141,9 +140,9 @@ public class DTOPropuesta {
     public void setFechaPublicacion(LocalDate fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
-    public void setRetorno(TipoRetorno retorno) {
-        Retorno = retorno;
-    } 
+    public void setRetornos(List<TipoRetorno> retorno) { 
+        this.Retorno = retorno;     
+    }
     public void setCategoria(DTOCategoria Cat){
         cat = Cat;
     }

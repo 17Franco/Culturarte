@@ -185,7 +185,7 @@ public class Controller  implements IController {
     
    
     @Override
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, TipoRetorno Retorno, String cat, String usr,Estado est) {
+    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
         ((Proponente) mUsuario.buscador(usr)).setPropuestaCreada(propuesta);
@@ -244,7 +244,7 @@ public class Controller  implements IController {
              return aux2; 
      }
      
-     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, TipoRetorno retorno,String categoria, String usuarios, Estado estado) {
+     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
         if (propuestaSeleccionada != null){
@@ -255,7 +255,7 @@ public class Controller  implements IController {
             propuestaSeleccionada.setFecha(fechaEvento);
             propuestaSeleccionada.setPrecio(precio);
             propuestaSeleccionada.setMontoTotal(montoTotal);
-            propuestaSeleccionada.setRetorno(retorno);
+            propuestaSeleccionada.setRetornos(retorno);
             propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
             propuestaSeleccionada.addEstHistorial(estado);
         }

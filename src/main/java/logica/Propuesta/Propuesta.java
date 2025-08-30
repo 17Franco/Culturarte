@@ -33,7 +33,7 @@ public class Propuesta {
     private LocalDate FechaPublicacion;
     
     @Enumerated(EnumType.STRING)
-    private TipoRetorno Retorno;
+    private List<TipoRetorno> Retorno = new ArrayList<>();//guardo los retornos soportados
     
     @ManyToOne
     @JoinColumn(name = "categoria") 
@@ -51,7 +51,7 @@ public class Propuesta {
     private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,Categoria cat,Proponente usr,Estado estadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -62,9 +62,9 @@ public class Propuesta {
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
-        this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
+        this.Retorno = Retorno;
         this.historialEstados.add(0,(new Registro_Estado(LocalDate.now(), estadoAct)));    //Añade al inicio!  
     }
     public  String getTitulo() {
@@ -94,7 +94,7 @@ public class Propuesta {
     public LocalDate getFechaPublicacion() {
         return FechaPublicacion;
     }
-    public TipoRetorno getRetorno() {
+    public List<TipoRetorno> getRetorno() {
         return Retorno;
     }
     public Categoria getCategoria(){
@@ -139,9 +139,9 @@ public class Propuesta {
     public void setFechaPublicacion(LocalDate _FechaPublicacion) {
         FechaPublicacion = _FechaPublicacion;
     }
-    public void setRetorno(TipoRetorno retorno) {
-        Retorno = retorno;
-    } 
+    public void setRetornos(List<TipoRetorno> retorno) { //aca retorno debe clickear sobre los dos que se quiera tener en la propuesta sino los reemplaza (osea borra uno si no lo selecciona)
+        this.Retorno = retorno;                            
+    }
     public void setCategoria(Categoria Cat){
         cat = Cat;
     }
@@ -173,4 +173,11 @@ public class Propuesta {
         Registro_Estado nuevoReg = new Registro_Estado(LocalDate.now(),aux1);
         this.historialEstados.add(0,nuevoReg);
     } 
+    public void addRetorno(List<TipoRetorno> retornos) { //NO lo uso por el momento pero esto en vez de sobreescibir te deja agregar algo que falte en los retonos
+        for (TipoRetorno r : retornos) {
+            if (!this.Retorno.contains(r)) {
+                this.Retorno.add(r);
+            }
+        }
+    }
 }

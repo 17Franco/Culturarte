@@ -122,7 +122,7 @@ public class ManejadorPropuesta {
         p1.setFechaPublicacion(LocalDate.of(3,2,1));
         p1.setImagne("img"+i);
         p1.setLugar("lugar"+i);
-        p1.setRetorno(TipoRetorno.EntradaGratis);
+       // p1.setRetornos(retorno);
         p1.setTipo("tipo"+i);
         p1.setPrecio(i);
         p1.setMontoTotal(i);

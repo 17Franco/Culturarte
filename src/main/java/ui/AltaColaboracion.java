@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import javax.swing.BorderFactory;
@@ -75,7 +76,11 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
                     mostrarPopup(propuestaSeleccionada);
                     tipoRetornocbox.removeAllItems(); 
                     tipoRetornocbox.addItem("SeleccionarRetorno"); 
-                    tipoRetornocbox.addItem(propuestaSeleccionada.getRetorno().name());
+                    Iterator<TipoRetorno> it = propuestaSeleccionada.getRetorno().iterator();
+                    while (it.hasNext()) {
+                        TipoRetorno retorno = it.next();
+                        tipoRetornocbox.addItem(retorno.toString());
+                    }
              }
         }); 
         
@@ -150,7 +155,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
     fechaField.setText(propuesta.getFecha() != null ? propuesta.getFecha().toString() : "-");
     precioField.setText(String.valueOf(propuesta.getPrecio()));
     montoField.setText(String.valueOf(propuesta.getMontoTotal()));
-    retornoField.setText(propuesta.getRetorno() != null ? propuesta.getRetorno().name() : "-");
+    retornoField.setText(propuesta.getRetorno() != null ? propuesta.getRetorno().toString() : "-");
 
     // Imagen
     if (propuesta.getImagen() != null && !propuesta.getImagen().isEmpty()) {
@@ -192,6 +197,12 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         Colaborador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel1.setText("Colaboracion a Propuesta");
+
+        tipoRetornocbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoRetornocboxActionPerformed(evt);
+            }
+        });
 
         campoMonto.setName("Monto"); // NOI18N
 
@@ -372,6 +383,10 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         
         campoMonto.setText("");
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void tipoRetornocboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRetornocboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoRetornocboxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

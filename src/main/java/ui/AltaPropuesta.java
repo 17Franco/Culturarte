@@ -5,8 +5,10 @@
 package ui;
 import java.time.LocalDate;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -33,18 +35,13 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         a.setName("Año");
         ListaUsuarios.removeAllItems();
         ListaCategoria.removeAllItems();
-        Retorno1.removeAllItems(); 
         for (String u : controller.ListaProponentes()) {
             ListaUsuarios.addItem(u); 
          }
 
         for (String c : controller.ListaCategoria()) {
             ListaCategoria.addItem(c); 
-         } 
-    
-        for (TipoRetorno t : TipoRetorno.values()) {
-            Retorno1.addItem(t);
-        }
+         }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,7 +81,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        Retorno1 = new javax.swing.JComboBox<>();
+        T2 = new javax.swing.JCheckBox();
+        T1 = new javax.swing.JCheckBox();
 
         setClosable(true);
         setIconifiable(true);
@@ -203,9 +201,17 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Retorno");
 
-        Retorno1.addActionListener(new java.awt.event.ActionListener() {
+        T2.setText("Entrada Gratis");
+        T2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Retorno1ActionPerformed(evt);
+                T2ActionPerformed(evt);
+            }
+        });
+
+        T1.setText("Porcentaje de Ganancia");
+        T1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                T1ActionPerformed(evt);
             }
         });
 
@@ -215,68 +221,23 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(149, 149, 149)
-                                .addComponent(TituloAgregarPropuesta))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(IngresoUsuario)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(ListaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(IngresoCategoria)
-                                        .addComponent(jLabel6))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(ListaCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Retorno1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(Lugar)
-                                        .addComponent(Tipo)
-                                        .addComponent(Descripcion)
-                                        .addComponent(Titulo))
-                                    .addGap(226, 226, 226)))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(16, 16, 16)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel10)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(m, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(11, 11, 11)
-                                            .addComponent(Precio_Entrada)
-                                            .addGap(26, 26, 26))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(Monto_A_Recaudar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGap(9, 9, 9)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(Lugar_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(Monto_Field)
-                                            .addComponent(Precio_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(Tipo_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Descripcion_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(TituloField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
+                            .addGap(86, 86, 86)
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel10)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(m, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGap(80, 80, 80)
                             .addComponent(Imagen)
                             .addGap(18, 18, 18)
@@ -285,28 +246,59 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                                     .addComponent(Agregar)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Cancelar))
-                                .addComponent(Imagen_Boton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(84, Short.MAX_VALUE))
+                                .addComponent(Imagen_Boton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(TituloAgregarPropuesta))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(Descripcion)
+                                .addComponent(Titulo)
+                                .addComponent(Tipo)
+                                .addComponent(Lugar)
+                                .addComponent(Precio_Entrada)
+                                .addComponent(jLabel6)
+                                .addComponent(Monto_A_Recaudar))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Lugar_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Monto_Field)
+                                    .addComponent(Precio_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Tipo_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Descripcion_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TituloField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(T2)
+                                .addComponent(T1)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(41, 41, 41)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(IngresoUsuario)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(ListaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addComponent(IngresoCategoria)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(ListaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(TituloAgregarPropuesta)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(IngresoUsuario))
-                    .addComponent(ListaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ListaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IngresoUsuario))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ListaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IngresoCategoria))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(Retorno1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Titulo)
@@ -332,6 +324,12 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                     .addComponent(Monto_Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Monto_A_Recaudar))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(T2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(T1)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -345,7 +343,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Imagen_Boton)
                     .addComponent(Imagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cancelar)
                     .addComponent(Agregar))
@@ -381,38 +379,72 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_Monto_FieldActionPerformed
     private boolean validarCampo(List<JTextField> campos) {
         for (JTextField campo : campos) {
-            String texto = campo.getText().trim();
-            if (!Utilities.validarNoVacio(campo)) return false;
+            if (campo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "El campo '" + campo.getName() + "' no puede estar vacío",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                campo.requestFocus();
+                return false;
+            }
+        }
+        try {
+            Integer.parseInt(Precio_Field.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El campo Precio debe ser un numero entero", "Error", JOptionPane.ERROR_MESSAGE);
+            Precio_Field.requestFocus();
+            return false;
+        }
+        try {
+            Integer.parseInt(Monto_Field.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El campo Monto debe ser un numero entero", "Error", JOptionPane.ERROR_MESSAGE);
+            Monto_Field.requestFocus();
+            return false;
         }
         if (!Utilities.validarFecha(d.getText(), m.getText(), a.getText())) {
             return false;
         }
-
+       
         return true; 
     }
+    public static boolean validarRetorno(JCheckBox t1, JCheckBox t2) {
+        if (!t1.isSelected() && !t2.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un tipo de retorno",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
+    
+        List<JTextField> campos = Arrays.asList(TituloField, Descripcion_Field, Tipo_Field, Lugar_Field, Precio_Field, Monto_Field, d, m, a);
+        if (!validarCampo(campos)) {
+            return;
+        }
         String titulo = TituloField.getText();
         String descripcion = Descripcion_Field.getText();
         String tipo = Tipo_Field.getText();
         String lugar = Lugar_Field.getText();
-        int precio = Integer.parseInt(Precio_Field.getText());
-        int montoTotal = Integer.parseInt(Monto_Field.getText());
+        int precio = Integer.parseInt(Precio_Field.getText().trim());
+        int montoTotal = Integer.parseInt(Monto_Field.getText().trim());
         String dia = d.getText(); 
         String mes =m.getText(); 
         String anio =a.getText();
         //LocalDate hoy = LocalDate.now();
         //DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
-  
         ListaUsuarios.getSelectedItem();
         ListaCategoria.getSelectedItem();
-        
-        TipoRetorno retorno = (TipoRetorno) Retorno1.getSelectedItem();
+        List<TipoRetorno> retorno = new ArrayList<>();
+        if (T2.isSelected()) {
+            retorno.add(TipoRetorno.EntradaGratis);
+        }
+        if (T1.isSelected()) {
+            retorno.add(TipoRetorno.PorcentajeGanancia);
+        }
         String usuarios = (String) ListaUsuarios.getSelectedItem(); 
         String categoria = (String) ListaCategoria.getSelectedItem();
-        
-        List<JTextField> campos = Arrays.asList(TituloField,Descripcion_Field,Tipo_Field,Lugar_Field,Precio_Field,Monto_Field,d,m,a);
-        
-        if(validarCampo(campos)){
+
+        if(validarCampo(campos) && validarRetorno(T1,T2)){
             if(controller.existeProp(titulo)){    
                 JOptionPane.showMessageDialog(this, "Propuesta ya registrada");
             }else{
@@ -479,9 +511,13 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_CancelarActionPerformed
 
-    private void Retorno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Retorno1ActionPerformed
+    private void T1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Retorno1ActionPerformed
+    }//GEN-LAST:event_T1ActionPerformed
+
+    private void T2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_T2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -501,7 +537,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private javax.swing.JTextField Monto_Field;
     private javax.swing.JLabel Precio_Entrada;
     private javax.swing.JTextField Precio_Field;
-    private javax.swing.JComboBox<TipoRetorno> Retorno1;
+    private javax.swing.JCheckBox T1;
+    private javax.swing.JCheckBox T2;
     private javax.swing.JLabel Tipo;
     private javax.swing.JTextField Tipo_Field;
     private javax.swing.JLabel Titulo;
