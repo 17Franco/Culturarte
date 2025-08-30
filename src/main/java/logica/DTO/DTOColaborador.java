@@ -4,6 +4,7 @@
  */
 package logica.DTO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,7 @@ import logica.Usuario.Colaborador;
 public class DTOColaborador extends DTOUsuario{
     private List<DTOColaboracion> colaboraciones= new ArrayList<>();
 
-    public DTOColaborador(String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+    public DTOColaborador(String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         super(nickname, nombre, apellido, email, fecha, rutaImg);
     }
     public void setColaboracion(DTOColaboracion r){

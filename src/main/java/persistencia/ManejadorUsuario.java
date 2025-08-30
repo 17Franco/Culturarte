@@ -1,6 +1,11 @@
 
 package persistencia;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import logica.Colaboracion.Colaboracion;
-import logica.DTO.DTFecha;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -22,12 +26,15 @@ public class ManejadorUsuario {
     private Map<String,Usuario> usuarios;
     
     private static ManejadorUsuario instancia = null;
+    private EntityManager em;
 
+        
     private ManejadorUsuario() {
+
         usuarios = new HashMap<String, Usuario>();
         
-        DTFecha a = new DTFecha(30,01,2024);
-        DTFecha b = new DTFecha(12,02,2023);
+        LocalDate a = LocalDate.of(2024,01,30);
+        LocalDate b = LocalDate.of(2023,02,2);
         //Borrar luego
         Proponente p1 = new Proponente("Calle Falsa 123", "Bio", "www.web.com",
                 "nick1", "Juan", "Pérez", "juan@mail.com",
@@ -47,6 +54,20 @@ public class ManejadorUsuario {
     public void addProponente(DTOProponente u){
         Proponente p=new Proponente(u);
         usuarios.put(u.getNickname(),p);
+        
+        /*em= PersistenciaManager.getEntityManager();
+        EntityTransaction t = em.getTransaction();
+        try{
+            t.begin();
+            em.persist(p);
+            t.commit();
+            
+        }
+        catch(Exception e){
+            t.rollback();    
+        }
+        em.close();
+*/
     }
    
      public void addColaborador(DTOColaborador u){

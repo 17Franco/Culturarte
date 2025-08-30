@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
-import logica.DTO.DTFecha;
 import logica._enum.Estado;
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
@@ -401,8 +400,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         String dia = d.getText(); 
         String mes =m.getText(); 
         String anio =a.getText();
-        LocalDate hoy = LocalDate.now();
-        DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
+        //LocalDate hoy = LocalDate.now();
+        //DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
   
         ListaUsuarios.getSelectedItem();
         ListaCategoria.getSelectedItem();
@@ -418,8 +417,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Propuesta ya registrada");
             }else{
                 Utilities.copiarImagen(rutaImagen,titulo);
-                DTFecha fechaEvento=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
-                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,fechaCreacion ,retorno,categoria, usuarios,Estado.INGRESADA);
+                LocalDate  fechaEvento=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
+                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,LocalDate.now() ,retorno,categoria, usuarios,Estado.INGRESADA);
                 JOptionPane.showMessageDialog(this, "Propuesta registrado con exito");
             }
             

@@ -1,27 +1,29 @@
 package logica.DTO;
+import java.time.LocalDate;
 import logica._enum.Estado;
 import logica.Propuesta.Registro_Estado;
 
 public class DTORegistro_Estado 
 {
-    private DTFecha fechaReg;
+    private LocalDate fechaReg;
     private Estado estado;
 
     public DTORegistro_Estado() 
     {
     }
 
-    public DTORegistro_Estado(DTFecha _fechaReg, Estado _estados)
+    public DTORegistro_Estado(LocalDate _fechaReg, Estado _estados)
     {
         fechaReg = _fechaReg;
         estado = _estados;
     }
     
-    public DTFecha getFechaReg() 
+    public LocalDate getFechaReg() 
     {
         if(fechaReg == null)    //No debería pasar
         {
-            DTFecha a = new DTFecha(30,12,9999);
+            //DTFecha a = new DTFecha(30,12,9999);
+            LocalDate a =  LocalDate.of(9999,30,12);
             return a;    //Parche temporal
         }
         
@@ -38,7 +40,7 @@ public class DTORegistro_Estado
         return estado;
     }
 
-    public void setFechaReg(DTFecha _fechaReg) 
+    public void setFechaReg(LocalDate _fechaReg) 
     {
         fechaReg = _fechaReg;
     }
@@ -78,7 +80,7 @@ public class DTORegistro_Estado
             
             return "31/12/9999 (ERROR)";    //Parche temporal
         }
-        return fechaReg.getDay() + "/" + fechaReg.getMonth() + "/"+ fechaReg.getYear();
+        return fechaReg.getDayOfMonth() + "/" + fechaReg.getMonthValue() + "/"+ fechaReg.getYear();
     }
     
 }

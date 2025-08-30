@@ -1,8 +1,15 @@
 package logica.Propuesta;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import logica._enum.TipoRetorno;
-import logica.DTO.DTFecha;
 import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
@@ -11,26 +18,40 @@ import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTORegistro_Estado;
 import logica._enum.Estado;
 
-
+@Entity
 public class Propuesta {
-    
+    @Id
     private String Titulo;
+    
     private String Descripcion;
     private String Tipo;
     private String Imagen;
     private String Lugar;
-    private DTFecha Fecha;
+    private LocalDate Fecha;
     private int Precio; //tambien debe ser int 
     private int MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
-    private DTFecha FechaPublicacion;
+    private LocalDate FechaPublicacion;
+    
+    @Enumerated(EnumType.STRING)
     private TipoRetorno Retorno;
+    
+    @ManyToOne
+    @JoinColumn(name = "categoria") 
     private Categoria cat;
+    
+    @ManyToOne
+    @JoinColumn(name = "proponente")
     private Proponente usr;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "propuesta") // FK en la tabla registro_estado
     private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
+    
+    @OneToMany(mappedBy = "propuesta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
+    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,TipoRetorno Retorno,Categoria cat,Proponente usr,Estado estadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -44,7 +65,7 @@ public class Propuesta {
         this.Retorno=Retorno;
         this.cat=cat;
         this.usr=usr;
-        this.historialEstados.add(0,(new Registro_Estado(new DTFecha(LocalDate.now()), estadoAct)));    //Añade al inicio!  
+        this.historialEstados.add(0,(new Registro_Estado(LocalDate.now(), estadoAct)));    //Añade al inicio!  
     }
     public  String getTitulo() {
         return Titulo;
@@ -61,7 +82,7 @@ public class Propuesta {
     public  String getLugar() {
         return Lugar;
     }
-    public  DTFecha getFecha() {
+    public  LocalDate getFecha() {
         return Fecha;
     }
     public int getPrecio() {
@@ -70,7 +91,7 @@ public class Propuesta {
     public int getMontoTotal() {
         return MontoTotal;
     }
-    public DTFecha getFechaPublicacion() {
+    public LocalDate getFechaPublicacion() {
         return FechaPublicacion;
     }
     public TipoRetorno getRetorno() {
@@ -103,7 +124,7 @@ public class Propuesta {
         Lugar = lugar;
     }
 
-    public void setFecha(DTFecha fecha) {
+    public void setFecha(LocalDate fecha) {
         Fecha = fecha;
     }
 
@@ -115,7 +136,7 @@ public class Propuesta {
         MontoTotal = montoTotal;
     }
 
-    public void setFechaPublicacion(DTFecha _FechaPublicacion) {
+    public void setFechaPublicacion(LocalDate _FechaPublicacion) {
         FechaPublicacion = _FechaPublicacion;
     }
     public void setRetorno(TipoRetorno retorno) {
@@ -149,7 +170,7 @@ public class Propuesta {
         return almacen;
     }
     public void addEstHistorial(Estado aux1){     
-        Registro_Estado nuevoReg = new Registro_Estado(new DTFecha(LocalDate.now()),aux1);
+        Registro_Estado nuevoReg = new Registro_Estado(LocalDate.now(),aux1);
         this.historialEstados.add(0,nuevoReg);
     } 
 }

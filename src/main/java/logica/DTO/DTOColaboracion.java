@@ -1,6 +1,7 @@
 
 package logica.DTO;
 
+import java.time.LocalDate;
 import logica.Colaboracion.Colaboracion;
 import logica.Usuario.Colaborador;
 import logica._enum.TipoRetorno;
@@ -15,7 +16,7 @@ public class DTOColaboracion {
 
         private String propuesta;
 
-        private DTFecha creado;
+        private LocalDate creado;
     
     
     public boolean equals(DTOColaboracion obj) {
@@ -34,7 +35,7 @@ public class DTOColaboracion {
         return this.creado.equals(obj.creado);
     }
     public DTOColaboracion(){}
-    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, DTFecha creado) {
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
         this.colaborador = colaborador;
@@ -51,12 +52,12 @@ public class DTOColaboracion {
      }
 
      
-    public DTFecha getCreado() {
+    public LocalDate getCreado() {
         return creado;
     }
 
     
-    public void setCreado(DTFecha creado) {
+    public void setCreado(LocalDate creado) {
         this.creado = creado;
     }
 
