@@ -198,11 +198,18 @@ public class Main extends javax.swing.JFrame {
                     }  
                     case "Seguir Usuario" ->
                     {
-                        abrirInternalFrame(SeguirUsuario.class);
-                        //fondo.add(SeguirU);
-                        //SeguirU.setSize(fondo.getSize());
-                        //SeguirU.setVisible(true);
-                    }  
+                        SeguirUsuario SeguirU=new SeguirUsuario();
+                        fondo.add(SeguirU);
+                        SeguirU.setSize(fondo.getSize());
+                        SeguirU.setVisible(true);
+                    }
+                    case "Dejar de seguir usuario" ->
+                    {
+                        DejarDeSeguirUsuario unfollow = new DejarDeSeguirUsuario();
+                        fondo.add(unfollow);
+                        unfollow.setSize(fondo.getSize());
+                        unfollow.setVisible(true);
+                    }
                 }
             });
              jMenu2.add(item);
