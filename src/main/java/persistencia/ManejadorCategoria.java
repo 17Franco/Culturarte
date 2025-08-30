@@ -1,6 +1,7 @@
 package persistencia;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import logica.Categoria.Categoria;
 import logica.Categoria.Categoria;
@@ -66,12 +67,15 @@ public class ManejadorCategoria
         
         if(categoriaIngresada.getCatPadre() != null)  //Si es una subcategoria:
         {
-            Categoria temp = new Categoria();
-            temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Obtengo y almaceno puntero a cat padre.
+            Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Obtengo y almaceno puntero a cat padre.
             
-            temp.addSubcategoria(categoriaIngresada);
+            if(temp != null)
+            {    
+                temp.addSubcategoria(categoriaIngresada);
+                return true;
+            }
             
-            return true;
+            return false;
 
         }
         
@@ -79,26 +83,92 @@ public class ManejadorCategoria
         return false;
  
     }
+    
+    public boolean addCategoriaB(DTOCategoria categoriaIngresada) //Sin uso, ingresa una categoria padre como subcategoría.
+    {
+        Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());   //Se obtiene puntero de categoria padre.
+        
+            if(temp != null)
+            {    
+                temp.addSubcategoria(categoriaIngresada);
+                return true;
+            }
+        
+        
+        return false;
+    }
+    
+    
     public Categoria buscadorC(String nombreCat){
         Categoria u = AlmacenCategorias.get(nombreCat); 
         
         return u;
     }
    
-    public int existe(DTOCategoria categoriaIngresada)  //Devuelve 1 si no esta la parte "Categoria-nombre" devuelve 2 si no existe con el nombre "categoria-padre"
-    {   //Devuelve 0 si existe alguna coincidencia de nombre o de categoria padre.
+    public int existe(DTOCategoria categoriaIngresada)  
+    {   
+        //Devuelve 0 si no existe como Categoría padre
+        //Devuelve 1 en casos excepcionales.
+        //Devuelve 2 si la subcategoría ya existía en determinada cat padre
+        //Devuelve 3 si existe como categoría padre y además se intenta que sea Subcategoría
+        //Devuelve 4 si la categoría padre ingresada por user para una subCat no existe.
+        //Devuelve 5 si la categoria padre nueva ingresada ya existe
+        //Devuelve 6 si se intenta ingresar una subcategoria como categoría padre
+   
         
-        if(!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria.
-        {       //Si no está y no está vacio da true, ver que es condicion negada
-            return 1;
-        }
-        //Esta opcion aun no tiene uso previsto
-        if(!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Busca si ya existe SubCategoria como categoria grande.
-        {       //Si no está y no está vacio da true, ver que es condicion negada
-            return 2;
+        if(categoriaIngresada.getCatPadre() != null)   //Si se agregó como subcategoría
+        {
+            if(!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre()))    //Si no existe tal categoría padre que se ingresa....
+            {   
+                return 4;
+            }
+            
+            if(AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si la categoría padre existe...
+            {
+                Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Puntero a nodo de cat padre.
+
+                if (temp.existeSubCat(categoriaIngresada.getNombreCategoria())) //Pregunta si ya existia una subcat con ese nombre.
+                {
+                    return 2;
+                }
+            } 
+            
+            if(AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) 
+            {
+                    return 3;   //Si se intenta que una cat padre sea subcategoria
+            }
         }
         
-        return 0;
+        if(AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria()))
+        {
+             return 5;     //Si la categoría padre ingresada nueva ya existía.   
+        }
+        
+        if(!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria padre.
+        {      
+            
+            
+            Iterator <Map.Entry <String, Categoria>> ct = AlmacenCategorias.entrySet().iterator();
+            
+            while(ct.hasNext()) 
+            {
+                Map.Entry<String, Categoria> entry = ct.next();
+                
+                if(entry.getValue().existeSubCat(categoriaIngresada.getNombreCategoria()))
+                {
+                    return 6; 
+                }
+                
+            } 
+            
+            return 0;
+        }
+        
+        
+
+        
+        
+        return 1;
     }
   
 }
