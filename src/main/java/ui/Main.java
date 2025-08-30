@@ -198,7 +198,7 @@ public class Main extends javax.swing.JFrame {
                     }  
                     case "Seguir Usuario" ->
                     {
-                        SeguirUsuario SeguirU=new SeguirUsuario();
+                        abrirInternalFrame(SeguirUsuario.class);
                         //fondo.add(SeguirU);
                         //SeguirU.setSize(fondo.getSize());
                         //SeguirU.setVisible(true);
