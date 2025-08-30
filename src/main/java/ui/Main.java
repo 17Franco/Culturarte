@@ -199,9 +199,9 @@ public class Main extends javax.swing.JFrame {
                     case "Seguir Usuario" ->
                     {
                         SeguirUsuario SeguirU=new SeguirUsuario();
-                        fondo.add(SeguirU);
-                        SeguirU.setSize(fondo.getSize());
-                        SeguirU.setVisible(true);
+                        //fondo.add(SeguirU);
+                        //SeguirU.setSize(fondo.getSize());
+                        //SeguirU.setVisible(true);
                     }
                     case "Dejar de seguir usuario" ->
                     {
