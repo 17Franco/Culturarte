@@ -1,29 +1,36 @@
 package logica.Propuesta;
-import logica.DTO.DTFecha;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import java.time.LocalDate;
 import logica._enum.Estado;
 
-
-/**
- *
- * @author klaas
- */
+@Entity
 public class Registro_Estado {
-
-    private DTFecha fechaReg;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private LocalDate fechaReg;
+    
+    @Enumerated(EnumType.STRING)
     private Estado estado;
 
     public Registro_Estado() 
     {
     }
 
-    public Registro_Estado(DTFecha _fechaReg, Estado _estado)
+    public Registro_Estado(LocalDate _fechaReg, Estado _estado)
     {
         fechaReg = _fechaReg;
         estado = _estado;
 
     }
 
-    public DTFecha getFechaReg() 
+    public LocalDate getFechaReg() 
     {
         return fechaReg;
     }
@@ -33,7 +40,7 @@ public class Registro_Estado {
         return estado;
     }
 
-    public void setFechaReg(DTFecha _fechaReg) 
+    public void setFechaReg(LocalDate _fechaReg) 
     {
         fechaReg = _fechaReg;
     }

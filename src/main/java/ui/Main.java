@@ -205,11 +205,11 @@ public class Main extends javax.swing.JFrame {
                     }
                     case "Dejar de seguir usuario" ->
                     {
-                        DejarDeSeguirUsuario unfollow = new DejarDeSeguirUsuario();
-                        fondo.add(unfollow);
-                        unfollow.setSize(fondo.getSize());
-                        unfollow.setVisible(true);
-                    }
+                        abrirInternalFrame(DejarDeSeguirUsuario.class);
+                        //fondo.add(SeguirU);
+                        //SeguirU.setSize(fondo.getSize());
+                        //SeguirU.setVisible(true);
+                    }  
                 }
             });
              jMenu2.add(item);

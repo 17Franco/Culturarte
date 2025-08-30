@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
-import logica.DTO.DTFecha;
 import logica.DTO.DTORegistro_Estado;
 import logica._enum.Estado;
 
@@ -353,7 +352,7 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
 
             if(validarCampo(campos)){
                 Utilities.copiarImagen(rutaImagen,auxTitulo);
-                DTFecha fechaEvento=new DTFecha(Integer.parseInt(dia),Integer.parseInt(mes),Integer.parseInt(anio));
+                LocalDate fechaEvento=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
                 controller.modificarPropuesta(auxTitulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,retorno,auxCat, auxUsuario,newEstado);
                 JOptionPane.showMessageDialog(this, "Propuesta Modificada con exito");                       
 

@@ -1,6 +1,7 @@
 
 package logica.DTO;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import logica.Usuario.Proponente;
@@ -14,7 +15,7 @@ public class DTOProponente extends DTOUsuario{
     private String webSite;
     private Map<String,DTOPropuesta> propCreadas=new HashMap<>();
 
-    public DTOProponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, DTFecha fecha, String rutaImg) {
+    public DTOProponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         super(nickname, nombre, apellido, email, fecha, rutaImg);
         this.direccion = direccion;
         this.biografia = biografia;

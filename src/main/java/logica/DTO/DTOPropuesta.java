@@ -1,11 +1,9 @@
 package logica.DTO;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import logica.Colaboracion.Colaboracion;
 import logica._enum.TipoRetorno;
-import logica.DTO.DTOProponente;
-import logica.DTO.DTOCategoria;
-import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 import logica._enum.Estado;
 import logica.Propuesta.Registro_Estado;
@@ -19,10 +17,10 @@ public class DTOPropuesta {
     private String Tipo;
     private String Imagen;
     private String Lugar;
-    private DTFecha Fecha;
+    private LocalDate Fecha;
     private int Precio;
     private int MontoTotal;
-    private DTFecha FechaPublicacion;
+    private LocalDate FechaPublicacion;
     private TipoRetorno Retorno;
     private DTOCategoria cat;
     private DTOProponente usr; 
@@ -32,7 +30,7 @@ public class DTOPropuesta {
             
     public DTOPropuesta(){}
     
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, DTFecha Fecha, int Precio, int MontoTotal,DTFecha FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
+    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,TipoRetorno Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
@@ -76,7 +74,7 @@ public class DTOPropuesta {
     public  String getLugar() {
         return Lugar;
     }
-    public  DTFecha getFecha() {
+    public  LocalDate getFecha() {
         return Fecha;
     }
     public int getPrecio() {
@@ -85,7 +83,7 @@ public class DTOPropuesta {
     public int getMontoTotal() {
         return MontoTotal;
     }
-    public DTFecha getFechaPublicacion() {
+    public LocalDate getFechaPublicacion() {
         return FechaPublicacion;
     }
     public TipoRetorno getRetorno() {
@@ -97,7 +95,8 @@ public class DTOPropuesta {
     public DTOProponente getProponente()
     {
         if(usr == null) //Control de error, no es reelevante al uso.
-        {   DTFecha a = new DTFecha(30,12,9999);
+        {   //DTFecha a = new DTFecha(30,12,9999);
+            LocalDate a =  LocalDate.of(9999,30,12);
             DTOProponente b = new DTOProponente("Error","Error","Error","Error","Error","Error","Error",a,"NO");
            return b;
         }
@@ -127,7 +126,7 @@ public class DTOPropuesta {
         Lugar = lugar;
     }
 
-    public void setFecha(DTFecha fecha) {
+    public void setFecha(LocalDate fecha) {
         Fecha = fecha;
     }
 
@@ -139,7 +138,7 @@ public class DTOPropuesta {
         MontoTotal = montoTotal;
     }
 
-    public void setFechaPublicacion(DTFecha fechaPublicacion) {
+    public void setFechaPublicacion(LocalDate fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
     public void setRetorno(TipoRetorno retorno) {

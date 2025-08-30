@@ -3,12 +3,20 @@ import logica.DTO.DTOCategoria;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
+import jakarta.persistence.*;
+import java.util.*;
 
-public class Categoria 
+@Entity
+
+public class Categoria
 {
+    @Id
     private String nombreCategoria;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subCategorias")
     private Set<Categoria> subcategorias;
-    
+
     public Categoria() 
     {
     }
@@ -26,12 +34,12 @@ public class Categoria
 
         subcategorias = new HashSet<>(); 
 
-        
+
         Iterator<DTOCategoria> it = subCat.iterator();
-        
-        while (it.hasNext()) 
-        {                       
-            subcategorias.add(DTO_a_Cat(it.next()));                      
+
+        while (it.hasNext())
+        {
+            subcategorias.add(DTO_a_Cat(it.next()));
         }
         
 		
@@ -58,10 +66,10 @@ public class Categoria
     public void setSubcategorias(Set<DTOCategoria> _subcategorias)  //Elimina las existentes y agrega nuevas.
     {
         Iterator<DTOCategoria> it = _subcategorias.iterator();
-        
+
         subcategorias.clear();
-        
-        while (it.hasNext()) 
+
+        while (it.hasNext())
         {
             subcategorias.add(DTO_a_Cat(it.next()));
         }
@@ -88,25 +96,25 @@ public class Categoria
         subcategorias.add(DTO_a_Cat(_subCat));
 
     }
-    
+
     public DTOCategoria CrearDT() {
         return new DTOCategoria(this.nombreCategoria);
     }
-    
+
     public Categoria DTO_a_Cat(DTOCategoria input)
     {
-        Categoria aux = new Categoria(input.getNombreCategoria());     
-        
+        Categoria aux = new Categoria(input.getNombreCategoria());
+
         return aux;
     }
-    
+
     public String StringSubcategorias()
     {
         String almacen = "";
-        
+
         Iterator<Categoria> iterator = subcategorias.iterator();
-        
-        while(iterator.hasNext()) 
+
+        while(iterator.hasNext())
         {
             if(almacen.isEmpty())
             {
@@ -117,24 +125,24 @@ public class Categoria
             {
                 almacen += ", ";
                 almacen += iterator.next().getNombreCategoria();
-            }   
+            }
         }
-        
+
         return almacen;
     }
-    
+
     public boolean existeSubCat(String nombreSubCat)    //true si existe subcat con ese string.
     {
         Iterator<Categoria> it = subcategorias.iterator();
 
-        while (it.hasNext()) 
+        while (it.hasNext())
         {
             if(it.next().getNombreCategoria().equals(nombreSubCat))
             {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

@@ -4,6 +4,7 @@
  */
 package persistencia;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import logica.Categoria.Categoria;
 import logica.Colaboracion.Colaboracion;
-import logica.DTO.DTFecha;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Proponente;
 import logica._enum.Estado;
@@ -118,8 +118,8 @@ public class ManejadorPropuesta {
         p1.setTitulo("titulo" + i);
         p1.setCategoria(new Categoria("cat" + i));
         p1.setDescripcion("desc"+i);
-        p1.setFecha(new DTFecha(1,2,3)); //
-        p1.setFechaPublicacion(new DTFecha(1,3,4));
+        p1.setFecha(LocalDate.of(3,2,1)); //
+        p1.setFechaPublicacion(LocalDate.of(3,2,1));
         p1.setImagne("img"+i);
         p1.setLugar("lugar"+i);
         p1.setRetorno(TipoRetorno.EntradaGratis);

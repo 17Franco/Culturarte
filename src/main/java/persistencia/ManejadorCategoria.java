@@ -20,13 +20,13 @@ public class ManejadorCategoria
         Categoria tecnologia = new Categoria("Tecnología");
         Categoria musica = new Categoria("Música");
 
-        DTOCategoria dtoSub1 = new DTOCategoria("Pintura", "Arte", null);
-        DTOCategoria dtoSub2 = new DTOCategoria("Escultura", "Arte", null);
+        DTOCategoria dtoSub1 = new DTOCategoria("Pintura", null);
+        DTOCategoria dtoSub2 = new DTOCategoria("Escultura", null);
         arte.addSubcategoria(dtoSub1);
         arte.addSubcategoria(dtoSub2);
 
-        DTOCategoria dtoSub3 = new DTOCategoria("Software", "Tecnología", null);
-        DTOCategoria dtoSub4 = new DTOCategoria("Hardware", "Tecnología", null);
+        DTOCategoria dtoSub3 = new DTOCategoria("Software", null);
+        DTOCategoria dtoSub4 = new DTOCategoria("Hardware", null);
         tecnologia.addSubcategoria(dtoSub3);
         tecnologia.addSubcategoria(dtoSub4);
 
@@ -70,26 +70,26 @@ public class ManejadorCategoria
             Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Obtengo y almaceno puntero a cat padre.
             
             if(temp != null)
-            {    
+            {
                 temp.addSubcategoria(categoriaIngresada);
                 return true;
             }
-            
+
             return false;
 
         }
-        
-        
+
+
         return false;
- 
+
     }
-    
+
     public boolean addCategoriaB(DTOCategoria categoriaIngresada) //Sin uso, ingresa una categoria padre como subcategoría.
     {
         Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());   //Se obtiene puntero de categoria padre.
-        
+
             if(temp != null)
-            {    
+            {
                 temp.addSubcategoria(categoriaIngresada);
                 return true;
             }
@@ -97,16 +97,16 @@ public class ManejadorCategoria
         
         return false;
     }
-    
-    
+
+
     public Categoria buscadorC(String nombreCat){
         Categoria u = AlmacenCategorias.get(nombreCat); 
         
         return u;
     }
    
-    public int existe(DTOCategoria categoriaIngresada)  
-    {   
+    public int existe(DTOCategoria categoriaIngresada)
+    {
         //Devuelve 0 si no existe como Categoría padre
         //Devuelve 1 en casos excepcionales.
         //Devuelve 2 si la subcategoría ya existía en determinada cat padre
@@ -114,15 +114,15 @@ public class ManejadorCategoria
         //Devuelve 4 si la categoría padre ingresada por user para una subCat no existe.
         //Devuelve 5 si la categoria padre nueva ingresada ya existe
         //Devuelve 6 si se intenta ingresar una subcategoria como categoría padre
-   
+
         
         if(categoriaIngresada.getCatPadre() != null)   //Si se agregó como subcategoría
         {
             if(!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre()))    //Si no existe tal categoría padre que se ingresa....
-            {   
+            {
                 return 4;
             }
-            
+
             if(AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si la categoría padre existe...
             {
                 Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Puntero a nodo de cat padre.
@@ -131,9 +131,9 @@ public class ManejadorCategoria
                 {
                     return 2;
                 }
-            } 
-            
-            if(AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) 
+            }
+
+            if(AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria()))
             {
                     return 3;   //Si se intenta que una cat padre sea subcategoria
             }
@@ -141,33 +141,33 @@ public class ManejadorCategoria
         
         if(AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria()))
         {
-             return 5;     //Si la categoría padre ingresada nueva ya existía.   
+             return 5;     //Si la categoría padre ingresada nueva ya existía.
         }
-        
+
         if(!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria padre.
-        {      
-            
-            
+        {
+
+
             Iterator <Map.Entry <String, Categoria>> ct = AlmacenCategorias.entrySet().iterator();
-            
-            while(ct.hasNext()) 
+
+            while(ct.hasNext())
             {
                 Map.Entry<String, Categoria> entry = ct.next();
-                
+
                 if(entry.getValue().existeSubCat(categoriaIngresada.getNombreCategoria()))
                 {
-                    return 6; 
+                    return 6;
                 }
-                
-            } 
-            
+
+            }
+
             return 0;
         }
-        
-        
 
-        
-        
+
+
+
+
         return 1;
     }
   
