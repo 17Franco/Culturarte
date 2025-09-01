@@ -71,7 +71,7 @@ public interface IController {
     //Fin Categoria
     
     //cu Registrar colaboracion a Propuesta
-    Set<DTOPropuesta> ListarPropuestas();
+    Set<DTOPropuesta> ListarPropuestas(String estado1, String estado2);
     
     void altaColaboracion(DTOColaboracion colaboracion); 
     boolean colaboracionExiste(String colaborador, String titulo);
@@ -81,5 +81,7 @@ public interface IController {
     Set<Colaboracion> ListarColaboracionesDeColaborador(String nickname);
     
     // cu cancelar Colaboracion a Propuesta
-    void CancelarColaboracion(Colaboracion colaboracion);
+    void CancelarColaboracion(String nick,String propuesta);
+    
+   Set<DTOColaboracion> getDTOColaboraciones();
 }

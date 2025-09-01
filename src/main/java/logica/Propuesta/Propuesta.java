@@ -1,6 +1,9 @@
 package logica.Propuesta;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,7 +35,13 @@ public class Propuesta {
     private int MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
     private LocalDate FechaPublicacion;
     
+    @ElementCollection(targetClass = TipoRetorno.class)
     @Enumerated(EnumType.STRING)
+    @CollectionTable(
+    name = "retorno", // nombre de la tabla 
+    joinColumns = @JoinColumn(name = "propuesta") 
+    )
+    @Column(name = "retorno") // columna donde se guarda el enum
     private List<TipoRetorno> Retorno = new ArrayList<>();//guardo los retornos soportados
     
     @ManyToOne
@@ -171,7 +180,7 @@ public class Propuesta {
     }
     public void addEstHistorial(Estado aux1){     
         Registro_Estado nuevoReg = new Registro_Estado(LocalDate.now(),aux1);
-        this.historialEstados.add(0,nuevoReg);
+        this.historialEstados.addFirst(nuevoReg);
     } 
     public void addRetorno(List<TipoRetorno> retornos) { //NO lo uso por el momento pero esto en vez de sobreescibir te deja agregar algo que falte en los retonos
         for (TipoRetorno r : retornos) {

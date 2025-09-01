@@ -6,7 +6,7 @@ import logica.Categoria.Categoria;
 public class DTOCategoria 
 {
     private String nombreCategoria;
-    private Set<Categoria> subcategorias;
+    private Set<DTOCategoria> subcategorias;
     private String catPadre;     //Es para saber si la ingreso como subcategoría o si no.
 
     public DTOCategoria()
@@ -28,7 +28,7 @@ public class DTOCategoria
     }
 
     
-    public DTOCategoria(String _nombreCategoria, String _catPadre, Set<Categoria> _subcategorias)
+    public DTOCategoria(String _nombreCategoria, String _catPadre, Set<DTOCategoria> _subcategorias)
     {
         nombreCategoria = _nombreCategoria;
         catPadre = _catPadre;
@@ -45,7 +45,9 @@ public class DTOCategoria
 
         }
     }
-
+    public void addSubCategoria(DTOCategoria c){
+        subcategorias.add(c);
+    }
     public String getNombreCategoria() 
     {
         return nombreCategoria;
@@ -56,7 +58,7 @@ public class DTOCategoria
         return catPadre;
     }
 
-    public Set<Categoria> getSubcategorias() 
+    public Set<DTOCategoria> getSubcategorias() 
     {
         return subcategorias;
     }
@@ -71,7 +73,7 @@ public class DTOCategoria
         catPadre = _catPadre;
     }
 
-    public void setSubcategorias(Set<Categoria> _subcategorias) 
+    public void setSubcategorias(Set<DTOCategoria> _subcategorias) 
     {
         subcategorias = _subcategorias;
     }

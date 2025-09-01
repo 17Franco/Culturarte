@@ -1,8 +1,10 @@
 package persistencia;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import logica.Categoria.Categoria;
 import logica.Categoria.Categoria;
 
@@ -15,8 +17,8 @@ public class ManejadorCategoria
     {
         AlmacenCategorias = new HashMap<String, Categoria>();
         
-        
-        Categoria arte = new Categoria("Arte");
+    /*    
+        DTOCategoria arte = new Categoria("Arte");
         Categoria tecnologia = new Categoria("Tecnología");
         Categoria musica = new Categoria("Música");
 
@@ -32,7 +34,7 @@ public class ManejadorCategoria
 
         AlmacenCategorias.put(arte.getNombreCategoria(), arte);
         AlmacenCategorias.put(tecnologia.getNombreCategoria(), tecnologia);
-        AlmacenCategorias.put(musica.getNombreCategoria(), musica);
+        AlmacenCategorias.put(musica.getNombreCategoria(), musica);*/
     }
     
     public static ManejadorCategoria getInstance() 
@@ -50,8 +52,12 @@ public class ManejadorCategoria
     public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria)
     {
         Categoria temp = AlmacenCategorias.get(nombreCategoria);
-        
-        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(),"",temp.getSubcategorias());
+       Set<DTOCategoria> setCat=new HashSet<>();
+        for(Categoria c: temp.getSubcategorias()){
+            DTOCategoria cat=new DTOCategoria(c.getNombreCategoria(),c.getCatPadre().getNombreCategoria(),null);
+            setCat.add(cat);
+        }
+        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(),"",setCat);
         
         return almacen;
     }
@@ -60,7 +66,7 @@ public class ManejadorCategoria
     { 
         if(categoriaIngresada.getCatPadre() == null)  //Si no agregó como subcategoria
         {       //la condición está negada.
-            Categoria cat1 = new Categoria(categoriaIngresada.getNombreCategoria());
+           Categoria cat1 = new Categoria(categoriaIngresada.getNombreCategoria(),null,null);
             AlmacenCategorias.put(cat1.getNombreCategoria(),cat1);
             return true;    //agregado correctamente.
         }

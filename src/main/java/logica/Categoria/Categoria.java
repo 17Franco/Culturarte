@@ -12,18 +12,18 @@ public class Categoria
 {
     @Id
     private String nombreCategoria;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subCategorias")
+    @ManyToOne
+    @JoinColumn(name = "categoria_padre") // crea columna fk en tabla categoria
+    private Categoria catPadre; // pongo esto para que JPA MAPE ese atributo que es la fk categoria /catpadre   esa seria las columnas 
+   
+    @OneToMany(mappedBy = "catPadre", cascade = CascadeType.ALL)
     private Set<Categoria> subcategorias;
 
-    public Categoria() 
-    {
-    }
+    public Categoria(){}
  
-    public Categoria(String nombreCategoria) 
-    {
+    public Categoria(String nombreCategoria,Categoria c, Set<Categoria> sub) {
         this.nombreCategoria = nombreCategoria;
+        this.catPadre=c;
         this.subcategorias = new HashSet<>(); //Son lo mismo hashSet == nullptr
     }
     
@@ -39,10 +39,14 @@ public class Categoria
 
         while (it.hasNext())
         {
-            subcategorias.add(DTO_a_Cat(it.next()));
+            //subcategorias.add(DTO_a_Cat(it.next()));
         }
         
 		
+    }
+
+    public Categoria getCatPadre() {
+        return catPadre;
     }
 
     public String getNombreCategoria() 
@@ -71,7 +75,7 @@ public class Categoria
 
         while (it.hasNext())
         {
-            subcategorias.add(DTO_a_Cat(it.next()));
+            //subcategorias.add(DTO_a_Cat(it.next()));
         }
     }
 
@@ -93,20 +97,26 @@ public class Categoria
     
     public void addSubcategoria(DTOCategoria _subCat)   //Añade una nueva.
     {
-        subcategorias.add(DTO_a_Cat(_subCat));
+       // subcategorias.add(DTO_a_Cat(_subCat));
 
     }
+    
+    public void addSubcategoria2(Categoria _subCat)   //Añade una nueva.
+    {
+        subcategorias.add(_subCat);
 
+    }
     public DTOCategoria CrearDT() {
         return new DTOCategoria(this.nombreCategoria);
     }
 
-    public Categoria DTO_a_Cat(DTOCategoria input)
+  /*  public Categoria DTO_a_Cat(DTOCategoria input)
     {
         Categoria aux = new Categoria(input.getNombreCategoria());
 
         return aux;
-    }
+    }*/
+    
 
     public String StringSubcategorias()
     {

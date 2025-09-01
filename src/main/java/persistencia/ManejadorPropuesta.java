@@ -4,6 +4,8 @@
  */
 package persistencia;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +26,8 @@ import logica._enum.TipoRetorno;
 
 public class ManejadorPropuesta {
     private Map<String,Propuesta> propuestasp;
-    
+    private EntityManager em;
+    ManejadorUsuario mUsuario;
     private static ManejadorPropuesta instancia = null;
 
     
@@ -35,9 +38,27 @@ public class ManejadorPropuesta {
     }
     
     public void nuevaPropuesta(Propuesta p) {
-        if (p != null) 
-        {
+        
+        if (p != null) {
+         /*   em= PersistenciaManager.getEntityManager();
+            EntityTransaction t = em.getTransaction();
+        try{
+             t.begin();
+            Proponente prop = em.find(Proponente.class, p.getProponente().getNickname());
+            prop.getPropCreadas().put(p.getTitulo(), p);
+            p.setProponente(prop);
+            em.persist(p);
+            t.commit();
+        }
+        catch(Exception e){
+            if (t.isActive()) t.rollback();
+            e.printStackTrace();  
+        }finally{
+             em.close();
+        }
+           */
             propuestasp.put(p.getTitulo(), p);
+            p.setProponente(p.getProponente());
         }
     }
         public boolean existeProp(String Titulo){
@@ -116,13 +137,18 @@ public class ManejadorPropuesta {
     private void addDummyEntry(int i) {
         Propuesta p1 = new Propuesta();
         p1.setTitulo("titulo" + i);
-        p1.setCategoria(new Categoria("cat" + i));
+        p1.setCategoria(new Categoria("cat" + i,null,null));
         p1.setDescripcion("desc"+i);
         p1.setFecha(LocalDate.of(3,2,1)); //
         p1.setFechaPublicacion(LocalDate.of(3,2,1));
         p1.setImagne("img"+i);
         p1.setLugar("lugar"+i);
-       // p1.setRetornos(retorno);
+        p1.addEstHistorial(Estado.PUBLICADA);
+        List<TipoRetorno>r=new ArrayList<>();
+        r.add(TipoRetorno.EntradaGratis);
+        r.add(TipoRetorno.PorcentajeGanancia);
+        p1.setRetornos(r);
+        
         p1.setTipo("tipo"+i);
         p1.setPrecio(i);
         p1.setMontoTotal(i);
@@ -138,6 +164,37 @@ public class ManejadorPropuesta {
             this.addDummyEntry(i);
         }
     }
-    
+    public void eliminarColaboracion(String nick,String propuesta){
+        Propuesta p=getPropuesta(propuesta);
+        Colaboracion aux=null;
+        for(Colaboracion c: p.getAporte()){
+            if(c.getColaborador().getNickname().equals(nick)){
+                aux=c;
+                break;
+            }
+        }
+        if(aux!=null){
+            p.getAporte().remove(aux);
+        }
+        
+    }
+    public void actualizarEstado(String titulo){ //se usa en colaboracion cuando 
+        Propuesta p=getPropuesta(titulo);
+        int montoRecibido=0;
+        for(Colaboracion c:p.getAporte()){
+            montoRecibido=montoRecibido+c.getMonto();
+        }
+        if(montoRecibido==0){
+            p.addEstHistorial(Estado.PUBLICADA);
+        }
+        
+        if(montoRecibido>0 && montoRecibido!=p.getMontoTotal()){
+            p.addEstHistorial(Estado.EN_FINANCIACION);
+        }
+        if(montoRecibido>0 && montoRecibido==p.getMontoTotal()){
+            p.addEstHistorial(Estado.FINANCIADA);
+        }
+      
+    }
     
 }
