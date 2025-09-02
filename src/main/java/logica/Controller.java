@@ -241,17 +241,8 @@ public class Controller  implements IController {
      public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
-        if (propuestaSeleccionada != null){
-            propuestaSeleccionada.setDescripcion(descripcion);
-            propuestaSeleccionada.setTipo(tipo);
-            propuestaSeleccionada.setImagne(rutaImagen);
-            propuestaSeleccionada.setLugar(lugar);
-            propuestaSeleccionada.setFecha(fechaEvento);
-            propuestaSeleccionada.setPrecio(precio);
-            propuestaSeleccionada.setMontoTotal(montoTotal);
-            propuestaSeleccionada.setRetornos(retorno);
-            propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
-            propuestaSeleccionada.addEstHistorial(estado);
+        if (propuestaSeleccionada != null){  
+            mPropuesta.UpdatePropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
         }
      }
      @Override
