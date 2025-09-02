@@ -24,11 +24,11 @@ public class Categoria
     public Categoria(String nombreCategoria) 
     {
         this.nombreCategoria = nombreCategoria;
-        this.subcategorias = new HashSet<>(); //Son lo mismo hashSet == nullptr
+        this.subcategorias = new HashSet<>(); 
     }
     
     // Para añadir subcategoría desde el inicio...
-    public Categoria(String _nombreCategoria, Set<DTOCategoria> subCat) //se puede modificar para recibir una lista de string.
+    public Categoria(String _nombreCategoria, Set<DTOCategoria> subCat)
     {
         nombreCategoria = _nombreCategoria;
 
