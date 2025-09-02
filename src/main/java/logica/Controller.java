@@ -86,14 +86,14 @@ public class Controller  implements IController {
      
      @Override
      public List<String> ListaSeguidosPorUsuario(String nick){
-         List<String> aux = new ArrayList<>();
+        /* List<String> aux = new ArrayList<>();
          Usuario usuario = mUsuario.buscador(nick);
          if (usuario != null && usuario.getUsuarioSeguido() != null) {
             for(Usuario u:usuario.getUsuarioSeguido().values()){
                 aux.add(u.getNickname());
             }
-         }
-         return aux;
+         }*/
+         return mUsuario.listaSeguidos(nick);
      }
      
     public List<DTOColaboracion>  colaboraciones(String nick){
@@ -108,16 +108,10 @@ public class Controller  implements IController {
      
      @Override
      public boolean seguir(String nick1,String nick2){
-        Usuario usuario1 = mUsuario.buscador(nick1);
-        Usuario usuario2 = mUsuario.buscador(nick2);
-        
-        if (usuario1 == null || usuario2 == null) return false;
-        if (nick1.equals(nick2)) return false;
-        if (usuario1.getUsuarioSeguido().containsKey(nick2)) return false;
-
-        usuario1.seguir(usuario2);
-        return true;
          
+         return mUsuario.seguirUsr(nick1,nick2);
+        
+  
      }
      @Override
      public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow)
@@ -230,7 +224,7 @@ public class Controller  implements IController {
     }
 
     @Override
-    public Map<String, Categoria> getCategorias()
+    public Map<String, DTOCategoria> getCategorias()
     {
         return mCategoria.getCategorias();
     }
@@ -238,7 +232,7 @@ public class Controller  implements IController {
    
      public List<String> ListaCategoria(){
          List<String> aux2 = new ArrayList<>();
-         for (Categoria c : mCategoria.getCategorias().values()){
+         for (DTOCategoria c : mCategoria.getCategorias().values()){
              aux2.add(c.getNombreCategoria());
          }
              return aux2; 

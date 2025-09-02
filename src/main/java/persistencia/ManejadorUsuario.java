@@ -56,9 +56,9 @@ public class ManejadorUsuario {
     
     public void addProponente(DTOProponente u){
         Proponente p=new Proponente(u);
-        usuarios.put(u.getNickname(),p);
+        //usuarios.put(u.getNickname(),p);
         
-     /*   em= PersistenciaManager.getEntityManager();
+        em= PersistenciaManager.getEntityManager();
         EntityTransaction t = em.getTransaction();
         try{
             t.begin();
@@ -70,14 +70,12 @@ public class ManejadorUsuario {
             t.rollback();    
         }
         em.close();
-*/
+
     }
    
      public void addColaborador(DTOColaborador u){
         Colaborador p=new Colaborador(u);
-        usuarios.put(u.getNickname(),p);
-        
-      /*  em= PersistenciaManager.getEntityManager();
+        em= PersistenciaManager.getEntityManager();
         EntityTransaction t = em.getTransaction();
         try{
             t.begin();
@@ -89,39 +87,31 @@ public class ManejadorUsuario {
             t.rollback();    
         }
         em.close();
-    */
+    
     }
      
     public boolean existe(String nick){
 
-     /*   em= PersistenciaManager.getEntityManager();
+        em= PersistenciaManager.getEntityManager();
       try{
             Usuario u = em.find(Usuario.class, nick);
             return  (u != null);
       }finally{
             em.close(); 
-      }*/
-      return usuarios.containsKey(nick);
+      }
     }
     
     public Usuario buscador(String nick) {
-       /*  em = PersistenciaManager.getEntityManager();
+         em = PersistenciaManager.getEntityManager();
          try {
-             return em.find(Usuario.class, nick);//esto devuelve la info basica los listas como seguidor favorito propcreadas no se cargan 
+             return em.find(Usuario.class, nick);
          } finally {
              em.close(); // se ejecuta SIEMPRE, haya error o no
-         }*/
-       return usuarios.get(nick);
+         }
      }
     public Map<String,DTOPropuesta> getPropCreadas(DTOProponente proponente){
-        Map<String,DTOPropuesta> resu=new HashMap<>();
-        Proponente p=(Proponente) usuarios.get(proponente.getNickname());
-        for(Propuesta prop: p.getPropCreadas().values()){
-                DTOPropuesta propuesta=new DTOPropuesta(prop,proponente);
-                resu.put(prop.getTitulo(), propuesta);
-        }
-        return resu;
-      /*  em = PersistenciaManager.getEntityManager();
+      
+        em = PersistenciaManager.getEntityManager();
         String nick=proponente.getNickname();
         Map<String,DTOPropuesta> resu=new HashMap<>();
          try {
@@ -133,11 +123,11 @@ public class ManejadorUsuario {
              return resu;
          } finally {
              em.close(); // se ejecuta SIEMPRE, haya error o no
-         }*/
+         }
       
     }
     public boolean emailUsado(String email){
-      /*   em = PersistenciaManager.getEntityManager();
+        em = PersistenciaManager.getEntityManager();
          
          try{
              String norm = email == null ? null : email.trim().toLowerCase();
@@ -146,33 +136,14 @@ public class ManejadorUsuario {
             return count > 0;
          }finally{
             em.close();
-         }*/
-       for (Usuario u : usuarios.values()) {
-            if (u.getEmail().equalsIgnoreCase(email)) {
-                return true; // email ya está registrado
-            }
-        }
-        return false;
+         }
     }
     
     //DEVUELVO TODOS LOS USUARIOS COMO DTO A CONTROLLER
     public Map<String, DTOUsuario> getUsuarios() {
         
          Map<String, DTOUsuario> resu = new HashMap<>();
-
-        // Recorremos todos los valores del Map de usuarios
-        for (Usuario u: usuarios.values()) {
-            if(u instanceof Colaborador){
-                    DTOColaborador c= new DTOColaborador( (Colaborador) u);
-                     resu.put(c.getNickname(),c);
-                }else{
-                    DTOProponente p=new DTOProponente((Proponente) u);
-                     resu.put(p.getNickname(), p);
-                }
-           
-        }
-        return resu;
-       /* em = PersistenciaManager.getEntityManager();
+       em = PersistenciaManager.getEntityManager();
          
          try{
            // Traigo todos los usuarios en una lista
@@ -190,14 +161,14 @@ public class ManejadorUsuario {
             return mapDtoUsuario;
          }finally{
             em.close();
-         }*/
+         }
     }
     
     // ACA DEVUELVO  set de DTOColaborador
     public Set<DTOColaborador> listColaboradores(){
         Set<DTOColaborador> results = new HashSet<DTOColaborador>();
         
-       /* em = PersistenciaManager.getEntityManager();
+        em = PersistenciaManager.getEntityManager();
         try{
              List<Colaborador> listaColaborador = em.createQuery("SELECT u FROM Usuario u WHERE u INSTANCE OF Colaborador", Colaborador.class).getResultList();
              for(Colaborador c: listaColaborador){
@@ -208,19 +179,12 @@ public class ManejadorUsuario {
               return results;
         }finally{
             em.close();
-        }*/
-        for (Usuario u : usuarios.values()) {
-            if (u instanceof Colaborador) {
-                DTOColaborador dtoColaborador = new DTOColaborador((Colaborador)u);// si borro , !u.isColaborador() queda bien
-                results.add(dtoColaborador);
-            }
         }
-        return results;
     }
     
     
     public boolean existeColaboracion(String colaborador, String titulo){
-       /*  em = PersistenciaManager.getEntityManager();
+        em = PersistenciaManager.getEntityManager();
          try{
               //String norm = email == null ? null : email.trim().toLowerCase();
              Long count = em.createQuery(
@@ -228,19 +192,19 @@ public class ManejadorUsuario {
             return count > 0;
          }finally{
             em.close();
-         }*/
-       Colaborador c=(Colaborador) buscador(colaborador);
+         }
+     /*  Colaborador c=(Colaborador) buscador(colaborador);
         for (Colaboracion colab : c.getColaboraciones()) {
             if (colab.getPropuesta().getTitulo().equals(titulo)) {
                 return true; 
             }
         }
-        return false; 
+        return false; */
     }
     
     public List<DTOColaboracion> getDTOColaboraciones(String nick){
-         List<DTOColaboracion> resu=new ArrayList<>();
-     /*   em = PersistenciaManager.getEntityManager();
+         //List<DTOColaboracion> resu=new ArrayList<>();
+        em = PersistenciaManager.getEntityManager();
         List<DTOColaboracion> resu=new ArrayList<>();
         try{
             Colaborador c=em.find(Colaborador.class, nick);
@@ -251,16 +215,7 @@ public class ManejadorUsuario {
              return resu;
         }finally{
             em.close();
-        }*/
-       
-        Colaborador c=(Colaborador) buscador(nick);
-        
-                
-        for(Colaboracion colab: c.getColaboraciones()){
-            DTOColaboracion DTOColab = new DTOColaboracion(colab);
-            resu.add(DTOColab);
         }
-            return resu;
         }
         
         public void eliminarColaboracion(String nick,String propuesta){
@@ -276,5 +231,48 @@ public class ManejadorUsuario {
                 c.getColaboraciones().remove(aux);
             }
 
+        }
+        
+        public boolean seguirUsr(String nick1, String nick2){
+            em = PersistenciaManager.getEntityManager();
+            try{
+                  
+                  Usuario usuario1 = em.find(Usuario.class,nick1);
+                  Usuario usuario2 = em.find(Usuario.class,nick2);
+
+                    if (usuario1 == null || usuario2 == null) return false;
+                    if (nick1.equals(nick2)) return false;
+                    if (usuario1.getUsuarioSeguido().containsKey(nick2)) return false;
+                    
+                    EntityTransaction t = em.getTransaction();
+                    t.begin();
+                    usuario1.seguir(usuario2);
+                    em.merge(usuario2);
+                    t.commit();
+                    return true;
+            
+            }catch(Exception e){
+                return false;
+            }finally{
+                em.close();
+            }
+          
+        }
+        
+        public List<String> listaSeguidos(String nick){
+            em = PersistenciaManager.getEntityManager();
+            try{
+                List<String> aux = new ArrayList<>();
+                Usuario usuario = em.find(Usuario.class,nick);
+                if (usuario != null && usuario.getUsuarioSeguido() != null) {
+                   for(Usuario u:usuario.getUsuarioSeguido().values()){
+                       aux.add(u.getNickname());
+                   }
+                }
+                return aux;
+            }finally{
+                em.close();
+            }
+            
         }
 }

@@ -137,7 +137,7 @@ public class ManejadorPropuesta {
     private void addDummyEntry(int i) {
         Propuesta p1 = new Propuesta();
         p1.setTitulo("titulo" + i);
-        p1.setCategoria(new Categoria("cat" + i,null,null));
+        p1.setCategoria(new Categoria("cat" + i));
         p1.setDescripcion("desc"+i);
         p1.setFecha(LocalDate.of(3,2,1)); //
         p1.setFechaPublicacion(LocalDate.of(3,2,1));

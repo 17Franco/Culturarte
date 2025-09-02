@@ -1,33 +1,40 @@
 package logica.DTO;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import logica.Categoria.Categoria;
 
 public class DTOCategoria 
 {
     private String nombreCategoria;
-    private Set<DTOCategoria> subcategorias;
     private String catPadre;     //Es para saber si la ingreso como subcategoría o si no.
+    private Set<DTOCategoria> subcategorias= new HashSet<>();
+    
 
     public DTOCategoria()
     {
-        subcategorias = new HashSet<>();
+        
     }
     
     public DTOCategoria(String _nombreCategoria) 
     {
-        nombreCategoria = _nombreCategoria;
-        subcategorias = new HashSet<>();
+        this.nombreCategoria = _nombreCategoria;
+        this.catPadre=null;
+        this.subcategorias = new HashSet<>();
     }
 
     public DTOCategoria(String _nombreCategoria, String _catPadre) 
     {
-        nombreCategoria = _nombreCategoria;
-        catPadre = _catPadre;
-        subcategorias = new HashSet<>();
+        this.nombreCategoria = _nombreCategoria;
+        this.catPadre = _catPadre;
+        this.subcategorias = new HashSet<>();
     }
 
-    
+  /*  public DTOCategoria(Categoria c){
+        this.nombreCategoria=c.getNombreCategoria();
+        this.catPadre=c.getCatPadre().getNombreCategoria();
+        this.subcategorias=c.getSubcategorias();
+    }*/
     public DTOCategoria(String _nombreCategoria, String _catPadre, Set<DTOCategoria> _subcategorias)
     {
         nombreCategoria = _nombreCategoria;
@@ -70,12 +77,40 @@ public class DTOCategoria
     
     public void setCatPadre(String _catPadre)
     {
-        catPadre = _catPadre;
+        this.catPadre = _catPadre;
     }
 
     public void setSubcategorias(Set<DTOCategoria> _subcategorias) 
     {
         subcategorias = _subcategorias;
     }
+    public void addSubcategoria(DTOCategoria c){
+        subcategorias.add(c);
+    }
+    
+    
+     public String StringSubcategorias()
+    {
+        String almacen = "";
 
+        Iterator<DTOCategoria> iterator = subcategorias.iterator();
+
+        while(iterator.hasNext())
+        {
+            if(almacen.isEmpty())
+            {
+                almacen += "                | SC: ";
+                almacen += iterator.next().getNombreCategoria();    //Se obtiene el nombre de cada subcategoria
+            }
+            else
+            {
+                almacen += ", ";
+                almacen += iterator.next().getNombreCategoria();
+            }
+        }
+
+        return almacen;
+    }
+     
+     
  }

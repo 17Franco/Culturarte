@@ -17,32 +17,23 @@ public class Categoria
     private Categoria catPadre; // pongo esto para que JPA MAPE ese atributo que es la fk categoria /catpadre   esa seria las columnas 
    
     @OneToMany(mappedBy = "catPadre", cascade = CascadeType.ALL)
-    private Set<Categoria> subcategorias;
+    private Set<Categoria> subcategorias;////
 
     public Categoria(){}
- 
-    public Categoria(String nombreCategoria,Categoria c, Set<Categoria> sub) {
+    
+    //conjtructor para crear categoria sin padre 
+    public Categoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
-        this.catPadre=c;
+        this.catPadre=null;
         this.subcategorias = new HashSet<>(); //Son lo mismo hashSet == nullptr
     }
     
     // Para añadir subcategoría desde el inicio...
-    public Categoria(String _nombreCategoria, Set<DTOCategoria> subCat) //se puede modificar para recibir una lista de string.
-    {
-        nombreCategoria = _nombreCategoria;
-
-        subcategorias = new HashSet<>(); 
-
-
-        Iterator<DTOCategoria> it = subCat.iterator();
-
-        while (it.hasNext())
-        {
-            //subcategorias.add(DTO_a_Cat(it.next()));
-        }
-        
-		
+    public Categoria(String _nombreCategoria, Categoria padre){
+        this.nombreCategoria = _nombreCategoria;
+        this.catPadre=padre;
+        this.subcategorias = new HashSet<>(); 
+	
     }
 
     public Categoria getCatPadre() {
@@ -94,11 +85,13 @@ public class Categoria
             }
         }
     }
-    
+    public void addSubcategoria(Categoria _subCat)   //Añade una nueva.
+    {
+       subcategorias.add(_subCat);
+    }
     public void addSubcategoria(DTOCategoria _subCat)   //Añade una nueva.
     {
-       // subcategorias.add(DTO_a_Cat(_subCat));
-
+       subcategorias.add(DTO_a_Cat(_subCat));
     }
     
     public void addSubcategoria2(Categoria _subCat)   //Añade una nueva.
@@ -110,12 +103,12 @@ public class Categoria
         return new DTOCategoria(this.nombreCategoria);
     }
 
-  /*  public Categoria DTO_a_Cat(DTOCategoria input)
+  public Categoria DTO_a_Cat(DTOCategoria input)
     {
         Categoria aux = new Categoria(input.getNombreCategoria());
 
         return aux;
-    }*/
+    }
     
 
     public String StringSubcategorias()
