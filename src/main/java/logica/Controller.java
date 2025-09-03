@@ -219,7 +219,12 @@ public class Controller  implements IController {
        {
             return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
        }
-
+       
+       if(mCategoria.existe(categoriaIngresada) == 7)   //Es una subSubcategoria_n+1...
+       {
+           return (mCategoria.addCategoriaB(categoriaIngresada));   
+       }
+       
        return false;    //Le dice a ui que no se agregó nada.
     }
     
