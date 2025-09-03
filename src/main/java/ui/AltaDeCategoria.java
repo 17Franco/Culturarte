@@ -43,7 +43,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     }
     
     
-    private DefaultMutableTreeNode Cat_a_Jt(Categoria cat)   //Con esto hago un nodo del arbol compatible con la Jtree
+    private DefaultMutableTreeNode Cat_a_Jt(DTOCategoria cat)   //Con esto hago un nodo del arbol compatible con la Jtree
     {
         DefaultMutableTreeNode temp = new DefaultMutableTreeNode(cat);  
     
@@ -55,13 +55,13 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
         return temp;
     }
     
-    public JTree cargarJtree(Map<String, Categoria> input_AlmacenCategorias) 
+    public JTree cargarJtree(Map<String, DTOCategoria> input_AlmacenCategorias) 
     {
         
         DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
        
         
-        for(Categoria nodo : input_AlmacenCategorias.values()) 
+        for(DTOCategoria nodo : input_AlmacenCategorias.values()) 
         {
             almacen.add(Cat_a_Jt(nodo));   
         }
