@@ -47,7 +47,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     {
         DefaultMutableTreeNode temp = new DefaultMutableTreeNode(cat);  
     
-        for (Categoria ct : cat.getSubcategorias())  //Se recorre cadasubcat de la raíz envidada
+        for (DTOCategoria ct : cat.getSubcategorias())  //Se recorre cadasubcat de la raíz envidada
         {
             temp.add(Cat_a_Jt(ct));   //Paso recurs...
         }
