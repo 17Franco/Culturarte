@@ -21,13 +21,13 @@ public class ManejadorCategoria
 
         DTOCategoria dtoSub1 = new DTOCategoria("Pintura", null);
         DTOCategoria dtoSub2 = new DTOCategoria("Escultura", null);
-        arte.addSubcategoria(dtoSub1);
-        arte.addSubcategoria(dtoSub2);
+        arte.addDTOSubcategoria(dtoSub1);
+        arte.addDTOSubcategoria(dtoSub2);
 
         DTOCategoria dtoSub3 = new DTOCategoria("Software", null);
         DTOCategoria dtoSub4 = new DTOCategoria("Hardware", null);
-        tecnologia.addSubcategoria(dtoSub3);
-        tecnologia.addSubcategoria(dtoSub4);
+        tecnologia.addDTOSubcategoria(dtoSub3);
+        tecnologia.addDTOSubcategoria(dtoSub4);
 
         AlmacenCategorias.put(arte.getNombreCategoria(), arte);
         AlmacenCategorias.put(tecnologia.getNombreCategoria(), tecnologia);
@@ -70,7 +70,7 @@ public class ManejadorCategoria
             
             if(temp != null)
             {
-                temp.addSubcategoria(categoriaIngresada);
+                temp.addDTOSubcategoria(categoriaIngresada);
                 return true;
             }
 
@@ -84,14 +84,26 @@ public class ManejadorCategoria
     }
 
     public boolean addCategoriaB(DTOCategoria categoriaIngresada) //Sin uso, ingresa una categoria padre como subcategoría.
-    {
-        Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());   //Se obtiene puntero de categoria padre.
-
-            if(temp != null)
+    { 
+        if (!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si no existe tal categoría padre que se ingresa....
+        {
+            for (Categoria ct : AlmacenCategorias.values()) //Aca itera cada raiz 
             {
-                temp.addSubcategoria(categoriaIngresada);
-                return true;
+                Categoria nodoPadre = buscadorSubcategorias(ct,categoriaIngresada.getCatPadre()); //Recursividad para buscar al nodo ese. (null o !null)
+                
+                if (nodoPadre != null) 
+                {
+                    Categoria temp = new Categoria(categoriaIngresada.getNombreCategoria(),nodoPadre);
+                    
+                    nodoPadre.addSubcategoria(temp);
+                    
+                    return true;    //Retorna que se asignó correctamente.
+                    
+                }
             }
+
+            return false;
+        }
         
         
         return false;
@@ -110,15 +122,25 @@ public class ManejadorCategoria
         //Devuelve 1 en casos excepcionales.
         //Devuelve 2 si la subcategoría ya existía en determinada cat padre
         //Devuelve 3 si existe como categoría padre y además se intenta que sea Subcategoría
-        //Devuelve 4 si la categoría padre ingresada por user para una subCat no existe.
+        //Devuelve 4 si la categoría ingresada será una subcategoría de otras subcategorías.
         //Devuelve 5 si la categoria padre nueva ingresada ya existe
         //Devuelve 6 si se intenta ingresar una subcategoria como categoría padre
+        //Devuelve 7 si la categoria padre ingresada no existe.
 
         
         if(categoriaIngresada.getCatPadre() != null)   //Si se agregó como subcategoría
         {
             if(!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre()))    //Si no existe tal categoría padre que se ingresa....
             {
+                for(Categoria ct : AlmacenCategorias.values())         //Aca itera cada raiz 
+                {    
+
+                    if(buscadorSubcategorias(ct,categoriaIngresada.getCatPadre()) != null)  //Recursividad para buscar al nodo ese. (null o !null)
+                    {
+                        return 7;  
+                    }
+                }
+                
                 return 4;
             }
 
@@ -170,4 +192,39 @@ public class ManejadorCategoria
         return 1;
     }
   
+
+
+    Categoria buscadorSubcategorias(Categoria importSubCategorias, String subCatBuscada) //Acá llega el arbol sin la raíz (la raiz se itera afuera).
+    {
+        
+        if(importSubCategorias == null) //Este estaba vacío.
+        {
+            return null;
+        }
+
+        if(importSubCategorias.getNombreCategoria().equals(subCatBuscada))
+        {
+            return importSubCategorias;
+        }
+
+        for(Categoria ct : importSubCategorias.getSubcategorias()) //Accede a las subcategorias de esa categoria 
+        {
+            Categoria nodo = buscadorSubcategorias(ct,subCatBuscada);
+            
+            if(nodo != null) //Sin esto no me guarda la coincidencia del !null de arriba.
+            {
+                return nodo;
+            }
+//            else
+//            {
+//                return null;
+//            }
+        }
+
+        return null;
+    }
+    
+
+
+
 }
