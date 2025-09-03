@@ -41,9 +41,15 @@ public class ManejadorCategoria
         return instancia;
     }
     
-    public Map<String, Categoria> getCategorias()
+    public Map<String, DTOCategoria> getCategorias()
     {
-        return AlmacenCategorias;
+        Map<String, DTOCategoria> temp = new HashMap<>();
+        for (Map.Entry<String, Categoria> ct : Categorias.entrySet()) 
+        {
+            DTOCategoria temp0 (ct.getNombreCategoria(), "", ct.getCatPadre(), ct.getSubcategorias())
+            temp.put(ct.getNombreCategoria,temp0);
+        }
+        return temp;
     }
     
     public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria)
