@@ -39,7 +39,7 @@ public class ManejadorCategoria {
         }
         return instancia;
     }
-    
+
     public Map<String, DTOCategoria> getCategorias()
     {
         Map<String, DTOCategoria> temp = new HashMap<>();
