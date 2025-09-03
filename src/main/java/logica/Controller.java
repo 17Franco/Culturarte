@@ -204,7 +204,7 @@ public class Controller  implements IController {
           return mPropuesta.getPropuesta(titulo).getUltimoEstado().getEstadoString();
       }
       //Fin Propuesta
-      
+    
       //Categoria
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
@@ -231,15 +231,19 @@ public class Controller  implements IController {
     @Override
     public Map<String, DTOCategoria> getCategorias()
     {
-        return mCategoria.getCategorias();
+         
+      //  return mCategoria.getCategorias();
+        return null;
     }
     
    
      public List<String> ListaCategoria(){
          List<String> aux2 = new ArrayList<>();
+         /*
          for (DTOCategoria c : mCategoria.getCategorias().values()){
              aux2.add(c.getNombreCategoria());
          }
+        */
              return aux2; 
      }
      
