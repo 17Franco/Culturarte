@@ -46,7 +46,6 @@ public class Categoria
     {
         return catPadre;
     }
-
     public String getNombreCategoria() {
         return nombreCategoria;
     }
