@@ -13,7 +13,7 @@ public class ManejadorCategoria {
 
     private ManejadorCategoria() {
         AlmacenCategorias = new HashMap<String, Categoria>();
-    /*
+
         Categoria arte = new Categoria("Arte");
         Categoria tecnologia = new Categoria("Tecnología");
         Categoria musica = new Categoria("Música");
@@ -31,7 +31,6 @@ public class ManejadorCategoria {
         AlmacenCategorias.put(arte.getNombreCategoria(), arte);
         AlmacenCategorias.put(tecnologia.getNombreCategoria(), tecnologia);
         AlmacenCategorias.put(musica.getNombreCategoria(), musica);
-        */
     }
 
     public static ManejadorCategoria getInstance() {
@@ -40,24 +39,26 @@ public class ManejadorCategoria {
         }
         return instancia;
     }
-    /*
+
     public Map<String, DTOCategoria> getCategorias() {
         Map<String, DTOCategoria> temp = new HashMap<>();
-        for (Map.Entry<String, Categoria> ct : Categorias.entrySet()) {
-            DTOCategoria temp0 (ct.getNombreCategoria(), "", ct.getCatPadre(), ct.getSubcategorias())
-            temp.put(ct.getNombreCategoria, temp0);
+
+        for (Map.Entry<String, Categoria> ct : AlmacenCategorias.entrySet()) {
+            DTOCategoria temp0 = new DTOCategoria(ct.getValue().getNombreCategoria(), ct.getValue().getCatPadre(), "", ct.getValue().getSubcategorias());
+            temp.put(ct.getValue().getNombreCategoria(), temp0);
         }
+
         return temp;
     }
-   
+
     public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria) {
         Categoria temp = AlmacenCategorias.get(nombreCategoria);
 
-        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(), "", temp.getSubcategorias());
+        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(), null, "", temp.getSubcategorias());
 
         return almacen;
     }
- */
+
     public boolean addCategoria(DTOCategoria categoriaIngresada) {
         if (categoriaIngresada.getCatPadre() == null) //Si no agregó como subcategoria
         {       //la condición está negada.
@@ -206,5 +207,5 @@ public class ManejadorCategoria {
 
         return null;
     }
- 
+
 }
