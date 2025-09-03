@@ -19,6 +19,7 @@ public class DTOCategoria
     {
         nombreCategoria = _nombreCategoria;
         subcategorias = new HashSet<>();
+        catpadreNodo = null;
     }
 
     public DTOCategoria(String _nombreCategoria, String _catPadre, Categoria _nodoCatPadre) 
@@ -30,11 +31,11 @@ public class DTOCategoria
     }
 
     
-    public DTOCategoria(String _nombreCategoria, String _catPadre, Set<Categoria> _subcategorias)
+    public DTOCategoria(String _nombreCategoria, String _catPadre, Categoria _nodoCatPadre, Set<Categoria> _subcategorias)
     {
         nombreCategoria = _nombreCategoria;
         catPadre = _catPadre;
-
+        catPadreNodo = _nodoCatPadre;
         if (_subcategorias != null) //Si set contiene algo
         {
             subcategorias = _subcategorias;
@@ -56,6 +57,11 @@ public class DTOCategoria
     public String getCatPadre()
     {
         return catPadre;
+    }
+    
+    public String getCatPadreNodo()
+    {
+        return catPadreNodo;
     }
 
     public Set<Categoria> getSubcategorias() 
