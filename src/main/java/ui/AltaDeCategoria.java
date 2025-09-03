@@ -1,7 +1,6 @@
 package ui;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import logica.Categoria.Categoria;
 import logica.Fabrica;
 import logica.IController;
 import logica.DTO.DTOCategoria;

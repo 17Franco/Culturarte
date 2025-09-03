@@ -240,18 +240,21 @@ public class Controller  implements IController {
         return mCategoria.getCategorias();
     }
     
-   
-     public List<String> ListaCategoria()
-     {
+    @Override
+    public List<String> ListaCategoria()
+    {
          List<String> aux2 = new ArrayList<>();
          for(DTOCategoria c : mCategoria.getCategorias().values())
          {
              aux2.add(c.getNombreCategoria());
          }
              return aux2; 
-     }
-     
-     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
+    }
+    
+    //Propuesta
+    
+    @Override
+    public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
         if (propuestaSeleccionada != null){
