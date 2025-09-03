@@ -39,23 +39,25 @@ public class ManejadorCategoria {
         }
         return instancia;
     }
-
-    public Map<String, DTOCategoria> getCategorias() {
+    
+    public Map<String, DTOCategoria> getCategorias()
+    {
         Map<String, DTOCategoria> temp = new HashMap<>();
-
-        for (Map.Entry<String, Categoria> ct : AlmacenCategorias.entrySet()) {
+        
+        for(Map.Entry <String,Categoria> ct : AlmacenCategorias.entrySet()) 
+        {
             DTOCategoria temp0 = new DTOCategoria(ct.getValue().getNombreCategoria(), ct.getValue().getCatPadre(), "", ct.getValue().getSubcategorias());
-            temp.put(ct.getValue().getNombreCategoria(), temp0);
+            temp.put(ct.getValue().getNombreCategoria(),temp0);
         }
-
+        
         return temp;
     }
 
     public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria) {
         Categoria temp = AlmacenCategorias.get(nombreCategoria);
-
-        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(), null, "", temp.getSubcategorias());
-
+        
+        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(), null,"",temp.getSubcategorias());
+        
         return almacen;
     }
 
@@ -70,8 +72,9 @@ public class ManejadorCategoria {
         if (categoriaIngresada.getCatPadre() != null) //Si es una subcategoria:
         {
             Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Obtengo y almaceno puntero a cat padre.
-
-            if (temp != null) {
+            
+            if(temp != null)
+            {
                 temp.addDTOSubcategoria(categoriaIngresada);
                 return true;
             }
@@ -85,26 +88,28 @@ public class ManejadorCategoria {
     }
 
     public boolean addCategoriaB(DTOCategoria categoriaIngresada) //Sin uso, ingresa una categoria padre como subcategoría.
-    {
+    { 
         if (!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si no existe tal categoría padre que se ingresa....
         {
             for (Categoria ct : AlmacenCategorias.values()) //Aca itera cada raiz 
             {
-                Categoria nodoPadre = buscadorSubcategorias(ct, categoriaIngresada.getCatPadre()); //Recursividad para buscar al nodo ese. (null o !null)
-
-                if (nodoPadre != null) {
-                    Categoria temp = new Categoria(categoriaIngresada.getNombreCategoria(), nodoPadre);
-
+                Categoria nodoPadre = buscadorSubcategorias(ct,categoriaIngresada.getCatPadre()); //Recursividad para buscar al nodo ese. (null o !null)
+                
+                if (nodoPadre != null) 
+                {
+                    Categoria temp = new Categoria(categoriaIngresada.getNombreCategoria(),nodoPadre);
+                    
                     nodoPadre.addSubcategoria(temp);
-
+                    
                     return true;    //Retorna que se asignó correctamente.
-
+                    
                 }
             }
 
             return false;
         }
-
+        
+        
         return false;
     }
 
@@ -128,15 +133,15 @@ public class ManejadorCategoria {
         {
             if (!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si no existe tal categoría padre que se ingresa....
             {
-                for (Categoria ct : AlmacenCategorias.values()) //Aca itera cada raiz 
-                {
+                for(Categoria ct : AlmacenCategorias.values())         //Aca itera cada raiz 
+                {    
 
-                    if (buscadorSubcategorias(ct, categoriaIngresada.getCatPadre()) != null) //Recursividad para buscar al nodo ese. (null o !null)
+                    if(buscadorSubcategorias(ct,categoriaIngresada.getCatPadre()) != null)  //Recursividad para buscar al nodo ese. (null o !null)
                     {
-                        return 7;
+                        return 7;  
                     }
                 }
-
+                
                 return 4;
             }
 
@@ -178,24 +183,27 @@ public class ManejadorCategoria {
 
         return 1;
     }
+  
+
 
     Categoria buscadorSubcategorias(Categoria importSubCategorias, String subCatBuscada) //Acá llega el arbol sin la raíz (la raiz se itera afuera).
     {
-
-        if (importSubCategorias == null) //Este estaba vacío.
+        
+        if(importSubCategorias == null) //Este estaba vacío.
         {
             return null;
         }
 
-        if (importSubCategorias.getNombreCategoria().equals(subCatBuscada)) {
+        if(importSubCategorias.getNombreCategoria().equals(subCatBuscada))
+        {
             return importSubCategorias;
         }
 
-        for (Categoria ct : importSubCategorias.getSubcategorias()) //Accede a las subcategorias de esa categoria 
+        for(Categoria ct : importSubCategorias.getSubcategorias()) //Accede a las subcategorias de esa categoria 
         {
-            Categoria nodo = buscadorSubcategorias(ct, subCatBuscada);
-
-            if (nodo != null) //Sin esto no me guarda la coincidencia del !null de arriba.
+            Categoria nodo = buscadorSubcategorias(ct,subCatBuscada);
+            
+            if(nodo != null) //Sin esto no me guarda la coincidencia del !null de arriba.
             {
                 return nodo;
             }
@@ -207,5 +215,8 @@ public class ManejadorCategoria {
 
         return null;
     }
+    
+
+
 
 }
