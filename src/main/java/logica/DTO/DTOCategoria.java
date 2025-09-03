@@ -8,7 +8,8 @@ public class DTOCategoria
     private String nombreCategoria;
     private Set<Categoria> subcategorias;
     private String catPadre;     //Es para saber si la ingreso como subcategoría o si no.
-
+    private Categoria catPadreNodo;
+    
     public DTOCategoria()
     {
         subcategorias = new HashSet<>();
@@ -20,10 +21,11 @@ public class DTOCategoria
         subcategorias = new HashSet<>();
     }
 
-    public DTOCategoria(String _nombreCategoria, String _catPadre) 
+    public DTOCategoria(String _nombreCategoria, String _catPadre, Categoria _nodoCatPadre) 
     {
         nombreCategoria = _nombreCategoria;
         catPadre = _catPadre;
+        catPadreNodo = _nodoCatPadre;
         subcategorias = new HashSet<>();
     }
 
