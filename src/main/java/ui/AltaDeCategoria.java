@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import logica.Fabrica;
 import logica.IController;
 import logica.DTO.DTOCategoria;
+import logica.Categoria.Categoria;
 import javax.swing.*;
 import javax.swing.tree.*;
 
@@ -12,9 +13,6 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
     private IController controller = Fabrica.getInstance();
     
-    /**
-     * Creates new form Alta_Categoria
-     */
     public AltaDeCategoria() 
     {
         initComponents();
@@ -27,7 +25,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     
     private void refrescarJtree()
     {
-        arbol = cargarJtree(controller.getCategorias());
+     //   arbol = cargarJtree(controller.getCategorias());
         panelDelArbol.setViewportView(arbol);
         panelDelArbol.revalidate();
         panelDelArbol.repaint();
@@ -51,12 +49,14 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
         
         DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
        
-        
-        for(Categoria nodo : input_AlmacenCategorias.values()) 
+        /*
+        for (DTOCategoria ct : cat.getSubcategorias()) //Se recorre cadasubcat de la raíz envidada
         {
-            almacen.add(Cat_a_Jt(nodo));   
+
+            temp.add(Cat_a_Jt(ct));   //Paso recurs...
+
         }
-        
+        */
         JTree temp = new JTree(almacen);    //JTree final creado
         
         return temp;
@@ -246,7 +246,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
         
         if(!newCat.getText().equals("Ingrese nombre categoría...") && !catPadreInput.getText().equals("Es subcategoría de..."))  //Si agrega categoria y subcat...
         {  
-            DTOCategoria temp = new DTOCategoria(catPadreInput.getText().trim(),newCat.getText().trim()); 
+         /*   DTOCategoria temp = new DTOCategoria(catPadreInput.getText().trim(),newCat.getText().trim()); 
             
             if(controller.existe(temp) == 0)    //Ingreso de nueva categoría padre.
             {   
@@ -281,7 +281,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
             }
     
 
-            
+         */   
         }
         
         if(!newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))  //Si es categoria padre

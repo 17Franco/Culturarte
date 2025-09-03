@@ -1,4 +1,5 @@
 package logica.Categoria;
+
 import logica.DTO.DTOCategoria;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +9,7 @@ import java.util.*;
 
 @Entity
 
-public class Categoria 
-{
+public class Categoria {
 
     @Id
     private String nombreCategoria;
@@ -20,44 +20,37 @@ public class Categoria
     @OneToMany(mappedBy = "catPadre", cascade = CascadeType.ALL)
     private Set<Categoria> subcategorias;
 
-
-
-    public Categoria() {}
+    public Categoria() {
+    }
 
     //conjtructor para crear categoria sin padre 
-    public Categoria(String nombreCategoria) 
-    {
+    public Categoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
         this.catPadre = null;
         this.subcategorias = new HashSet<>();
     }
 
     // Para añadir catPadre desde el inicio...
-    public Categoria(String _nombreCategoria, Categoria padre) 
-    {
+    public Categoria(String _nombreCategoria, Categoria padre) {
         this.nombreCategoria = _nombreCategoria;
         this.catPadre = padre;
         this.subcategorias = new HashSet<>();
 
     }
 
-    public Categoria getCatPadre() 
-    {
+    public Categoria getCatPadre() {
         return catPadre;
     }
 
-    public String getNombreCategoria() 
-    {
+    public String getNombreCategoria() {
         return nombreCategoria;
     }
 
-    public Set<Categoria> getSubcategorias() 
-    {
+    public Set<Categoria> getSubcategorias() {
         return subcategorias;
     }
 
-    public void setNombreCategoria(String _nombreCategoria) 
-    {
+    public void setNombreCategoria(String _nombreCategoria) {
         nombreCategoria = _nombreCategoria;
     }
 
@@ -67,22 +60,18 @@ public class Categoria
 
         subcategorias.clear();
 
-        while (it.hasNext()) 
-        {
-            //subcategorias.add(DTO_a_Cat(it.next()));
+        while (it.hasNext()) {
+            subcategorias.add(DTO_a_Cat(it.next()));
         }
     }
 
-    public void eliminarSubcategoria(String subCatAEliminar) 
-    {
+    public void eliminarSubcategoria(String subCatAEliminar) {
         Iterator<Categoria> iterator = subcategorias.iterator();
 
-        while (iterator.hasNext()) 
-        {
+        while (iterator.hasNext()) {
             Categoria subcategoriasIT = iterator.next();
 
-            if (subcategoriasIT.getNombreCategoria().equals("subCatAEliminar")) 
-            {
+            if (subcategoriasIT.getNombreCategoria().equals("subCatAEliminar")) {
                 iterator.remove();
             }
         }
@@ -97,42 +86,35 @@ public class Categoria
     {
         subcategorias.add(DTO_a_Cat(_subCat));
     }
-
-    public DTOCategoria CrearDT() 
-    {
-        return new DTOCategoria(this.nombreCategoria);
+    
+    public DTOCategoria CrearDT() {
+        return new DTOCategoria(this.nombreCategoria); 
     }
-
-    public Categoria DTO_a_Cat(DTOCategoria input) 
-    {
+   
+    public Categoria DTO_a_Cat(DTOCategoria input) {
         Categoria aux = new Categoria(input.getNombreCategoria());
 
         return aux;
     }
-    
 
-    public String toString() 
-    {
+    public String toString() {
         return nombreCategoria;
     }
-    
+
     public boolean existeSubCat(String nombreSubCat) //true si existe subcat con ese string.
     {
         Iterator<Categoria> it = subcategorias.iterator();
 
-        while (it.hasNext()) 
-        {
-            if (it.next().getNombreCategoria().equals(nombreSubCat)) 
-            {
+        while (it.hasNext()) {
+            if (it.next().getNombreCategoria().equals(nombreSubCat)) {
                 return true;
             }
         }
 
         return false;
     }
-    
-    public void setCatPadre(Categoria input)
-    {
+
+    public void setCatPadre(Categoria input) {
         catPadre = input;
     }
 }
