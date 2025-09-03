@@ -8,41 +8,42 @@ import java.util.*;
 
 @Entity
 
-public class Categoria
+public class Categoria 
 {
+
     @Id
     private String nombreCategoria;
+    @ManyToOne
+    @JoinColumn(name = "categoria_padre") // crea columna fk en tabla categoria
+    private Categoria catPadre; // pongo esto para que JPA MAPE ese atributo que es la fk categoria /catpadre   esa seria las columnas 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subCategorias")
+    @OneToMany(mappedBy = "catPadre", cascade = CascadeType.ALL)
     private Set<Categoria> subcategorias;
 
-    public Categoria() 
-    {
-    }
- 
+
+
+    public Categoria() {}
+
+    //conjtructor para crear categoria sin padre 
     public Categoria(String nombreCategoria) 
     {
         this.nombreCategoria = nombreCategoria;
-        this.subcategorias = new HashSet<>(); 
+        this.catPadre = null;
+        this.subcategorias = new HashSet<>();
     }
-    
-    // Para añadir subcategoría desde el inicio...
-    public Categoria(String _nombreCategoria, Set<DTOCategoria> subCat)
+
+    // Para añadir catPadre desde el inicio...
+    public Categoria(String _nombreCategoria, Categoria padre) 
     {
-        nombreCategoria = _nombreCategoria;
+        this.nombreCategoria = _nombreCategoria;
+        this.catPadre = padre;
+        this.subcategorias = new HashSet<>();
 
-        subcategorias = new HashSet<>(); 
+    }
 
-
-        Iterator<DTOCategoria> it = subCat.iterator();
-
-        while (it.hasNext())
-        {
-            subcategorias.add(DTO_a_Cat(it.next()));
-        }
-        
-		
+    public Categoria getCatPadre() 
+    {
+        return catPadre;
     }
 
     public String getNombreCategoria() 
@@ -50,99 +51,87 @@ public class Categoria
         return nombreCategoria;
     }
 
-   
-    public Set<Categoria> getSubcategorias()
+    public Set<Categoria> getSubcategorias() 
     {
-       return subcategorias; 
+        return subcategorias;
     }
-
 
     public void setNombreCategoria(String _nombreCategoria) 
     {
         nombreCategoria = _nombreCategoria;
     }
- 
-    
-    public void setSubcategorias(Set<DTOCategoria> _subcategorias)  //Elimina las existentes y agrega nuevas.
+
+    public void setSubcategorias(Set<DTOCategoria> _subcategorias) //Elimina las existentes y agrega nuevas.
     {
         Iterator<DTOCategoria> it = _subcategorias.iterator();
 
         subcategorias.clear();
 
-        while (it.hasNext())
+        while (it.hasNext()) 
         {
             subcategorias.add(DTO_a_Cat(it.next()));
         }
     }
 
- 
-    public void eliminarSubcategoria(String subCatAEliminar)
+    public void eliminarSubcategoria(String subCatAEliminar) 
     {
         Iterator<Categoria> iterator = subcategorias.iterator();
-        
-        while(iterator.hasNext()) 
+
+        while (iterator.hasNext()) 
         {
             Categoria subcategoriasIT = iterator.next();
-            
+
             if (subcategoriasIT.getNombreCategoria().equals("subCatAEliminar")) 
             {
                 iterator.remove();
             }
         }
     }
-    
-    public void addSubcategoria(DTOCategoria _subCat)   //Añade una nueva.
-    {
-        subcategorias.add(DTO_a_Cat(_subCat));
 
+    public void addSubcategoria(Categoria _subCat) //Añade una nueva.
+    {
+        subcategorias.add(_subCat);
     }
 
-    public DTOCategoria CrearDT() {
+    public void addDTOSubcategoria(DTOCategoria _subCat) //Añade una nueva.
+    {
+        subcategorias.add(DTO_a_Cat(_subCat));
+    }
+
+    public DTOCategoria CrearDT() 
+    {
         return new DTOCategoria(this.nombreCategoria);
     }
 
-    public Categoria DTO_a_Cat(DTOCategoria input)
+    public Categoria DTO_a_Cat(DTOCategoria input) 
     {
         Categoria aux = new Categoria(input.getNombreCategoria());
 
         return aux;
     }
 
-    public String StringSubcategorias()
+    public String toString() 
     {
-        String almacen = "";
-
-        Iterator<Categoria> iterator = subcategorias.iterator();
-
-        while(iterator.hasNext())
-        {
-            if(almacen.isEmpty())
-            {
-                almacen += "                | SC: ";
-                almacen += iterator.next().getNombreCategoria();    //Se obtiene el nombre de cada subcategoria
-            }
-            else
-            {
-                almacen += ", ";
-                almacen += iterator.next().getNombreCategoria();
-            }
-        }
-
-        return almacen;
+        return nombreCategoria;
     }
-
-    public boolean existeSubCat(String nombreSubCat)    //true si existe subcat con ese string.
+    
+    public boolean existeSubCat(String nombreSubCat) //true si existe subcat con ese string.
     {
         Iterator<Categoria> it = subcategorias.iterator();
 
-        while (it.hasNext())
+        while (it.hasNext()) 
         {
-            if(it.next().getNombreCategoria().equals(nombreSubCat))
+            if (it.next().getNombreCategoria().equals(nombreSubCat)) 
             {
                 return true;
             }
         }
 
         return false;
+    }
+    
+    public void setCatPadre(Categoria input)
+    {
+        catPadre = input;
     }
 }
