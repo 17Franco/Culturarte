@@ -1,60 +1,80 @@
 package ui;
-
 import java.util.Map;
 import javax.swing.JOptionPane;
 import logica.Fabrica;
 import logica.IController;
 import logica.DTO.DTOCategoria;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import javax.swing.tree.*;
 
 
 public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
     private IController controller = Fabrica.getInstance();
     
-   //NO SE PUEDE USAR LAS CLASES EN LA UI SOLO DTO
-    public AltaDeCategoria() {
+    /**
+     * Creates new form Alta_Categoria
+     */
+    public AltaDeCategoria() 
+    {
         initComponents();
-        
-        llenarTabla();  //mostrar todas las Categorias disponibles.
-        
-        catPadreInput.setVisible(false);
-        listaCategorias.setRowSelectionAllowed(false);
-        listaCategorias.setColumnSelectionAllowed(false);
-        listaCategorias.setCellSelectionEnabled(false);
-        listaCategorias.setFocusable(false);
-
+        catPadreInput.setVisible(false);                //Para evitar problemas si user anda perdido
+        refrescarJtree();
     }
 
 
     @SuppressWarnings("unchecked")
-    private void llenarTabla(){
-        Map<String, DTOCategoria> almacenDatos = controller.getCategorias();
-        String[] columnas = {"Categorías disponibles:"};
-        
-        DefaultTableModel tabla = new DefaultTableModel(columnas, 0)
-        { @Override public boolean isCellEditable(int row, int column) {return false;} };   //Evita que escriban...
-
-        for (DTOCategoria cat : almacenDatos.values()) 
+    
+    private void refrescarJtree()
+    {
+        arbol = cargarJtree(controller.getCategorias());
+        panelDelArbol.setViewportView(arbol);
+        panelDelArbol.revalidate();
+        panelDelArbol.repaint();
+    }
+    
+    
+    private DefaultMutableTreeNode Cat_a_Jt(Categoria cat)   //Con esto hago un nodo del arbol compatible con la Jtree
+    {
+        DefaultMutableTreeNode temp = new DefaultMutableTreeNode(cat);  
+    
+        for (Categoria ct : cat.getSubcategorias())  //Se recorre cadasubcat de la raíz envidada
         {
-            String nombreCat = cat.getNombreCategoria() + cat.StringSubcategorias();
-            tabla.addRow(new Object[]{nombreCat});
+            temp.add(Cat_a_Jt(ct));   //Paso recurs...
         }
         
-        listaCategorias.setModel(tabla);
+        return temp;
+    }
+    
+    public JTree cargarJtree(Map<String, Categoria> input_AlmacenCategorias) 
+    {
         
+        DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
+       
+        
+        for(Categoria nodo : input_AlmacenCategorias.values()) 
+        {
+            almacen.add(Cat_a_Jt(nodo));   
+        }
+        
+        JTree temp = new JTree(almacen);    //JTree final creado
+        
+        return temp;
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrollLista = new javax.swing.JScrollPane();
-        listaCategorias = new javax.swing.JTable();
         subTitulo = new javax.swing.JLabel();
         labelAgregarCategoria = new javax.swing.JLabel();
         newCat = new javax.swing.JTextField();
         botonAgregarCategoria = new javax.swing.JButton();
         catPadreInput = new javax.swing.JTextField();
         esSubCategoriaCheck = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
+        panelDelArbol = new javax.swing.JScrollPane();
+        arbol = new javax.swing.JTree();
 
         setClosable(true);
         setIconifiable(true);
@@ -70,38 +90,6 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 formFocusLost(evt);
             }
         });
-
-        scrollLista.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                scrollListaFocusLost(evt);
-            }
-        });
-
-        listaCategorias.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Nombre Categoria", "Subcategorías"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        scrollLista.setViewportView(listaCategorias);
-        if (listaCategorias.getColumnModel().getColumnCount() > 0) {
-            listaCategorias.getColumnModel().getColumn(0).setMinWidth(110);
-            listaCategorias.getColumnModel().getColumn(0).setPreferredWidth(120);
-            listaCategorias.getColumnModel().getColumn(0).setMaxWidth(130);
-        }
 
         subTitulo.setText("Categorías disponibles actualmente");
 
@@ -151,6 +139,8 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
             }
         });
 
+        panelDelArbol.setViewportView(arbol);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,11 +149,11 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(subTitulo)
-                            .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scrollLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(7, Short.MAX_VALUE))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(195, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -177,14 +167,35 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(botonAgregarCategoria)))
                         .addGap(24, 24, 24))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(subTitulo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelDelArbol, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(16, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addGap(17, 17, 17)
                 .addComponent(subTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollLista, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(panelDelArbol, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelAgregarCategoria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -196,15 +207,15 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                     .addComponent(catPadreInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAgregarCategoria))
                 .addGap(27, 27, 27))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(53, 53, 53)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(461, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void scrollListaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_scrollListaFocusLost
-        //Se recupera el texto si no se escribe nada y quitan el foco ahi...
-
-    }//GEN-LAST:event_scrollListaFocusLost
 
     private void newCatFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_newCatFocusGained
         //Con esto, si se hace clic se quita la label...
@@ -250,6 +261,13 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                    
                 }
                 
+                if (controller.existe(temp) == 7) //Si user ingresa una sub, sub_n+1, subInfinitoCategoría, hoja, o lo que sea...
+                {
+                    controller.altaDeCategoria(temp);
+                    JOptionPane.showMessageDialog(this, "Subcategoría ingresada correctamente!");
+                }
+                
+                
                 if (controller.existe(temp) == 2) 
                 {
                     JOptionPane.showMessageDialog(this, "Esa subcategoría ya existe!");
@@ -262,6 +280,8 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 }    
             }
     
+
+            
         }
         
         if(!newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))  //Si es categoria padre
@@ -281,15 +301,14 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
                 newCat.setText("Ingrese nombre categoría...");
             }
             
-            if(controller.existe(temp) == 6) //Si la categoría a ingresar era una subcategoría
+            if(controller.existe(temp) == 6) //Si la categoría a ingresar es una subcategoría de subcategorías.
             {
                 JOptionPane.showMessageDialog(this, newCat.getText() + " es una subcategoría, no puede ser una categoría padre");
             }
 
         }
-
-        llenarTabla();  //Se actualizan los datos
         
+        refrescarJtree();   //Actualizar estados, no se mantiene como estaba luego de desplegarse pero no se me ocurre manera de hacer eso...
     }//GEN-LAST:event_botonAgregarCategoriaActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
@@ -337,13 +356,16 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_catPadreInputFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree arbol;
     private javax.swing.JButton botonAgregarCategoria;
     private javax.swing.JTextField catPadreInput;
     private javax.swing.JCheckBox esSubCategoriaCheck;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel labelAgregarCategoria;
-    private javax.swing.JTable listaCategorias;
     private javax.swing.JTextField newCat;
-    private javax.swing.JScrollPane scrollLista;
+    private javax.swing.JScrollPane panelDelArbol;
     private javax.swing.JLabel subTitulo;
     // End of variables declaration//GEN-END:variables
 }
