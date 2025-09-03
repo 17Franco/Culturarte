@@ -44,11 +44,13 @@ public class ManejadorCategoria
     public Map<String, DTOCategoria> getCategorias()
     {
         Map<String, DTOCategoria> temp = new HashMap<>();
-        for (Map.Entry<String, Categoria> ct : Categorias.entrySet()) 
+        
+        for(Map.Entry <String,Categoria> ct : AlmacenCategorias.entrySet()) 
         {
-            DTOCategoria temp0 (ct.getNombreCategoria(), "", ct.getCatPadre(), ct.getSubcategorias())
-            temp.put(ct.getNombreCategoria,temp0);
+            DTOCategoria temp0 = new DTOCategoria(ct.getValue().getNombreCategoria(), ct.getValue().getCatPadre(), "", ct.getValue().getSubcategorias());
+            temp.put(ct.getValue().getNombreCategoria(),temp0);
         }
+        
         return temp;
     }
     
@@ -56,7 +58,7 @@ public class ManejadorCategoria
     {
         Categoria temp = AlmacenCategorias.get(nombreCategoria);
         
-        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(),"",temp.getSubcategorias());
+        DTOCategoria almacen = new DTOCategoria(temp.getNombreCategoria(), null,"",temp.getSubcategorias());
         
         return almacen;
     }

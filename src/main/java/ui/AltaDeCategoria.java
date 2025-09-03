@@ -47,7 +47,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     {
         DefaultMutableTreeNode temp = new DefaultMutableTreeNode(cat);  
     
-        for (DTOCategoria ct : cat.getSubcategorias())  //Se recorre cadasubcat de la raíz envidada
+        for(DTOCategoria ct : cat.getSubcategorias())  //Se recorre cadasubcat de la raíz envidada
         {
             temp.add(Cat_a_Jt(ct));   //Paso recurs...
         }
@@ -255,7 +255,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
         
         if(!newCat.getText().equals("Ingrese nombre categoría...") && !catPadreInput.getText().equals("Es subcategoría de..."))  //Si agrega categoria y subcat...
         {  
-            DTOCategoria temp = new DTOCategoria(newCat.getText(),catPadreInput.getText()); 
+            DTOCategoria temp = new DTOCategoria(newCat.getText(),null,catPadreInput.getText()); 
             
             if(controller.existe(temp) == 0)    //Ingreso de nueva categoría padre.
             {   

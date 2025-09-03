@@ -241,9 +241,11 @@ public class Controller  implements IController {
     }
     
    
-     public List<String> ListaCategoria(){
+     public List<String> ListaCategoria()
+     {
          List<String> aux2 = new ArrayList<>();
-         for (Categoria c : mCategoria.getCategorias().values()){
+         for(DTOCategoria c : mCategoria.getCategorias().values())
+         {
              aux2.add(c.getNombreCategoria());
          }
              return aux2; 
