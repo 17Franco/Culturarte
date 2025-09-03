@@ -235,7 +235,7 @@ public class Controller  implements IController {
     }
 
     @Override
-    public Map<String, Categoria> getCategorias()
+    public Map<String, DTOCategoria> getCategorias()
     {
         return mCategoria.getCategorias();
     }
