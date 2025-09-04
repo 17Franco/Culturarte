@@ -78,6 +78,7 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         JCBUsuarioActual = new javax.swing.JComboBox<>();
         buttonDejarDeSeguir = new javax.swing.JButton();
+        botonCancelar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -126,6 +127,13 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,11 +141,12 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(JCBUsuario_toUnfollow, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JCBUsuario_toUnfollow, 0, 353, Short.MAX_VALUE)
                     .addComponent(jLabel2)
                     .addComponent(JCBUsuarioActual, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1)
-                    .addComponent(buttonDejarDeSeguir, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonDejarDeSeguir)
+                    .addComponent(botonCancelar))
                 .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
@@ -151,9 +160,11 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2)
                 .addGap(26, 26, 26)
                 .addComponent(JCBUsuario_toUnfollow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
-                .addComponent(buttonDejarDeSeguir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addComponent(buttonDejarDeSeguir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(botonCancelar)
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -215,10 +226,15 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_JCBUsuarioActualItemStateChanged
 
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> JCBUsuarioActual;
     private javax.swing.JComboBox<String> JCBUsuario_toUnfollow;
+    private javax.swing.JButton botonCancelar;
     private javax.swing.JButton buttonDejarDeSeguir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

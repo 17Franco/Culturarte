@@ -1,10 +1,14 @@
 package ui;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import persistencia.PersistenciaManager;
 import java.util.Map;
+import java.util.List;
 import javax.swing.JOptionPane;
-import logica.Categoria.Categoria;
 import logica.Fabrica;
 import logica.IController;
 import logica.DTO.DTOCategoria;
+import logica.Categoria.Categoria;
 import javax.swing.*;
 import javax.swing.tree.*;
 
@@ -16,6 +20,7 @@ import javax.swing.tree.*;
 public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
     private IController controller = Fabrica.getInstance();
+    private EntityManager dbManager;
     
     /**
      * Creates new form Alta_Categoria
@@ -49,7 +54,7 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     
         for(DTOCategoria ct : cat.getSubcategorias())  //Se recorre cadasubcat de la raíz envidada
         {
-            temp.add(Cat_a_Jt(ct));   //Paso recurs...
+            temp.add(Cat_a_Jt(ct));   //Paso recursivo...
         }
         
         return temp;
@@ -59,16 +64,43 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
     {
         
         DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
-       
+
+        dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
         
-        for(DTOCategoria nodo : input_AlmacenCategorias.values()) 
+        try 
         {
-            almacen.add(Cat_a_Jt(nodo));   
+            String resultadoConsulta = "select catImport from Categoria catImport where catImport.catPadre is NULL";
+            List<Categoria> datosImportadosDb = dbManager.createQuery(resultadoConsulta, Categoria.class).getResultList();
+
+            for (Categoria ct : datosImportadosDb) 
+            {
+                DTOCategoria temp = ct.Cat_a_DTO(); //Se pasa a DTO.
+                almacen.add(Cat_a_Jt(temp));        //Se pasa a Jtree.
+            }
+            
+        } 
+        finally 
+        {
+            dbManager.close();
         }
-        
+
         JTree temp = new JTree(almacen);    //JTree final creado
         
         return temp;
+        
+        //______________________________________________________________________
+        
+//        DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
+//       
+//        
+//        for(DTOCategoria nodo : input_AlmacenCategorias.values()) 
+//        {
+//            almacen.add(Cat_a_Jt(nodo));   
+//        }
+//        
+//        JTree temp = new JTree(almacen);    //JTree final creado
+//        
+//        return temp;
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -248,75 +280,119 @@ public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
     private void botonAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarCategoriaActionPerformed
     
-        if(newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))    //Si no puso nada...
+        if(newCat.getText().equals("Ingrese nombre categoría..."))    //Si no puso nada...
         {
             JOptionPane.showMessageDialog(this, "Ingrese un nombre de categoría!");
         }
         
-        if(!newCat.getText().equals("Ingrese nombre categoría...") && !catPadreInput.getText().equals("Es subcategoría de..."))  //Si agrega categoria y subcat...
+        if(!newCat.getText().equals("Ingrese nombre categoría..."))
         {  
-            DTOCategoria temp = new DTOCategoria(newCat.getText(),null,catPadreInput.getText()); 
-            
-            if(controller.existe(temp) == 0)    //Ingreso de nueva categoría padre.
-            {   
-                controller.altaDeCategoria(temp);
-                JOptionPane.showMessageDialog(this, "Subcategoría ingresada correctamente!");
-            }
-            else
+            if(!catPadreInput.getText().equals("Es subcategoría de..."))    //Si es categoría padre
             {
-                
-                if (controller.existe(temp) == 4) //Si user se equivoca e ingresa una categoría padre inexistente...
-                {
-                    JOptionPane.showMessageDialog(this, "La categoría padre ingresada es incorrecta!");
-                   
-                }
-                
-                if (controller.existe(temp) == 7) //Si user ingresa una sub, sub_n+1, subInfinitoCategoría, hoja, o lo que sea...
-                {
-                    controller.altaDeCategoria(temp);
-                    JOptionPane.showMessageDialog(this, "Subcategoría ingresada correctamente!");
-                }
-                
-                
-                if (controller.existe(temp) == 2) 
-                {
-                    JOptionPane.showMessageDialog(this, "Esa subcategoría ya existe!");
-                  
-                }
-                
-                if (controller.existe(temp) == 3) 
-                {
-                    JOptionPane.showMessageDialog(this, "No es posible agregar una categoría padre como subcategoría actualmente.");
-                }    
-            }
-    
+                DTOCategoria temp = new DTOCategoria(newCat.getText(),null,catPadreInput.getText()); 
 
+                if(controller.altaDeCategoria(temp))        //Ingreso de nueva categoría o subcategoria.
+                {
+                    JOptionPane.showMessageDialog(this, "Categoría ingresada correctamente!");
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(this, "Error! la categoría no pudo ser ingresada o ya existe...");
+                }
+            }
             
-        }
+            if(catPadreInput.getText().equals("Es subcategoría de...")) //Si es subcategoria
+            {
+                DTOCategoria temp = new DTOCategoria(newCat.getText(),null,""); 
+
+                if(controller.altaDeCategoria(temp))        //Ingreso de nueva categoría o subcategoria.
+                {
+                    JOptionPane.showMessageDialog(this, "Categoría ingresada correctamente!");
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(this, "Error! la categoría no pudo ser ingresada o ya existe...");
+                }
+            }
+            
+            
+         }
+            
+
         
-        if(!newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))  //Si es categoria padre
-        {   
-            DTOCategoria temp = new DTOCategoria(newCat.getText()); 
-            
-            if (controller.existe(temp) == 5) 
-            {
-                JOptionPane.showMessageDialog(this, "Esa categoría ya existe!");
-                
-            }
-            
-            if(controller.existe(temp) == 0)    //Se ingresa la Categoría.
-            {
-                controller.altaDeCategoria(temp);
-                JOptionPane.showMessageDialog(this, "Categoría ingresada correctamente!");
-                newCat.setText("Ingrese nombre categoría...");
-            }
-            
-            if(controller.existe(temp) == 6) //Si la categoría a ingresar es una subcategoría de subcategorías.
-            {
-                JOptionPane.showMessageDialog(this, newCat.getText() + " es una subcategoría, no puede ser una categoría padre");
-            }
-
-        }
+        
+        //Parte RAM:
+        //_________________________________________________________________________________
+//        
+//        if(newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))    //Si no puso nada...
+//        {
+//            JOptionPane.showMessageDialog(this, "Ingrese un nombre de categoría!");
+//        }
+//        
+//        if(!newCat.getText().equals("Ingrese nombre categoría...") && !catPadreInput.getText().equals("Es subcategoría de..."))  //Si agrega categoria y subcat...
+//        {  
+//            DTOCategoria temp = new DTOCategoria(newCat.getText(),null,catPadreInput.getText()); 
+//            
+//            if(controller.existe(temp) == 0)    //Ingreso de nueva categoría padre.
+//            {   
+//                controller.altaDeCategoria(temp);
+//                JOptionPane.showMessageDialog(this, "Subcategoría ingresada correctamente!");
+//            }
+//            else
+//            {
+//                
+//                if (controller.existe(temp) == 4) //Si user se equivoca e ingresa una categoría padre inexistente...
+//                {
+//                    JOptionPane.showMessageDialog(this, "La categoría padre ingresada es incorrecta!");
+//                   
+//                }
+//                
+//                if (controller.existe(temp) == 7) //Si user ingresa una sub, sub_n+1, subInfinitoCategoría, hoja, o lo que sea...
+//                {
+//                    controller.altaDeCategoria(temp);
+//                    JOptionPane.showMessageDialog(this, "Subcategoría ingresada correctamente!");
+//                }
+//                
+//                
+//                if (controller.existe(temp) == 2) 
+//                {
+//                    JOptionPane.showMessageDialog(this, "Esa subcategoría ya existe!");
+//                  
+//                }
+//                
+//                if (controller.existe(temp) == 3) 
+//                {
+//                    JOptionPane.showMessageDialog(this, "No es posible agregar una categoría padre como subcategoría actualmente.");
+//                }    
+//            }
+//    
+//
+//            
+//        }
+//        
+//        if(!newCat.getText().equals("Ingrese nombre categoría...") && catPadreInput.getText().equals("Es subcategoría de..."))  //Si es categoria padre
+//        {   
+//            DTOCategoria temp = new DTOCategoria(newCat.getText()); 
+//            
+//            if (controller.existe(temp) == 5) 
+//            {
+//                JOptionPane.showMessageDialog(this, "Esa categoría ya existe!");
+//                
+//            }
+//            
+//            if(controller.existe(temp) == 0)    //Se ingresa la Categoría.
+//            {
+//                controller.altaDeCategoria(temp);
+//                JOptionPane.showMessageDialog(this, "Categoría ingresada correctamente!");
+//                newCat.setText("Ingrese nombre categoría...");
+//            }
+//            
+//            if(controller.existe(temp) == 6) //Si la categoría a ingresar es una subcategoría de subcategorías.
+//            {
+//                JOptionPane.showMessageDialog(this, newCat.getText() + " es una subcategoría, no puede ser una categoría padre");
+//            }
+//
+//        }
         
         refrescarJtree();   //Actualizar estados, no se mantiene como estaba luego de desplegarse pero no se me ocurre manera de hacer eso...
     }//GEN-LAST:event_botonAgregarCategoriaActionPerformed

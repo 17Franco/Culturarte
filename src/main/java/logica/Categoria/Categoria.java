@@ -1,11 +1,9 @@
 package logica.Categoria;
-
 import logica.DTO.DTOCategoria;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
 import jakarta.persistence.*;
-import java.util.*;
 
 @Entity
 
@@ -13,6 +11,7 @@ public class Categoria
 {
 
     @Id
+    @Column(columnDefinition = "VARCHAR(255) COLLATE utf8_bin")   //Esto es para que me distinga mayusculas y minúsculas, solo sirve si aun no se ha creado la db
     private String nombreCategoria;
     @ManyToOne
     @JoinColumn(name = "categoria_padre") // crea columna fk en tabla categoria
@@ -46,8 +45,15 @@ public class Categoria
     {
         return catPadre;
     }
-    public String getNombreCategoria() {
-        return nombreCategoria;
+    public String getNombreCategoria() 
+    {   
+        if(!nombreCategoria.isEmpty())
+        {
+            return nombreCategoria;
+        }
+     
+        return "";
+        
     }
 
     public Set<Categoria> getSubcategorias() 
@@ -97,16 +103,18 @@ public class Categoria
         subcategorias.add(DTO_a_Cat(_subCat));
     }
 
-    public DTOCategoria CrearDT() 
-    {
-        return new DTOCategoria(this.nombreCategoria);
-    }
+
 
     public Categoria DTO_a_Cat(DTOCategoria input) 
     {
-        Categoria aux = new Categoria(input.getNombreCategoria());
+        Categoria aux = new Categoria(input.getNombreCategoria(), input.getCatPadreNodo());
 
         return aux;
+    }
+    
+    public DTOCategoria Cat_a_DTO()
+    {
+        return new DTOCategoria(nombreCategoria, catPadre, (catPadre != null) ? catPadre.getNombreCategoria() : null, subcategorias);
     }
 
     public String toString() 

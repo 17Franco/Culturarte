@@ -108,6 +108,11 @@ public class DTOCategoria {
     {
         subcategorias = _subcategorias;
     }
+    
+    public void setNodoPadre(Categoria _padre)
+    {
+        catPadreNodo = _padre;
+    }
 
     public String toString() 
     {

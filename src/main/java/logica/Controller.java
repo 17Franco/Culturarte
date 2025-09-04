@@ -207,42 +207,52 @@ public class Controller  implements IController {
     
       //Categoria
     @Override
-    public boolean altaDeCategoria(DTOCategoria categoriaIngresada) {
-        if (mCategoria.existe(categoriaIngresada) == 0) //Si no existe como categoría padre...
-        {
-            return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
-        }
-
-        if (mCategoria.existe(categoriaIngresada) == 7) //Es una subSubcategoria_n+1...
-        {
-            return (mCategoria.addCategoriaB(categoriaIngresada));
-        }
-
-        return false;    //Le dice a ui que no se agregó nada.
+    public boolean altaDeCategoria(DTOCategoria categoriaIngresada) 
+    {
+        return mCategoria.addCategoria(categoriaIngresada);
+        
+        //Parte almacenamiento en RAM
+//        if (mCategoria.existe(categoriaIngresada) == 0 ) //Si no existe como categoría padre...
+//        {
+//            return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
+//        }
+//
+//        if (mCategoria.existe(categoriaIngresada) == 7) //Es una subSubcategoria_n+1...
+//        {
+//            return (mCategoria.addCategoriaB(categoriaIngresada));
+//        }
+//
+//        return false;    //Le dice a ui que no se agregó nada.
     }
 
     @Override
-    public int existe(DTOCategoria categoriaIngresada) {
+    public int existe(DTOCategoria categoriaIngresada) 
+    {
         return mCategoria.existe(categoriaIngresada);
     }
 
     @Override
-    public Map<String, DTOCategoria> getCategorias() {
+    public Map<String, DTOCategoria> getCategorias() 
+    {
+        
         return mCategoria.getCategorias();
     }
-
+    
     @Override
-    public List<String> ListaCategoria() {
-        List<String> aux2 = new ArrayList<>();
-        for (DTOCategoria c : mCategoria.getCategorias().values()) {
-            aux2.add(c.getNombreCategoria());
-        }
-        return aux2;
+    public List<String> ListaCategoria()
+    {
+         List<String> aux2 = new ArrayList<>();
+         for(DTOCategoria c : mCategoria.getCategorias().values())
+         {
+             aux2.add(c.getNombreCategoria());
+         }
+             return aux2; 
     }
-     //Propuesta
-
+    
+    //Propuesta
+    
     @Override
-     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
+    public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
         if (propuestaSeleccionada != null){  
