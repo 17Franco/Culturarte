@@ -1,10 +1,11 @@
 package logica.DTO;
+
 import java.util.HashSet;
 import java.util.Set;
 import logica.Categoria.Categoria;
 
-public class DTOCategoria 
-{
+public class DTOCategoria {
+
     private String nombreCategoria;
     private Set <DTOCategoria> subcategorias;
     private String catPadre;     //Es para saber si la ingreso como subcategoría o si no.
@@ -14,19 +15,18 @@ public class DTOCategoria
     {
         subcategorias = new HashSet<>();
     }
-    
-    public DTOCategoria(String _nombreCategoria) 
-    {
+
+    public DTOCategoria(String _nombreCategoria) {
         nombreCategoria = _nombreCategoria;
         subcategorias = new HashSet<>();
         catPadreNodo = null;
     }
-    
-    public DTOCategoria(String _nombreCategoria,Categoria _nodoCatPadre) 
-    {
+
+    public DTOCategoria(String _nombreCategoria, Categoria _nodoCatPadre) {
         catPadreNodo = _nodoCatPadre;
         nombreCategoria = _nombreCategoria;
         subcategorias = new HashSet<>();
+        catPadreNodo = null;
     }
 
     public DTOCategoria(String _nombreCategoria,Categoria _nodoCatPadre, String _catPadre) 
@@ -49,21 +49,18 @@ public class DTOCategoria
            subcategorias = getDTOSubcategorias(_subcategorias);
         }
 
-
-        if(_subcategorias == null) //Si set estaba vacío
+        if (_subcategorias == null) //Si set estaba vacío
         {
-             subcategorias = new HashSet<>();
+            subcategorias = new HashSet<>();
 
         }
     }
 
-    public String getNombreCategoria() 
-    {
+    public String getNombreCategoria() {
         return nombreCategoria;
     }
-    
-    public String getCatPadre()
-    {
+
+    public String getCatPadre() {
         return catPadre;
     }
     
@@ -99,19 +96,22 @@ public class DTOCategoria
         return almacen;
     }
 
-    public void setNombreCategoria(String _nombreCategoria) 
-    {
+    public void setNombreCategoria(String _nombreCategoria) {
         nombreCategoria = _nombreCategoria;
     }
-    
-    public void setCatPadre(String _catPadre)
-    {
+
+    public void setCatPadre(String _catPadre) {
         catPadre = _catPadre;
     }
 
     public void setSubcategorias(Set<DTOCategoria> _subcategorias) 
     {
         subcategorias = _subcategorias;
+    }
+    
+    public void setNodoPadre(Categoria _padre)
+    {
+        catPadreNodo = _padre;
     }
 
     public String toString() 

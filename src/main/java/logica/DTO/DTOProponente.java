@@ -38,6 +38,10 @@ public class DTOProponente extends DTOUsuario{
         propCreadas.put(p.getTitulo(), p);
     }
 
+    public void setPropCreadas(Map<String, DTOPropuesta> propCreadas) {
+        this.propCreadas = propCreadas;
+    }
+    
     public Map<String, DTOPropuesta> getPropCreadas() {
         return propCreadas;
     }

@@ -275,7 +275,7 @@ public class Main extends javax.swing.JFrame {
     
     jMenu2.setText("Colaboracion");
     jMenu2.removeAll();
-        String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Propuesta", "Cancelar Colaboracion" };
+        String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Colaboracion", "Cancelar Colaboracion" };
 
 
   for (String op : opcionesColaboracion) {
@@ -290,15 +290,16 @@ public class Main extends javax.swing.JFrame {
                     frame.setVisible(true);
                     break;
                 }
-                case "Consultar Propuesta" -> {
-                    
+                case "Consultar Colaboracion" -> {
+                        abrirInternalFrame(ConsultaColaboracion.class);
                     // ConsultarPropuesta frame = new ConsultarPropuesta();
                     // fondo.add(frame); frame.setSize(fondo.getSize()); frame.setVisible(true);
                      break;
                 }
                 case "Cancelar Colaboracion" -> {
                     // Aquí iría tu lógica para cancelar colaboración
-                    JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
+                      abrirInternalFrame(CancelarColaboracion.class);
+                    //JOptionPane.showMessageDialog(this, "Función Cancelar Colaboración aún no implementada");
                      break;
                 }
             }

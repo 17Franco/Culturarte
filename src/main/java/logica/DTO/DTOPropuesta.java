@@ -161,7 +161,7 @@ public class DTOPropuesta {
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         Retorno = in.getRetorno();
-        cat = in.getCategoria().CrearDT();
+        cat = in.getCategoria().Cat_a_DTO();
 
         usr = new DTOProponente(in.getProponente().getDireccion(),in.getProponente().getBiografia(),
                 in.getProponente().getWebSite(),
@@ -238,7 +238,7 @@ public class DTOPropuesta {
         this.MontoTotal=p.getMontoTotal();
         this.FechaPublicacion=p.getFechaPublicacion();
         this.Retorno=p.getRetorno();
-        this.cat=p.getCategoria().CrearDT();
+        this.cat=p.getCategoria().Cat_a_DTO();
         this.usr=proponente;
     }
 

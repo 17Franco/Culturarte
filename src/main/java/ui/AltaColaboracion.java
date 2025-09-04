@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,29 +45,15 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         private JTextField fechaField;
         private JTextField precioField;
         private JTextField montoField;
-        private JTextField retornoField;
+        private JComboBox retornoBox;
         private JLabel imgLabel;
 
         
     public AltaColaboracion() {
         initComponents();
+        cargarDatosAMostrar();
         
-        
-         propuestas = new java.util.ArrayList<>(controller.ListarPropuestas());
-        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // el adm solo puede seleccionar una sola opcion
-                
-        String[] cols = {"Titulo", "Nickname"};
-        DefaultTableModel model =  new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
-        };
-        for (DTOPropuesta p : propuestas) {
-            model.addRow(new Object[]{ p.getTitulo(), p.getProponente().getNickname()});
-        }
-        jTable1.setModel(model);
-        jTable1.setRowSorter(new javax.swing.table.TableRowSorter<>(model));
-        jTable1.setVisible(true);
-        
-        jTable1.getSelectionModel().addListSelectionListener(e -> {
+          jTable1.getSelectionModel().addListSelectionListener(e -> {
             if (e.getValueIsAdjusting()) return; // evita eventos intermedios
 
                 int viewRow = jTable1.getSelectedRow();
@@ -83,7 +70,24 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
                     }
              }
         }); 
-        
+         
+    }
+    
+    public void cargarDatosAMostrar(){
+        propuestas = new java.util.ArrayList<>(controller.ListarPropuestas("PUBLICADA", "EN_FINANCIACION"));//traigo a las que les puedo invertir
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // el adm solo puede seleccionar una sola opcion
+                
+        String[] cols = {"Titulo", "Nickname"};
+        DefaultTableModel model =  new DefaultTableModel(cols, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+        for (DTOPropuesta p : propuestas) {
+            model.addRow(new Object[]{ p.getTitulo(), p.getProponente().getNickname()});
+        }
+        jTable1.setModel(model);
+        jTable1.setRowSorter(new javax.swing.table.TableRowSorter<>(model));
+        jTable1.setVisible(true);
+     
         Colaborador.removeAllItems(); 
         
         Colaborador.addItem("SeleccionarUsuario"); 
@@ -93,7 +97,6 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         tipoRetornocbox.removeAllItems(); 
         tipoRetornocbox.addItem("SeleccionarRetorno"); 
     }
-    
     private void mostrarPopup(DTOPropuesta propuesta) {
          if (dialog == null) {
             dialog = new JDialog((Frame) null, "Detalle de Propuesta", true);
@@ -111,7 +114,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
             fechaField = createField();
             precioField = createField();
             montoField = createField();
-            retornoField = createField();
+            retornoBox = createComboBox();
             imgLabel = new JLabel("", JLabel.CENTER);
 
             // Agregamos etiquetas y campos
@@ -137,7 +140,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
             mainPanel.add(montoField);
 
             mainPanel.add(new JLabel("Retorno:"));
-            mainPanel.add(retornoField);
+            mainPanel.add(retornoBox);
 
             // Panel para la imagen
             JPanel imagePanel = new JPanel();
@@ -152,10 +155,15 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
     descField.setText(propuesta.getDescripcion());
     tipoField.setText(propuesta.getTipo());
     lugarField.setText(propuesta.getLugar());
-    fechaField.setText(propuesta.getFecha() != null ? propuesta.getFecha().toString() : "-");
+    fechaField.setText(propuesta.getFecha().toString());
     precioField.setText(String.valueOf(propuesta.getPrecio()));
     montoField.setText(String.valueOf(propuesta.getMontoTotal()));
-    retornoField.setText(propuesta.getRetorno() != null ? propuesta.getRetorno().toString() : "-");
+    retornoBox.removeAllItems();
+    for(TipoRetorno t: propuesta.getRetorno()){
+        retornoBox.addItem(t);
+    }
+    //retornoBox.addItem(propuesta.getRetorno() != null ? propuesta.getRetorno().getFirst().toString() : "-");
+    //retornoBox.addItem(propuesta.getRetorno() != null ? propuesta.getRetorno().getLast().toString() : "-");
 
     // Imagen
     if (propuesta.getImagen() != null && !propuesta.getImagen().isEmpty()) {
@@ -177,7 +185,10 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         field.setEditable(false);
         return field;
     }
-
+    private JComboBox createComboBox(){
+        JComboBox box=new JComboBox();
+           return box;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -193,6 +204,12 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("ColaboracionPropuesta");
 
         Colaborador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -321,7 +338,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
     private void BtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConfirmarActionPerformed
        String colaborador=(String) Colaborador.getSelectedItem();
        String retorno=(String)  tipoRetornocbox.getSelectedItem();
-        if("SeleccionarUsuario".equals(colaborador) && !"SeleccionarRetorno".equals(retorno)){
+        if("SeleccionarUsuario".equals(colaborador) && "SeleccionarRetorno".equals(retorno)){
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un usuario o un retorno valido");
             return;
         }
@@ -350,7 +367,7 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
 
     if (montoAInvertir > disponible) { // si supero lo disponible pregunto si quiere inverti lo que queda disponible
             int opcion = JOptionPane.showConfirmDialog(this,
-            "Solo quedan " + disponible + " disponibles. ¿Desea invertir esa cantidad en lugar de " + montoAInvertir + "?",
+            "Solo quedan $" + disponible + " disponibles. ¿Desea invertir esa cantidad en lugar de " + montoAInvertir + "?",
             "Monto máximo excedido",
             JOptionPane.YES_NO_OPTION);
 
@@ -367,21 +384,24 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
 
         controller.altaColaboracion(colab); //si llego hasta aca es porque cumple con no haber colaborado a la propuesta antes y no a alcanzado el monto
         JOptionPane.showMessageDialog(this, "Colaboración registrada correctamente");
+        limpiar();
+       cargarDatosAMostrar();
        
         
                        
     }//GEN-LAST:event_BtnConfirmarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void limpiar(){
+    
         propuestaSeleccionada=null;
-        
-        Colaborador.removeAllItems(); 
-        Colaborador.addItem("SeleccionarUsuario"); 
+     
                 
         tipoRetornocbox.removeAllItems(); 
         tipoRetornocbox.addItem("SeleccionarRetorno"); 
         
         campoMonto.setText("");
+    }
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void tipoRetornocboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoRetornocboxActionPerformed
