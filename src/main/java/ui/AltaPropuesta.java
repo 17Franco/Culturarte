@@ -34,13 +34,9 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         m.setName("Mes");
         a.setName("Año");
         ListaUsuarios.removeAllItems();
-        ListaCategoria.removeAllItems();
+        
         for (String u : controller.ListaProponentes()) {
             ListaUsuarios.addItem(u); 
-         }
-
-        for (String c : controller.ListaCategoria()) {
-            ListaCategoria.addItem(c); 
          }
     }
     /**
@@ -56,7 +52,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         ListaUsuarios = new javax.swing.JComboBox<>();
         IngresoUsuario = new javax.swing.JLabel();
         IngresoCategoria = new javax.swing.JLabel();
-        ListaCategoria = new javax.swing.JComboBox<>();
         Titulo = new javax.swing.JLabel();
         TituloField = new javax.swing.JTextField();
         Descripcion = new javax.swing.JLabel();
@@ -83,6 +78,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         T2 = new javax.swing.JCheckBox();
         T1 = new javax.swing.JCheckBox();
+        ListaCategoria = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -101,12 +97,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         IngresoUsuario.setText("Proponente");
 
         IngresoCategoria.setText("Categoria");
-
-        ListaCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ListaCategoriaActionPerformed(evt);
-            }
-        });
 
         Titulo.setText("Titulo");
 
@@ -215,6 +205,13 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             }
         });
 
+        ListaCategoria.setText("Seleccion de Categoria");
+        ListaCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListaCategoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -274,7 +271,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                                 .addComponent(T1)))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(41, 41, 41)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(IngresoUsuario)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -283,7 +280,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                                     .addGap(12, 12, 12)
                                     .addComponent(IngresoCategoria)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ListaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(ListaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -297,8 +294,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                     .addComponent(IngresoUsuario))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ListaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IngresoCategoria))
+                    .addComponent(IngresoCategoria)
+                    .addComponent(ListaCategoria))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Titulo)
@@ -433,7 +430,11 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         //LocalDate hoy = LocalDate.now();
         //DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
         ListaUsuarios.getSelectedItem();
+        
+        
         ListaCategoria.getSelectedItem();
+        
+        
         List<TipoRetorno> retorno = new ArrayList<>();
         if (T2.isSelected()) {
             retorno.add(TipoRetorno.EntradaGratis);
@@ -442,6 +443,8 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             retorno.add(TipoRetorno.PorcentajeGanancia);
         }
         String usuarios = (String) ListaUsuarios.getSelectedItem(); 
+        
+        
         String categoria = (String) ListaCategoria.getSelectedItem();
 
         if(validarCampo(campos) && validarRetorno(T1,T2)){
@@ -479,17 +482,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_dActionPerformed
 
-    private void ListaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaCategoriaActionPerformed
-/*
-        DTOCategoria seleccionado = (DTOCategoria) ListaCategoria.getSelectedItem();
-
-        if (seleccionado != null )
-        {
-            //si selecciona algo mal (en proceso)
-        }
-        */
-    }//GEN-LAST:event_ListaCategoriaActionPerformed
-
     private void ListaUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaUsuariosActionPerformed
 
         /*
@@ -519,6 +511,10 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_T2ActionPerformed
 
+    private void ListaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaCategoriaActionPerformed
+      // ACA VA LA UI SELECCIONARCATEGORIA Y SUBCAT
+    }//GEN-LAST:event_ListaCategoriaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Agregar;
@@ -529,7 +525,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private javax.swing.JButton Imagen_Boton;
     private javax.swing.JLabel IngresoCategoria;
     private javax.swing.JLabel IngresoUsuario;
-    private javax.swing.JComboBox<String> ListaCategoria;
+    private javax.swing.JButton ListaCategoria;
     private javax.swing.JComboBox<String> ListaUsuarios;
     private javax.swing.JLabel Lugar;
     private javax.swing.JTextField Lugar_Field;
