@@ -9,6 +9,8 @@ import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
 import logica.Fabrica;
 import logica.IController;
+import javax.swing.table.JTableHeader;
+import java.awt.Color;
 
 
 public class ConsultaColaborador extends javax.swing.JInternalFrame {
@@ -47,7 +49,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
     
     private void mostrarColaboraciones(String tituloP,String NickProponente,int monto, String estado,DefaultTableModel modelo){
         
-    modelo.addRow(new Object[]{tituloP, NickProponente,monto, estado});
+        modelo.addRow(new Object[]{tituloP, NickProponente,monto, estado});
     }
     private void mostrarPerfilColaborador(DTOColaborador usr) {
         
@@ -143,6 +145,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         jPanel2.add(lblEmail);
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Consulta Perfil Colaboradores");
 
         Proponentes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -168,6 +171,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         lblImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblImagen.setMaximumSize(new java.awt.Dimension(135, 155));
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Colaboradores");
 
         lblPropuestas.setText("Colaboraciones");
@@ -189,14 +193,13 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(Proponentes, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(105, 105, 105))
+                        .addComponent(Proponentes, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(118, 118, 118))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(lblPropuestas)
                         .addGap(193, 193, 193))))
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

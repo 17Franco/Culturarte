@@ -94,6 +94,7 @@ public class ManejadorPropuesta {
        }
        return colab;
     }
+    
     public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) 
     {
         //La variable Estado permite elegir entre obtener un set por estado o todos los que haya. 

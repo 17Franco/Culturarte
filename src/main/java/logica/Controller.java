@@ -110,13 +110,12 @@ public class Controller  implements IController {
      public boolean seguir(String nick1,String nick2){
          
          return mUsuario.seguirUsr(nick1,nick2);
-        
-  
+     
      }
      @Override
      public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow)
      {
-        return (mUsuario.buscador(usuarioActual).unfollow(mUsuario.buscador(usuarioToUnfollow)));  
+        return (mUsuario.getUsuario(usuarioActual).unfollow(mUsuario.getUsuario(usuarioToUnfollow)));  
      }
      
     // Funciones que devuelven Distintos DTO 
@@ -138,10 +137,6 @@ public class Controller  implements IController {
             for(Registro_Estado re:r){
                 propuesta.setHistorialEstados(getDTORegistroEstado(re));
             }
-            
-           /* for(Colaboracion registro:rA){
-                propuesta.setAportes(getDTOAporte(registro,propuesta.getTitulo()));
-            }*/
 
             return propuesta;
     }
@@ -149,15 +144,12 @@ public class Controller  implements IController {
     @Override
     //me crea un dtoProponente completo incluido las propuestas que el usuario creo
     public DTOProponente getDTOProponente(String nick) { 
-           Proponente usr= (Proponente) mUsuario.buscador(nick);
+           Proponente usr= (Proponente) mUsuario.getUsuario(nick);
            DTOProponente resu=new DTOProponente(usr);
           
-          Map<String,DTOPropuesta> p=mUsuario.getPropCreadas(resu);
+          Map<String,DTOPropuesta> p=mUsuario.getPropuestasCreadas(resu);
            
           resu.setPropCreadas(p);
-          /* for(Propuesta prop:p.values()){
-               resu.addDTOPropuesta(getDTOPropuesta(prop,resu));
-           }*/
            
            return resu;
     }
@@ -165,14 +157,8 @@ public class Controller  implements IController {
  
     @Override
      public DTOColaborador getDTOColaborador(String nick) { 
-           Colaborador usr= (Colaborador) mUsuario.buscador(nick);
+           Colaborador usr= (Colaborador) mUsuario.getUsuario(nick);
            DTOColaborador resu=new DTOColaborador(usr);
-          
-          //List<Colaboracion> registro=usr.getColaboraciones();
-           
-          //or(Colaboracion r:registro){
-              //resu.setColaboracion(getDTOAporte(r,r.getColabPropuesta().getTitulo()));
-          //}
            
            return resu;
     }
@@ -182,7 +168,7 @@ public class Controller  implements IController {
     @Override
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
-        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override
@@ -209,9 +195,9 @@ public class Controller  implements IController {
     @Override
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
     {
-       if(mCategoria.existe(categoriaIngresada) == 0)               //Si no existe como categoría padre...
+       if(mCategoria.existe(categoriaIngresada) == 0) //Si no existe como categoría padre...
        {
-            return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
+            return mCategoria.addCategoria(categoriaIngresada);//Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
        }
 
        return false;    //Le dice a ui que no se agregó nada.
@@ -240,7 +226,7 @@ public class Controller  implements IController {
      
      public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
-        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
+        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);  
         if (propuestaSeleccionada != null){
             propuestaSeleccionada.setDescripcion(descripcion);
             propuestaSeleccionada.setTipo(tipo);
@@ -270,7 +256,7 @@ public class Controller  implements IController {
     }
 
     public Set<DTOColaborador> ListarColaboradores() {
-        return mUsuario.listColaboradores();
+        return mUsuario.listaColaboradores();
     }
 
     @Override

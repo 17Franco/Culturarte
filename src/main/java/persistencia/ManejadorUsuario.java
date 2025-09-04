@@ -36,7 +36,7 @@ public class ManejadorUsuario {
 
         usuarios = new HashMap<String, Usuario>();
         
-        LocalDate a = LocalDate.of(2024,01,30);
+       /* LocalDate a = LocalDate.of(2024,01,30);
         LocalDate b = LocalDate.of(2023,02,2);
         //Borrar luego
         Proponente p1 = new Proponente("Calle Falsa 123", "Bio", "www.web.com",
@@ -45,7 +45,7 @@ public class ManejadorUsuario {
         Colaborador c1 = new Colaborador("nick2", "Ana", "López", "ana@mail.com",
                 b, "img2.png");
         usuarios.put(p1.getNickname(), p1);
-        usuarios.put(c1.getNickname(), c1);
+        usuarios.put(c1.getNickname(), c1);*/
     }
     
     public static ManejadorUsuario getInstance() {
@@ -55,21 +55,20 @@ public class ManejadorUsuario {
     }
     
     public void addProponente(DTOProponente u){
-        Proponente p=new Proponente(u);
+        Proponente p=new Proponente(u); //creo proponente
         //usuarios.put(u.getNickname(),p);
         
-        em= PersistenciaManager.getEntityManager();
-        EntityTransaction t = em.getTransaction();
+        em= PersistenciaManager.getEntityManager();//instancia del manegador de la persistencia 
+        EntityTransaction t = em.getTransaction(); // intancia de una transaccion nesesario si se hace alta baja y modificado 
         try{
-            t.begin();
-            em.persist(p);
-            t.commit();
-            
+            t.begin(); // aca inicio transaccion
+            em.persist(p);// persisto los datos 
+            t.commit();// los aseguro  
         }
         catch(Exception e){
-            t.rollback();    
+            t.rollback();    // en caso de error hace rollback
         }
-        em.close();
+        em.close();// cierro el manejador 
 
     }
    
@@ -101,7 +100,7 @@ public class ManejadorUsuario {
       }
     }
     
-    public Usuario buscador(String nick) {
+    public Usuario getUsuario(String nick) {
          em = PersistenciaManager.getEntityManager();
          try {
              return em.find(Usuario.class, nick);
@@ -109,7 +108,7 @@ public class ManejadorUsuario {
              em.close(); // se ejecuta SIEMPRE, haya error o no
          }
      }
-    public Map<String,DTOPropuesta> getPropCreadas(DTOProponente proponente){
+    public Map<String,DTOPropuesta> getPropuestasCreadas(DTOProponente proponente){
       
         em = PersistenciaManager.getEntityManager();
         String nick=proponente.getNickname();
@@ -165,7 +164,7 @@ public class ManejadorUsuario {
     }
     
     // ACA DEVUELVO  set de DTOColaborador
-    public Set<DTOColaborador> listColaboradores(){
+    public Set<DTOColaborador> listaColaboradores(){
         Set<DTOColaborador> results = new HashSet<DTOColaborador>();
         
         em = PersistenciaManager.getEntityManager();
@@ -193,13 +192,6 @@ public class ManejadorUsuario {
          }finally{
             em.close();
          }
-     /*  Colaborador c=(Colaborador) buscador(colaborador);
-        for (Colaboracion colab : c.getColaboraciones()) {
-            if (colab.getPropuesta().getTitulo().equals(titulo)) {
-                return true; 
-            }
-        }
-        return false; */
     }
     
     public List<DTOColaboracion> getDTOColaboraciones(String nick){
@@ -247,7 +239,7 @@ public class ManejadorUsuario {
                     EntityTransaction t = em.getTransaction();
                     t.begin();
                     usuario1.seguir(usuario2);
-                    em.merge(usuario2);
+                    //em.merge(usuario2); // sincriniza los cambios de un objeto  se usa cuando el objeto no es manage por el entitymanager 
                     t.commit();
                     return true;
             
