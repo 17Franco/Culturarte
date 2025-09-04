@@ -86,19 +86,16 @@ public class ManejadorPropuesta {
         Set<DTOPropuesta> result = new HashSet<>();
 
         try {
-            String jpql = "SELECT p FROM Propuesta p";
-            if (!estadoInput.isEmpty()) {
-                jpql += " WHERE p.ultimoEstado.estado = :estado";
-            }
-
-            TypedQuery<Propuesta> q = em.createQuery(jpql, Propuesta.class);
-            if (!estadoInput.isEmpty()) {
-                q.setParameter("estado", Estado.valueOf(estadoInput));
-            }
-
+            TypedQuery<Propuesta> q = em.createQuery("SELECT p FROM Propuesta p", Propuesta.class);
             List<Propuesta> propuestas = q.getResultList();
-
             for (Propuesta p : propuestas) {
+                Estado ultimoEstado = null;
+                if (!p.getHistorialEstados().isEmpty()) {
+                    ultimoEstado = p.getHistorialEstados().get(0).getEstado();
+                }
+                if (!estadoInput.isEmpty() && (ultimoEstado == null || !ultimoEstado.name().equals(estadoInput))) {
+                    continue; // saltar propuestas que no coincidan
+                }
                 DTOPropuesta dto = new DTOPropuesta();
                 dto.extraerDatosPropuesta(p);
                 result.add(dto);
@@ -107,7 +104,6 @@ public class ManejadorPropuesta {
         } finally {
             em.close();
         }
-
         return result;
     }
     public int getMontoRecaudado(String titulo) {

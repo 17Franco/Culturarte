@@ -50,6 +50,9 @@ public class SelectCategoria extends javax.swing.JInternalFrame {
                         if (altaP != null) {
                             altaP.AsignarCategoria(valor);
                         }
+                        if (ModP != null) {
+                            ModP.AsignarCategoria(valor);
+                        }
                         dispose();
                     }
                 }

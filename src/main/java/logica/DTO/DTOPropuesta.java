@@ -161,8 +161,12 @@ public class DTOPropuesta {
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         Retorno = in.getRetorno();
-        cat = in.getCategoria().Cat_a_DTO();
-
+        if (in.getCategoria() != null) {
+            this.cat = in.getCategoria().Cat_a_DTO();
+        } 
+        else {
+            this.cat = null; // o crear un DTO de categoría vacío si quieres
+        }
         usr = new DTOProponente(in.getProponente().getDireccion(),in.getProponente().getBiografia(),
                 in.getProponente().getWebSite(),
                 in.getProponente().getNickname(),
