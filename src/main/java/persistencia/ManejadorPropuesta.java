@@ -37,14 +37,13 @@ public class ManejadorPropuesta {
         }
         EntityManager em = PersistenciaManager.getEntityManager();
         EntityTransaction t = em.getTransaction();
+        t.begin();
         try {
-            t.begin();
             Proponente prop = em.find(Proponente.class, p.getProponente().getNickname());
             if (prop != null) {
                 p.setProponente(prop);
                 prop.getPropCreadas().put(p.getTitulo(), p);
             }
-
             em.persist(p);
             t.commit();
         } catch (Exception e) {
@@ -204,9 +203,9 @@ public class ManejadorPropuesta {
        
         EntityManager em = PersistenciaManager.getEntityManager();
         EntityTransaction tx = em.getTransaction();
-
+        tx.begin();
         try {
-            tx.begin();
+            
             Propuesta propuesta = em.find(Propuesta.class, titulo);
 
             if (propuesta != null) {

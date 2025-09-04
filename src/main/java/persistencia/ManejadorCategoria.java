@@ -219,9 +219,12 @@ public class ManejadorCategoria {
     }
 
     public Categoria buscadorC(String nombreCat) {
-        Categoria u = AlmacenCategorias.get(nombreCat);
-
-        return u;
+        EntityManager em = PersistenciaManager.getEntityManager();
+        try {
+            return em.find(Categoria.class, nombreCat);
+        } finally {
+            em.close();
+        }
     }
 
     public int existe(DTOCategoria categoriaIngresada) //En desuso para almacenamiento volatil.

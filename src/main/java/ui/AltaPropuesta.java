@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
@@ -19,6 +21,7 @@ import logica._enum.Estado;
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
     private String rutaImagen = null; 
+    String categoria;
     /**
      * Creates new form AltaPropuesta
      */
@@ -349,7 +352,10 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void AsignarCategoria(String cat){
+        this.categoria=cat;
+        ListaCategoria.setText(categoria);
+    }
            
     private void TituloFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TituloFieldActionPerformed
         
@@ -413,7 +419,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         return true;
     }
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-    
+
         List<JTextField> campos = Arrays.asList(TituloField, Descripcion_Field, Tipo_Field, Lugar_Field, Precio_Field, Monto_Field, d, m, a);
         if (!validarCampo(campos)) {
             return;
@@ -430,11 +436,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         //LocalDate hoy = LocalDate.now();
         //DTFecha fechaCreacion = new DTFecha(hoy.getDayOfMonth(), hoy.getMonthValue(), hoy.getYear());
         ListaUsuarios.getSelectedItem();
-        
-        
-        ListaCategoria.getSelectedItem();
-        
-        
+
         List<TipoRetorno> retorno = new ArrayList<>();
         if (T2.isSelected()) {
             retorno.add(TipoRetorno.EntradaGratis);
@@ -444,9 +446,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         }
         String usuarios = (String) ListaUsuarios.getSelectedItem(); 
         
-        
-        String categoria = (String) ListaCategoria.getSelectedItem();
-
         if(validarCampo(campos) && validarRetorno(T1,T2)){
             if(controller.existeProp(titulo)){    
                 JOptionPane.showMessageDialog(this, "Propuesta ya registrada");
@@ -512,7 +511,13 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_T2ActionPerformed
 
     private void ListaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaCategoriaActionPerformed
-      // ACA VA LA UI SELECCIONARCATEGORIA Y SUBCAT
+        
+        SelectCategoria mostrar = new SelectCategoria(this);
+        JDesktopPane fondo3Final = this.getDesktopPane();
+        fondo3Final.add(mostrar);
+        mostrar.setSize(fondo3Final.getSize());
+        mostrar.setVisible(true);
+        
     }//GEN-LAST:event_ListaCategoriaActionPerformed
 
 
