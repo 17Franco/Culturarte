@@ -47,7 +47,7 @@ public interface IController {
     boolean seguir(String nick1,String nick2);
     
     boolean unFollowUser(String usuarioActual, String usuarioToUnfollow);
-            
+    Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick);
     //Fin Usuario
     
     //Propuestas

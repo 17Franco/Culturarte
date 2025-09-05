@@ -142,18 +142,23 @@ public class Controller  implements IController {
     }
     
     @Override
-    //me crea un dtoProponente completo incluido las propuestas que el usuario creo
+    //me crea un dtoProponente datos basicos
     public DTOProponente getDTOProponente(String nick) { 
            Proponente usr= (Proponente) mUsuario.getUsuario(nick);
-           DTOProponente resu=new DTOProponente(usr);
+          DTOProponente resu=new DTOProponente(usr);
           
-          Map<String,DTOPropuesta> p=mUsuario.getPropuestasCreadas(resu);
+          //Map<String,DTOPropuesta> p=mUsuario.getPropuestasCreadas(resu);
            
-          resu.setPropCreadas(p);
+          //resu.setPropCreadas(p);
            
            return resu;
     }
-
+    
+    public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
+        
+        return mUsuario.getPropuestasCreadasPorProponente(nick);
+    }
+    
  
     @Override
      public DTOColaborador getDTOColaborador(String nick) { 
@@ -169,6 +174,7 @@ public class Controller  implements IController {
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
+        //System.out.print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"+ propuesta.getCategoria().getNombreCategoria());
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override
@@ -190,54 +196,59 @@ public class Controller  implements IController {
           return mPropuesta.getPropuesta(titulo).getUltimoEstado().getEstadoString();
       }
       //Fin Propuesta
-      
+    
       //Categoria
     @Override
-    public boolean altaDeCategoria(DTOCategoria categoriaIngresada)
+    public boolean altaDeCategoria(DTOCategoria categoriaIngresada) 
     {
-       if(mCategoria.existe(categoriaIngresada) == 0) //Si no existe como categoría padre...
-       {
-            return mCategoria.addCategoria(categoriaIngresada);//Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
-       }
-
-       return false;    //Le dice a ui que no se agregó nada.
+        return mCategoria.addCategoria(categoriaIngresada);
+        
+        //Parte almacenamiento en RAM
+//        if (mCategoria.existe(categoriaIngresada) == 0 ) //Si no existe como categoría padre...
+//        {
+//            return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
+//        }
+//
+//        if (mCategoria.existe(categoriaIngresada) == 7) //Es una subSubcategoria_n+1...
+//        {
+//            return (mCategoria.addCategoriaB(categoriaIngresada));
+//        }
+//
+//        return false;    //Le dice a ui que no se agregó nada.
     }
-    
+
     @Override
-    public int existe(DTOCategoria categoriaIngresada)
+    public int existe(DTOCategoria categoriaIngresada) 
     {
         return mCategoria.existe(categoriaIngresada);
     }
 
     @Override
-    public Map<String, DTOCategoria> getCategorias()
+    public Map<String, DTOCategoria> getCategorias() 
     {
+        
         return mCategoria.getCategorias();
     }
     
-   
-     public List<String> ListaCategoria(){
+    @Override
+    public List<String> ListaCategoria()
+    {
          List<String> aux2 = new ArrayList<>();
-         for (DTOCategoria c : mCategoria.getCategorias().values()){
+         for(DTOCategoria c : mCategoria.getCategorias().values())
+         {
              aux2.add(c.getNombreCategoria());
          }
              return aux2; 
-     }
-     
-     public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
+    }
+    
+    //Propuesta
+    
+    @Override
+    public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
-        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);  
-        if (propuestaSeleccionada != null){
-            propuestaSeleccionada.setDescripcion(descripcion);
-            propuestaSeleccionada.setTipo(tipo);
-            propuestaSeleccionada.setImagne(rutaImagen);
-            propuestaSeleccionada.setLugar(lugar);
-            propuestaSeleccionada.setFecha(fechaEvento);
-            propuestaSeleccionada.setPrecio(precio);
-            propuestaSeleccionada.setMontoTotal(montoTotal);
-            propuestaSeleccionada.setRetornos(retorno);
-            propuestaSeleccionada.setCategoria(mCategoria.buscadorC(categoria));
-            propuestaSeleccionada.addEstHistorial(estado);
+        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
+        if (propuestaSeleccionada != null){  
+            mPropuesta.UpdatePropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
         }
      }
      @Override

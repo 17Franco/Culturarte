@@ -19,9 +19,11 @@ import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOUsuario;
 import logica.Propuesta.Propuesta;
+import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
 import logica.Usuario.Usuario;
+import logica._enum.Estado;
 
 
 
@@ -266,5 +268,25 @@ public class ManejadorUsuario {
                 em.close();
             }
             
+        }
+        
+        public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
+                em = PersistenciaManager.getEntityManager();
+                   Proponente  p=em.find(Proponente.class,nick);
+                   Set<DTOPropuesta> resu=new HashSet<>();
+                try{
+                    DTOProponente dtoProp=new DTOProponente(p);
+                    for(Propuesta prop: p.getPropCreadas().values()){
+                        Estado aux=prop.getHistorialEstados().getFirst().getEstado();
+                        DTOPropuesta dtoP=new DTOPropuesta(prop,dtoProp);
+                        dtoP.setEstadoAct(aux);
+                        
+                        resu.add(dtoP);
+                    }
+                    return resu;
+                }finally{
+                    em.close();
+                }
+        
         }
 }

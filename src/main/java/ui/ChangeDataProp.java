@@ -12,6 +12,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
+import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -29,6 +30,7 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     
     private IController controller = Fabrica.getInstance();
     private String rutaImagen = null;
+    String categoria;
     DTOPropuesta datos = new DTOPropuesta();
     /**
      * Creates new form ChangeDataProp
@@ -36,13 +38,13 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     public ChangeDataProp() {
         initComponents();
         EstadoM.removeAllItems(); 
-        CateM.removeAllItems();
-        for (String c : controller.ListaCategoria()) {
-            CateM.addItem(c);
-        }
         for (Estado e : Estado.values()) {
             EstadoM.addItem(e);
         }
+    }
+    public void AsignarCategoria(String cat){
+        this.categoria=cat;
+        ListCat.setText(categoria);
     }
     private boolean validarCampo(List<JTextField> campos) {
         for (JTextField campo : campos) {
@@ -111,9 +113,9 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         Imagen = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        CateM = new javax.swing.JComboBox<>();
         tt1 = new javax.swing.JCheckBox();
         tt2 = new javax.swing.JCheckBox();
+        ListCat = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -235,6 +237,13 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
 
         tt2.setText("Procentaje de Ganancia");
 
+        ListCat.setText("Seleccione Categoria");
+        ListCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListCatActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,17 +275,17 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(CateM, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(EstadoM, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(MontoTotalField, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(PrecioEntradaField)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(tt1)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(tt2)))
+                                                .addComponent(tt2))
+                                            .addComponent(ListCat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -347,9 +356,9 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
                         .addComponent(tt1)
                         .addComponent(tt2)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(CateM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ListCat))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(img)
@@ -385,14 +394,13 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         if (tt2.isSelected()) {
             retorno.add(TipoRetorno.PorcentajeGanancia);
         }
-        String auxCat = (String) CateM.getSelectedItem();
         String mes =m.getText();
         String anio =a.getText();
         Estado newEstado = (Estado) EstadoM.getSelectedItem();
             if(validarCampo(campos) && validarRetorno(tt1,tt2)){
                 Utilities.copiarImagen(rutaImagen,auxTitulo);
                 LocalDate fechaEvento=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
-                controller.modificarPropuesta(auxTitulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,retorno,auxCat, auxUsuario,newEstado);
+                controller.modificarPropuesta(auxTitulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,retorno,categoria, auxUsuario,newEstado);
                 JOptionPane.showMessageDialog(this, "Propuesta Modificada con exito");                       
 
             }
@@ -459,10 +467,17 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_CerrarActionPerformed
 
+    private void ListCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListCatActionPerformed
+        SelectCategoria mostrar = new SelectCategoria(this);
+        JDesktopPane fondo3Final = this.getDesktopPane();
+        fondo3Final.add(mostrar);
+        mostrar.setSize(fondo3Final.getSize());
+        mostrar.setVisible(true);
+    }//GEN-LAST:event_ListCatActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Anio;
-    private javax.swing.JComboBox<String> CateM;
     private javax.swing.JButton Cerrar;
     private javax.swing.JLabel Descripcion;
     private javax.swing.JTextField DescripcionField;
@@ -472,6 +487,7 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     private javax.swing.JLabel EstadoModi;
     private javax.swing.JLabel Fecha;
     private javax.swing.JButton Imagen;
+    private javax.swing.JButton ListCat;
     private javax.swing.JLabel Lugar;
     private javax.swing.JTextField LugarField;
     private javax.swing.JLabel Mes;
