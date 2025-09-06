@@ -210,30 +210,24 @@ public class Controller  implements IController {
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada) 
     {
         return mCategoria.addCategoria(categoriaIngresada);
-    }
 
-    @Override
-    public int existe(DTOCategoria categoriaIngresada) 
-    {
-        return mCategoria.existe(categoriaIngresada);
     }
-
     @Override
     public List<DTOCategoria> getCategorias() 
-    {  
+    {
+        
         return mCategoria.getCategorias();
     }
     
     @Override
     public List<String> ListaCategoria()
     {
-        List<String> aux2 = new ArrayList<>();
-        for(DTOCategoria c : mCategoria.getCategorias())
-        {
-            aux2.add(c.getNombreCategoria());
-        }
-        
-        return aux2; 
+         List<String> aux2 = new ArrayList<>();
+         for(DTOCategoria c : mCategoria.getCategorias())
+         {
+             aux2.add(c.getNombreCategoria());
+         }
+             return aux2; 
     }
     
     //Propuesta
