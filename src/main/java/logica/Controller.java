@@ -202,19 +202,6 @@ public class Controller  implements IController {
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada) 
     {
         return mCategoria.addCategoria(categoriaIngresada);
-        
-        //Parte almacenamiento en RAM
-//        if (mCategoria.existe(categoriaIngresada) == 0 ) //Si no existe como categoría padre...
-//        {
-//            return mCategoria.addCategoria(categoriaIngresada);     //Se retorna directamente el bool de la función avisando a la UI si fúe todo bien o si no.
-//        }
-//
-//        if (mCategoria.existe(categoriaIngresada) == 7) //Es una subSubcategoria_n+1...
-//        {
-//            return (mCategoria.addCategoriaB(categoriaIngresada));
-//        }
-//
-//        return false;    //Le dice a ui que no se agregó nada.
     }
 
     @Override
@@ -224,21 +211,21 @@ public class Controller  implements IController {
     }
 
     @Override
-    public Map<String, DTOCategoria> getCategorias() 
-    {
-        
+    public List<DTOCategoria> getCategorias() 
+    {  
         return mCategoria.getCategorias();
     }
     
     @Override
     public List<String> ListaCategoria()
     {
-         List<String> aux2 = new ArrayList<>();
-         for(DTOCategoria c : mCategoria.getCategorias().values())
-         {
-             aux2.add(c.getNombreCategoria());
-         }
-             return aux2; 
+        List<String> aux2 = new ArrayList<>();
+        for(DTOCategoria c : mCategoria.getCategorias())
+        {
+            aux2.add(c.getNombreCategoria());
+        }
+        
+        return aux2; 
     }
     
     //Propuesta
