@@ -3,8 +3,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.List;
 import logica.Categoria.Categoria;
 
 public class ManejadorCategoria {
@@ -28,17 +30,28 @@ public class ManejadorCategoria {
         return instancia;
     }
 
-    public Map<String, DTOCategoria> getCategorias()
+    public List<DTOCategoria> getCategorias()
     {
-        Map<String, DTOCategoria> temp = new HashMap<>();
+        List<DTOCategoria> almacen = new ArrayList<>();
         
-        for(Map.Entry <String,Categoria> ct : AlmacenCategorias.entrySet()) 
+        dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
+        
+        try 
         {
-            DTOCategoria temp0 = new DTOCategoria(ct.getValue().getNombreCategoria(), ct.getValue().getCatPadre(), "", ct.getValue().getSubcategorias());
-            temp.put(ct.getValue().getNombreCategoria(),temp0);
+            List<Categoria> datosImportadosDb = dbManager.createQuery("select catImport from Categoria catImport where catImport.catPadre is NULL", Categoria.class).getResultList();   //Se traen todos los nodos padre.
+
+            for (Categoria ct : datosImportadosDb) 
+            {
+                DTOCategoria temp = ct.Cat_a_DTO(); //Se pasa a DTO.
+                almacen.add(temp);                  //Se almacena en la lista.
+            }    
+        } 
+        finally 
+        {
+            dbManager.close();
         }
         
-        return temp;
+        return almacen;
     }
 
     public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria) 
