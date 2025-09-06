@@ -64,9 +64,7 @@ public interface IController {
     
     //Categoria
     boolean altaDeCategoria(DTOCategoria categoriaIngresada);
-    int existe(DTOCategoria categoriaIngresada);
-    Map<String, DTOCategoria> getCategorias();
-  
+    List<DTOCategoria> getCategorias();
     List<String> ListaCategoria();
     //Fin Categoria
     

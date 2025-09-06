@@ -44,6 +44,7 @@ public class ManejadorPropuesta {
                 p.setProponente(prop);
                 prop.getPropCreadas().put(p.getTitulo(), p);
             }
+            
             em.persist(p);
             t.commit();
         } catch (Exception e) {
@@ -85,6 +86,9 @@ public class ManejadorPropuesta {
         EntityManager em = PersistenciaManager.getEntityManager();
         Set<DTOPropuesta> result = new HashSet<>();
 
+        //"SELECT p FROM Propuesta p JOIN Registro_Estados re ON p.titulo = re.propuesta WHERE re.estado = :estadoInput AND re.fechaReg = (SELECT MAX(re2.fechaReg) FROM Registro_Estados re2 WHERE re2.propuesta = re.propuesta)";
+
+        
         try {
             TypedQuery<Propuesta> q = em.createQuery("SELECT p FROM Propuesta p", Propuesta.class);
             List<Propuesta> propuestas = q.getResultList();

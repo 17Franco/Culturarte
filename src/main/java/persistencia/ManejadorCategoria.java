@@ -3,8 +3,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import logica.DTO.DTOCategoria;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.List;
 import logica.Categoria.Categoria;
 
 public class ManejadorCategoria {
@@ -28,17 +30,28 @@ public class ManejadorCategoria {
         return instancia;
     }
 
-    public Map<String, DTOCategoria> getCategorias()
+    public List<DTOCategoria> getCategorias()
     {
-        Map<String, DTOCategoria> temp = new HashMap<>();
+        List<DTOCategoria> almacen = new ArrayList<>();
         
-        for(Map.Entry <String,Categoria> ct : AlmacenCategorias.entrySet()) 
+        dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
+        
+        try 
         {
-            DTOCategoria temp0 = new DTOCategoria(ct.getValue().getNombreCategoria(), ct.getValue().getCatPadre(), "", ct.getValue().getSubcategorias());
-            temp.put(ct.getValue().getNombreCategoria(),temp0);
+            List<Categoria> datosImportadosDb = dbManager.createQuery("select catImport from Categoria catImport where catImport.catPadre is NULL", Categoria.class).getResultList();   //Se traen todos los nodos padre.
+
+            for (Categoria ct : datosImportadosDb) 
+            {
+                DTOCategoria temp = ct.Cat_a_DTO(); //Se pasa a DTO.
+                almacen.add(temp);                  //Se almacena en la lista.
+            }    
+        } 
+        finally 
+        {
+            dbManager.close();
         }
         
-        return temp;
+        return almacen;
     }
 
     public DTOCategoria obtenerCategoriaPorNombre(String nombreCategoria) 
@@ -65,10 +78,6 @@ public class ManejadorCategoria {
             
             Categoria cat1 = new Categoria(categoriaIngresada.getNombreCategoria(),null);
             
-            //Se almacena en memoria RAM:
-            //AlmacenCategorias.put(cat1.getNombreCategoria(), cat1); 
-
-            //Parte almacenamiento en base de datos:
             try
             {
                 dbManager.persist(cat1);
@@ -132,16 +141,7 @@ public class ManejadorCategoria {
                     dbManager.close(); 
                 } 
             }
-            
-                        
-            //Almacenamiento en RAM
-            Categoria tempRAM = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Obtengo y almaceno puntero a cat padre.
-            
-            if(tempRAM != null) 
-            {
-                tempRAM.addDTOSubcategoria(categoriaIngresada);
-                //pass = true;
-            }
+
         }
         
         return pass;    //Retorno de mensaje de estado...
@@ -192,29 +192,6 @@ public class ManejadorCategoria {
                         
         }
         
-        
-        //Almacenamiento en RAM
-        if (!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si no existe tal categoría padre que se ingresa....
-        {
-            for (Categoria ct : AlmacenCategorias.values()) //Aca itera cada raiz 
-            {
-                Categoria nodoPadre1 = buscadorSubcategorias(ct,categoriaIngresada.getCatPadre()); //Recursividad para buscar al nodo ese. (null o !null)
-                
-                if (nodoPadre1 != null) 
-                {
-                    Categoria temp = new Categoria(categoriaIngresada.getNombreCategoria(),nodoPadre1);
-                    
-                    nodoPadre1.addSubcategoria(temp);
-                    
-                    return true;    //Retorna que se asignó correctamente.
-                    
-                }
-            }
-
-            return false;
-        }
-        //________________________________________________________________
-        
         return pass;
     }
 
@@ -225,106 +202,6 @@ public class ManejadorCategoria {
         } finally {
             em.close();
         }
-    }
-
-    public int existe(DTOCategoria categoriaIngresada) //En desuso para almacenamiento volatil.
-    {
-        //Esta funcion solo sirve para busqueda en RAM.
-        
-        //Devuelve 0 si no existe como Categoría padre
-        //Devuelve 1 en casos excepcionales.
-        //Devuelve 2 si la subcategoría ya existía en determinada cat padre
-        //Devuelve 3 si existe como categoría padre y además se intenta que sea Subcategoría
-        //Devuelve 4 si la categoría ingresada será una subcategoría de otras subcategorías.
-        //Devuelve 5 si la categoria padre nueva ingresada ya existe
-        //Devuelve 6 si se intenta ingresar una subcategoria como categoría padre
-        //Devuelve 7 si la categoria padre ingresada no existe.
-
-        if (categoriaIngresada.getCatPadre() != null) //Si se agregó como subcategoría
-        {
-            if (!AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si no existe tal categoría padre que se ingresa....
-            {
-                for(Categoria ct : AlmacenCategorias.values())         //Aca itera cada raiz 
-                {    
-
-                    if(buscadorSubcategorias(ct,categoriaIngresada.getCatPadre()) != null)  //Recursividad para buscar al nodo ese. (null o !null)
-                    {
-                        return 7;  
-                    }
-                }
-                
-                return 4;
-            }
-
-            if (AlmacenCategorias.containsKey(categoriaIngresada.getCatPadre())) //Si la categoría padre existe...
-            {
-                Categoria temp = AlmacenCategorias.get(categoriaIngresada.getCatPadre());    //Puntero a nodo de cat padre.
-
-                if (temp.existeSubCat(categoriaIngresada.getNombreCategoria())) //Pregunta si ya existia una subcat con ese nombre.
-                {
-                    return 2;
-                }
-            }
-
-            if (AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) {
-                return 3;   //Si se intenta que una cat padre sea subcategoria
-            }
-        }
-
-        if (AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) {
-            return 5;     //Si la categoría padre ingresada nueva ya existía.
-        }
-
-        if (!AlmacenCategorias.containsKey(categoriaIngresada.getNombreCategoria())) //Busca si ya existe Categoria padre.
-        {
-
-            Iterator<Map.Entry<String, Categoria>> ct = AlmacenCategorias.entrySet().iterator();
-
-            while (ct.hasNext()) {
-                Map.Entry<String, Categoria> entry = ct.next();
-
-                if (entry.getValue().existeSubCat(categoriaIngresada.getNombreCategoria())) {
-                    return 6;
-                }
-
-            }
-
-            return 0;
-        }
-
-        return 1;
-    }
-  
-
-
-    Categoria buscadorSubcategorias(Categoria importSubCategorias, String subCatBuscada) //Acá llega el arbol sin la raíz (la raiz se itera afuera).
-    {
-        
-        if(importSubCategorias == null) //Este estaba vacío.
-        {
-            return null;
-        }
-
-        if(importSubCategorias.getNombreCategoria().equals(subCatBuscada))
-        {
-            return importSubCategorias;
-        }
-
-        for(Categoria ct : importSubCategorias.getSubcategorias()) //Accede a las subcategorias de esa categoria 
-        {
-            Categoria nodo = buscadorSubcategorias(ct,subCatBuscada);
-            
-            if(nodo != null) //Sin esto no me guarda la coincidencia del !null de arriba.
-            {
-                return nodo;
-            }
-//            else
-//            {
-//                return null;
-//            }
-        }
-
-        return null;
     }
     
 

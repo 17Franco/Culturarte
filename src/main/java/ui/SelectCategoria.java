@@ -1,44 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package ui;
 
-import jakarta.persistence.EntityManager;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.Map;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
 import logica.Fabrica;
 import logica.IController;
-import persistencia.PersistenciaManager;
 
-/**
- *
- * @author asus
- */
 public class SelectCategoria extends javax.swing.JInternalFrame {
-    
+
     private IController controller = Fabrica.getInstance();
-    private EntityManager dbManager;
     private AltaPropuesta altaP;
     private ChangeDataProp ModP;
+
     public SelectCategoria(AltaPropuesta altaP) {
         initComponents();
         this.altaP = altaP;
         refrescarJtree();
     }
+
     public SelectCategoria(ChangeDataProp ModP) {
         initComponents();
         this.ModP = ModP;
         refrescarJtree();
     }
+
     private void refrescarJtree() {
-        arbol = cargarJtree(controller.getCategorias());
+        Map<String, DTOCategoria> categorias = controller.getCategorias();
+        arbol = cargarJtree(categorias);
+
         arbol.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -47,57 +39,42 @@ public class SelectCategoria extends javax.swing.JInternalFrame {
                     if (path != null) {
                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
                         String valor = node.getUserObject().toString();
+
                         if (altaP != null) {
                             altaP.AsignarCategoria(valor);
                         }
                         if (ModP != null) {
                             ModP.AsignarCategoria(valor);
                         }
+
                         dispose();
                     }
                 }
             }
         });
+
         panelDelArbol.setViewportView(arbol);
         panelDelArbol.revalidate();
         panelDelArbol.repaint();
     }
-    private DefaultMutableTreeNode Cat_a_Jt(DTOCategoria cat) //Con esto hago un nodo del arbol compatible con la Jtree
-    {
+
+    private DefaultMutableTreeNode Cat_a_Jt(DTOCategoria cat) {
         DefaultMutableTreeNode temp = new DefaultMutableTreeNode(cat);
-
-        for (DTOCategoria ct : cat.getSubcategorias()) //Se recorre cadasubcat de la raíz envidada
-        {
-            temp.add(Cat_a_Jt(ct));   //Paso recursivo...
+        for (DTOCategoria ct : cat.getSubcategorias()) {
+            temp.add(Cat_a_Jt(ct));
         }
-
         return temp;
     }
 
-    public JTree cargarJtree(Map<String, DTOCategoria> input_AlmacenCategorias) {
+    public JTree cargarJtree(Map<String, DTOCategoria> inputCategorias) {
+        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Categorías");
 
-        DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
-
-        dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
-
-        try {
-            String resultadoConsulta = "select catImport from Categoria catImport where catImport.catPadre is NULL";
-            List<Categoria> datosImportadosDb = dbManager.createQuery(resultadoConsulta, Categoria.class).getResultList();
-
-            for (Categoria ct : datosImportadosDb) {
-                DTOCategoria temp = ct.Cat_a_DTO(); //Se pasa a DTO.
-                almacen.add(Cat_a_Jt(temp));        //Se pasa a Jtree.
-            }
-
-        } finally {
-            dbManager.close();
+        for (DTOCategoria ct : inputCategorias.values()) {
+            raiz.add(Cat_a_Jt(ct));
         }
-
-        JTree temp = new JTree(almacen);    //JTree final creado
-
-        return temp;
-
+        return new JTree(raiz);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
