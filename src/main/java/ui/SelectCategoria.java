@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -28,9 +29,7 @@ public class SelectCategoria extends javax.swing.JInternalFrame {
     }
 
     private void refrescarJtree() {
-        Map<String, DTOCategoria> categorias = controller.getCategorias();
-        arbol = cargarJtree(categorias);
-
+        arbol = cargarJtree(controller.getCategorias());
         arbol.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -66,13 +65,16 @@ public class SelectCategoria extends javax.swing.JInternalFrame {
         return temp;
     }
 
-    public JTree cargarJtree(Map<String, DTOCategoria> inputCategorias) {
-        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Categorías");
+    public JTree cargarJtree(List<DTOCategoria> inputCategorias) {
+        DefaultMutableTreeNode almacen = new DefaultMutableTreeNode("Categorías");
 
-        for (DTOCategoria ct : inputCategorias.values()) {
-            raiz.add(Cat_a_Jt(ct));
+        for (DTOCategoria ct : inputCategorias) {
+            almacen.add(Cat_a_Jt(ct));        //Se pasa a Jtree.
         }
-        return new JTree(raiz);
+
+        JTree temp = new JTree(almacen);    //JTree final creado
+
+        return temp;
     }
 
     @SuppressWarnings("unchecked")
