@@ -195,17 +195,12 @@ public class ManejadorCategoria {
         return pass;
     }
 
-    public Categoria buscadorC(String nombreCat) 
-    {
-       dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
-        
-        try 
-        {
-           return dbManager.find(Categoria.class, nombreCat);
-        } 
-        finally 
-        {
-            dbManager.close();
+    public Categoria buscadorC(String nombreCat) {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        try {
+            return em.find(Categoria.class, nombreCat);
+        } finally {
+            em.close();
         }
     }
     
