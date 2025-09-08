@@ -4,6 +4,7 @@ package logica.DTO;
 import java.time.LocalDate;
 import logica.Colaboracion.Colaboracion;
 import logica.Usuario.Colaborador;
+import logica.Propuesta.Propuesta;
 import logica._enum.TipoRetorno;
 
 
@@ -12,9 +13,11 @@ public class DTOColaboracion {
 
         private int monto;
 
-        private String colaborador;
-
+ 
+        private String  colaborador;
         private String propuesta;
+        private Propuesta propuestaP;
+        private Colaborador colaboradorP;
 
         private LocalDate creado;
     
@@ -40,6 +43,17 @@ public class DTOColaboracion {
         this.monto = monto;
         this.colaborador = colaborador;
         this.propuesta = propuesta;
+        this.creado = creado;
+    }
+    
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, Colaborador colaboradorP, Propuesta propuestaP) 
+    {
+        this.tipoRetorno = tipoRetorno;
+        this.monto = monto;
+        this.colaborador = colaborador;
+        this.propuesta = propuesta;
+        this.colaboradorP = colaboradorP;
+        this.propuestaP = propuestaP;
         this.creado = creado;
     }
     
@@ -99,5 +113,25 @@ public class DTOColaboracion {
     
     public void setTipoRetorno(TipoRetorno tipoRetorno) {
         this.tipoRetorno = tipoRetorno;
+    }
+    
+    public void setPropuestaP (Propuesta propuestaP)
+    {
+        this.propuestaP = propuestaP;
+    }
+    
+    public void setColaboradorP (Colaborador colaboradorP)
+    {
+       this.colaboradorP = colaboradorP;
+    }
+    
+    public Propuesta getPropuestaP()
+    {
+        return propuestaP;
+    }
+    
+    public Colaborador getColaboradorP()
+    {
+       return colaboradorP;
     }
 }
