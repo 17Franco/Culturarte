@@ -14,9 +14,13 @@ import java.util.List;
 import java.util.Set;
 import logica.Categoria.Categoria;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTORegistro_Estado;
+import logica.Propuesta.Registro_Estado;
 import logica.Colaboracion.Colaboracion;
+import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Proponente;
+import logica.Usuario.Colaborador;
 import logica._enum.Estado;
 import logica._enum.TipoRetorno;
 
@@ -82,32 +86,60 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
-    public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) {
+    public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) 
+    {
         EntityManager em = PersistenciaManager.getEntityManager();
-        Set<DTOPropuesta> result = new HashSet<>(); 
-        try {
-            TypedQuery<Propuesta> q = em.createQuery("SELECT p FROM Propuesta p", Propuesta.class);
+        Set<DTOPropuesta> result = new HashSet<>();
+ 
+        try 
+        {
+           
+            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);
             List<Propuesta> propuestas = q.getResultList();
-            for (Propuesta p : propuestas) {
-                Estado ultimoEstado = null;
-                if (!p.getHistorialEstados().isEmpty()) {
-                    ultimoEstado = p.getHistorialEstados().get(0).getEstado();
-                    
-                   /* TypedQuery<Propuesta> e = em.createQuery("SELECT p FROM Propuesta p JOIN Registro_Estados re ON p.titulo = re.propuesta WHERE re.estado = :estadoInput AND re.fechaReg = (SELECT MAX(re2.fechaReg) FROM Registro_Estados re2 WHERE re2.propuesta = re.propuesta)", Propuesta.class);
-                    List<Propuesta> propEs = e.getResultList();*/
-                }
-                if (!estadoInput.isEmpty() && (ultimoEstado == null || !ultimoEstado.name().equals(estadoInput))) {
-                    continue; // saltar propuestas que no coincidan
-                }
-                DTOPropuesta dto = new DTOPropuesta();
-                dto.extraerDatosPropuesta(p);
-                result.add(dto);
-            }
+                        
+            
+            for (Propuesta p : propuestas)
+            {   
+                p.getHistorialEstados().size(); //Hibernate no me quiere cargar estas listas desde el inixio (forzado)
+                p.getRetorno().size();
+                p.getAporte().size();
 
-        } finally {
+                if(!estadoInput.isEmpty())  //Solo almacenará propuestas que coincidan en el estado imputeado
+                {
+
+                    if(p.getUltimoEstado() != null && p.getUltimoEstadoString().equals(estadoInput))   //Si existe ultimo estado y coincide con el necesario
+                    {       
+                        DTOPropuesta temp = new DTOPropuesta();
+                        temp.extraerDatosPropuesta(p);           
+                        result.add(temp);                       
+                    }    
+                }
+                else    //Almacena todas las propuestas
+                {
+                    DTOPropuesta dto = new DTOPropuesta();
+                    dto.extraerDatosPropuesta(p);
+                    result.add(dto);
+                }
+            }
+        } 
+        finally
+        {
             em.close();
         }
+        
         return result;
+    }
+    
+    public List<DTOColaboracion> Colaboraciones_A_DTO(List<Colaboracion> input)
+    {
+        List<DTOColaboracion> almacen = new ArrayList<>();
+        
+        for (Colaboracion ct : input)
+        {
+            almacen.add(new DTOColaboracion(ct.getTipoRetorno(),ct.getMonto(),ct.getColaborador().getNickname(),ct.getPropuesta().getTitulo(),ct.getCreado(),ct.getColaborador(),ct.getPropuesta()));
+        }
+        
+        return almacen;
     }
     public int getMontoRecaudado(String titulo) {
         Propuesta p = buscarPropuestaPorTitulo(titulo);
