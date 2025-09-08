@@ -84,11 +84,7 @@ public class ManejadorPropuesta {
     }
     public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) {
         EntityManager em = PersistenciaManager.getEntityManager();
-        Set<DTOPropuesta> result = new HashSet<>();
-
-        //"SELECT p FROM Propuesta p JOIN Registro_Estados re ON p.titulo = re.propuesta WHERE re.estado = :estadoInput AND re.fechaReg = (SELECT MAX(re2.fechaReg) FROM Registro_Estados re2 WHERE re2.propuesta = re.propuesta)";
-
-        
+        Set<DTOPropuesta> result = new HashSet<>(); 
         try {
             TypedQuery<Propuesta> q = em.createQuery("SELECT p FROM Propuesta p", Propuesta.class);
             List<Propuesta> propuestas = q.getResultList();
@@ -96,6 +92,9 @@ public class ManejadorPropuesta {
                 Estado ultimoEstado = null;
                 if (!p.getHistorialEstados().isEmpty()) {
                     ultimoEstado = p.getHistorialEstados().get(0).getEstado();
+                    
+                   /* TypedQuery<Propuesta> e = em.createQuery("SELECT p FROM Propuesta p JOIN Registro_Estados re ON p.titulo = re.propuesta WHERE re.estado = :estadoInput AND re.fechaReg = (SELECT MAX(re2.fechaReg) FROM Registro_Estados re2 WHERE re2.propuesta = re.propuesta)", Propuesta.class);
+                    List<Propuesta> propEs = e.getResultList();*/
                 }
                 if (!estadoInput.isEmpty() && (ultimoEstado == null || !ultimoEstado.name().equals(estadoInput))) {
                     continue; // saltar propuestas que no coincidan
