@@ -142,27 +142,39 @@ public class ManejadorPropuesta {
         return almacen;
     }
     public int getMontoRecaudado(String titulo) {
-        Propuesta p = buscarPropuestaPorTitulo(titulo);
-        if (p == null) {
-            return 0;
-        }
+        EntityManager em = PersistenciaManager.getEntityManager();
+        Propuesta p =em.find(Propuesta.class,titulo);
+        try{
+             if (p == null) {
+                return 0;
+            }
 
-        int recaudado = 0;
-        for (Colaboracion c : p.getAporte()) {
-            recaudado += c.getMonto();
+             int recaudado = 0;
+            for (Colaboracion c : p.getAporte()) {
+                recaudado += c.getMonto();
+            }
+            return recaudado;
+        }finally{
+            em.close();
         }
-        return recaudado;
+        
     }
 
     public List<String> listColaboradores(String titulo) {
-        Propuesta p = buscarPropuestaPorTitulo(titulo);
-        List<String> colab = new ArrayList<>();
-        if (p != null) {
-            for (Colaboracion c : p.getAporte()) {
-                colab.add(c.getColaborador().getNickname());
-            }
+        EntityManager em = PersistenciaManager.getEntityManager(); //
+        Propuesta p = em.find(Propuesta.class,titulo);// no uso el buscador porque pierdo la conexion y los aportes no se carga hasta que le digas 
+        try{
+                List<String> colab = new ArrayList<>();
+           if (p != null) {
+               for (Colaboracion c : p.getAporte()) {
+                   colab.add(c.getColaborador().getNickname());
+               }
+           }
+           return colab;
+        }finally{
+            em.close();
         }
-        return colab;
+       
     }
     public void actualizarEstado(String titulo) {
         EntityManager em = PersistenciaManager.getEntityManager();

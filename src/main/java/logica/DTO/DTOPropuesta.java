@@ -153,6 +153,10 @@ public class DTOPropuesta {
         MontoTotal = montoTotal;
     }
 
+    public Estado getEstadoAct() {
+        return EstadoAct;
+    }
+
     public void setFechaPublicacion(LocalDate fechaPublicacion) {
         FechaPublicacion = fechaPublicacion;
     }
@@ -165,6 +169,11 @@ public class DTOPropuesta {
     public void setProponente(DTOProponente Propo){
         usr = Propo;
     }
+
+    public void setEstadoAct(Estado EstadoAct) {
+        this.EstadoAct = EstadoAct;
+    }
+    
     public void extraerDatosPropuesta(Propuesta in)
     {
         Titulo = in.getTitulo();

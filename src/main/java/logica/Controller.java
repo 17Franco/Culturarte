@@ -110,13 +110,12 @@ public class Controller  implements IController {
      public boolean seguir(String nick1,String nick2){
          
          return mUsuario.seguirUsr(nick1,nick2);
-        
-  
+
      }
      @Override
      public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow)
      {
-        return (mUsuario.buscador(usuarioActual).unfollow(mUsuario.buscador(usuarioToUnfollow)));  
+        return (mUsuario.getUsuario(usuarioActual).unfollow(mUsuario.getUsuario(usuarioToUnfollow)));
      }
      
     // Funciones que devuelven Distintos DTO 
@@ -138,42 +137,34 @@ public class Controller  implements IController {
             for(Registro_Estado re:r){
                 propuesta.setHistorialEstados(getDTORegistroEstado(re));
             }
-            
-           /* for(Colaboracion registro:rA){
-                propuesta.setAportes(getDTOAporte(registro,propuesta.getTitulo()));
-            }*/
 
             return propuesta;
     }
     
     @Override
-    //me crea un dtoProponente completo incluido las propuestas que el usuario creo
+    //me crea un dtoProponente datos basicos
     public DTOProponente getDTOProponente(String nick) { 
-           Proponente usr= (Proponente) mUsuario.buscador(nick);
-           DTOProponente resu=new DTOProponente(usr);
+           Proponente usr= (Proponente) mUsuario.getUsuario(nick);
+          DTOProponente resu=new DTOProponente(usr);
           
-          Map<String,DTOPropuesta> p=mUsuario.getPropCreadas(resu);
+          //Map<String,DTOPropuesta> p=mUsuario.getPropuestasCreadas(resu);
            
-          resu.setPropCreadas(p);
-          /* for(Propuesta prop:p.values()){
-               resu.addDTOPropuesta(getDTOPropuesta(prop,resu));
-           }*/
+          //resu.setPropCreadas(p);
            
            return resu;
+    }
+
+    public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
+
+        return mUsuario.getPropuestasCreadasPorProponente(nick);
     }
 
  
     @Override
      public DTOColaborador getDTOColaborador(String nick) { 
-           Colaborador usr= (Colaborador) mUsuario.buscador(nick);
+           Colaborador usr= (Colaborador) mUsuario.getUsuario(nick);
            DTOColaborador resu=new DTOColaborador(usr);
-          
-          //List<Colaboracion> registro=usr.getColaboraciones();
-           
-          //or(Colaboracion r:registro){
-              //resu.setColaboracion(getDTOAporte(r,r.getColabPropuesta().getTitulo()));
-          //}
-           
+
            return resu;
     }
      //Fin de Devolucion de DTO
@@ -182,7 +173,7 @@ public class Controller  implements IController {
     @Override
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
-        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.buscador(usr),est);
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override
@@ -215,7 +206,7 @@ public class Controller  implements IController {
     @Override
     public List<DTOCategoria> getCategorias() 
     {
-        
+
         return mCategoria.getCategorias();
     }
     
@@ -227,7 +218,7 @@ public class Controller  implements IController {
          {
              aux2.add(c.getNombreCategoria());
          }
-             return aux2; 
+             return aux2;
     }
     
     //Propuesta
@@ -256,7 +247,7 @@ public class Controller  implements IController {
     }
 
     public Set<DTOColaborador> ListarColaboradores() {
-        return mUsuario.listColaboradores();
+        return mUsuario.listaColaboradores();
     }
 
     @Override

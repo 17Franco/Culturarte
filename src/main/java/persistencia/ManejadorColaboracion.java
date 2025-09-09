@@ -39,7 +39,7 @@ public class ManejadorColaboracion {
         
         //AlmacenColaboraciones.add();
         Propuesta p= mPropuesta.getPropuesta(colaboracion.getPropuesta());
-        Colaborador c= (Colaborador) mUsuario.buscador(colaboracion.getColaborador());
+        Colaborador c= (Colaborador) mUsuario.getUsuario(colaboracion.getColaborador());
        
         Colaboracion colab= new Colaboracion(colaboracion,c,p);
         c.setColaboraciones(colab);
