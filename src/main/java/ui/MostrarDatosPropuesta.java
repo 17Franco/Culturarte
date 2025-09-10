@@ -1,4 +1,5 @@
 package ui;
+import java.awt.Image;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -71,12 +72,19 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         inicializarLista();
     }
     
-    public void setImagen(String dirImagen) 
-    {
-        ImageIcon bannerPropuesta = new ImageIcon(dirImagen);
+    public void setImagen(String dirImagen) {
         
-        lel.setIcon(bannerPropuesta);   //Se ingresa la imagen pelada (capaz que hay que controlar el tamaño)
-        lel.setText("");                //Quitar el mensaje de que no hay imagen
+        ImageIcon bannerPropuesta = new ImageIcon(dirImagen);
+        int ancho = 483;
+        int alto = 133;
+
+        Image imgEscalada = bannerPropuesta.getImage().getScaledInstance(
+                ancho,
+                alto,
+                Image.SCALE_SMOOTH
+        );
+        lel.setIcon(new ImageIcon(imgEscalada));
+        lel.setText("");  // Limpia cualquier texto
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,16 +139,15 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         panelDeImagen.setLayout(panelDeImagenLayout);
         panelDeImagenLayout.setHorizontalGroup(
             panelDeImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDeImagenLayout.createSequentialGroup()
-                .addContainerGap(158, Short.MAX_VALUE)
+            .addGroup(panelDeImagenLayout.createSequentialGroup()
                 .addComponent(lel)
-                .addGap(16, 16, 16))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelDeImagenLayout.setVerticalGroup(
             panelDeImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDeImagenLayout.createSequentialGroup()
-                .addGap(0, 70, Short.MAX_VALUE)
-                .addComponent(lel))
+            .addGroup(panelDeImagenLayout.createSequentialGroup()
+                .addComponent(lel)
+                .addGap(0, 70, Short.MAX_VALUE))
         );
 
         Labe.setText("Total Aportes:");
@@ -169,7 +176,7 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(Labe)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(botonSalir)))
