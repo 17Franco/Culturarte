@@ -91,8 +91,7 @@ public class MostrarColaboraciones extends javax.swing.JInternalFrame {
 
         Colaboraciones.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
             @Override
-            public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table,
-                Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table,Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
                 java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
