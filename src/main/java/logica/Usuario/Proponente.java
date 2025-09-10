@@ -2,7 +2,10 @@
 package logica.Usuario;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
@@ -14,6 +17,8 @@ import logica.Propuesta.Propuesta;
 @Entity
 public class Proponente extends Usuario{
     private String direccion;
+    @Lob// tipo de dato mas grande
+    @Column(columnDefinition = "TEXT")
     private String biografia;
     private String webSite;
     

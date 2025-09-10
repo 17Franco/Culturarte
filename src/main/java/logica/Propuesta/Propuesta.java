@@ -7,10 +7,12 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
 import logica._enum.TipoRetorno;
 import logica.Categoria.Categoria;
@@ -52,11 +54,12 @@ public class Propuesta {
     @JoinColumn(name = "proponente")
     private Proponente usr;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "propuesta") // FK en la tabla registro_estado
-    private List<Registro_Estado> historialEstados = new ArrayList<>(); //El primero es el ultimo! añadan al inicio
+    @OrderBy("id DESC") //Orden de más nuevo a más antiguo
+    private List<Registro_Estado> historialEstados = new ArrayList<>();
     
-    @OneToMany(mappedBy = "propuesta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "propuesta", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
@@ -168,12 +171,24 @@ public class Propuesta {
     public void setColaboracion(Colaboracion c){
         Aporte.add(c);
     }
+    public String getUltimoEstadoString()
+    {
+        if(!historialEstados.isEmpty()) 
+        {
+            return historialEstados.get(0).getEstado().name();
+        } 
+        else 
+        {
+            return "";
+        }
+    }
     public DTORegistro_Estado getUltimoEstado()
     {
         DTORegistro_Estado almacen = new DTORegistro_Estado();
+        
         if(!historialEstados.isEmpty())
         {
-            almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo se almacena en el DTO
+            almacen.extraerDatos(historialEstados.get(0));  //El ultimo nodo ingresado se almacena en el DTO
             return almacen;
         }
         return almacen;

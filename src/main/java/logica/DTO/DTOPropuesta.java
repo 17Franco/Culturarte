@@ -55,6 +55,22 @@ public class DTOPropuesta {
         }
         
     }
+    public DTOPropuesta(Propuesta p, DTOProponente proponente) 
+    {
+        this.Titulo = p.getTitulo();
+        this.Descripcion = p.getDescripcion();
+        this.Tipo = p.getTipo();
+        this.Imagen = p.getImagen();
+        this.Lugar = p.getLugar();
+        this.Fecha = p.getFecha();
+        this.Precio = p.getPrecio();
+        this.MontoTotal = p.getMontoTotal();
+        this.FechaPublicacion = p.getFechaPublicacion();
+        this.Retorno = p.getRetorno();
+        this.cat = p.getCategoria().Cat_a_DTO();
+        this.usr = proponente;
+    }
+
     public Estado getEstado(){
         return EstadoAct;
     }
@@ -170,8 +186,12 @@ public class DTOPropuesta {
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         Retorno = in.getRetorno();
-        cat = in.getCategoria().Cat_a_DTO();
-
+        if (in.getCategoria() != null) {
+            this.cat = in.getCategoria().Cat_a_DTO();
+        } 
+        else {
+            this.cat = null; // o crear un DTO de categoría vacío si quieres
+        }
         usr = new DTOProponente(in.getProponente().getDireccion(),in.getProponente().getBiografia(),
                 in.getProponente().getWebSite(),
                 in.getProponente().getNickname(),
@@ -193,10 +213,22 @@ public class DTOPropuesta {
         
     public void setHistorialEstados(DTORegistro_Estado historial) 
     {
-         historialEstados.add(historial); 
+        historialEstados.add(historial); 
+    }
+    public void setHistorialEstadosB(List<Registro_Estado> input) 
+    {
+        for (Registro_Estado ct : input)
+        {
+           historialEstados.add(new DTORegistro_Estado(ct.getFechaReg(),ct.getEstado()));  
+        }
+        
     }
    public void setColaboracion(DTOColaboracion c){
         aporte.add(c);
+    }
+    public void setColaboracionB(List<DTOColaboracion> c)
+    {
+        aporte = c;
     }
     public List<DTOColaboracion> getAporte() {
         return aporte;
@@ -236,20 +268,6 @@ public class DTOPropuesta {
         return usr.getNickname();
     }
     
-    public DTOPropuesta(Propuesta p,DTOProponente proponente){
-         this.Titulo=p.getTitulo();
-        this.Descripcion=p.getDescripcion();
-        this.Tipo=p.getTipo();
-        this.Imagen=p.getImagen();
-        this.Lugar=p.getLugar();
-        this.Fecha=p.getFecha();
-        this.Precio=p.getPrecio();
-        this.MontoTotal=p.getMontoTotal();
-        this.FechaPublicacion=p.getFechaPublicacion();
-        this.Retorno=p.getRetorno();
-        this.cat=p.getCategoria().Cat_a_DTO();
-        this.usr=proponente;
-    }
 
    
     

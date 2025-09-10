@@ -14,9 +14,13 @@ import java.util.List;
 import java.util.Set;
 import logica.Categoria.Categoria;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTORegistro_Estado;
+import logica.Propuesta.Registro_Estado;
 import logica.Colaboracion.Colaboracion;
+import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Proponente;
+import logica.Usuario.Colaborador;
 import logica._enum.Estado;
 import logica._enum.TipoRetorno;
 
@@ -44,6 +48,7 @@ public class ManejadorPropuesta {
                 p.setProponente(prop);
                 prop.getPropCreadas().put(p.getTitulo(), p);
             }
+            
             em.persist(p);
             t.commit();
         } catch (Exception e) {
@@ -81,34 +86,60 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
-    public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) {
+    public Set<DTOPropuesta> obtenerPropuestas(String estadoInput) 
+    {
         EntityManager em = PersistenciaManager.getEntityManager();
         Set<DTOPropuesta> result = new HashSet<>();
-
-        try {
-            String jpql = "SELECT p FROM Propuesta p";
-            if (!estadoInput.isEmpty()) {
-                jpql += " WHERE p.ultimoEstado.estado = :estado";
-            }
-
-            TypedQuery<Propuesta> q = em.createQuery(jpql, Propuesta.class);
-            if (!estadoInput.isEmpty()) {
-                q.setParameter("estado", Estado.valueOf(estadoInput));
-            }
-
+ 
+        try 
+        {
+           
+            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);
             List<Propuesta> propuestas = q.getResultList();
+                        
+            
+            for (Propuesta p : propuestas)
+            {   
+                p.getHistorialEstados().size(); //Hibernate no me quiere cargar estas listas desde el inixio (forzado)
+                p.getRetorno().size();
+                p.getAporte().size();
 
-            for (Propuesta p : propuestas) {
-                DTOPropuesta dto = new DTOPropuesta();
-                dto.extraerDatosPropuesta(p);
-                result.add(dto);
+                if(!estadoInput.isEmpty())  //Solo almacenará propuestas que coincidan en el estado imputeado
+                {
+
+                    if(p.getUltimoEstado() != null && p.getUltimoEstadoString().equals(estadoInput))   //Si existe ultimo estado y coincide con el necesario
+                    {       
+                        DTOPropuesta temp = new DTOPropuesta();
+                        temp.extraerDatosPropuesta(p);           
+                        result.add(temp);                       
+                    }    
+                }
+                else    //Almacena todas las propuestas
+                {
+                    DTOPropuesta dto = new DTOPropuesta();
+                    dto.extraerDatosPropuesta(p);
+                    result.add(dto);
+                }
             }
-
-        } finally {
+        } 
+        finally
+        {
             em.close();
         }
-
+        
         return result;
+    }
+    
+    public List<DTOColaboracion> Colaboraciones_A_DTO(List<Colaboracion> input)
+    {
+        List<DTOColaboracion> almacen = new ArrayList<>();
+        
+        for (Colaboracion ct : input)
+        {
+            almacen.add(new DTOColaboracion(ct.getTipoRetorno(),ct.getMonto(),ct.getColaborador().getNickname(),ct.getPropuesta().getTitulo(),ct.getCreado(),ct.getColaborador(),ct.getPropuesta()));
+        }
+        
+        return almacen;
     }
     public int getMontoRecaudado(String titulo) {
         EntityManager em = PersistenciaManager.getEntityManager();
@@ -242,6 +273,28 @@ public class ManejadorPropuesta {
             e.printStackTrace();
         } finally {
             em.close();
+        }
+    }
+    
+    public String obtenerNombreCreadorPropuesta(String titulo){
+        EntityManager em = PersistenciaManager.getEntityManager();
+        
+        try{
+            Propuesta p=em.find(Propuesta.class, titulo);
+            return p.getProponente().getNickname();
+        }finally{
+        em.close();
+        }
+    }
+    
+    public String obtenerEstado(String titulo){
+        EntityManager em = PersistenciaManager.getEntityManager();
+        
+        try{
+            Propuesta p=em.find(Propuesta.class, titulo);
+            return p.getUltimoEstadoString();
+        }finally{
+        em.close();
         }
     }
 }

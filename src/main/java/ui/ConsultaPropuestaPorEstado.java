@@ -209,7 +209,7 @@ public class ConsultaPropuestaPorEstado extends javax.swing.JInternalFrame {
     private void botonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonContinuarActionPerformed
         
         Set<DTOPropuesta> almacenTabla = controller.obtenerPropuestas(estadoSeleccionado);  //Se almacenan las propuestas seleccionadas.
-        
+
         if(!almacenTabla.isEmpty()) //Si existen propuestas en ese estado...
         {   
             ListaPropuestasPorEstado lista = new ListaPropuestasPorEstado();            //Se inicializa ventana con la lista.

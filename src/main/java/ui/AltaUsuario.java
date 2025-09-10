@@ -12,6 +12,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -26,13 +28,15 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private String biografia;
     private String web;
     
-    private JPanel optionPanel = new JPanel(new GridLayout(3, 2));
+    private JPanel optionPanel = new JPanel(new GridLayout(2, 2));
     private JLabel lblDireccion = new JLabel("Dirección:");
     private JTextField txtDireccion = new JTextField(15);
     private JLabel lblBiografia = new JLabel("Biografía:");
-    private JTextField txtBiografia = new JTextField(15);
+    private JTextArea txtBiografia = new JTextArea(5,15);
+    
     private JLabel lblWeb = new JLabel("Website:");
     private JTextField txtWeb = new JTextField(15);
+    JScrollPane scrollPane = new JScrollPane(txtBiografia);
     
     
     public AltaUsuario() {
@@ -40,12 +44,21 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         txtDireccion.setName("Direccion");
         txtBiografia.setName("Biografia");
         txtWeb.setName("WebSite");
-        optionPanel.add(lblDireccion);
-        optionPanel.add(txtDireccion);
-        optionPanel.add(lblBiografia);
-        optionPanel.add(txtBiografia);
-        optionPanel.add(lblWeb);
-        optionPanel.add(txtWeb);
+        JPanel fieldsPanel1= new JPanel(new GridLayout(2, 2));
+        fieldsPanel1.add(lblDireccion);
+        fieldsPanel1.add(txtDireccion);
+        fieldsPanel1.add(lblWeb);
+        fieldsPanel1.add(txtWeb);
+        optionPanel.add(fieldsPanel1);
+        JPanel fieldsPanel2 = new JPanel(new GridLayout(1, 2));
+        txtBiografia.setLineWrap(true); //salta automatiucamente cuando llege al final horizontalmente
+        txtBiografia.setWrapStyleWord(true);//no corta una palabra por la mitad
+        fieldsPanel2.add(lblBiografia);
+        fieldsPanel2.add(scrollPane);
+        optionPanel.add(fieldsPanel2);
+        
+        
+        
     }
 
   
@@ -335,7 +348,17 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
          txtWeb.setText("");
     
     }
-    
+      public static boolean validarTextArea(JTextArea campo) { 
+        if (campo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                "Por favor completa el campo: " + campo.getName(),
+                "Campo vacío",
+                JOptionPane.WARNING_MESSAGE);
+            campo.requestFocus();
+            return false;
+        }
+        return true;
+    }
     
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
          String nickName = txtNick.getText();  
@@ -345,10 +368,12 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
          String dia = txtDia.getText();
          String mes =txtMes.getText();
          String anio =txtAnio.getText();
+         JTextField validarBiografia=new JTextField();
+         validarBiografia.setText(txtBiografia.getText());
          
          
         List<JTextField> campos = proponente.isSelected()
-        ? Arrays.asList(txtNick, txtNombre, txtApellido, txtEmail, txtDia, txtMes, txtAnio, txtDireccion, txtBiografia, txtWeb)
+        ? Arrays.asList(txtNick, txtNombre, txtApellido, txtEmail, txtDia, txtMes, txtAnio, txtDireccion, validarBiografia, txtWeb)
         : Arrays.asList(txtNick, txtNombre, txtApellido, txtEmail, txtDia, txtMes, txtAnio);
          
         if(validarCampos(campos)){
@@ -394,6 +419,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         if (result == JOptionPane.OK_OPTION) {
              direccion = txtDireccion.getText();
              biografia = txtBiografia.getText();
+             System.out.println(biografia);
              web = txtWeb.getText();
         }
     }//GEN-LAST:event_proponenteActionPerformed

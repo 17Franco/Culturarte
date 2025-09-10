@@ -122,6 +122,7 @@ public class ModificarDatosPropuesta extends javax.swing.JInternalFrame {
                         fond.add(datos);
                         datos.setSize(fond.getSize());
                         datos.setVisible(true);
+                       
                     }
                 }
             }
@@ -130,7 +131,6 @@ public class ModificarDatosPropuesta extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> ListaPropuesta;

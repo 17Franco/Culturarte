@@ -173,8 +173,9 @@ public class Controller  implements IController {
     @Override
     public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
+
         Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
-        //System.out.print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"+ propuesta.getCategoria().getNombreCategoria());
+
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override
@@ -189,11 +190,11 @@ public class Controller  implements IController {
       
       @Override
       public String creadorPropuesta(String titulo){
-          return mPropuesta.getPropuesta(titulo).getProponente().getNickname();
+          return mPropuesta.obtenerNombreCreadorPropuesta(titulo);
       }
       @Override
       public String estadoPropuestas(String titulo){
-          return mPropuesta.getPropuesta(titulo).getUltimoEstado().getEstadoString();
+          return mPropuesta.obtenerEstado(titulo);
       }
       //Fin Propuesta
     
@@ -202,30 +203,24 @@ public class Controller  implements IController {
     public boolean altaDeCategoria(DTOCategoria categoriaIngresada) 
     {
         return mCategoria.addCategoria(categoriaIngresada);
-    }
 
-    @Override
-    public int existe(DTOCategoria categoriaIngresada) 
-    {
-        return mCategoria.existe(categoriaIngresada);
     }
-
     @Override
     public List<DTOCategoria> getCategorias() 
-    {  
+    {
+        
         return mCategoria.getCategorias();
     }
     
     @Override
     public List<String> ListaCategoria()
     {
-        List<String> aux2 = new ArrayList<>();
-        for(DTOCategoria c : mCategoria.getCategorias())
-        {
-            aux2.add(c.getNombreCategoria());
-        }
-        
-        return aux2; 
+         List<String> aux2 = new ArrayList<>();
+         for(DTOCategoria c : mCategoria.getCategorias())
+         {
+             aux2.add(c.getNombreCategoria());
+         }
+             return aux2; 
     }
     
     //Propuesta

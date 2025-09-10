@@ -1,33 +1,23 @@
 
 package ui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import logica.DTO.DTOColaboracion;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
 import logica.IController;
-import logica._enum.Estado;
+
 
 public class ConsultaProponente extends javax.swing.JInternalFrame {
      private IController controller = Fabrica.getInstance();
+     List<DTOPropuesta> propuestas=new ArrayList<>();
   
     public ConsultaProponente() {
         initComponents();
@@ -60,38 +50,38 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         Proponentes = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Propuestas = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        lblPropuestas = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        lblNick = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        lblNombre = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        lblApellido = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        lblFecha = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        lblEmail = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        lblDireccion = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        lblBiografia = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        lblWeb = new javax.swing.JLabel();
         lblImagen = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtBiografia = new javax.swing.JTextArea();
+        txtNombre = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
+        txtNickName = new javax.swing.JTextField();
+        txtFecha = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
+        txtWeb = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("Consulta Proponente");
-        setPreferredSize(new java.awt.Dimension(490, 555));
+        setPreferredSize(new java.awt.Dimension(490, 558));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Consulta Perfil Proponente");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 480, 20));
 
         Proponentes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Proponentes.addActionListener(new java.awt.event.ActionListener() {
@@ -99,180 +89,79 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
                 ProponentesActionPerformed(evt);
             }
         });
-
-        Propuestas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"", "", null, null},
-                {null, "", null, null},
-                {null, "", null, null},
-                {null, "", null, null},
-                {null, "", null, null},
-                {null, "", null, null},
-                {null, "", null, null},
-                {null, "", null, null}
-            },
-            new String [] {
-                "Nombre", "Recaudacion", "Usuarios", "Estado"
-            }
-        ));
-        Propuestas.setShowHorizontalLines(false);
-        Propuestas.setShowVerticalLines(false);
-        Propuestas.setIntercellSpacing(new java.awt.Dimension(0, 0));
-
-        // Variable para guardar la fila sobre la que está el mouse
-        final int[] hoveredRow = {-1};
-
-        Propuestas.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(java.awt.event.MouseEvent e) {
-                hoveredRow[0] = Propuestas.rowAtPoint(e.getPoint());
-                Propuestas.repaint();
-            }
-        });
-
-        Propuestas.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
-            @Override
-            public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table,
-                Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-                java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                if (row == hoveredRow[0] && !isSelected) {
-                    c.setBackground(new java.awt.Color(220, 220, 220)); // gris clarito al pasar el mouse
-                } else if (isSelected) {
-                    c.setBackground(new java.awt.Color(180, 200, 240)); // color para la fila seleccionada
-                } else {
-                    c.setBackground(java.awt.Color.WHITE); // fondo normal
-                }
-                //COLOR GRIS new java.awt.Color(220, 220, 220)
-                return c;
-            }
-        });
-
-        Propuestas.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
-
-                JLabel lbl = (JLabel) super.getTableCellRendererComponent(
-                    table, value, isSelected, hasFocus, row, column);
-
-                lbl.setBorder(BorderFactory.createEmptyBorder()); // sin líneas
-                //lbl.setHorizontalAlignment(CENTER);
-                lbl.setBackground(Color.BLACK);// opcional, centrar texto
-                lbl.setForeground(Color.WHITE);
-                lbl.setFont(new java.awt.Font("Roboto", java.awt.Font.BOLD, 12));
-
-                return lbl;
-            }
-        });
-
-        Propuestas.setFont(new java.awt.Font("Roboto", java.awt.Font.PLAIN, 10));
-        //Propuestas.setRowHeight(22);
-
-        JTableHeader header = Propuestas.getTableHeader();
-
-        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 25));
-        jScrollPane1.setViewportView(Propuestas);
-
-        jLabel2.setText("Proponentes");
-
-        lblPropuestas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPropuestas.setText("Propuestas Creadas");
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.setLayout(new java.awt.GridLayout(0, 2));
-
-        jLabel4.setText("NickName");
-        jPanel1.add(jLabel4);
-        jPanel1.add(lblNick);
-
-        jLabel6.setText("Nombre");
-        jPanel1.add(jLabel6);
-        jPanel1.add(lblNombre);
-
-        jLabel8.setText("Apellido");
-        jPanel1.add(jLabel8);
-        jPanel1.add(lblApellido);
-
-        jLabel10.setText("Fecha");
-        jPanel1.add(jLabel10);
-        jPanel1.add(lblFecha);
-
-        jLabel13.setText("Email");
-        jPanel1.add(jLabel13);
-        jPanel1.add(lblEmail);
-
-        jLabel11.setText("Direccion");
-        jPanel1.add(jLabel11);
-        jPanel1.add(lblDireccion);
-
-        jLabel16.setText("Biografia");
-        jPanel1.add(jLabel16);
-        jPanel1.add(lblBiografia);
-
-        jLabel15.setText("Web");
-        jPanel1.add(jLabel15);
-        jPanel1.add(lblWeb);
+        getContentPane().add(Proponentes, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 235, 22));
 
         lblImagen.setText("No file");
         lblImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblImagen.setMaximumSize(new java.awt.Dimension(135, 155));
+        getContentPane().add(lblImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 72, 140, 170));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(127, 127, 127)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(Proponentes, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(105, 105, 105))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(192, 192, 192))))))
-            .addComponent(lblPropuestas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Proponentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(lblPropuestas)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jButton1.setText("Ver Propuestas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 490, -1, 22));
+
+        jLabel2.setText("NickName");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 75, -1));
+
+        jLabel3.setText("Nombre");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 75, -1));
+
+        jLabel4.setText("Apellido");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 75, -1));
+
+        jLabel5.setText("Fecha");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 75, -1));
+
+        jLabel6.setText("Email");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 75, -1));
+
+        jLabel7.setText("Direccion");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 75, -1));
+
+        jLabel8.setText("Web");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 75, 20));
+
+        jLabel9.setText("Biografia");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 75, 20));
+
+        txtBiografia.setColumns(20);
+        txtBiografia.setLineWrap(true);
+        txtBiografia.setRows(5);
+        txtBiografia.setWrapStyleWord(true);
+        txtBiografia.setBorder(null);
+        jScrollPane2.setViewportView(txtBiografia);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 293, 94));
+
+        txtNombre.setBorder(null);
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 200, -1));
+
+        txtApellido.setBorder(null);
+        getContentPane().add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 200, -1));
+
+        txtNickName.setBorder(null);
+        getContentPane().add(txtNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 200, -1));
+
+        txtFecha.setBorder(null);
+        getContentPane().add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 200, -1));
+
+        txtEmail.setBorder(null);
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 200, -1));
+
+        txtDireccion.setBorder(null);
+        getContentPane().add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 200, -1));
+
+        txtWeb.setBorder(null);
+        getContentPane().add(txtWeb, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 200, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void limpiador(){
-        lblNick.setText("");
+       /* lblNick.setText("");
         lblNombre.setText("");
         lblApellido.setText("");
         lblFecha.setText("");
@@ -282,105 +171,80 @@ public class ConsultaProponente extends javax.swing.JInternalFrame {
         lblBiografia.setText("");
         lblWeb.setText("");
         //DefaultTableModel modelo = (DefaultTableModel) Propuestas.getModel();
-       // modelo.setRowCount(0);
+       // modelo.setRowCount(0);*/
     }
     
    
-   private void mostrarPropuestas(String titulo, int monto, Estado estado, List<String> usuarios, DefaultTableModel modelo) {
 
-    modelo.addRow(new Object[]{titulo, monto, "Colaboradores", estado});
-
-    // Columna 2Usuarios con editor tipo combo
-    TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
-
-    // solo muestra el texto seleccionado
-    columnaUsuarios.setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
-        JLabel label = new JLabel();
-        label.setOpaque(true);
-        if (isSelected) label.setBackground(Color.WHITE);
-        if (value != null) label.setText(value.toString());
-        return label;
-    });
-
-    // crear combo con los items correctos
-    columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox<>()) {
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                     boolean isSelected, int row, int column) {
-            JComboBox<String> combo = new JComboBox<>();
-            for (String u : usuarios) combo.addItem(u);
-            if (value != null) combo.setSelectedItem(value);
-            return combo;
-        }
-    });
-    Propuestas.setRowHeight(20);
-}
 
     private void mostrarPerfilProponente(DTOProponente usr) {
         
          
-        lblNick.setText(usr.getNickname());
-        lblNombre.setText(usr.getNombre());
-        lblApellido.setText(usr.getApellido());
-        lblFecha.setText(usr.getFecha().getDayOfMonth()+"/"+ usr.getFecha().getMonthValue()+"/"+usr.getFecha().getYear());
-        lblEmail.setText(usr.getEmail());
-        lblDireccion.setText(usr.getDireccion());
-        lblBiografia.setText(usr.getBiografia());
-        lblWeb.setText(usr.getWebSite());
+        txtNickName.setText(usr.getNickname());
+        txtNombre.setText(usr.getNombre());
+        txtApellido.setText(usr.getApellido());
+        txtFecha.setText(usr.getFecha().getDayOfMonth()+"/"+ usr.getFecha().getMonthValue()+"/"+usr.getFecha().getYear());
+        txtEmail.setText(usr.getEmail());
+        txtDireccion.setText(usr.getDireccion());
+        txtBiografia.setText(usr.getBiografia());
+        txtWeb.setText(usr.getWebSite());
+      
 
+        
         ImageIcon icon=new ImageIcon(usr.getRutaImg());
         Image img =icon.getImage().getScaledInstance(lblImagen.getWidth(),lblImagen.getHeight(), Image.SCALE_SMOOTH);
         lblImagen.setIcon(new ImageIcon(img));
         
-        String[] columnas = {"Título", "Monto Recaudado", "Usuarios", "Estado"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
-        Propuestas.setModel(modelo);
-        
        
-        List<DTOPropuesta> propuestas = new ArrayList<>(controller.getPropuestasCreadasPorProponente(usr.getNickname()));
-        if(!propuestas.isEmpty()){
-        propuestas.sort(Comparator.comparing(p -> p.getEstadoAct()));
-        System.out.println( );
-        }
-        for(DTOPropuesta p: propuestas){
-            //System.out.println("jhola");
-            List<String> colaboradores=controller.colaboradoresAPropuesta(p.getTitulo());
-            int monto=controller.getMontoRecaudado(p.getTitulo());
-            mostrarPropuestas(p.getTitulo(),monto,p.getEstadoAct(),colaboradores,modelo);
-        }
+         propuestas = new ArrayList<>(controller.getPropuestasCreadasPorProponente(usr.getNickname()));
+      
     }
 
 
     private void ProponentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProponentesActionPerformed
-
+        
        
     }//GEN-LAST:event_ProponentesActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        if(propuestas.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay propuestas para mostrar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            PropuestasCreadas mostrar=new PropuestasCreadas();
+            mostrar.cargaDeDatos(propuestas);
+             JDesktopPane fond = getDesktopPane();
+            if (fond != null) {
+                fond.add(mostrar);
+                mostrar.setSize(fond.getSize());
+                mostrar.setVisible(true);
+            }
+        }
+            
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Proponentes;
-    private javax.swing.JTable Propuestas;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblApellido;
-    private javax.swing.JLabel lblBiografia;
-    private javax.swing.JLabel lblDireccion;
-    private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblImagen;
-    private javax.swing.JLabel lblNick;
-    private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblPropuestas;
-    private javax.swing.JLabel lblWeb;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextArea txtBiografia;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtNickName;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtWeb;
     // End of variables declaration//GEN-END:variables
 }
