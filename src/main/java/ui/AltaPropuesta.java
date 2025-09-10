@@ -36,7 +36,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         m.setName("Mes");
         a.setName("Año");
         ListaUsuarios.removeAllItems();
-        
+        ListaUsuarios.setSelectedIndex(-1);
         for (String u : controller.ListaProponentes()) {
             ListaUsuarios.addItem(u); 
          }
@@ -278,7 +278,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                                         .addComponent(Precio_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(T2)
                                     .addComponent(T1))))))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,7 +333,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Imagen_Boton)
                     .addComponent(Imagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cancelar)
                     .addComponent(Agregar))
@@ -439,6 +439,19 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                 LocalDate  fechaEvento=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
                 controller.altaPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal,LocalDate.now() ,retorno,categoria, usuarios,Estado.INGRESADA);
                 JOptionPane.showMessageDialog(this, "Propuesta registrado con exito");
+                TituloField.setText("");
+                Descripcion_Field.setText("");
+                Lugar_Field.setText("");
+                Precio_Field.setText("");
+                Monto_Field.setText("");
+                ListaCategoria.setText("Seleccione Categoria");
+                d.setText("");
+                m.setText("");
+                a.setText("");
+                T2.setSelected(false);
+                T1.setSelected(false);
+                
+                ListaUsuarios.setSelectedIndex(-1);
             }
             
         }
