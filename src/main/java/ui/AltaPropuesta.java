@@ -29,7 +29,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         initComponents();
         TituloField.setName("Título");
         Descripcion_Field.setName("Descripción");
-        Tipo_Field.setName("Tipo");
         Lugar_Field.setName("Lugar");
         Precio_Field.setName("Precio");
         Monto_Field.setName("Monto");
@@ -58,12 +57,10 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         Titulo = new javax.swing.JLabel();
         TituloField = new javax.swing.JTextField();
         Descripcion = new javax.swing.JLabel();
-        Tipo = new javax.swing.JLabel();
         Lugar = new javax.swing.JLabel();
         Precio_Entrada = new javax.swing.JLabel();
         Monto_A_Recaudar = new javax.swing.JLabel();
         Descripcion_Field = new javax.swing.JTextField();
-        Tipo_Field = new javax.swing.JTextField();
         Lugar_Field = new javax.swing.JTextField();
         Precio_Field = new javax.swing.JTextField();
         Monto_Field = new javax.swing.JTextField();
@@ -111,8 +108,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
 
         Descripcion.setText("Descripcion");
 
-        Tipo.setText("Tipo");
-
         Lugar.setText("Lugar");
 
         Precio_Entrada.setText("Precio Entrada");
@@ -122,12 +117,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
         Descripcion_Field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Descripcion_FieldActionPerformed(evt);
-            }
-        });
-
-        Tipo_Field.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Tipo_FieldActionPerformed(evt);
             }
         });
 
@@ -221,57 +210,19 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(86, 86, 86)
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel10)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel9)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(m, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGap(80, 80, 80)
-                            .addComponent(Imagen)
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Agregar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Cancelar))
-                                .addComponent(Imagen_Boton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(142, 142, 142)
                         .addComponent(TituloAgregarPropuesta))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addContainerGap()
+                            .addGap(45, 45, 45)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(Descripcion)
-                                .addComponent(Titulo)
-                                .addComponent(Tipo)
-                                .addComponent(Lugar)
-                                .addComponent(Precio_Entrada)
-                                .addComponent(jLabel6)
-                                .addComponent(Monto_A_Recaudar))
+                                .addComponent(Titulo))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Lugar_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Monto_Field)
-                                    .addComponent(Precio_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(Tipo_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(Descripcion_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(TituloField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(T2)
-                                .addComponent(T1)))
+                                .addComponent(TituloField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(41, 41, 41)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -283,8 +234,51 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                                     .addGap(12, 12, 12)
                                     .addComponent(IngresoCategoria)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ListaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(90, Short.MAX_VALUE))
+                                    .addComponent(ListaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(70, 70, 70)
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel10)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(d, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel9)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(m, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(a, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGap(64, 64, 64)
+                                    .addComponent(Imagen)
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(Agregar)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Cancelar))
+                                        .addComponent(Imagen_Boton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Lugar)
+                                    .addComponent(Precio_Entrada)
+                                    .addComponent(jLabel6)
+                                    .addComponent(Monto_A_Recaudar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Lugar_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Monto_Field)
+                                        .addComponent(Precio_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(T2)
+                                    .addComponent(T1))))))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,10 +301,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Descripcion_Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Descripcion))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Tipo)
-                    .addComponent(Tipo_Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Lugar_Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,7 +337,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cancelar)
                     .addComponent(Agregar))
-                .addGap(24, 24, 24))
+                .addGap(65, 65, 65))
         );
 
         pack();
@@ -364,10 +354,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private void Descripcion_FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Descripcion_FieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Descripcion_FieldActionPerformed
-
-    private void Tipo_FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Tipo_FieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Tipo_FieldActionPerformed
 
     private void Lugar_FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Lugar_FieldActionPerformed
         // TODO add your handling code here:
@@ -420,13 +406,12 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     }
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
 
-        List<JTextField> campos = Arrays.asList(TituloField, Descripcion_Field, Tipo_Field, Lugar_Field, Precio_Field, Monto_Field, d, m, a);
+        List<JTextField> campos = Arrays.asList(TituloField, Descripcion_Field, Lugar_Field, Precio_Field, Monto_Field, d, m, a);
         if (!validarCampo(campos)) {
             return;
         }
         String titulo = TituloField.getText();
         String descripcion = Descripcion_Field.getText();
-        String tipo = Tipo_Field.getText();
         String lugar = Lugar_Field.getText();
         int precio = Integer.parseInt(Precio_Field.getText().trim());
         int montoTotal = Integer.parseInt(Monto_Field.getText().trim());
@@ -452,7 +437,7 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
             }else{
                 Utilities.copiarImagen(rutaImagen,titulo);
                 LocalDate  fechaEvento=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
-                controller.altaPropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,LocalDate.now() ,retorno,categoria, usuarios,Estado.INGRESADA);
+                controller.altaPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal,LocalDate.now() ,retorno,categoria, usuarios,Estado.INGRESADA);
                 JOptionPane.showMessageDialog(this, "Propuesta registrado con exito");
             }
             
@@ -540,8 +525,6 @@ public class AltaPropuesta extends javax.swing.JInternalFrame {
     private javax.swing.JTextField Precio_Field;
     private javax.swing.JCheckBox T1;
     private javax.swing.JCheckBox T2;
-    private javax.swing.JLabel Tipo;
-    private javax.swing.JTextField Tipo_Field;
     private javax.swing.JLabel Titulo;
     private javax.swing.JLabel TituloAgregarPropuesta;
     private javax.swing.JTextField TituloField;

@@ -171,9 +171,9 @@ public class Controller  implements IController {
     
    
     @Override
-    public void altaPropuesta(String Titulo, String Descripcion, String Tipo, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
+    public void altaPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
-        Propuesta propuesta = new Propuesta (Titulo, Descripcion, Tipo, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
+        Propuesta propuesta = new Propuesta (Titulo, Descripcion,Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
         mPropuesta.nuevaPropuesta(propuesta);
     }
     @Override
@@ -224,11 +224,11 @@ public class Controller  implements IController {
     //Propuesta
     
     @Override
-    public void modificarPropuesta(String titulo, String descripcion, String tipo,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
+    public void modificarPropuesta(String titulo, String descripcion,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
         propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
         if (propuestaSeleccionada != null){  
-            mPropuesta.UpdatePropuesta(titulo, descripcion, tipo, rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
+            mPropuesta.UpdatePropuesta(titulo, descripcion,rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
         }
      }
      @Override

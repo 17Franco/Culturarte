@@ -32,7 +32,6 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         DTORegistro_Estado ultimoEstado = datos.getUltimoEstado();
         listaFinal.addElement("Título:                                 " + datos.getTitulo());
         listaFinal.addElement("Descripción:                       " + datos.getDescripcion());
-        listaFinal.addElement("Tipo de espectáculo:          " + datos.getTipo());
         listaFinal.addElement("Lugar de realización:          " + datos.getLugar());
         listaFinal.addElement("Fecha inicio:                       " + datos.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         listaFinal.addElement("Recaudación inicial:            " + datos.getPrecio());

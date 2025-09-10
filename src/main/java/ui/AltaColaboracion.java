@@ -153,7 +153,6 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
     // Actualizamos valores cada vez que se abre
     tituloField.setText(propuesta.getTitulo());
     descField.setText(propuesta.getDescripcion());
-    tipoField.setText(propuesta.getTipo());
     lugarField.setText(propuesta.getLugar());
     fechaField.setText(propuesta.getFecha().toString());
     precioField.setText(String.valueOf(propuesta.getPrecio()));

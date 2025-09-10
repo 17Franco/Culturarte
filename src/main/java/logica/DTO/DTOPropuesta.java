@@ -14,7 +14,6 @@ public class DTOPropuesta {
     
     private String Titulo;
     private String Descripcion;
-    private String Tipo;
     private String Imagen;
     private String Lugar;
     private LocalDate Fecha;
@@ -30,11 +29,10 @@ public class DTOPropuesta {
             
     public DTOPropuesta(){}
     
-    public DTOPropuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
+    public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
-        this.Tipo=Tipo;
         this.Imagen=Imagen;
         this.Lugar=Lugar;
         this.Fecha=Fecha;
@@ -59,7 +57,6 @@ public class DTOPropuesta {
     {
         this.Titulo = p.getTitulo();
         this.Descripcion = p.getDescripcion();
-        this.Tipo = p.getTipo();
         this.Imagen = p.getImagen();
         this.Lugar = p.getLugar();
         this.Fecha = p.getFecha();
@@ -79,9 +76,6 @@ public class DTOPropuesta {
     }
     public  String getDescripcion() {
         return Descripcion;
-    }
-    public  String getTipo() {
-        return Tipo;
     }
     public  String getImagen() {
         return Imagen;
@@ -129,10 +123,6 @@ public class DTOPropuesta {
         Descripcion = descripcion;
     }
 
-    public void setTipo(String tipo) {
-        Tipo = tipo;
-    }
-
     public void setImagen(String Imagen) {
         this.Imagen = Imagen;
     }
@@ -178,7 +168,6 @@ public class DTOPropuesta {
     {
         Titulo = in.getTitulo();
         Descripcion = in.getDescripcion();
-        Tipo = in.getTipo();
         Imagen = in.getImagen();
         Lugar = in.getLugar();
         Fecha = in.getFecha();           

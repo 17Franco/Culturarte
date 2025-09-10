@@ -242,7 +242,7 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
-    public void UpdatePropuesta(String titulo, String descripcion, String tipo, String rutaImagen,String lugar, LocalDate fechaEvento, int precio, int montoTotal,List<TipoRetorno> retorno, String categoria, String usuario, Estado estado) {
+    public void UpdatePropuesta(String titulo, String descripcion, String rutaImagen,String lugar, LocalDate fechaEvento, int precio, int montoTotal,List<TipoRetorno> retorno, String categoria, String usuario, Estado estado) {
        
         EntityManager em = PersistenciaManager.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -253,7 +253,6 @@ public class ManejadorPropuesta {
 
             if (propuesta != null) {
                 propuesta.setDescripcion(descripcion);
-                propuesta.setTipo(tipo);
                 propuesta.setImagne(rutaImagen);
                 propuesta.setLugar(lugar);
                 propuesta.setFecha(fechaEvento);

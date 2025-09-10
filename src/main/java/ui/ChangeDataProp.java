@@ -16,6 +16,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import logica.DTO.DTOCategoria;
 import logica.Fabrica;
 import logica.IController;
 import logica._enum.TipoRetorno;
@@ -89,14 +90,12 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
 
         Encabezado = new javax.swing.JLabel();
         Descripcion = new javax.swing.JLabel();
-        Tipo = new javax.swing.JLabel();
         Lugar = new javax.swing.JLabel();
         Fecha = new javax.swing.JLabel();
         PrecioEntrada = new javax.swing.JLabel();
         Monto = new javax.swing.JLabel();
         EstadoModi = new javax.swing.JLabel();
         DescripcionField = new javax.swing.JTextField();
-        TipoField = new javax.swing.JTextField();
         LugarField = new javax.swing.JTextField();
         d = new javax.swing.JTextField();
         PrecioEntradaField = new javax.swing.JTextField();
@@ -134,8 +133,6 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
 
         Descripcion.setText("Descripcion");
 
-        Tipo.setText("Tipo");
-
         Lugar.setText("Lugar");
 
         Fecha.setText("Fecha");
@@ -149,12 +146,6 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         DescripcionField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DescripcionFieldActionPerformed(evt);
-            }
-        });
-
-        TipoField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TipoFieldActionPerformed(evt);
             }
         });
 
@@ -291,13 +282,11 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Descripcion)
-                            .addComponent(Tipo, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(Lugar, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(Fecha, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DescripcionField)
-                            .addComponent(TipoField)
                             .addComponent(LugarField)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
@@ -320,10 +309,6 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DescripcionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Descripcion))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Tipo)
-                    .addComponent(TipoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Lugar)
@@ -363,11 +348,11 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(img)
                     .addComponent(Imagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cerrar)
                     .addComponent(Modificar))
-                .addContainerGap())
+                .addGap(41, 41, 41))
         );
 
         pack();
@@ -375,14 +360,25 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
 
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
 
-        List<JTextField> campos = Arrays.asList(DescripcionField,TipoField,LugarField,PrecioEntradaField,MontoTotalField,d,m,a);
-        if (!validarCampo(campos)) {
-            return;
-        }
+        List<JTextField> campos = Arrays.asList(DescripcionField,LugarField,PrecioEntradaField,MontoTotalField,d,m,a);
         String auxTitulo = datos.getTitulo();
         String auxUsuario = datos.getProponente().getNickname();
+        
+        Estado newEstado = (Estado) EstadoM.getSelectedItem();
+        if (newEstado != datos.getUltimoEstado().getEstado() || DescripcionField.getText().isEmpty()){
+            String auxD = datos.getDescripcion();
+            String auxL = datos.getLugar();
+            String auxR = datos.getImagen();
+            LocalDate auxF = datos.getFecha();
+            int auxP = datos.getPrecio();
+            int auxM = datos.getMontoTotal();
+            List<TipoRetorno> auxRet = datos.getRetorno();
+            String auxC = datos.getCategoria().getNombreCategoria();
+            controller.modificarPropuesta(auxTitulo,auxD,auxR, auxL, auxF, auxP, auxM,auxRet,auxC, auxUsuario,newEstado);
+            JOptionPane.showMessageDialog(this, "Estado Modificado con exito");
+            return;
+        }
         String descripcion = DescripcionField.getText();
-        String tipo = TipoField.getText();
         String lugar = LugarField.getText();
         String dia = d.getText();
         int precio = Integer.parseInt(PrecioEntradaField.getText());
@@ -396,13 +392,11 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         }
         String mes =m.getText();
         String anio =a.getText();
-        Estado newEstado = (Estado) EstadoM.getSelectedItem();
             if(validarCampo(campos) && validarRetorno(tt1,tt2)){
                 Utilities.copiarImagen(rutaImagen,auxTitulo);
                 LocalDate fechaEvento=LocalDate.of(Integer.parseInt(anio),Integer.parseInt(mes),Integer.parseInt(dia));
-                controller.modificarPropuesta(auxTitulo, descripcion, tipo, rutaImagen, lugar, fechaEvento, precio, montoTotal,retorno,categoria, auxUsuario,newEstado);
-                JOptionPane.showMessageDialog(this, "Propuesta Modificada con exito");                       
-
+                controller.modificarPropuesta(auxTitulo, descripcion,rutaImagen, lugar, fechaEvento, precio, montoTotal,retorno,categoria, auxUsuario,newEstado);
+                JOptionPane.showMessageDialog(this, "Propuesta Modificada con exito");
             }
     }//GEN-LAST:event_ModificarActionPerformed
 
@@ -413,10 +407,6 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     private void DescripcionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescripcionFieldActionPerformed
        
     }//GEN-LAST:event_DescripcionFieldActionPerformed
-
-    private void TipoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoFieldActionPerformed
-       
-    }//GEN-LAST:event_TipoFieldActionPerformed
 
     private void LugarFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LugarFieldActionPerformed
         
@@ -496,8 +486,6 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
     private javax.swing.JTextField MontoTotalField;
     private javax.swing.JLabel PrecioEntrada;
     private javax.swing.JTextField PrecioEntradaField;
-    private javax.swing.JLabel Tipo;
-    private javax.swing.JTextField TipoField;
     private javax.swing.JTextField a;
     private javax.swing.JTextField d;
     private javax.swing.JLabel img;

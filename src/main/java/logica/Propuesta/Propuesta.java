@@ -27,9 +27,8 @@ import logica._enum.Estado;
 public class Propuesta {
     @Id
     private String Titulo;
-    
+    @Column(length = 2000)
     private String Descripcion;
-    private String Tipo;
     private String Imagen;
     private String Lugar;
     private LocalDate Fecha;
@@ -63,11 +62,10 @@ public class Propuesta {
     private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
             
     public Propuesta(){}
-    public Propuesta(String Titulo,String Descripcion,String Tipo,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,Categoria cat,Proponente usr,Estado estadoAct)
+    public Propuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,Categoria cat,Proponente usr,Estado estadoAct)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
-        this.Tipo=Tipo;
         this.Imagen=Imagen;
         this.Lugar=Lugar;
         this.Fecha=Fecha;
@@ -84,9 +82,6 @@ public class Propuesta {
     }
     public  String getDescripcion() {
         return Descripcion;
-    }
-    public  String getTipo() {
-        return Tipo;
     }
     public  String getImagen() {
         return Imagen;
@@ -124,10 +119,6 @@ public class Propuesta {
     }
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
-    }
-
-    public void setTipo(String tipo) {
-        Tipo = tipo;
     }
     public void setImagne(String imagen) {
         Imagen = imagen;
