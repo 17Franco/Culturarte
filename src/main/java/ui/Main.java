@@ -13,9 +13,11 @@ import javax.swing.JOptionPane;
 import java.beans.PropertyVetoException;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuItem;
+import logica.Fabrica;
+import logica.IController;
 
 public class Main extends javax.swing.JFrame {
-    
+    private IController controller = Fabrica.getInstance();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
 
    
@@ -39,6 +41,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        CargarDatos = new javax.swing.JMenu();
 
         jMenuItem4.setText("jMenuItem4");
 
@@ -93,6 +96,19 @@ public class Main extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
+
+        CargarDatos.setText("Cargar Datos");
+        CargarDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CargarDatosMouseClicked(evt);
+            }
+        });
+        CargarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CargarDatosActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(CargarDatos);
 
         setJMenuBar(jMenuBar1);
 
@@ -307,19 +323,31 @@ public class Main extends javax.swing.JFrame {
 
         jMenu2.add(menuItem);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-    jMenu2.setVisible(true);
-    
-    /**
-     *
-     * @param args
-     */
-    }
+}
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
 
+    private void CargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarDatosActionPerformed
+       
+    }//GEN-LAST:event_CargarDatosActionPerformed
+
+    private void CargarDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarDatosMouseClicked
+       controller.cargarDatosPruebaProponente();
+       controller.cargarDatosPruebaColaborador();
+       controller.cargarSeguidos();
+    }//GEN-LAST:event_CargarDatosMouseClicked
+    
+    
+   
+    
+    
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu CargarDatos;
     private javax.swing.JDesktopPane fondo;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

@@ -9,6 +9,15 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance();
     boolean usrSeleccionado0 = false;
 
+    public void cargarComboBoxUser()
+    {
+        JCBUsuarioActual.removeAllItems();
+      JCBUsuarioActual.addItem("SeleccionarUsuario"); 
+       for (String u : controller.ListaUsuarios()) 
+        {
+           JCBUsuarioActual.addItem(u);
+        }
+    }
     
     public DejarDeSeguirUsuario() 
     {
@@ -19,7 +28,7 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
         
         if(!controller.ListaUsuarios().isEmpty())
         {
-            cargarComboBoxUser();                        //Se setean los datos de usuarios en el combo box si existe alguno.
+         cargarComboBoxUser();
         }
         else
         {
@@ -29,18 +38,11 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
         
     }
     
-    public void cargarComboBoxUser()
-    {
-        JCBUsuarioActual.removeAllItems();
-        
-        for (String u : controller.ListaUsuarios()) 
-        {
-            JCBUsuarioActual.addItem(u);
-        }
-    }
+    
         
     public void cargarComboBoxSeguidos() 
     {
+       
         String input = (String) JCBUsuarioActual.getSelectedItem();
         JCBUsuario_toUnfollow.removeAllItems();
         JCBUsuario_toUnfollow.addItem("Dejar de seguir a...");
@@ -66,6 +68,7 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
             buttonDejarDeSeguir.setVisible(false);
             buttonDejarDeSeguir.revalidate();
         }
+        
     }
 
    
@@ -196,9 +199,8 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_buttonDejarDeSeguirActionPerformed
 
-    private void JCBUsuarioActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBUsuarioActualActionPerformed
-
-    }//GEN-LAST:event_JCBUsuarioActualActionPerformed
+    
+    
 
     private void JCBUsuario_toUnfollowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBUsuario_toUnfollowActionPerformed
 
@@ -218,17 +220,21 @@ public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_JCBUsuario_toUnfollowItemStateChanged
 
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void JCBUsuarioActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCBUsuarioActualActionPerformed
+
+    }//GEN-LAST:event_JCBUsuarioActualActionPerformed
+
     private void JCBUsuarioActualItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JCBUsuarioActualItemStateChanged
 
         cargarComboBoxSeguidos();   //Carga el comboBox de los usuarios a dejar de seguir.
         usrSeleccionado0 = true;    //Para lograr que el botón aparezca.
         buttonDejarDeSeguir.setVisible(false);
-        
-    }//GEN-LAST:event_JCBUsuarioActualItemStateChanged
 
-    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_botonCancelarActionPerformed
+    }//GEN-LAST:event_JCBUsuarioActualItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

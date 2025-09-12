@@ -4,9 +4,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import logica.Categoria.Categoria;
 import persistencia.ManejadorPropuesta;
 import persistencia.ManejadorCategoria;
 import persistencia.ManejadorColaboracion;
@@ -17,7 +15,6 @@ import logica.DTO.DTOUsuario;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
-import logica.Usuario.Usuario;
 import persistencia.ManejadorUsuario;
 import logica._enum.TipoRetorno;
 import logica.DTO.DTOPropuesta;
@@ -115,7 +112,7 @@ public class Controller  implements IController {
      @Override
      public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow)
      {
-        return (mUsuario.getUsuario(usuarioActual).unfollow(mUsuario.getUsuario(usuarioToUnfollow)));  
+        return mUsuario.dejarDeSeguirUsuario(usuarioActual, usuarioToUnfollow);  
      }
      
     // Funciones que devuelven Distintos DTO 
@@ -279,6 +276,21 @@ public class Controller  implements IController {
     public Set<DTOColaboracion> getDTOColaboraciones(){
         return mColaboraciones.getColaboraciones();
         
+    }
+    @Override
+    public void cargarDatosPruebaProponente(){
+        mUsuario.cargarpProponente();
+        
+    
+    }
+    @Override
+    public void cargarDatosPruebaColaborador(){
+        mUsuario.cargarpColaboradores();
+    
+    }
+    @Override
+    public void cargarSeguidos(){
+        mUsuario.CargarSeguidos();
     }
 }
 
