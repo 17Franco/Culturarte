@@ -290,6 +290,10 @@ public class Controller  implements IController {
     public void cargarSeguidos(){
         mUsuario.CargarSeguidos();
     }
+    @Override
+    public void cargarPropuesta(){
+        mPropuesta.cargarPropuesta();
+    }
 }
 
   

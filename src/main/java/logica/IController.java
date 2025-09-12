@@ -86,4 +86,6 @@ public interface IController {
    void cargarDatosPruebaProponente();
    void cargarDatosPruebaColaborador();
    void cargarSeguidos();
+   
+   void cargarPropuesta();
 }
