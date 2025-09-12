@@ -82,4 +82,8 @@ public interface IController {
     void CancelarColaboracion(String nick,String propuesta);
     
    Set<DTOColaboracion> getDTOColaboraciones();
+   
+   void cargarDatosPruebaProponente();
+   void cargarDatosPruebaColaborador();
+   void cargarSeguidos();
 }

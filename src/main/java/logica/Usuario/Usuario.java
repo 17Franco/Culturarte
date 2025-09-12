@@ -79,6 +79,10 @@ public class Usuario {
         this.rutaImg = rutaImg;
     }
 
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
     public String getNickname() {
         return nickname;
     }
