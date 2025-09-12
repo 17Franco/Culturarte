@@ -149,10 +149,8 @@ public class CancelarColaboracion extends javax.swing.JInternalFrame {
         int fila = ColaboracionesTable.getSelectedRow();
         if (fila >= 0) {
             DTOColaboracion seleccionada = c.get(fila);
-            String nick = seleccionada.getColaborador();
-            String propuesta = seleccionada.getPropuesta();
-            // acá llamás al controller
-            controller.CancelarColaboracion(nick, propuesta);
+            // acá llamás al controller para borrar la colaboracion con el id seleccionado
+            controller.CancelarColaboracion(seleccionada.getId());
             cargarTabla();
             DefaultTableModel modeloVacio = new DefaultTableModel(
             new Object[][]{}, 

@@ -76,11 +76,9 @@ public interface IController {
     int  getMontoRecaudado(String titulo);
     // cu Consulta de colaboracion a Propuesta
     Set<DTOColaborador> ListarColaboradres();
-    Set<Colaboracion> ListarColaboracionesDeColaborador(String nickname);
     
     // cu cancelar Colaboracion a Propuesta
-    void CancelarColaboracion(String nick,String propuesta);
-    
+    void CancelarColaboracion(Long id);    
    Set<DTOColaboracion> getDTOColaboraciones();
    
    void cargarDatosPruebaProponente();

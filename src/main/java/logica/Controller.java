@@ -247,14 +247,11 @@ public class Controller  implements IController {
         return mUsuario.listaColaboradores();
     }
 
-    @Override
-    public Set<Colaboracion> ListarColaboracionesDeColaborador(String nickname) {
-        return mColaboraciones.getColaboracionesDeColaborador(nickname);
-    }
+  
     
     @Override
-    public void CancelarColaboracion(String nick, String proponente){
-         mColaboraciones.deleteColaboracion(nick,proponente);
+    public void CancelarColaboracion(Long id){
+         mColaboraciones.deleteColaboracion(id);
     }
 
     @Override
