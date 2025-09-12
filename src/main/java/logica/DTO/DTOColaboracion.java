@@ -21,7 +21,15 @@ public class DTOColaboracion {
 
         private LocalDate creado;
     
-    
+    private Long id;
+
+public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
     public boolean equals(DTOColaboracion obj) {
         if (this.monto != obj.monto) {
             return false;
