@@ -204,7 +204,152 @@ public class ManejadorCategoria {
         }
     }
     
+    public void cargarCategorias() {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        EntityTransaction t = em.getTransaction();
+        try {
+            t.begin();
+            // Nivel raíz
+            Categoria catTeatro = em.find(Categoria.class, "Teatro");
+            if (catTeatro == null) {
+                catTeatro = new Categoria("Teatro");
+                em.persist(catTeatro);
+            }
+            Categoria catLiteratura = em.find(Categoria.class, "Literatura");
+            if (catLiteratura == null) {
+                catLiteratura = new Categoria("Literatura");
+                em.persist(catLiteratura);
+            }
 
+            Categoria catMusica = em.find(Categoria.class, "Música");
+            if (catMusica == null) {
+                catMusica = new Categoria("Música");
+                em.persist(catMusica);
+            }
+
+            Categoria catCine = em.find(Categoria.class, "Cine");
+            if (catCine == null) {
+                catCine = new Categoria("Cine");
+                em.persist(catCine);
+            }
+
+            Categoria catDanza = em.find(Categoria.class, "Danza");
+            if (catDanza == null) {
+                catDanza = new Categoria("Danza");
+                em.persist(catDanza);
+            }
+
+            Categoria catCarnaval = em.find(Categoria.class, "Carnaval");
+            if (catCarnaval == null) {
+                catCarnaval = new Categoria("Carnaval");
+                em.persist(catCarnaval);
+            }
+
+            // Subcategorías de Teatro
+            Categoria catTeatroDramatico = em.find(Categoria.class, "Teatro Dramático");
+            if (catTeatroDramatico == null) {
+                catTeatroDramatico = new Categoria("Teatro Dramático", catTeatro);
+                em.persist(catTeatroDramatico);
+            }
+
+            Categoria catTeatroMusical = em.find(Categoria.class, "Teatro Musical");
+            if (catTeatroMusical == null) {
+                catTeatroMusical = new Categoria("Teatro Musical", catTeatro);
+                em.persist(catTeatroMusical);
+            }
+
+            Categoria catComedia = em.find(Categoria.class, "Comedia");
+            if (catComedia == null) {
+                catComedia = new Categoria("Comedia", catTeatro);
+                em.persist(catComedia);
+            }
+
+            Categoria catStandUp = em.find(Categoria.class, "Stand-up");
+            if (catStandUp == null) {
+                catStandUp = new Categoria("Stand-up", catComedia);
+                em.persist(catStandUp);
+            }
+
+            // Subcategorías de Música
+            Categoria catFestival = em.find(Categoria.class, "Festival");
+            if (catFestival == null) {
+                catFestival = new Categoria("Festival", catMusica);
+                em.persist(catFestival);
+            }
+
+            Categoria catConcierto = em.find(Categoria.class, "Concierto");
+            if (catConcierto == null) {
+                catConcierto = new Categoria("Concierto", catMusica);
+                em.persist(catConcierto);
+            }
+
+            // Subcategorías de Cine
+            Categoria catCineAireLibre = em.find(Categoria.class, "Cine al Aire Libre");
+            if (catCineAireLibre == null) {
+                catCineAireLibre = new Categoria("Cine al Aire Libre", catCine);
+                em.persist(catCineAireLibre);
+            }
+
+            Categoria catCinePedal = em.find(Categoria.class, "Cine a Pedal");
+            if (catCinePedal == null) {
+                catCinePedal = new Categoria("Cine a Pedal", catCine);
+                em.persist(catCinePedal);
+            }
+
+            // Subcategorías de Danza
+            Categoria catBallet = em.find(Categoria.class, "Ballet");
+            if (catBallet == null) {
+                catBallet = new Categoria("Ballet", catDanza);
+                em.persist(catBallet);
+            }
+
+            Categoria catFlamenco = em.find(Categoria.class, "Flamenco");
+            if (catFlamenco == null) {
+                catFlamenco = new Categoria("Flamenco", catDanza);
+                em.persist(catFlamenco);
+            }
+
+            // Subcategorías de Carnaval
+            Categoria catMurga = em.find(Categoria.class, "Murga");
+            if (catMurga == null) {
+                catMurga = new Categoria("Murga", catCarnaval);
+                em.persist(catMurga);
+            }
+
+            Categoria catHumoristas = em.find(Categoria.class, "Humoristas");
+            if (catHumoristas == null) {
+                catHumoristas = new Categoria("Humoristas", catCarnaval);
+                em.persist(catHumoristas);
+            }
+
+            Categoria catParodistas = em.find(Categoria.class, "Parodistas");
+            if (catParodistas == null) {
+                catParodistas = new Categoria("Parodistas", catCarnaval);
+                em.persist(catParodistas);
+            }
+
+            Categoria catLubolos = em.find(Categoria.class, "Lubolos");
+            if (catLubolos == null) {
+                catLubolos = new Categoria("Lubolos", catCarnaval);
+                em.persist(catLubolos);
+            }
+
+            Categoria catRevista = em.find(Categoria.class, "Revista");
+            if (catRevista == null) {
+                catRevista = new Categoria("Revista", catCarnaval);
+                em.persist(catRevista);
+            }
+
+            t.commit();
+        } catch (Exception e) {
+            if (t.isActive()) {
+                t.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 
 
 }

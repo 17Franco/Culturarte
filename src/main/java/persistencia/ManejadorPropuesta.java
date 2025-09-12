@@ -354,7 +354,7 @@ public class ManejadorPropuesta {
                 p2.addEstHistorial(Estado.EN_FINANCIACION);
                 p2.addEstHistorial(Estado.PUBLICADA);
                 p2.addEstHistorial(Estado.INGRESADA);
-                p2.setImagne("");
+                p2.setImagne("IMG/MOM/MOMO.jpg");
                 p2.setFechaPublicacion(LocalDate.now());
                 em.persist(p2);
             }
@@ -381,7 +381,7 @@ public class ManejadorPropuesta {
                 p3.addEstHistorial(Estado.EN_FINANCIACION);
                 p3.addEstHistorial(Estado.PUBLICADA);
                 p3.addEstHistorial(Estado.INGRESADA);
-                p3.setImagne("");
+                p3.setImagne("IMG/PIM/pim.jpg");
                 p3.setFechaPublicacion(LocalDate.now());
                 em.persist(p3);
             }
@@ -405,10 +405,10 @@ public class ManejadorPropuesta {
                 retornoPIL.add(TipoRetorno.EntradaGratis);
                 retornoPIL.add(TipoRetorno.PorcentajeGanancia);
                 p4.setRetornos(retornoPIL);
-                p4.addEstHistorial(Estado.INGRESADA);
-                p4.addEstHistorial(Estado.PUBLICADA);
                 p4.addEstHistorial(Estado.EN_FINANCIACION);
-                p4.setImagne("");
+                p4.addEstHistorial(Estado.PUBLICADA);
+                p4.addEstHistorial(Estado.INGRESADA);
+                p4.setImagne("IMG/PIL/pil.jpg");
                 p4.setFechaPublicacion(LocalDate.now());
                 em.persist(p4);
             }
@@ -433,10 +433,10 @@ public class ManejadorPropuesta {
                 List<TipoRetorno> retornoRYJ = new ArrayList<>();
                 retornoRYJ.add(TipoRetorno.PorcentajeGanancia);
                 p5.setRetornos(retornoRYJ);
-                p5.addEstHistorial(Estado.INGRESADA);
-                p5.addEstHistorial(Estado.PUBLICADA);
                 p5.addEstHistorial(Estado.EN_FINANCIACION);
-                p5.setImagne("");
+                p5.addEstHistorial(Estado.PUBLICADA);
+                p5.addEstHistorial(Estado.INGRESADA);
+                p5.setImagne("IMG/RYJ/RYJ.jpg");
                 p5.setFechaPublicacion(LocalDate.now());
                 em.persist(p5);
             }
@@ -461,10 +461,10 @@ public class ManejadorPropuesta {
                 retornoUDJ.add(TipoRetorno.EntradaGratis);
                 retornoUDJ.add(TipoRetorno.PorcentajeGanancia);
                 p6.setRetornos(retornoUDJ);
-                p6.addEstHistorial(Estado.INGRESADA);
-                p6.addEstHistorial(Estado.PUBLICADA);
                 p6.addEstHistorial(Estado.EN_FINANCIACION);
-                p6.setImagne("");
+                p6.addEstHistorial(Estado.PUBLICADA);
+                p6.addEstHistorial(Estado.INGRESADA);
+                p6.setImagne("IMG/UDJ/UDIJ.jpg");
                 p6.setFechaPublicacion(LocalDate.now());
                 em.persist(p6);
             }
@@ -489,8 +489,8 @@ public class ManejadorPropuesta {
                 List<TipoRetorno> retornoLDT = new ArrayList<>();
                 retornoLDT.add(TipoRetorno.EntradaGratis);
                 p7.setRetornos(retornoLDT);
-                p7.addEstHistorial(Estado.INGRESADA);
                 p7.addEstHistorial(Estado.PUBLICADA);
+                p7.addEstHistorial(Estado.INGRESADA);
                 p7.setImagne("");
                 p7.setFechaPublicacion(LocalDate.now());
                 em.persist(p7);

@@ -294,6 +294,9 @@ public class Controller  implements IController {
     public void cargarPropuesta(){
         mPropuesta.cargarPropuesta();
     }
+    public void cargarCategorias(){
+        mCategoria.cargarCategorias();
+    }
 }
 
   

@@ -88,4 +88,5 @@ public interface IController {
    void cargarSeguidos();
    
    void cargarPropuesta();
+   void cargarCategorias();
 }

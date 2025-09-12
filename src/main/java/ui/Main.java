@@ -337,6 +337,7 @@ public class Main extends javax.swing.JFrame {
        controller.cargarDatosPruebaProponente();
        controller.cargarDatosPruebaColaborador();
        controller.cargarSeguidos();
+       controller.cargarCategorias();
        controller.cargarPropuesta();
     }//GEN-LAST:event_CargarDatosMouseClicked
     
