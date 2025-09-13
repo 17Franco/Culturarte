@@ -18,7 +18,7 @@ import logica.IController;
 public class ConsultaColaborador extends javax.swing.JInternalFrame {
      private IController controller = Fabrica.getInstance();
       List<DTOColaboracion> registros=new ArrayList<>();
-    
+      String nick="";
     public ConsultaColaborador() {
         initComponents();
         
@@ -54,6 +54,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
     private void mostrarPerfilColaborador(DTOColaborador usr) {
         
         txtNickName.setText(usr.getNickname());
+        nick=txtNickName.getText();
         txtNombre.setText(usr.getNombre());
         txtApellido.setText(usr.getApellido());
         txtFecha.setText(Integer.toString(usr.getFecha().getDayOfMonth())+"/"+ usr.getFecha().getMonthValue()+"/"+usr.getFecha().getYear());
@@ -63,8 +64,8 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         Image img =icon.getImage().getScaledInstance(lblImagen.getWidth(),lblImagen.getHeight(), Image.SCALE_SMOOTH);
         lblImagen.setIcon(new ImageIcon(img));
 
-         registros=controller.colaboraciones(usr.getNickname()); //me traigo las colaboraciones echas por el user seleccionado
-   
+         //me traigo las colaboraciones echas por el user seleccionado
+         //registros=controller.colaboraciones(nick);
     }
    
     
@@ -237,7 +238,9 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+        if(! "".equals(nick)){
+             registros=controller.colaboraciones(nick);
+        }
        String[] columnas = {"TítuloPropuesta", "Creador", "Recaudacion", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         //Colaboraciones.setModel(modelo);

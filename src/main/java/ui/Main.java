@@ -1,13 +1,4 @@
 package ui;
-import java.util.ArrayList;
-import java.util.List;
-import logica.DTO.DTOPropuesta;
-import logica.DTO.DTOCategoria;
-import javax.swing.JMenuItem;
-import java.util.Map;
-import ui.AltaPropuesta;
-import java.util.HashSet;
-import java.util.Set;
 import javax.swing.JOptionPane;
 
 import java.beans.PropertyVetoException;
@@ -135,29 +126,29 @@ public class Main extends javax.swing.JFrame {
 
         private void abrirInternalFrame(Class<? extends JInternalFrame> claseFrame) {
         // Buscar si ya existe una instancia abierta
-        for (JInternalFrame frame : fondo.getAllFrames()) {//recorre cada internalframe abierto
-            if (claseFrame.isInstance(frame)) { // pregunta si es el que quiero crear 
-                try {
-                    frame.setIcon(false);  //si entra y esta minimizado lo maximiza 
-                    frame.setSelected(true);// y lo selecciona ("le da el foco")
-                } catch (PropertyVetoException ex) { //captura un error 
-                    ex.printStackTrace();
+            for (JInternalFrame frame : fondo.getAllFrames()) {//recorre cada internalframe abierto
+                if (claseFrame.isInstance(frame)) { // pregunta si es el que quiero crear 
+                    try {
+                        frame.setIcon(false);  //si entra y esta minimizado lo maximiza 
+                        frame.setSelected(true);// y lo selecciona ("le da el foco")
+                    } catch (PropertyVetoException ex) { //captura un error 
+                        ex.printStackTrace();
+                    }
+                    frame.toFront();//si esta atras de otros internal lo pasa para el rente 
+                    return;
                 }
-                frame.toFront();//si esta atras de otros internal lo pasa para el rente 
-                return;
             }
-        }
 
-        // Si no existe crea el internal frame que le pasamos por parametro
-        try {
-            JInternalFrame ventana = claseFrame.getDeclaredConstructor().newInstance();
-            fondo.add(ventana); // lo anade al desktop pane
-            ventana.setSize(fondo.getSize()); // le da el tamano del desktop pane
-            ventana.setVisible(true); 
-        } catch (Exception e) { // captura error en caso de que no pueda crearlo 
-            e.printStackTrace();
-        }
-    }
+            // Si no existe crea el internal frame que le pasamos por parametro
+            try {
+                JInternalFrame ventana = claseFrame.getDeclaredConstructor().newInstance();
+                fondo.add(ventana); // lo anade al desktop pane
+                ventana.setSize(fondo.getSize()); // le da el tamano del desktop pane
+                ventana.setVisible(true); 
+            } catch (Exception e) { // captura error en caso de que no pueda crearlo 
+                e.printStackTrace();
+            }
+         }
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         
@@ -166,10 +157,11 @@ public class Main extends javax.swing.JFrame {
         JMenuItem altaCategoriaItem = new JMenuItem("Alta Categoria");
 
         altaCategoriaItem.addActionListener(e ->{
-            AltaDeCategoria altaCat = new AltaDeCategoria();
-            fondo.add(altaCat);
-            altaCat.setSize(fondo.getSize());
-            altaCat.setVisible(true);
+            //AltaDeCategoria altaCat = new AltaDeCategoria();
+            abrirInternalFrame(AltaDeCategoria.class);
+            //fondo.add(altaCat);
+            //altaCat.setSize(fondo.getSize());
+            //altaCat.setVisible(true);
         });
 
         jMenu2.add(altaCategoriaItem);
@@ -251,31 +243,35 @@ public class Main extends javax.swing.JFrame {
                         {
                             case "Alta Propuesta" -> 
                             {
-                                AltaPropuesta PropNew = new AltaPropuesta(); 
-                                fondo.add(PropNew);
-                                PropNew.setSize(fondo.getSize());
-                                PropNew.setVisible(true);
+                               // AltaPropuesta PropNew = new AltaPropuesta(); 
+                                abrirInternalFrame(AltaPropuesta.class);
+                               // fondo.add(PropNew);
+                                //PropNew.setSize(fondo.getSize());
+                                //PropNew.setVisible(true);
                             }
                             case "Modificar Propuesta" -> 
                             {
-                                ModificarDatosPropuesta MProp = new ModificarDatosPropuesta(); 
-                                fondo.add(MProp);
-                                MProp.setSize(fondo.getSize());
-                                MProp.setVisible(true);
+                               // ModificarDatosPropuesta MProp = new ModificarDatosPropuesta(); 
+                                abrirInternalFrame(ModificarDatosPropuesta.class);
+                                //fondo.add(MProp);
+                                //MProp.setSize(fondo.getSize());
+                                //MProp.setVisible(true);
                             }
                             case "Listar Propuesta" -> 
                             {
-                                ListaPropuesta PropNew = new ListaPropuesta(); 
-                                fondo.add(PropNew);
-                                PropNew.setSize(fondo.getSize());
-                                PropNew.setVisible(true);
+                               //ListaPropuesta PropNew = new ListaPropuesta(); 
+                                abrirInternalFrame(ListaPropuesta.class);
+                                //fondo.add(PropNew);
+                                //PropNew.setSize(fondo.getSize());
+                               // PropNew.setVisible(true);
                             }
                             case "Consultar Propuestas Por Estado" -> 
                             {                           
-                                ConsultaPropuestaPorEstado consultaPorEstado = new ConsultaPropuestaPorEstado();
-                                fondo.add(consultaPorEstado);
-                                consultaPorEstado.setSize(fondo.getSize());
-                                consultaPorEstado.setVisible(true);
+                               // ConsultaPropuestaPorEstado consultaPorEstado = new ConsultaPropuestaPorEstado();
+                                abrirInternalFrame(ConsultaPropuestaPorEstado.class);
+                               // fondo.add(consultaPorEstado);
+                                //consultaPorEstado.setSize(fondo.getSize());
+                                //consultaPorEstado.setVisible(true);
                             }
                         }
                     }
@@ -291,19 +287,20 @@ public class Main extends javax.swing.JFrame {
     
     jMenu2.setText("Colaboracion");
     jMenu2.removeAll();
-        String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Colaboracion", "Cancelar Colaboracion" };
+    String[] opcionesColaboracion = { "Colaborar a Propuesta", "Consultar Colaboracion", "Cancelar Colaboracion" };
 
 
-  for (String op : opcionesColaboracion) {
+    for (String op : opcionesColaboracion) {
         JMenuItem menuItem = new JMenuItem(op);
 
-        menuItem.addActionListener(e -> {
+           menuItem.addActionListener(e -> {
             switch (op) {
                 case "Colaborar a Propuesta" -> {
-                    AltaColaboracion frame = new AltaColaboracion();
-                    fondo.add(frame);
-                    frame.setSize(fondo.getSize());
-                    frame.setVisible(true);
+                    //AltaColaboracion frame = new AltaColaboracion();
+                    abrirInternalFrame(AltaColaboracion.class);
+                    //fondo.add(frame);
+                   // frame.setSize(fondo.getSize());
+                    //frame.setVisible(true);
                     break;
                 }
                 case "Consultar Colaboracion" -> {
@@ -323,7 +320,10 @@ public class Main extends javax.swing.JFrame {
 
         jMenu2.add(menuItem);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+      jMenu2.setVisible(true);
+
 }
+    
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
@@ -339,6 +339,8 @@ public class Main extends javax.swing.JFrame {
        controller.cargarSeguidos();
        controller.cargarCategorias();
        controller.cargarPropuesta();
+       
+       JOptionPane.showMessageDialog(this, "Se han cargado los datos a la bd.", "Información", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_CargarDatosMouseClicked
     
     

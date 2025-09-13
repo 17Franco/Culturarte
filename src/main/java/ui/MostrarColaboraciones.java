@@ -29,6 +29,7 @@ public class MostrarColaboraciones extends javax.swing.JInternalFrame {
     }
     
     public void obtenerDatos(List<DTOColaboracion> registros,DefaultTableModel modelo){
+        Colaboraciones.setModel(modelo);
         for(DTOColaboracion r:registros){
             //titulo propuesta r.getPropuestaFinanciada();  aca lo tengo
             String titulo= r.getPropuesta();
@@ -40,7 +41,7 @@ public class MostrarColaboraciones extends javax.swing.JInternalFrame {
                
             //y nesesito el estado de la propuesta 
             String estado =controller.estadoPropuestas(titulo);
-            
+          
             mostrarColaboraciones(titulo,nombreProponente,monto,estado,modelo);
            
         }

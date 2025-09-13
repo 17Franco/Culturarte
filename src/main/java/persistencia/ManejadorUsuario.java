@@ -207,6 +207,7 @@ public class ManejadorUsuario {
         try{
             Colaborador c=em.find(Colaborador.class, nick);
              for(Colaboracion colab: c.getColaboraciones()){
+                 System.out.println("");
                 DTOColaboracion DTOColab = new DTOColaboracion(colab);
                 resu.add(DTOColab);
             }

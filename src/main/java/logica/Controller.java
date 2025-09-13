@@ -92,7 +92,7 @@ public class Controller  implements IController {
          }*/
          return mUsuario.listaSeguidos(nick);
      }
-     
+     @Override
     public List<DTOColaboracion>  colaboraciones(String nick){
            return mUsuario.getDTOColaboraciones(nick);
     }
