@@ -1,30 +1,26 @@
-version: '3.8'
-
 services:
-  app: 
+  culturarte: 
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mi-app-java-swing
+    container_name: appCulturarte
     depends_on:
-      - db
+      - dbculturarte
     environment:
-      # Configuración de JPA para conectarse a la base de datos MySQL
-      # El "hostname" de la base de datos es el nombre del servicio, 'db'
-      - DATABASE_URL=jdbc:mysql://db:3306/Culturarte?serverTimezone=UTC
       - DATABASE_USER=tecnologo
       - DATABASE_PASSWORD=tecnologo
-      # Configuración para el reenvío de la GUI
+      - DATABASE_URL=jdbc:mysql://dbculturarte:3306/Culturarte?serverTimezone=UTC
       - DISPLAY=$DISPLAY
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-
-  db:
+      - ./IMG:/IMG
+      - /home/fran/Escritorio:/hostDesktop:ro
+  dbculturarte:
     image: mysql:8.0.17
-    container_name: mi-base-de-datos
+    container_name: BaseDatosC
     environment:
-      MYSQL_ROOT_PASSWORD: tecnologo
       MYSQL_DATABASE: Culturarte
+      MYSQL_ROOT_PASSWORD: tecnologo
       MYSQL_PASSWORD: tecnologo
       MYSQL_USER: tecnologo
     volumes:

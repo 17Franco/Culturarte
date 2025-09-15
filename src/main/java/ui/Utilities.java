@@ -18,7 +18,7 @@ public class Utilities {
     
     //permite elejir un archivo
     public static String elejirArchivo(){
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser("/hostDesktop");
         fileChooser.setDialogTitle("Seleccionar imagen");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
      
