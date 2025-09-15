@@ -339,7 +339,7 @@ public class Main extends javax.swing.JFrame {
        controller.cargarSeguidos();
        controller.cargarCategorias();
        controller.cargarPropuesta();
-       
+       controller.cargarColaboraciones();
        JOptionPane.showMessageDialog(this, "Se han cargado los datos a la bd.", "Información", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_CargarDatosMouseClicked
     

@@ -22,6 +22,8 @@ import logica.Fabrica;
 import logica.IController;
 import java.awt.Dimension;
 import logica._enum.Estado;
+import java.util.Map;
+import java.util.HashMap;
 
 
 public class PropuestasCreadas extends javax.swing.JInternalFrame {
@@ -29,53 +31,62 @@ public class PropuestasCreadas extends javax.swing.JInternalFrame {
         String[] columnas = {"Título", "Monto Recaudado", "Usuarios", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         private IController controller = Fabrica.getInstance();
+        private Map<Integer, String[]> usuariosPorFila = new HashMap<>();
+        
         
     public PropuestasCreadas() {
         initComponents();
         Propuestas.setModel(modelo);
       
+          TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
+        columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox()){
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+             String[] usuariosFila = usuariosPorFila.getOrDefault(row, new String[]{""});
+            JComboBox<String> combo = new JComboBox<>(usuariosFila);
+            return combo;
+         }
         
+        });
+        
+        columnaUsuarios.setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        JLabel label = new JLabel();
+        label.setOpaque(true);
+
+        if (! hasFocus ) {
+            
+            String[] usuariosDeEstaFila = usuariosPorFila.getOrDefault(row, new String[]{""});
+           label.setText(usuariosDeEstaFila[0]);
+        }
+            return label;
+        });
     }
     
-public void mostrarPropuestas(String titulo, int monto, Estado estado, List<String> usuarios) {
-
-     modelo.addRow(new Object[]{titulo, monto, "Colaboradores", estado});
-
-     // Columna 2Usuarios con editor tipo combo
-     TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
-
-     // solo muestra el texto seleccionado
-     columnaUsuarios.setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
-         JLabel label = new JLabel();
-         label.setOpaque(true);
-         if (isSelected) label.setBackground(Color.WHITE);
-         if (value != null) label.setText(value.toString());
-         return label;
-     });
-
-     // crear combo con los items correctos
-     columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox<>()) {
-         @Override
-         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-             JComboBox<String> combo = new JComboBox<>();
-             for (String u : usuarios) combo.addItem(u);
-             if (value != null) combo.setSelectedItem(value);
-             return combo;
-         }
-     });
-     Propuestas.setRowHeight(20);
+public void mostrarPropuestas(String titulo, int monto, Estado estado, String[] usuarios) {
+    
+        
+        int fila = modelo.getRowCount();
+        usuariosPorFila.put(fila, usuarios);
+        modelo.addRow(new Object[]{titulo, monto, usuarios[0], estado});
+   
+        Propuestas.setRowHeight(20);
  }
 
     public void cargaDeDatos( List<DTOPropuesta> propuestas){
           if(!propuestas.isEmpty()){
         propuestas.sort(Comparator.comparing(p -> p.getEstadoAct()));
-        System.out.println( );
+            System.out.println( );
         }
         for(DTOPropuesta p: propuestas){
             //System.out.println("jhola");
             List<String> colaboradores=controller.colaboradoresAPropuesta(p.getTitulo());
+            String[] Ausuarios=new String[colaboradores.size()+1];
+            
+            Ausuarios[0]="Colaboradores";
+            System.arraycopy(colaboradores.toArray(), 0, Ausuarios, 1, colaboradores.size());
+          
             int monto=controller.getMontoRecaudado(p.getTitulo());
-            mostrarPropuestas(p.getTitulo(),monto,p.getEstadoAct(),colaboradores);
+            mostrarPropuestas(p.getTitulo(),monto,p.getEstadoAct(),Ausuarios);
         }
     }
   

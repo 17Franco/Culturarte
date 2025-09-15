@@ -104,6 +104,7 @@ public class Propuesta {
     public List<TipoRetorno> getRetorno() {
         return Retorno;
     }
+  
     public Categoria getCategoria(){
         return cat;
     }

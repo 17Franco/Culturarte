@@ -4,10 +4,13 @@
  */
 package ui;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.BoxLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,29 +31,43 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private String biografia;
     private String web;
     
-    private JPanel optionPanel = new JPanel(new GridLayout(2, 2));
+    private JPanel optionPanel = new JPanel();
+    
+   
     private JLabel lblDireccion = new JLabel("Dirección:");
     private JTextField txtDireccion = new JTextField(15);
     private JLabel lblBiografia = new JLabel("Biografía:");
-    private JTextArea txtBiografia = new JTextArea(5,15);
-    
+    private JTextArea txtBiografia = new JTextArea(5,15); 
     private JLabel lblWeb = new JLabel("Website:");
     private JTextField txtWeb = new JTextField(15);
-    JScrollPane scrollPane = new JScrollPane(txtBiografia);
+    
     
     
     public AltaUsuario() {
         initComponents();
+        optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
+        
+       // optionPanel.setSize(50,100);
         txtDireccion.setName("Direccion");
         txtBiografia.setName("Biografia");
+        JScrollPane scrollPane = new JScrollPane(txtBiografia);
         txtWeb.setName("WebSite");
-        JPanel fieldsPanel1= new JPanel(new GridLayout(2, 2));
+        JPanel fieldsPanel1= new JPanel();
+        
+        
+        
         fieldsPanel1.add(lblDireccion);
         fieldsPanel1.add(txtDireccion);
-        fieldsPanel1.add(lblWeb);
-        fieldsPanel1.add(txtWeb);
+       
+        JPanel fieldsPanel3= new JPanel();
+        
+        fieldsPanel3.add(lblWeb);
+        fieldsPanel3.add(txtWeb);
+        
         optionPanel.add(fieldsPanel1);
-        JPanel fieldsPanel2 = new JPanel(new GridLayout(1, 2));
+        optionPanel.add(fieldsPanel3);
+        
+        JPanel fieldsPanel2 = new JPanel();
         txtBiografia.setLineWrap(true); //salta automatiucamente cuando llege al final horizontalmente
         txtBiografia.setWrapStyleWord(true);//no corta una palabra por la mitad
         fieldsPanel2.add(lblBiografia);
@@ -337,7 +354,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     }
     private void limpiarCampos(){
          txtNick.setText("");
-        txtNombre.setText("");
+         txtNombre.setText("");
          txtApellido.setText("");
          txtEmail.setText("");
          txtDia.setText("");
@@ -368,6 +385,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
          String dia = txtDia.getText();
          String mes =txtMes.getText();
          String anio =txtAnio.getText();
+         //System.out.println(jFormattedTextField1.getText().formatted("dd/MM/YYYY"));
          JTextField validarBiografia=new JTextField();
          validarBiografia.setText(txtBiografia.getText());
          

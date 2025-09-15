@@ -97,64 +97,64 @@ public class AltaColaboracion extends javax.swing.JInternalFrame {
         tipoRetornocbox.addItem("SeleccionarRetorno"); 
     }
     private void mostrarPopup(DTOPropuesta propuesta) {
-         if (dialog == null) {
-            dialog = new JDialog((Frame) null, "Detalle de Propuesta", true);
-            dialog.setSize(350, 450);
-            dialog.setLayout(new BorderLayout(10, 10));
+    if (dialog == null) {
+        dialog = new JDialog((Frame) null, "Detalle de Propuesta", true);
+        dialog.setSize(350, 450);
+        dialog.setLayout(new BorderLayout(10, 10));
 
-            JPanel mainPanel = new JPanel(new GridLayout(0, 2, 10, 10));
-            mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel mainPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            // Inicializamos campos
-            tituloField = createField();
-            descField = createField();
-            lugarField = createField();
-            fechaField = createField();
-            precioField = createField();
-            montoField = createField();
-            retornoBox = createComboBox();
-            imgLabel = new JLabel("", JLabel.CENTER);
+        // Inicializamos campos
+        tituloField = createField();
+        descField = createField();
+        lugarField = createField();
+        fechaField = createField();
+        precioField = createField();
+        montoField = createField();
+        retornoBox = createComboBox();
+        imgLabel = new JLabel("", JLabel.CENTER);
 
-            // Agregamos etiquetas y campos
-            mainPanel.add(new JLabel("Título:"));
-            mainPanel.add(tituloField);
+        // Agregamos etiquetas y campos
+        mainPanel.add(new JLabel("Título:"));
+        mainPanel.add(tituloField);
 
-            mainPanel.add(new JLabel("Descripción:"));
-            mainPanel.add(descField);
+        mainPanel.add(new JLabel("Descripción:"));
+        mainPanel.add(descField);
 
-            mainPanel.add(new JLabel("Lugar:"));
-            mainPanel.add(lugarField);
+        mainPanel.add(new JLabel("Lugar:"));
+        mainPanel.add(lugarField);
 
-            mainPanel.add(new JLabel("Fecha:"));
-            mainPanel.add(fechaField);
+        mainPanel.add(new JLabel("Fecha:"));
+        mainPanel.add(fechaField);
 
-            mainPanel.add(new JLabel("Precio:"));
-            mainPanel.add(precioField);
+        mainPanel.add(new JLabel("Precio:"));
+        mainPanel.add(precioField);
 
-            mainPanel.add(new JLabel("Monto total:"));
-            mainPanel.add(montoField);
+        mainPanel.add(new JLabel("Monto total:"));
+        mainPanel.add(montoField);
 
-            mainPanel.add(new JLabel("Retorno:"));
-            mainPanel.add(retornoBox);
+        mainPanel.add(new JLabel("Retorno:"));
+        mainPanel.add(retornoBox);
 
-            // Panel para la imagen
-            JPanel imagePanel = new JPanel();
-            imagePanel.add(imgLabel);
+        // Panel para la imagen
+        JPanel imagePanel = new JPanel();
+        imagePanel.add(imgLabel);
 
-            dialog.add(mainPanel, BorderLayout.CENTER);
-            dialog.add(imagePanel, BorderLayout.SOUTH);
-    }
+        dialog.add(mainPanel, BorderLayout.CENTER);
+        dialog.add(imagePanel, BorderLayout.SOUTH);
+}
 
-    // Actualizamos valores cada vez que se abre
-    tituloField.setText(propuesta.getTitulo());
-    descField.setText(propuesta.getDescripcion());
-    lugarField.setText(propuesta.getLugar());
-    fechaField.setText(propuesta.getFecha().toString());
-    precioField.setText(String.valueOf(propuesta.getPrecio()));
-    montoField.setText(String.valueOf(propuesta.getMontoTotal()));
-    retornoBox.removeAllItems();
-    for(TipoRetorno t: propuesta.getRetorno()){
-        retornoBox.addItem(t);
+        // Actualizamos valores cada vez que se abre
+        tituloField.setText(propuesta.getTitulo());
+        descField.setText(propuesta.getDescripcion());
+        lugarField.setText(propuesta.getLugar());
+        fechaField.setText(propuesta.getFecha().toString());
+        precioField.setText(String.valueOf(propuesta.getPrecio()));
+        montoField.setText(String.valueOf(propuesta.getMontoTotal()));
+        retornoBox.removeAllItems();
+        for(TipoRetorno t: propuesta.getRetorno()){
+            retornoBox.addItem(t);
     }
     //retornoBox.addItem(propuesta.getRetorno() != null ? propuesta.getRetorno().getFirst().toString() : "-");
     //retornoBox.addItem(propuesta.getRetorno() != null ? propuesta.getRetorno().getLast().toString() : "-");

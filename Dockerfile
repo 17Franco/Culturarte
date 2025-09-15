@@ -1,6 +1,6 @@
 FROM eclipse-temurin:21-jdk
 
-RUN apt-get update && apt-get install -y libxext6 libxrender1 libxtst6 libxi6 libfreetype6 fonts-dejavu && rm -rf /var/lib/apt/lists/*
+RUN apt-get update &&  apt-get install -y libxext6 libxrender1 libxtst6 libxi6 libfreetype6
 
 WORKDIR /app
 

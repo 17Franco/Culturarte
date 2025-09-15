@@ -46,7 +46,7 @@ public class ManejadorPropuesta {
             Proponente prop = em.find(Proponente.class, p.getProponente().getNickname());
             if (prop != null) {
                 p.setProponente(prop);
-                prop.getPropCreadas().put(p.getTitulo(), p);
+               // prop.getPropCreadas().put(p.getTitulo(), p);
             }
             
             em.persist(p);
@@ -162,7 +162,7 @@ public class ManejadorPropuesta {
 
     public List<String> listColaboradores(String titulo) {
         EntityManager em = PersistenciaManager.getEntityManager(); //
-        Propuesta p = em.find(Propuesta.class,titulo);// no uso el buscador porque pierdo la conexion y los aportes no se carga hasta que le digas 
+        Propuesta p = em.find(Propuesta.class,titulo);
         try{
                 List<String> colab = new ArrayList<>();
            if (p != null) {
@@ -200,8 +200,9 @@ public class ManejadorPropuesta {
         } catch (Exception e) {
             if (t.isActive()) {
                 t.rollback();
+                e.printStackTrace();
             }
-            e.printStackTrace();
+            
         } finally {
             em.close();
         }

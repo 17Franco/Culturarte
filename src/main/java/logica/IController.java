@@ -87,4 +87,5 @@ public interface IController {
    
    void cargarPropuesta();
    void cargarCategorias();
+   void cargarColaboraciones();
 }

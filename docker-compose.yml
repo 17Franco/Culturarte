@@ -11,7 +11,7 @@ services:
     environment:
       # Configuración de JPA para conectarse a la base de datos MySQL
       # El "hostname" de la base de datos es el nombre del servicio, 'db'
-      - DATABASE_URL=jdbc:mysql://db:3306/Culturarte?zeroDateTimeBehavior=CONVERT_TO_NULL
+      - DATABASE_URL=jdbc:mysql://db:3306/Culturarte?serverTimezone=UTC
       - DATABASE_USER=tecnologo
       - DATABASE_PASSWORD=tecnologo
       # Configuración para el reenvío de la GUI

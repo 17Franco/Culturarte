@@ -240,6 +240,8 @@ public class Controller  implements IController {
     public void altaColaboracion(DTOColaboracion colaboracion){
   
         mColaboraciones.addColaboracion(colaboracion);
+        //actualizo despues de agregar la colaboracion 
+        mPropuesta.actualizarEstado(colaboracion.getPropuesta());
         
     }
 
@@ -293,6 +295,10 @@ public class Controller  implements IController {
     }
     public void cargarCategorias(){
         mCategoria.cargarCategorias();
+    }
+    
+    public void cargarColaboraciones(){
+        mColaboraciones.cargarDatosColaboracion();
     }
 }
 
