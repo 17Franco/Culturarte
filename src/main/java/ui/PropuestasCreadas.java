@@ -38,11 +38,11 @@ public class PropuestasCreadas extends javax.swing.JInternalFrame {
         initComponents();
         Propuestas.setModel(modelo);
       
-          TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
+        TableColumn columnaUsuarios = Propuestas.getColumnModel().getColumn(2);
         columnaUsuarios.setCellEditor(new DefaultCellEditor(new JComboBox()){
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-             String[] usuariosFila = usuariosPorFila.getOrDefault(row, new String[]{""});
+             String[] usuariosFila = usuariosPorFila.getOrDefault(row, new String[]{""}); //podria cargar el combo llamando al controller 
             JComboBox<String> combo = new JComboBox<>(usuariosFila);
             return combo;
          }
@@ -54,7 +54,6 @@ public class PropuestasCreadas extends javax.swing.JInternalFrame {
         label.setOpaque(true);
 
         if (! hasFocus ) {
-            
             String[] usuariosDeEstaFila = usuariosPorFila.getOrDefault(row, new String[]{""});
            label.setText(usuariosDeEstaFila[0]);
         }
@@ -63,8 +62,6 @@ public class PropuestasCreadas extends javax.swing.JInternalFrame {
     }
     
 public void mostrarPropuestas(String titulo, int monto, Estado estado, String[] usuarios) {
-    
-        
         int fila = modelo.getRowCount();
         usuariosPorFila.put(fila, usuarios);
         modelo.addRow(new Object[]{titulo, monto, usuarios[0], estado});
@@ -73,9 +70,8 @@ public void mostrarPropuestas(String titulo, int monto, Estado estado, String[] 
  }
 
     public void cargaDeDatos( List<DTOPropuesta> propuestas){
-          if(!propuestas.isEmpty()){
-        propuestas.sort(Comparator.comparing(p -> p.getEstadoAct()));
-            System.out.println( );
+        if(!propuestas.isEmpty()){
+            propuestas.sort(Comparator.comparing(p -> p.getEstadoAct()));
         }
         for(DTOPropuesta p: propuestas){
             //System.out.println("jhola");

@@ -241,7 +241,7 @@ public class ConsultaColaborador extends javax.swing.JInternalFrame {
         if(! "".equals(nick)){
              registros=controller.colaboraciones(nick);
         }
-       String[] columnas = {"TítuloPropuesta", "Creador", "Recaudacion", "Estado"};
+       String[] columnas = {"Título", "Creador", "Recaudacion", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         //Colaboraciones.setModel(modelo);
         if(registros.isEmpty()){

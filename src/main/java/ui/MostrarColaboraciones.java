@@ -58,6 +58,12 @@ public class MostrarColaboraciones extends javax.swing.JInternalFrame {
         Colaboraciones = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Colaboraciones Realizadas");
+
         lblPropuestas.setText("Colaboraciones");
 
         Colaboraciones.setModel(new javax.swing.table.DefaultTableModel(
@@ -72,7 +78,7 @@ public class MostrarColaboraciones extends javax.swing.JInternalFrame {
                 {null, "", null, null}
             },
             new String [] {
-                "TituloPropuesta", "Creador", "Recaudacion", "Estado"
+                "Titulo", "Creador", "Recaudacion", "Estado"
             }
         ));
         Colaboraciones.setShowHorizontalLines(false);
