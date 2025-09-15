@@ -187,8 +187,7 @@ public class ManejadorUsuario {
     public boolean existeColaboracion(String colaborador, String titulo){
         em = PersistenciaManager.getEntityManager();
          try{
-              //String norm = email == null ? null : email.trim().toLowerCase();
-            // a esta query le faltaba un igual antes de :titulo ( arreglado)
+             
             Long count = em.createQuery(
             "SELECT COUNT(c) FROM Colaboracion c WHERE c.colaborador.nickname = :colaborador and c.propuesta.Titulo = :titulo", Long.class)
                      .setParameter("colaborador", colaborador)
@@ -196,7 +195,7 @@ public class ManejadorUsuario {
                      .getSingleResult();
               return count > 0;
          }finally{
-            em.close();
+            //em.close();
          }
     }
     
