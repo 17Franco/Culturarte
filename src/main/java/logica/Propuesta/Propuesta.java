@@ -38,10 +38,8 @@ public class Propuesta {
     
     @ElementCollection(targetClass = TipoRetorno.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(
-    name = "retorno", // nombre de la tabla 
-    joinColumns = @JoinColumn(name = "propuesta") 
-    )
+    @CollectionTable(name = "retorno", // nombre de la tabla 
+    joinColumns = @JoinColumn(name = "propuesta") )
     @Column(name = "retorno") // columna donde se guarda el enum
     private List<TipoRetorno> Retorno = new ArrayList<>();//guardo los retornos soportados
     

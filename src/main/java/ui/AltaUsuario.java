@@ -52,15 +52,12 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
         txtBiografia.setName("Biografia");
         JScrollPane scrollPane = new JScrollPane(txtBiografia);
         txtWeb.setName("WebSite");
+        
         JPanel fieldsPanel1= new JPanel();
-        
-        
-        
         fieldsPanel1.add(lblDireccion);
         fieldsPanel1.add(txtDireccion);
        
         JPanel fieldsPanel3= new JPanel();
-        
         fieldsPanel3.add(lblWeb);
         fieldsPanel3.add(txtWeb);
         
@@ -387,6 +384,7 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
          String anio =txtAnio.getText();
          //System.out.println(jFormattedTextField1.getText().formatted("dd/MM/YYYY"));
          JTextField validarBiografia=new JTextField();
+         validarBiografia.setName("Biografia");
          validarBiografia.setText(txtBiografia.getText());
          
          
@@ -423,21 +421,12 @@ public class AltaUsuario extends javax.swing.JInternalFrame {
     private void proponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proponenteActionPerformed
         optionPanel.setVisible(true);
         Object[] options={"Aceptar"};
-         int result = JOptionPane.showOptionDialog(
-            this,                  // ventana padre
-            optionPanel,           // panel con los campos extra
-            "Datos de Proponente", // título
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            options,
-            options[0]
-        );
+         int result = JOptionPane.showOptionDialog( this,optionPanel,"Datos de Proponente",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,null,options, options[0]);
 
         if (result == JOptionPane.OK_OPTION) {
              direccion = txtDireccion.getText();
              biografia = txtBiografia.getText();
-             System.out.println(biografia);
+             //System.out.println(biografia);
              web = txtWeb.getText();
         }
     }//GEN-LAST:event_proponenteActionPerformed

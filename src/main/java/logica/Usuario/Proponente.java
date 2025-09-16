@@ -17,6 +17,7 @@ import logica.Propuesta.Propuesta;
 @Entity
 public class Proponente extends Usuario{
     private String direccion;
+    
     @Lob// tipo de dato mas grande
     @Column(columnDefinition = "TEXT")
     private String biografia;

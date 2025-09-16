@@ -11,7 +11,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./IMG:/IMG
-      - /home/fran/Escritorio:/hostDesktop:ro
+      - /home/tecnologo/Escritorio:/hostDesktop:ro
   dbculturarte:
     image: mysql:8.0.17
     container_name: BaseDatosC
