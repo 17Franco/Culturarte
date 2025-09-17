@@ -15,7 +15,7 @@ public class ConsultaPropuestaPorEstado extends javax.swing.JInternalFrame {
 
     Set<DTOPropuesta> almacenTabla;            //Almacena la tabla recibida desde la base de datos.
     private String estadoSeleccionado;     //Almacen para el estado.
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
             
             
     public ConsultaPropuestaPorEstado() 

@@ -6,7 +6,7 @@ import logica.IController;
 
 
 public class DejarDeSeguirUsuario extends javax.swing.JInternalFrame {
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     boolean usrSeleccionado0 = false;
 
     public void cargarComboBoxUser()

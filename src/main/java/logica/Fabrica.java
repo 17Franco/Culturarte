@@ -4,17 +4,22 @@ package logica;
 //Singleton//lugar cenrtralizado para intanciar objetos
 public class Fabrica {
     
-    private static IController controller;
-
+    //private static IController controller;
+    private static Fabrica fabrica=null;
     private Fabrica() {
         // Constructor privado para que no se pueda instanciar
     }
-
-    public static IController getInstance() {
-        if (controller == null) {
-            controller = new Controller(); // instancia única
+    
+    public static Fabrica getInstance() { //singleton
+        if (fabrica == null) {
+            fabrica= new Fabrica(); // instancia única
         }
         
-        return controller;
+        return fabrica;
+    }
+    
+    public IController getController() {//no es singleton 
+        
+            return new Controller(); 
     }
 }

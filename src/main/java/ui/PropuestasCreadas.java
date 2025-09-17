@@ -30,7 +30,7 @@ public class PropuestasCreadas extends javax.swing.JInternalFrame {
     
         String[] columnas = {"Título", "Monto Recaudado", "Usuarios", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
-        private IController controller = Fabrica.getInstance();
+        private IController controller = Fabrica.getInstance().getController();
         private Map<Integer, String[]> usuariosPorFila = new HashMap<>();
         
         

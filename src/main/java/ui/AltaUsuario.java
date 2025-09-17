@@ -25,7 +25,7 @@ import logica.IController;
 
 
 public class AltaUsuario extends javax.swing.JInternalFrame {
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private String rutaImagenTemp = null; 
     private String direccion;
     private String biografia;

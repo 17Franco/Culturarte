@@ -19,7 +19,7 @@ import logica.IController;
 import logica._enum.TipoRetorno;
 import logica._enum.Estado;
 public class AltaPropuesta extends javax.swing.JInternalFrame {
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private String rutaImagen = null; 
     String categoria;
     /**

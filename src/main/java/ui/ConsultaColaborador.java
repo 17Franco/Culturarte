@@ -16,7 +16,7 @@ import logica.IController;
 
 
 public class ConsultaColaborador extends javax.swing.JInternalFrame {
-     private IController controller = Fabrica.getInstance();
+     private IController controller = Fabrica.getInstance().getController();
       List<DTOColaboracion> registros=new ArrayList<>();
       String nick="";
     public ConsultaColaborador() {

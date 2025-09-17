@@ -8,7 +8,7 @@ import logica.Fabrica;
 import logica.IController;
 
 public class Main extends javax.swing.JFrame {
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
 
    

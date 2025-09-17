@@ -18,7 +18,7 @@ import javax.swing.JDesktopPane;
  */
 public class ModificarDatosPropuesta extends javax.swing.JInternalFrame {
    
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     
     public ModificarDatosPropuesta() {
         initComponents();

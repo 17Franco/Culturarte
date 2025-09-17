@@ -19,7 +19,7 @@ import javax.swing.tree.*;
  */
 public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private EntityManager dbManager;
     
     /**

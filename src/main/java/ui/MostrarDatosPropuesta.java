@@ -19,7 +19,7 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
 
     DTOPropuesta datos = new DTOPropuesta();
     DTOColaboracion colab = new DTOColaboracion();
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     
     public MostrarDatosPropuesta() 
     {

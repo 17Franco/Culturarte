@@ -12,7 +12,7 @@ import logica.IController;
 
 public class SelectCategoria extends javax.swing.JInternalFrame {
 
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private AltaPropuesta altaP;
     private ChangeDataProp ModP;
 

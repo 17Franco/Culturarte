@@ -9,7 +9,7 @@ import javax.swing.JDesktopPane;
 
 public class ListaPropuesta extends javax.swing.JInternalFrame {
 
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
    
    public ListaPropuesta() {
         initComponents();

@@ -17,7 +17,7 @@ import logica.IController;
 
 
 public class MostrarColaboraciones extends javax.swing.JInternalFrame {
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
    
     public MostrarColaboraciones() {
         initComponents();

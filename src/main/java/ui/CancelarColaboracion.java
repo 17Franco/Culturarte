@@ -15,7 +15,7 @@ import logica.IController;
 
 public class CancelarColaboracion extends javax.swing.JInternalFrame {
 
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private List<DTOColaboracion> c;
     
     public CancelarColaboracion() {

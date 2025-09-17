@@ -16,7 +16,7 @@ import logica.IController;
 
 
 public class ConsultaProponente extends javax.swing.JInternalFrame {
-     private IController controller = Fabrica.getInstance();
+     private IController controller = Fabrica.getInstance().getController();
      List<DTOPropuesta> propuestas=new ArrayList<>();
   
     public ConsultaProponente() {

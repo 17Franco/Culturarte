@@ -29,7 +29,7 @@ import logica._enum.Estado;
  */
 public class ChangeDataProp extends javax.swing.JInternalFrame {
     
-    private IController controller = Fabrica.getInstance();
+    private IController controller = Fabrica.getInstance().getController();
     private String rutaImagen = null;
     String categoria;
     DTOPropuesta datos = new DTOPropuesta();

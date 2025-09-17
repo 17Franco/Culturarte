@@ -32,7 +32,7 @@ import static ui.Utilities.validarNoVacio;
  */
 public class AltaColaboracion extends javax.swing.JInternalFrame {
 
-        private IController controller = Fabrica.getInstance();
+        private IController controller = Fabrica.getInstance().getController();
     
         DTOPropuesta propuestaSeleccionada;
         List<DTOPropuesta> propuestas;

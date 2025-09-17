@@ -12,7 +12,7 @@ import logica.IController;
 
 
 public class ConsultaColaboracion extends javax.swing.JInternalFrame {
-     private IController controller = Fabrica.getInstance();
+     private IController controller = Fabrica.getInstance().getController();
      private List<DTOColaboracion> colaboracionesActuales = new ArrayList<>();
      
     public ConsultaColaboracion() {
