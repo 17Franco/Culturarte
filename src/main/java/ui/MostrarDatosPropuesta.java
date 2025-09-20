@@ -226,7 +226,7 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
         String texto = "Colaboradores de " + propuestaSeleccionada.getTitulo() + ":\n\n";
         int i = 1;
         for (DTOColaboracion c : propuestaSeleccionada.getAporte()) {
-            texto += i++ + ") " + c.getColaborador()+ "\n";
+            texto += i++ + ") " + c.getColaborador()+" | " +" Importe: $"+ c.getMonto() +"\n";
         }
         JOptionPane.showMessageDialog(this, texto);
         
