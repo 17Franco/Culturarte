@@ -233,7 +233,7 @@ public class Main extends javax.swing.JFrame {
         jMenu2.setText("Propuesta");
         jMenu2.removeAll();
             
-            String[] opcionesPropuesta = { "Alta Propuesta", "Modificar Propuesta","Listar Propuesta", "Consultar Propuestas Por Estado" };
+            String[] opcionesPropuesta = { "Alta Propuesta", "Modificar Propuesta","Listar Propuesta", "Consultar Propuestas Por Estado","Evaluar Propuesta" };
             
             for (String sel : opcionesPropuesta){
                 JMenuItem menuPropuesta = new JMenuItem(sel);
@@ -271,6 +271,13 @@ public class Main extends javax.swing.JFrame {
                                // ConsultaPropuestaPorEstado consultaPorEstado = new ConsultaPropuestaPorEstado();
                                 abrirInternalFrame(ConsultaPropuestaPorEstado.class);
                                // fondo.add(consultaPorEstado);
+                                //consultaPorEstado.setSize(fondo.getSize());
+                                //consultaPorEstado.setVisible(true);
+                            }
+                            case "Evaluar Propuesta" -> {
+                                // ConsultaPropuestaPorEstado consultaPorEstado = new ConsultaPropuestaPorEstado();
+                                abrirInternalFrame(EvaluarPropuesta.class);
+                                // fondo.add(consultaPorEstado);
                                 //consultaPorEstado.setSize(fondo.getSize());
                                 //consultaPorEstado.setVisible(true);
                             }
