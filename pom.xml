@@ -30,6 +30,16 @@
                     </execution>
                 </executions>
             </plugin>
+             <!-- Coloco estas lineas porque no me deja hacer el jar con una version de java diferente -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+             <!-- fin arreglo java 17 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

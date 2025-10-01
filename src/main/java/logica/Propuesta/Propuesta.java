@@ -185,7 +185,8 @@ public class Propuesta {
     }
     public void addEstHistorial(Estado aux1){     
         Registro_Estado nuevoReg = new Registro_Estado(LocalDate.now(),aux1);
-        this.historialEstados.addFirst(nuevoReg);
+        //this.historialEstados.addFirst(nuevoReg);
+        this.historialEstados.add(0, nuevoReg);
     } 
     public void addRetorno(List<TipoRetorno> retornos) { //NO lo uso por el momento pero esto en vez de sobreescibir te deja agregar algo que falte en los retonos
         for (TipoRetorno r : retornos) {

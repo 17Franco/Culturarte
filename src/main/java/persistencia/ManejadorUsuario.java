@@ -316,10 +316,9 @@ public class ManejadorUsuario {
                 try{
                     DTOProponente dtoProp=new DTOProponente(p);
                     for(Propuesta prop: p.getPropCreadas().values()){
-                        Estado aux=prop.getHistorialEstados().getFirst().getEstado();
+                        Estado aux=prop.getHistorialEstados().get(0).getEstado();
                         DTOPropuesta dtoP=new DTOPropuesta(prop,dtoProp);
                         dtoP.setEstadoAct(aux);
-                        
                         resu.add(dtoP);
                     }
                     return resu;

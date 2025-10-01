@@ -232,7 +232,8 @@ public class DTOPropuesta {
     
     public DTORegistro_Estado obtenerPrimero(){
         if(!historialEstados.isEmpty()){
-             return  historialEstados.getFirst();
+             //return  historialEstados.getFirst();
+            return historialEstados.get(0); 
         }
         return null;
     }
