@@ -60,13 +60,12 @@ public class Controller  implements IController {
         Path destino = Paths.get(carpetaDestino, nombreArchivo);
 
         try {
-            Files.write(destino, contenido); // ✅ acá escribís la imagen en disco
+            Files.write(destino, contenido); 
             return destino.toString();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-
 
         }
         
