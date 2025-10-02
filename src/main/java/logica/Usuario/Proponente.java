@@ -68,11 +68,13 @@ public class Proponente extends Usuario{
         return propCreadas;
     }
     public Proponente(DTOProponente dto){
-        super(dto.getNickname(), dto.getNombre(), dto.getApellido(),dto.getEmail(), dto.getFecha(), dto.getRutaImg());
+        super(dto.getNickname(),dto.getPass(),dto.getNombre(), dto.getApellido(),dto.getEmail(), dto.getFecha(), dto.getRutaImg());
         this.direccion = dto.getDireccion();
         this.biografia = dto.getBiografia();
         this.webSite = dto.getWebSite();
     }
+    
+    
     
      public boolean isProponente(){
          return true;

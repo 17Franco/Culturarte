@@ -1,6 +1,9 @@
 package logica;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,10 @@ import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
 import logica._enum.Estado;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class Controller  implements IController {
     private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
@@ -42,11 +49,50 @@ public class Controller  implements IController {
         }
     }
     
+    public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){
+        if(!nombreArchivo.equals("")){
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
+        
+        String carpetaDestino = RUTA_IMAGENES + File.separator + nick;
+        File dir = new File(carpetaDestino);
+        if (!dir.exists()) dir.mkdirs();
+
+        Path destino = Paths.get(carpetaDestino, nombreArchivo);
+
+        try {
+            Files.write(destino, contenido); 
+            return destino.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        }
+        
+        return "";    
+    }
+    
+    public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
+        String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
+        if(isProponente){
+            
+            DTOProponente p=new DTOProponente(direccion,Biografia,web,nickname,pass,nombre,apellido,email,fecha,ruta);
+            mUsuario.addProponente((DTOProponente) p);
+        }else{
+            DTOColaborador c= new DTOColaborador(nickname,pass,nombre,apellido,email,fecha,ruta);
+            mUsuario.addColaborador((DTOColaborador) c);
+        }
+    
+    }
+    
     @Override
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
- 
+    
+    public boolean emailUsado(String email){
+        return mUsuario.emailUsado(email);
+    }
     
      public boolean existe(String nick){
             return mUsuario.existe(nick);
