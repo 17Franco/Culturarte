@@ -309,6 +309,33 @@ public class ManejadorUsuario {
             
         }
         
+        public boolean verificarCredenciales(String nick, String pass){
+            em = PersistenciaManager.getEntityManager();
+            try{
+              Usuario usuario = em.find(Usuario.class,nick);
+                if(usuario !=null && usuario.getPass().equals(pass)){
+                  return true;      
+                }
+                return false;
+            }finally{
+                em.close();
+            }
+            
+        }
+        
+        public boolean isProponente(String nick){
+            em = PersistenciaManager.getEntityManager();
+            try{
+              //Colaborador tipoC = em.find(Colaborador.class,nick);
+              Proponente tipoP = em.find(Proponente.class,nick);
+                if(tipoP !=null ){
+                  return true;      
+                }
+                return false;
+            }finally{
+                em.close();
+            }
+        }
         public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
                 em = PersistenciaManager.getEntityManager();
                    Proponente  p=em.find(Proponente.class,nick);

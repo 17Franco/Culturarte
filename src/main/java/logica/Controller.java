@@ -71,7 +71,7 @@ public class Controller  implements IController {
         
         return "";    
     }
-    
+    @Override
     public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
         String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
         if(isProponente){
@@ -84,7 +84,14 @@ public class Controller  implements IController {
         }
     
     }
-    
+    @Override
+    public boolean login(String nick,String Pass){
+        return mUsuario.verificarCredenciales(nick,Pass);
+    }
+    @Override
+    public boolean isProponente(String nick){
+        return mUsuario.isProponente(nick);
+    }
     @Override
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));

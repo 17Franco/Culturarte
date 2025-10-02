@@ -32,9 +32,11 @@ public class Colaborador extends Usuario{
     }
     
     public Colaborador(DTOColaborador dto){
-        super(dto.getNickname(), dto.getNombre(), dto.getApellido(),dto.getEmail(), dto.getFecha(), dto.getRutaImg());
+        super(dto.getNickname(),dto.getPass(), dto.getNombre(), dto.getApellido(),dto.getEmail(), dto.getFecha(), dto.getRutaImg());
         
     }
+    
+     
         
      public boolean isColaborador(){
          return true;

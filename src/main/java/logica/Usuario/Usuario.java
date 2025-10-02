@@ -46,6 +46,10 @@ public class Usuario {
     )
     @MapKey(name = "Titulo") // asigna 
     private Map<String,Propuesta> propFavorita=new HashMap<>();
+
+    public String getPass() {
+        return pass;
+    }
     
     
     public Usuario(){}

@@ -28,9 +28,10 @@ public interface IController {
     boolean existeUsuario(String nick, String email);
     
     boolean emailUsado(String email);
-    
+    boolean login(String nick,String Pass);
     boolean existe(String nick);
     
+    boolean isProponente(String nick);
     List<String> ListaUsuarios();
     
     List<String> ListaProponentes();
