@@ -225,6 +225,25 @@ public class Controller  implements IController {
      }
      
     @Override
+    public Set<DTOPropuesta> obtenerPropuestasExceptoINGRESADAS()
+    {
+        return mPropuesta.obtenerPropuestasExceptoINGRESADAS();
+    }
+    
+    @Override
+    public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel)
+    {
+        return mPropuesta.accionSobrePropuesta(nickUsuario, propuestaSel);
+    }
+    
+    @Override
+    public DTOPropuesta getPropuestaDTO(String propuestaSel)
+    {
+        return mPropuesta.getPropuestaDTO(propuestaSel);
+
+    }
+    
+    @Override
       public boolean existeProp(String Titulo){
          return (mPropuesta.existeProp(Titulo));
     }

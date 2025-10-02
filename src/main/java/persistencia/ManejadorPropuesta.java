@@ -243,6 +243,49 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
+    
+    public DTOPropuesta getPropuestaDTO(String propuestaSel)
+    {
+        Propuesta temp = getPropuesta(propuestaSel);
+        
+        DTOPropuesta temp1 = new DTOPropuesta();
+        temp1.extraerDatosPropuesta(temp);
+        return temp1;   
+    }
+    
+    public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) 
+    {  
+        //Permite habilitar botones en cliente web (CU Obtener propuestas):
+        //Retorna:  
+        //          1: El usuario es proponente.
+        //          2: El usuario es colaborador.
+        //          3: El usuario no ha participado aún en la propuesta.
+        
+        if(propuestaSel.nickProponenteToString().equals(nickUsuario))   //Si es proponente
+        {
+            
+            return 1;
+        }
+        else
+        {
+            List<DTOColaboracion> t1 = propuestaSel.getAporte();
+            
+            for(DTOColaboracion ct : t1)
+            {
+                if(ct.getColaborador().equals(nickUsuario)) //Si es colaborador
+                {
+                    
+                    return 2;
+                }
+            
+            }
+        }
+        
+        
+        
+        return 3;   //Si no es ninguno de los dos.
+    }
+    
     public void UpdatePropuesta(String titulo, String descripcion, String rutaImagen,String lugar, LocalDate fechaEvento, int precio, int montoTotal,List<TipoRetorno> retorno, String categoria, String usuario, Estado estado) {
        
         EntityManager em = PersistenciaManager.getEntityManager();
@@ -530,4 +573,26 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
+    
+    
+    public Set<DTOPropuesta> obtenerPropuestasExceptoINGRESADAS()
+    {
+        //almacena todo menos propuestas "INGRESADAS"
+
+        Set<DTOPropuesta> temp = obtenerPropuestas("");
+        Set<DTOPropuesta> temp2 = new HashSet<>();
+        
+
+        for (DTOPropuesta ct : temp)
+        {
+            if( !(ct.getUltimoEstado().getEstadoString().equals("INGRESADA")) ) //Si la propuesta no son "INGRESADA"
+            {
+                temp2.add(ct);
+            }
+        }
+        
+
+        return temp2;
+    }
+    
 }

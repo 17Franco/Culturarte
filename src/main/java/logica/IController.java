@@ -60,6 +60,12 @@ public interface IController {
     
     Set<DTOPropuesta> obtenerPropuestas(String estado);
     
+    Set<DTOPropuesta> obtenerPropuestasExceptoINGRESADAS();
+    
+    DTOPropuesta getPropuestaDTO(String propuestaSel);
+    
+    int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel);
+    
     String creadorPropuesta(String titulo);
     
     String estadoPropuestas(String titulo);
