@@ -49,37 +49,31 @@ public class Controller  implements IController {
         }
     }
     
-    public String obtenerPathImg(String nick,InputStream contenido,String nombreArchivo){
+    public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){
         if(!nombreArchivo.equals("")){
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
         
-            String carpetaDestino = "IMG" + File.separator + nick;
-            File dir = new File(carpetaDestino);
-            if (!dir.exists()) dir.mkdirs();
+        String carpetaDestino = RUTA_IMAGENES + File.separator + nick;
+        File dir = new File(carpetaDestino);
+        if (!dir.exists()) dir.mkdirs();
 
-            // Ruta final del archivo
-            Path destino = Paths.get(carpetaDestino, nombreArchivo);
+        Path destino = Paths.get(carpetaDestino, nombreArchivo);
 
-            try {
-                // Guardar InputStream en archivo
-                Files.copy(contenido, destino, StandardCopyOption.REPLACE_EXISTING);
-                return destino.toString(); // Devolver ruta donde se guardó
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            } finally {
-                try {
-                    contenido.close(); // cerramos el stream
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }  
+        try {
+            Files.write(destino, contenido); // ✅ acá escribís la imagen en disco
+            return destino.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
 
 
         }
         
         return "";    
     }
-    public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, InputStream contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
+    
+    public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
         String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
         if(isProponente){
             

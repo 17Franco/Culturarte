@@ -24,7 +24,7 @@ import logica._enum.TipoRetorno;
 public interface IController {
     //Usuarios
     void altaUsuario(DTOUsuario usu);
-    void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, InputStream contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia);
+    void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia);
     boolean existeUsuario(String nick, String email);
     
     boolean emailUsado(String email);
