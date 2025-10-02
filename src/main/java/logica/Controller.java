@@ -1,6 +1,9 @@
 package logica;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,10 @@ import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
 import logica._enum.Estado;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class Controller  implements IController {
     private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
@@ -42,11 +49,57 @@ public class Controller  implements IController {
         }
     }
     
+    public String obtenerPathImg(String nick,InputStream contenido,String nombreArchivo){
+        if(!nombreArchivo.equals("")){
+        
+            String carpetaDestino = "IMG" + File.separator + nick;
+            File dir = new File(carpetaDestino);
+            if (!dir.exists()) dir.mkdirs();
+
+            // Ruta final del archivo
+            Path destino = Paths.get(carpetaDestino, nombreArchivo);
+
+            try {
+                // Guardar InputStream en archivo
+                Files.copy(contenido, destino, StandardCopyOption.REPLACE_EXISTING);
+                return destino.toString(); // Devolver ruta donde se guardó
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                try {
+                    contenido.close(); // cerramos el stream
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }  
+
+
+        }
+        
+        return "";    
+    }
+    public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, InputStream contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
+        String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
+        if(isProponente){
+            
+            DTOProponente p=new DTOProponente(direccion,Biografia,web,nickname,pass,nombre,apellido,email,fecha,ruta);
+            mUsuario.addProponente((DTOProponente) p);
+        }else{
+            DTOColaborador c= new DTOColaborador(nickname,pass,nombre,apellido,email,fecha,ruta);
+            mUsuario.addColaborador((DTOColaborador) c);
+        }
+    
+    }
+    
     @Override
     public boolean existeUsuario(String nick, String email) {
            return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
     }
- 
+    
+    public boolean emailUsado(String email){
+        return mUsuario.emailUsado(email);
+    }
     
      public boolean existe(String nick){
             return mUsuario.existe(nick);

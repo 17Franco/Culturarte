@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class DTOUsuario {
     private String nickname;
+    private String pass;
     private String nombre;
     private String apellido;
     private String email;
@@ -30,10 +31,24 @@ public class DTOUsuario {
         
     }
 
+    public DTOUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
+        this.nickname = nickname;
+        this.pass = pass;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.fecha = fecha;
+        this.rutaImg = rutaImg;
+    }
+    
     public String getNickname() {
         return nickname;
     }
 
+    public String getPass() {
+        return pass;
+    }
+    
     public String getNombre() {
         return nombre;
     }

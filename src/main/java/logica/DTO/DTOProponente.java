@@ -22,6 +22,13 @@ public class DTOProponente extends DTOUsuario{
         this.webSite = webSite;
     }
 
+    public DTOProponente(String direccion, String biografia, String webSite, String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
+        super(nickname, pass, nombre, apellido, email, fecha, rutaImg);
+        this.direccion = direccion;
+        this.biografia = biografia;
+        this.webSite = webSite;
+    }
+    
     public String getDireccion() {
         return direccion;
     }

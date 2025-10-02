@@ -22,7 +22,7 @@ import java.util.Iterator;
 public class Usuario {
     @Id
     private String nickname;
-    
+    private String pass;
     private String nombre;
     private String apellido;
     private String email;
@@ -59,6 +59,16 @@ public class Usuario {
         this.rutaImg = rutaImg;
     }
 
+    public Usuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
+        this.nickname = nickname;
+        this.pass = pass;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.fecha = fecha;
+        this.rutaImg = rutaImg;
+    }
+    
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
