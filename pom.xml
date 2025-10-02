@@ -20,16 +20,35 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <classifier>logic</classifier>
+                            
+                            <classifier>logica</classifier>
                             <includes>
                                 <include>logica/**</include>
                                 <include>persistencia/**</include>
                                 <include>META-INF/**</include>
                             </includes>
+                            <excludes>
+                                <!-- no quiero los dto -->
+                                <exclude>logica/DTO/**</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
+                    <execution>
+                    <id>dto-jar</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>dto</classifier>
+                        <includes>
+                            <include>logica/DTO/**</include>
+                        </includes>
+                    </configuration>
+                </execution>
                 </executions>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
