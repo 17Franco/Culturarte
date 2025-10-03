@@ -70,6 +70,9 @@ public interface IController {
     String creadorPropuesta(String titulo);
     
     String estadoPropuestas(String titulo);
+    
+    int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
+
     //Fin Propuesta
     
     //Categoria
@@ -101,6 +104,5 @@ public interface IController {
    
    //verificaciones y auxiliares
    int string_A_Int_Con_verificacion(String input);
-   int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
    
 }

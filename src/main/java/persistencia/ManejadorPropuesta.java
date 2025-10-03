@@ -251,11 +251,26 @@ public class ManejadorPropuesta {
     
     public DTOPropuesta getPropuestaDTO(String propuestaSel)
     {
-        Propuesta temp = getPropuesta(propuestaSel);
-        
-        DTOPropuesta temp1 = new DTOPropuesta();
-        temp1.extraerDatosPropuesta(temp);
-        return temp1;   
+        EntityManager em = PersistenciaManager.getEntityManager();
+        try {
+            Propuesta temp = em.find(Propuesta.class, propuestaSel);
+
+            if (temp != null) {
+                if (temp.getCategoria() != null && temp.getCategoria().getSubcategorias() != null) {
+                    temp.getCategoria().getSubcategorias().size(); // fuerza la carga
+                }
+                temp.getHistorialEstados().size();
+                temp.getRetorno().size();
+                temp.getAporte().size();
+                DTOPropuesta temp1 = new DTOPropuesta();
+                temp1.extraerDatosPropuesta(temp);
+                return temp1;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }  
     }
     
     public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) 
