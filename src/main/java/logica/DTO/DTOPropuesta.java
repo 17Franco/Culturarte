@@ -3,9 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import logica.Colaboracion.Colaboracion;
-import logica._enum.TipoRetorno;
 import logica.Propuesta.Propuesta;
-import logica._enum.Estado;
 import logica.Propuesta.Registro_Estado;
 
 

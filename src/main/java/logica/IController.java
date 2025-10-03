@@ -17,8 +17,8 @@ import logica.DTO.DTOProponente;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOUsuario;
-import logica._enum.Estado;
-import logica._enum.TipoRetorno;
+import logica.DTO.Estado;
+import logica.DTO.TipoRetorno;
 
 
 public interface IController {

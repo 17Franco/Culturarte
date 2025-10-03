@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
-import logica._enum.TipoRetorno;
+import logica.DTO.TipoRetorno;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

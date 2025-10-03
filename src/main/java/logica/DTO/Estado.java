@@ -1,4 +1,4 @@
-package logica._enum;
+package logica.DTO;
 
 public enum Estado
 {   

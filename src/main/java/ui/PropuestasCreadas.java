@@ -21,7 +21,7 @@ import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
 import logica.IController;
 import java.awt.Dimension;
-import logica._enum.Estado;
+import logica.DTO.Estado;
 import java.util.Map;
 import java.util.HashMap;
 

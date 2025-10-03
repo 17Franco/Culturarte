@@ -1,6 +1,5 @@
 package logica.DTO;
 import java.time.LocalDate;
-import logica._enum.Estado;
 import logica.Propuesta.Registro_Estado;
 
 public class DTORegistro_Estado 

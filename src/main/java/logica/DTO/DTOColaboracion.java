@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import logica.Colaboracion.Colaboracion;
 import logica.Usuario.Colaborador;
 import logica.Propuesta.Propuesta;
-import logica._enum.TipoRetorno;
 
 
 public class DTOColaboracion {
@@ -13,12 +12,10 @@ public class DTOColaboracion {
 
         private int monto;
 
- 
         private String  colaborador;
         private String propuesta;
-        private Propuesta propuestaP;
-        private Colaborador colaboradorP;
-
+        private DTOPropuesta propuestaP;// veo inesesarios tener los punteros en el dtoColaboracion
+        private DTOColaborador colaboradorP;
         private LocalDate creado;
     
     private Long id;
@@ -54,7 +51,7 @@ public void setId(Long id) {
         this.creado = creado;
     }
     
-    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, Colaborador colaboradorP, Propuesta propuestaP) 
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, DTOColaborador colaboradorP, DTOPropuesta propuestaP) 
     {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
@@ -123,22 +120,22 @@ public void setId(Long id) {
         this.tipoRetorno = tipoRetorno;
     }
     
-    public void setPropuestaP (Propuesta propuestaP)
+    public void setPropuestaP (DTOPropuesta propuestaP)
     {
         this.propuestaP = propuestaP;
     }
     
-    public void setColaboradorP (Colaborador colaboradorP)
+    public void setColaboradorP (DTOColaborador colaboradorP)
     {
        this.colaboradorP = colaboradorP;
     }
     
-    public Propuesta getPropuestaP()
+    public DTOPropuesta getPropuestaP()
     {
         return propuestaP;
     }
     
-    public Colaborador getColaboradorP()
+    public DTOColaborador getColaboradorP()
     {
        return colaboradorP;
     }

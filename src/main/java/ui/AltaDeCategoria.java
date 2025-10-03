@@ -1,22 +1,17 @@
 package ui;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import persistencia.PersistenciaManager;
+
 import java.util.Map;
 import java.util.List;
 import javax.swing.JOptionPane;
 import logica.Fabrica;
 import logica.IController;
 import logica.DTO.DTOCategoria;
-import logica.Categoria.Categoria;
+
 import javax.swing.*;
 import javax.swing.tree.*;
 
 
-/**
- *
- * @author klaas
- */
 public class AltaDeCategoria extends javax.swing.JInternalFrame {
 
     private IController controller = Fabrica.getInstance().getController();

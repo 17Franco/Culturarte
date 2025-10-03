@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
 import logica.IController;
-import logica._enum.TipoRetorno;
-import logica._enum.Estado;
+import logica.DTO.TipoRetorno;
+import logica.DTO.Estado;
 public class AltaPropuesta extends javax.swing.JInternalFrame {
     private IController controller = Fabrica.getInstance().getController();
     private String rutaImagen = null; 

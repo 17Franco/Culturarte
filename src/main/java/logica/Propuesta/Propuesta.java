@@ -14,14 +14,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
-import logica._enum.TipoRetorno;
+import logica.DTO.TipoRetorno;
 import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTORegistro_Estado;
-import logica._enum.Estado;
+import logica.DTO.Estado;
 
 @Entity
 public class Propuesta {

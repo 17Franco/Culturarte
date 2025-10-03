@@ -23,7 +23,7 @@ import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
 import logica.Usuario.Usuario;
-import logica._enum.Estado;
+import logica.DTO.Estado;
 
 
 

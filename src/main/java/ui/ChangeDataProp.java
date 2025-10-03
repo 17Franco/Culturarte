@@ -7,7 +7,7 @@ package ui;
 import java.util.Arrays;
 import java.util.List;
 import logica.DTO.DTOPropuesta;
-import logica._enum.TipoRetorno;
+import logica.DTO.TipoRetorno;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ import javax.swing.JTextField;
 import logica.DTO.DTOCategoria;
 import logica.Fabrica;
 import logica.IController;
-import logica._enum.TipoRetorno;
+import logica.DTO.TipoRetorno;
 import logica.DTO.DTORegistro_Estado;
-import logica._enum.Estado;
+import logica.DTO.Estado;
 
 /**
  *

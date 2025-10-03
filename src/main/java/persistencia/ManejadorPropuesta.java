@@ -18,11 +18,13 @@ import logica.DTO.DTORegistro_Estado;
 import logica.Propuesta.Registro_Estado;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
+import logica.DTO.DTOColaborador;
+import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Proponente;
 import logica.Usuario.Colaborador;
-import logica._enum.Estado;
-import logica._enum.TipoRetorno;
+import logica.DTO.Estado;
+import logica.DTO.TipoRetorno;
 
 
 public class ManejadorPropuesta {
@@ -136,7 +138,10 @@ public class ManejadorPropuesta {
         
         for (Colaboracion ct : input)
         {
-            almacen.add(new DTOColaboracion(ct.getTipoRetorno(),ct.getMonto(),ct.getColaborador().getNickname(),ct.getPropuesta().getTitulo(),ct.getCreado(),ct.getColaborador(),ct.getPropuesta()));
+            DTOProponente prop=new DTOProponente(ct.getPropuesta().getProponente());
+            DTOColaborador c=new DTOColaborador(ct.getColaborador());
+            DTOPropuesta p=new DTOPropuesta(ct.getPropuesta(),prop);
+            almacen.add(new DTOColaboracion(ct.getTipoRetorno(),ct.getMonto(),ct.getColaborador().getNickname(),p.getTitulo(),ct.getCreado(),c,p));
         }
         
         return almacen;

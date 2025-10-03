@@ -10,8 +10,8 @@ import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
-import logica._enum.TipoRetorno;
-import logica._enum.Estado;
+import logica.DTO.TipoRetorno;
+import logica.DTO.Estado;
 
 
 public class ManejadorColaboracion {

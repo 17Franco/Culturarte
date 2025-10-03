@@ -11,8 +11,8 @@ import logica.IController;
 import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import logica._enum.Estado;
-import logica._enum.TipoRetorno;
+import logica.DTO.Estado;
+import logica.DTO.TipoRetorno;
 /**
  *
  * @author asus

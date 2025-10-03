@@ -23,7 +23,7 @@ import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
 import logica.IController;
-import logica._enum.TipoRetorno;
+import logica.DTO.TipoRetorno;
 import static ui.Utilities.validarNoVacio;
 
 /**
