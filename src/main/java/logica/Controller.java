@@ -372,6 +372,47 @@ public class Controller  implements IController {
     public void cargarColaboraciones(){
         mColaboraciones.cargarDatosColaboracion();
     }
+    @Override
+    public int string_A_Int_Con_verificacion(String input)
+    {
+     //Retorna -1 si el usuario puso algo mal
+        int valor = -1;
+
+        if (input != null && !input.isEmpty()) 
+        {
+            try 
+            {
+                valor = Integer.parseInt(input);
+            } 
+            catch (NumberFormatException e) 
+            {
+                
+            }
+        }
+        
+        return valor;
+    }
+    
+    public int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta)
+    {
+        //CASO CANCELAR PROPUESTA
+        if (accionUsuario.equals("CANCELAR")) 
+        {
+            //Crear función luego...
+            //bajaOCancelarPropuesta(TITULOPROPUESTA);
+            return 2; //Proponente logra cancelar.
+        }
+
+        //CASO EXTENDER FINANCIACION
+        if (accionUsuario.equals("EXTENDER")) 
+        {
+            //Crear función luego...
+            //extenderFinanciacion(nuevaFecha);
+            return 3; //Proponente logra extender.
+        }
+        
+        return 0;
+    }
 }
 
   
