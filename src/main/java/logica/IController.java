@@ -98,4 +98,9 @@ public interface IController {
    void cargarPropuesta();
    void cargarCategorias();
    void cargarColaboraciones();
+   
+   //verificaciones y auxiliares
+   int string_A_Int_Con_verificacion(String input);
+   int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
+   
 }
