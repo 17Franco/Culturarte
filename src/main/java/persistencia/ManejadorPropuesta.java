@@ -248,7 +248,29 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
-    
+    public DTOPropuesta getPropuestaDTO(String propuestaSel) {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        try {
+            Propuesta temp = em.find(Propuesta.class, propuestaSel);
+
+            if (temp != null) {
+                if (temp.getCategoria() != null && temp.getCategoria().getSubcategorias() != null) {
+                    temp.getCategoria().getSubcategorias().size(); // fuerza la carga
+                }
+                temp.getHistorialEstados().size();
+                temp.getRetorno().size();
+                temp.getAporte().size();
+                DTOPropuesta temp1 = new DTOPropuesta();
+                temp1.extraerDatosPropuesta(temp);
+                return temp1;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+    /*
     public DTOPropuesta getPropuestaDTO(String propuestaSel)
     {
         Propuesta temp = getPropuesta(propuestaSel);
@@ -256,8 +278,9 @@ public class ManejadorPropuesta {
         DTOPropuesta temp1 = new DTOPropuesta();
         temp1.extraerDatosPropuesta(temp);
         return temp1;   
+        
     }
-    
+    */
     public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) 
     {  
         //Permite habilitar botones en cliente web (CU Obtener propuestas):
