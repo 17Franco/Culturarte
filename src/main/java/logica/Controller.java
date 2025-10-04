@@ -84,6 +84,20 @@ public class Controller  implements IController {
         }
     
     }
+    
+    public byte[] getImg(String ruta) {
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA";
+        try{
+        File img=new File(RUTA_IMAGENES + File.separator +ruta);
+        if(!img.exists()) return null;
+        //byte[] img= new ;
+        
+            return Files.readAllBytes(img.toPath());//devuelve array de bytes de la img 
+        }catch(IOException i){
+            i.printStackTrace();
+            return null;
+        }
+    }
     @Override
     public boolean login(String nick,String Pass){
         return mUsuario.verificarCredenciales(nick,Pass);
@@ -307,6 +321,27 @@ public class Controller  implements IController {
         propuestaEstado1.addAll(propuestaEstado2);
         return propuestaEstado1;
     }
+    @Override
+    public int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta)
+    {
+        //CASO CANCELAR PROPUESTA
+        if (accionUsuario.equals("CANCELAR")) 
+        {
+            //Crear función luego...
+            //bajaOCancelarPropuesta(TITULOPROPUESTA);
+            return 2; //Proponente logra cancelar.
+        }
+
+        //CASO EXTENDER FINANCIACION
+        if (accionUsuario.equals("EXTENDER")) 
+        {
+            //Crear función luego...
+            //extenderFinanciacion(nuevaFecha);
+            return 3; //Proponente logra extender.
+        }
+        
+        return 0;
+    }
     
     @Override
     public void altaColaboracion(DTOColaboracion colaboracion){
@@ -393,26 +428,7 @@ public class Controller  implements IController {
         return valor;
     }
     
-    public int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta)
-    {
-        //CASO CANCELAR PROPUESTA
-        if (accionUsuario.equals("CANCELAR")) 
-        {
-            //Crear función luego...
-            //bajaOCancelarPropuesta(TITULOPROPUESTA);
-            return 2; //Proponente logra cancelar.
-        }
 
-        //CASO EXTENDER FINANCIACION
-        if (accionUsuario.equals("EXTENDER")) 
-        {
-            //Crear función luego...
-            //extenderFinanciacion(nuevaFecha);
-            return 3; //Proponente logra extender.
-        }
-        
-        return 0;
-    }
 }
 
   

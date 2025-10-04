@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +35,7 @@ public interface IController {
     boolean isProponente(String nick);
     List<String> ListaUsuarios();
     
+    byte[] getImg(String ruta) ;
     List<String> ListaProponentes();
     
     List<String> ListaColaborador();
@@ -70,6 +72,9 @@ public interface IController {
     String creadorPropuesta(String titulo);
     
     String estadoPropuestas(String titulo);
+    
+    int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
+
     //Fin Propuesta
     
     //Categoria
@@ -101,6 +106,5 @@ public interface IController {
    
    //verificaciones y auxiliares
    int string_A_Int_Con_verificacion(String input);
-   int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
    
 }
