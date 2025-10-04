@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +35,7 @@ public interface IController {
     boolean isProponente(String nick);
     List<String> ListaUsuarios();
     
+    byte[] getImg(String ruta) ;
     List<String> ListaProponentes();
     
     List<String> ListaColaborador();

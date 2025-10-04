@@ -84,6 +84,20 @@ public class Controller  implements IController {
         }
     
     }
+    
+    public byte[] getImg(String ruta) {
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA";
+        try{
+        File img=new File(RUTA_IMAGENES + File.separator +ruta);
+        if(!img.exists()) return null;
+        //byte[] img= new ;
+        
+            return Files.readAllBytes(img.toPath());//devuelve array de bytes de la img 
+        }catch(IOException i){
+            i.printStackTrace();
+            return null;
+        }
+    }
     @Override
     public boolean login(String nick,String Pass){
         return mUsuario.verificarCredenciales(nick,Pass);
