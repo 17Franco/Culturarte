@@ -224,6 +224,7 @@ public class DTOPropuesta {
         Precio = in.getPrecio();
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
+        fechaExpiracion = in.getFechaExpiracion();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
         if (in.getCategoria() != null) {
