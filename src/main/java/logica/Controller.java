@@ -52,16 +52,16 @@ public class Controller  implements IController {
     public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){
         if(!nombreArchivo.equals("")){
         String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
-        
+        String resdir="IMG" + File.separator+ nick +File.separator+ nombreArchivo;//la direccion que guardare en la bd
         String carpetaDestino = RUTA_IMAGENES + File.separator + nick;
         File dir = new File(carpetaDestino);
         if (!dir.exists()) dir.mkdirs();
-
+        
         Path destino = Paths.get(carpetaDestino, nombreArchivo);
 
         try {
             Files.write(destino, contenido); 
-            return destino.toString();
+            return resdir;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
