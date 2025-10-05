@@ -76,7 +76,7 @@ public class Usuario {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -120,6 +120,9 @@ public class Usuario {
      public String getRutaImg() {
         return rutaImg;
     }
+    public Map<String, Propuesta> getPropFavorita() {
+        return propFavorita;
+    } 
     public boolean isColaborador() {
         return false;
     };
@@ -131,15 +134,18 @@ public class Usuario {
         String n = usu.getNickname();
         this.usuarioSeguido.put(n, usu);
     }
-    /*public void Favorita(Propuesta prop){
-        String n = prop.
-        this.usuarioSeguido.put(n, usu);
-    }*/
-
+    public void Favorita(Propuesta prop){
+        this.propFavorita.put(prop.getTitulo(),prop);
+    }
+    public boolean esFavorita(Propuesta prop) {
+        return propFavorita.containsKey(prop.getTitulo());
+    }
     public Map<String, Usuario> getUsuarioSeguido() {
         return usuarioSeguido;
     }
-    
+    public void quitarFavorita(Propuesta prop) {
+            propFavorita.remove(prop.getTitulo());
+    }
     public boolean unfollow(Usuario usr)
     {
         if(usr != null) //Raro que suceda pero por las dudas...

@@ -147,7 +147,21 @@ public class Controller  implements IController {
          }
         return aux;    
      }
-     
+    @Override
+    public void marcarComoFavorita(String nickname, String tituloPropuesta) {
+        ManejadorUsuario manejadorU = ManejadorUsuario.getInstance();
+        manejadorU.marcarComoFavorita(nickname, tituloPropuesta);
+    }
+    @Override
+    public void quitarFavorita(String nickname, String tituloPropuesta) {
+        ManejadorUsuario manejadorU = ManejadorUsuario.getInstance();
+        manejadorU.quitarFavorita(nickname, tituloPropuesta);
+    }
+    @Override
+    public boolean esFavorita(String nickname, String tituloPropuesta) {
+        ManejadorUsuario manejadorU = ManejadorUsuario.getInstance();
+        return manejadorU.esFavorita(nickname, tituloPropuesta);
+    }
      @Override
      public List<String> ListaSeguidosPorUsuario(String nick){
         /* List<String> aux = new ArrayList<>();

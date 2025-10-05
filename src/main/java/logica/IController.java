@@ -40,6 +40,12 @@ public interface IController {
     
     List<String> ListaColaborador();
     
+    void marcarComoFavorita(String nickname, String tituloPropuesta);
+    
+    void quitarFavorita(String nickname, String tituloPropuesta);
+    
+    boolean esFavorita(String nickname, String tituloPropuesta);
+    
     List<DTOColaboracion>  colaboraciones(String nick);
   
    
