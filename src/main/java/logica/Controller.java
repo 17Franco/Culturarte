@@ -322,13 +322,13 @@ public class Controller  implements IController {
         return propuestaEstado1;
     }
     @Override
-    public int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta)
+    public int extenderOCancelarPropuesta(String accionUsuario,String tituloPropuesta)
     {
         //CASO CANCELAR PROPUESTA
         if (accionUsuario.equals("CANCELAR")) 
         {
             //Crear función luego...
-            //bajaOCancelarPropuesta(TITULOPROPUESTA);
+            mPropuesta.cancelarPropuestaSeleccionada(tituloPropuesta);
             return 2; //Proponente logra cancelar.
         }
 
@@ -336,11 +336,24 @@ public class Controller  implements IController {
         if (accionUsuario.equals("EXTENDER")) 
         {
             //Crear función luego...
-            //extenderFinanciacion(nuevaFecha);
-            return 3; //Proponente logra extender.
+            if(mPropuesta.extenderFinanciacion(tituloPropuesta))
+            {
+                return 3; //Proponente logra extender.
+            }    
         }
         
         return 0;
+    }
+    
+    @Override
+    public boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta)
+    {
+        if(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta))
+        {
+            return true;
+        }
+        
+        return false;
     }
     
     @Override

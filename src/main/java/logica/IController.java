@@ -73,7 +73,9 @@ public interface IController {
     
     String estadoPropuestas(String titulo);
     
-    int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
+    int extenderOCancelarPropuesta(String accionUsuario,String tituloPropuesta);
+    
+    boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta);
 
     //Fin Propuesta
     

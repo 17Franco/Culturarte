@@ -1,7 +1,9 @@
 package logica.DTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import logica.Colaboracion.Colaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
@@ -18,14 +20,23 @@ public class DTOPropuesta {
     private int Precio;
     private int MontoTotal;
     private LocalDate FechaPublicacion;
+    private LocalDate fechaExpiracion;
     private List<TipoRetorno> Retorno = new ArrayList<>();
     private DTOCategoria cat;
     private DTOProponente usr; 
     private Estado EstadoAct;
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
     private List<DTOColaboracion> aporte =new ArrayList<>();
+    private Map<String,String> comentarios = new HashMap<>();
             
     public DTOPropuesta(){}
+    
+    public DTOPropuesta(String titulo, LocalDate fechaExp)  //Es para el caso donde solo debo transportar el titulo y Fecha expriracion para algunas funciones que piden DTO
+    {
+        this.Titulo=titulo;
+        this.fechaExpiracion=fechaExp;
+    
+    }
     
     public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
@@ -162,6 +173,20 @@ public class DTOPropuesta {
         this.EstadoAct = EstadoAct;
     }
     
+    public void setComentarios(Map<String,String> input)
+    {
+        this.comentarios = input;
+    }
+    
+    public void addNewComentario(String usuario, String comentario)
+    {
+        if(!usuario.isEmpty() && !comentario.isEmpty())
+        {
+            this.comentarios.put(usuario,comentario);
+        }
+       
+    }
+    
     public void extraerDatosPropuesta(Propuesta in)
     {
         Titulo = in.getTitulo();
@@ -256,7 +281,15 @@ public class DTOPropuesta {
         return usr.getNickname();
     }
     
-
+    public LocalDate getFechaExpiracion()
+    {
+        return fechaExpiracion;
+    }
+    
+    public Map<String,String> getComentarios()
+    {
+        return comentarios;
+    }
    
     
 }

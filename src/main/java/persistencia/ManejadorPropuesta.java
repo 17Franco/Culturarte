@@ -74,7 +74,12 @@ public class ManejadorPropuesta {
     public Propuesta buscarPropuestaPorTitulo(String titulo) {
         EntityManager em = PersistenciaManager.getEntityManager();
         try {
+            
+            Propuesta retorno = em.find(Propuesta.class, titulo);
+            propuestaStatusUpdater(null,new DTOPropuesta(titulo,retorno.getFechaExpiracion()));
+            
             return em.find(Propuesta.class, titulo);
+  
         } finally {
             em.close();
         }
@@ -129,7 +134,149 @@ public class ManejadorPropuesta {
             em.close();
         }
         
+        propuestaStatusUpdater(result,null); //Se analiza si hay propuestas con el estado desactualizado
+        
         return result;
+    }
+    
+    public void propuestaStatusUpdater(Set<DTOPropuesta> setInput, DTOPropuesta singleInput)
+    {
+        //Se puede optar por enviar un Set o un solo DTO, sólo pone un null en el que no necesites...
+        //Con esta función se consigue actualizar el estado de las propuestas vencidas sin depender de servicios extras
+
+        //Si se envió un Set:
+        if(setInput != null && !setInput.isEmpty())
+        {
+
+            for (DTOPropuesta ct : setInput)   //Se analiza el estado actual de la propuesta y su fecha de cierre para verificar si debe ser cancelada.
+            {
+                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().isBefore(LocalDate.now()))  //Si la fecha actual es mayor a la de vencimiento...
+                {
+                    cancelarPropuestaSeleccionada(ct.getTitulo());  //Se cancela.
+
+                    //También se actualiza para poder ser manipulado.
+                    ct.setEstadoAct(Estado.CANCELADA);  
+                    ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.CANCELADA));
+
+                }
+            }    
+        }
+        
+        //Si se envió un DTO unicamente:
+        if(singleInput != null && singleInput.getFechaExpiracion() != null && singleInput.getFechaExpiracion().isBefore(LocalDate.now()))
+        {
+            cancelarPropuestaSeleccionada(singleInput.getTitulo());
+            singleInput.setEstadoAct(Estado.CANCELADA);
+            singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.CANCELADA));
+        }
+        
+        //El set y o el dto single quedan modificados! se pueden usar con seguridad.
+    }
+    
+    public void cancelarPropuestaSeleccionada(String tituloPropuesta)
+    {
+        
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
+        EntityTransaction transaccion = dbManager.getTransaction();
+        
+        transaccion.begin();
+        
+        try 
+        {
+            Propuesta temp = dbManager.find(Propuesta.class, tituloPropuesta);
+            
+            if (temp != null) 
+            {
+                temp.addEstHistorial(Estado.CANCELADA); 
+            }
+            
+            transaccion.commit();
+        }
+        catch (Exception e) 
+        {
+            if (transaccion.isActive()) 
+            {
+                transaccion.rollback();
+            }    
+        } 
+        finally 
+        {
+            dbManager.close();
+        }
+        
+    }
+
+    public boolean extenderFinanciacion(String tituloProp)
+    {
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
+        EntityTransaction transaccion = dbManager.getTransaction();
+        boolean resultado = false;
+        
+        transaccion.begin();
+
+        try 
+        {
+            Propuesta temp = dbManager.find(Propuesta.class, tituloProp);
+
+            if (temp != null && (temp.getUltimoEstado().getEstado() == Estado.PUBLICADA || temp.getUltimoEstado().getEstado() == Estado.EN_FINANCIACION)) 
+            {
+                temp.addEstHistorial(Estado.PUBLICADA); //Se añade de nuevo el estado publicada y se extiende el tiempo.
+                resultado = true;
+            }
+
+            transaccion.commit();
+        } 
+        catch (Exception e) 
+        {
+            if (transaccion.isActive()) 
+            {
+                transaccion.rollback();
+                
+            }
+        } 
+        finally 
+        {
+            dbManager.close();
+            
+        }
+        return resultado;
+    }
+    
+    public boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta)
+    {
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
+        EntityTransaction transaccion = dbManager.getTransaction();
+        boolean resultado = false;
+        
+        transaccion.begin();
+
+        try 
+        {
+            Propuesta temp = dbManager.find(Propuesta.class, tituloPropuesta);
+
+            if (temp != null && !temp.usuarioHaComentadoSN(userNick))  //Si user aun no ha comentado
+            {
+                temp.addNewComentario(userNick, comentario);    //Se añade comentario
+                resultado = true;
+            }
+
+            transaccion.commit();
+        } 
+        catch (Exception e) 
+        {
+            if (transaccion.isActive()) 
+            {
+                transaccion.rollback();
+                
+            }
+        } 
+        finally 
+        {
+            dbManager.close();
+            
+        }
+        return resultado;
+        
     }
     
     public List<DTOColaboracion> Colaboraciones_A_DTO(List<Colaboracion> input)
@@ -262,6 +409,7 @@ public class ManejadorPropuesta {
                 temp.getAporte().size();
                 DTOPropuesta temp1 = new DTOPropuesta();
                 temp1.extraerDatosPropuesta(temp);
+                propuestaStatusUpdater(null,temp1); //Se analiza si hay propuestas con el estado desactualizado
                 return temp1;
             } else {
                 return null;
