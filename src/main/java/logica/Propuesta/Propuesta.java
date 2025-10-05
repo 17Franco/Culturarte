@@ -40,7 +40,7 @@ public class Propuesta {
     private LocalDate FechaPublicacion;
     private LocalDate fechaExpiracion;
     
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "comentarios", joinColumns = @JoinColumn(name = "propuesta"))
     @MapKeyColumn(name = "usuario")   //Mapeo de la Key
     @Column(name = "comentario")       //Mapeo del value
@@ -179,7 +179,8 @@ public class Propuesta {
     {
         if(!usuario.isEmpty() && !comentario.isEmpty())
         {
-            this.comentarios.put(usuario,comentario);
+            String comentarioConFecha = "<span style='color:gray; font-style:italic;'>" + LocalDate.now().toString() + "</span><br><p>" + comentario + "</p>"; // El <br> ese es un salto de línea  y le agrego italc gris a la fecha en HTML
+            this.comentarios.put(usuario,comentarioConFecha);
         }
        
     }

@@ -38,6 +38,32 @@ public class DTOPropuesta {
     
     }
     
+    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, Map<String, String> comentarios) 
+    {
+        this.Titulo = Titulo;
+        this.Descripcion = Descripcion;
+        this.Imagen = Imagen;
+        this.Lugar = Lugar;
+        this.Fecha = Fecha;
+        this.Precio = Precio;
+        this.MontoTotal = MontoTotal;
+        this.FechaPublicacion = FechaPublicacion;
+        this.cat = cat;
+        this.usr = usr;
+        this.EstadoAct = EstadoAct;
+        this.comentarios = comentarios;
+
+        for (int i = 0; i < _historialEstados.size(); i++) //Pasa de Lista Class normal a lista de DTO
+        {
+            historialEstados.add(new DTORegistro_Estado(_historialEstados.get(i).getFechaReg(), _historialEstados.get(i).getEstado()));
+        }
+        for (int b = 0; b < _colaboradores.size(); b++) {
+            aporte.add(new DTOColaboracion(_colaboradores.get(b).getTipoRetorno(), _colaboradores.get(b).getMonto(), _colaboradores.get(b).getColaborador().getNickname(), _colaboradores.get(b).getPropuesta().getTitulo(), _colaboradores.get(b).getCreado()));
+        }
+
+    }
+    
+    
     public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
         this.Titulo=Titulo;
@@ -75,6 +101,7 @@ public class DTOPropuesta {
         this.Retorno = p.getRetorno();
         this.cat = p.getCategoria().Cat_a_DTO();
         this.usr = proponente;
+        this.comentarios = p.getComentarios();
     }
 
     public Estado getEstado(){
@@ -198,6 +225,7 @@ public class DTOPropuesta {
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         Retorno = in.getRetorno();
+        comentarios = in.getComentarios();
         if (in.getCategoria() != null) {
             this.cat = in.getCategoria().Cat_a_DTO();
         } 
@@ -289,6 +317,16 @@ public class DTOPropuesta {
     public Map<String,String> getComentarios()
     {
         return comentarios;
+    }
+    
+    public boolean usuarioHaComentadoSN(String nick)    
+    {
+        if(comentarios.containsKey(nick))
+        {
+            return true;    //El usuario ya comentó
+        }
+        
+        return false;
     }
    
     
