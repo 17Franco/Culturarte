@@ -40,6 +40,12 @@ public interface IController {
     
     List<String> ListaColaborador();
     
+    void marcarComoFavorita(String nickname, String tituloPropuesta);
+    
+    void quitarFavorita(String nickname, String tituloPropuesta);
+    
+    boolean esFavorita(String nickname, String tituloPropuesta);
+    
     List<DTOColaboracion>  colaboraciones(String nick);
     boolean sigueAUsuario(String seguidor,String Seguido);
    
@@ -75,7 +81,9 @@ public interface IController {
     
     String estadoPropuestas(String titulo);
     
-    int extenderOCancelarPropuesta(String accionUsuario,String nuevaFecha,String tituloPropuesta);
+    int extenderOCancelarPropuesta(String accionUsuario,String tituloPropuesta);
+    
+    boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta);
 
     //Fin Propuesta
     

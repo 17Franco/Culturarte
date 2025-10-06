@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTORegistro_Estado;
 import logica.DTO.Estado;
@@ -35,7 +38,14 @@ public class Propuesta {
     private int Precio; //tambien debe ser int 
     private int MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
     private LocalDate FechaPublicacion;
+    private LocalDate fechaExpiracion;
     
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "comentarios", joinColumns = @JoinColumn(name = "propuesta"))
+    @MapKeyColumn(name = "usuario")   //Mapeo de la Key
+    @Column(name = "comentario")       //Mapeo del value
+    private Map<String,String> comentarios = new HashMap<>();
+            
     @ElementCollection(targetClass = TipoRetorno.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "retorno", // nombre de la tabla 
@@ -70,6 +80,7 @@ public class Propuesta {
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
+        this.fechaExpiracion=null;
         this.cat=cat;
         this.usr=usr;
         this.Retorno = Retorno;
@@ -89,6 +100,10 @@ public class Propuesta {
     }
     public  LocalDate getFecha() {
         return Fecha;
+    }
+    public LocalDate getFechaExpiracion()
+    {
+        return fechaExpiracion;
     }
     public int getPrecio() {
         return Precio;
@@ -154,6 +169,21 @@ public class Propuesta {
     {
         historialEstados = _historial;
     }
+    
+    public void setComentarios(Map<String,String> input)
+    {
+        this.comentarios = input;
+    }
+    
+    public void addNewComentario(String usuario, String comentario)
+    {
+        if(!usuario.isEmpty() && !comentario.isEmpty())
+        {
+            String comentarioConFecha = "<span style='color:gray; font-style:italic;'>" + LocalDate.now().toString() + "</span><br><p>" + comentario + "</p>"; // El <br> ese es un salto de línea  y le agrego italc gris a la fecha en HTML
+            this.comentarios.put(usuario,comentarioConFecha);
+        }
+       
+    }
 
     public List<Colaboracion> getAporte() {
         return Aporte;
@@ -185,14 +215,39 @@ public class Propuesta {
     }
     public void addEstHistorial(Estado aux1){     
         Registro_Estado nuevoReg = new Registro_Estado(LocalDate.now(),aux1);
+       
+        if(aux1.equals(Estado.PUBLICADA))   //A partir de que es publicada, se indica la fecha de expiracion
+        {
+            this.fechaExpiracion= LocalDate.now().plusDays(30); //Al ser publicada se agregan 30 días antes de vencimiento.
+        }
         //this.historialEstados.addFirst(nuevoReg);
         this.historialEstados.add(0, nuevoReg);
-    } 
+    }
+    public void extenderFinanciacion()
+    {
+        addEstHistorial(Estado.PUBLICADA);
+               
+    }
     public void addRetorno(List<TipoRetorno> retornos) { //NO lo uso por el momento pero esto en vez de sobreescibir te deja agregar algo que falte en los retonos
         for (TipoRetorno r : retornos) {
             if (!this.Retorno.contains(r)) {
                 this.Retorno.add(r);
             }
         }
+    }
+    
+    public Map<String,String> getComentarios()
+    {
+        return comentarios;
+    }
+    
+    public boolean usuarioHaComentadoSN(String nick)    
+    {
+        if(comentarios.containsKey(nick))
+        {
+            return true;    //El usuario ya comentó
+        }
+        
+        return false;
     }
 }

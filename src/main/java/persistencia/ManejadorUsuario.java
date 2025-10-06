@@ -395,7 +395,47 @@ public class ManejadorUsuario {
                 }
         
         }
-        
+        public void marcarComoFavorita(String nickname, String tituloPropuesta) {
+                em = PersistenciaManager.getEntityManager();
+                try {
+                    em.getTransaction().begin();
+                    Usuario usuario = em.find(Usuario.class, nickname);
+                    Propuesta propuesta = em.find(Propuesta.class, tituloPropuesta);
+                    if (!usuario.getPropFavorita().containsKey(propuesta.getTitulo())) {
+                        usuario.Favorita(propuesta);
+                    }
+                    if (usuario != null && propuesta != null) {
+                        usuario.Favorita(propuesta);
+                    }
+                    em.getTransaction().commit();
+                } finally {
+                    em.close();
+                }
+        }
+        public void quitarFavorita(String nickname, String tituloPropuesta) {
+                em = PersistenciaManager.getEntityManager();
+                try {
+                    em.getTransaction().begin();
+                    Usuario usuario = em.find(Usuario.class, nickname);
+                    Propuesta propuesta = em.find(Propuesta.class, tituloPropuesta);
+                    if (usuario != null && propuesta != null) {
+                        usuario.quitarFavorita(propuesta);
+                    }
+                    em.getTransaction().commit();
+                } finally {
+                    em.close();
+                }
+        }
+        public boolean esFavorita(String nickname, String tituloPropuesta) {
+                em = PersistenciaManager.getEntityManager();
+                try {
+                    Usuario usuario = em.find(Usuario.class, nickname);
+                    Propuesta propuesta = em.find(Propuesta.class, tituloPropuesta);
+                    return usuario != null && usuario.esFavorita(propuesta);
+                } finally {
+                    em.close();
+                }
+        }
         public void cargarpProponente(){
               em = PersistenciaManager.getEntityManager();
               EntityTransaction t = em.getTransaction();
