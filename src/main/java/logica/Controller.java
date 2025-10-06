@@ -76,15 +76,20 @@ public class Controller  implements IController {
         String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
         if(isProponente){
             
-            DTOProponente p=new DTOProponente(direccion,Biografia,web,nickname,pass,nombre,apellido,email,fecha,ruta);
+            DTOProponente p=new DTOProponente(direccion,Biografia,web,nickname,pass,nombre,apellido,email,fecha,ruta,"Proponente");
             mUsuario.addProponente((DTOProponente) p);
         }else{
-            DTOColaborador c= new DTOColaborador(nickname,pass,nombre,apellido,email,fecha,ruta);
+            DTOColaborador c= new DTOColaborador(nickname,pass,nombre,apellido,email,fecha,ruta,"Colaborador");
             mUsuario.addColaborador((DTOColaborador) c);
         }
     
     }
     
+    public boolean sigueAUsuario(String seguidor,String Seguido){
+    
+    return mUsuario.sigue(seguidor,Seguido);
+    }
+    @Override
     public byte[] getImg(String ruta) {
         String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA";
         try{
@@ -118,15 +123,22 @@ public class Controller  implements IController {
      public boolean existe(String nick){
             return mUsuario.existe(nick);
     }
+     
+    @Override
+    public List<DTOUsuario>Seguidos(String nick){
     
-     @Override
-     public List<String> ListaUsuarios(){
-         List<String> aux = new ArrayList<>();
-         for (DTOUsuario c : mUsuario.getUsuarios().values()){
-                 aux.add(c.getNickname());
-         }
-        return aux;    
-     }
+        return mUsuario.getSeguidos(nick);
+    }
+    
+    @Override
+    public List<String> ListaUsuarios(){
+        List<String> aux = new ArrayList<>();
+        for (DTOUsuario c : mUsuario.getUsuarios().values()){
+                aux.add(c.getNickname());
+        }
+       return aux;    
+    }
+     
     @Override
      public List<String> ListaProponentes(){
          List<String> aux = new ArrayList<>();

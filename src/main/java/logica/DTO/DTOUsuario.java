@@ -16,10 +16,12 @@ public class DTOUsuario {
     private String email;
     private LocalDate fecha;
     private String rutaImg;
+    private String tipoUsr;
     //private List<String> usuarioSeguido=new ArrayList<>(); las saco porque si solicito la info no pongo todo dentro del dto
     //private List<String> propFavorita=new ArrayList<>();      el dto es para manda info basica 
 
     
+    public DTOUsuario(){}
     
     public DTOUsuario(String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         this.nickname = nickname;
@@ -31,7 +33,11 @@ public class DTOUsuario {
         
     }
 
-    public DTOUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
+    public void setTipoUsr(String tipoUsr) {
+        this.tipoUsr = tipoUsr;
+    }
+    
+    public DTOUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg,String tipoUsr) {
         this.nickname = nickname;
         this.pass = pass;
         this.nombre = nombre;
@@ -60,8 +66,12 @@ public class DTOUsuario {
     public String getEmail() {
         return email;
     }
-   
 
+    public String getTipoUsr() {
+        return tipoUsr;
+    }
+   
+    
 
     public LocalDate getFecha() {
         return fecha;

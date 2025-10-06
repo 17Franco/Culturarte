@@ -20,8 +20,8 @@ public class DTOColaborador extends DTOUsuario{
         super(nickname, nombre, apellido, email, fecha, rutaImg);
     }
 
-    public DTOColaborador(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
-        super(nickname, pass, nombre, apellido, email, fecha, rutaImg);
+    public DTOColaborador(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg,String tipoUsr) {
+        super(nickname, pass, nombre, apellido, email, fecha, rutaImg,tipoUsr);
     }
     
     public void setColaboracion(DTOColaboracion r){

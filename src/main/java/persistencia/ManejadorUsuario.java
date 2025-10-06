@@ -73,7 +73,23 @@ public class ManejadorUsuario {
         em.close();// cierro el manejador 
 
     }
-   
+    
+    
+    public boolean sigue(String seguidor,String seguido){
+        em= PersistenciaManager.getEntityManager();
+        try{
+            Usuario u=em.find(Usuario.class, seguidor);//tengo al usuario del que quiero averiguar si sigue o no al otro
+            for(Usuario s: u.getUsuarioSeguido().values()){
+                if(s.getNickname().equals(seguido)){
+                    return true;
+                }
+            }
+           return false;
+        }finally{
+            em.close(); 
+        }
+    
+    }
      public void addColaborador(DTOColaborador u){
         Colaborador p=new Colaborador(u);
         em= PersistenciaManager.getEntityManager();
@@ -110,6 +126,31 @@ public class ManejadorUsuario {
              em.close(); // se ejecuta SIEMPRE, haya error o no
          }
      }
+    
+    public List<DTOUsuario> getSeguidos(String nick){
+    
+        em = PersistenciaManager.getEntityManager();
+         try {
+            List<DTOUsuario> listSeguidos=new ArrayList<>();
+            Usuario usuario=em.find(Usuario.class, nick);//usuario del cual  quiero los seguidores
+            if (usuario != null && usuario.getUsuarioSeguido() != null) {
+                for(Usuario u:usuario.getUsuarioSeguido().values()){
+                    DTOUsuario dtou=new DTOUsuario();
+                    dtou.setNickname(u.getNickname());
+                    dtou.setRutaImg(u.getRutaImg());
+                    if(u instanceof Proponente){
+                        dtou.setTipoUsr("Proponente");
+                    }else{
+                        dtou.setTipoUsr("Colaborador");
+                    }
+                    listSeguidos.add(dtou);
+                }
+             }
+            return listSeguidos;
+         }finally {
+            em.close(); // se ejecuta SIEMPRE, haya error o no
+         }
+    }
     public Map<String,DTOPropuesta> getPropuestasCreadas(DTOProponente proponente){
       
         em = PersistenciaManager.getEntityManager();

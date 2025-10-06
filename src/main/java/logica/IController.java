@@ -41,9 +41,11 @@ public interface IController {
     List<String> ListaColaborador();
     
     List<DTOColaboracion>  colaboraciones(String nick);
-  
+    boolean sigueAUsuario(String seguidor,String Seguido);
    
     List<String>ListaSeguidosPorUsuario(String nick);
+    
+    List<DTOUsuario>Seguidos(String nick);
     
     DTOProponente getDTOProponente(String nick);
     
