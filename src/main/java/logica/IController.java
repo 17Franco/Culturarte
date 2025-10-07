@@ -85,6 +85,10 @@ public interface IController {
     
     boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta);
 
+    int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario,String comentario, DTOPropuesta propuestaActual, String montoStr, String tipoRetorno);
+
+    int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual);
+    
     //Fin Propuesta
     
     //Categoria
@@ -116,5 +120,6 @@ public interface IController {
    
    //verificaciones y auxiliares
    int string_A_Int_Con_verificacion(String input);
+   String formateoEstado(String estado);
    
 }
