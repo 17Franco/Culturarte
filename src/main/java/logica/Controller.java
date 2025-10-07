@@ -108,6 +108,12 @@ public class Controller  implements IController {
             return null;
         }
     }
+    
+    public List<DTOPropuesta> getFavoritas(String nick){
+        
+        return mUsuario.getFavoritas(nick);
+    
+    }
     @Override
     public boolean login(String nick,String Pass){
         return mUsuario.verificarCredenciales(nick,Pass);

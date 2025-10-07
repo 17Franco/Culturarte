@@ -134,6 +134,28 @@ public class ManejadorUsuario {
     
     }
      
+    public List<DTOPropuesta> getFavoritas(String nick){
+        em= PersistenciaManager.getEntityManager();
+         List<DTOPropuesta> p=new ArrayList<>();
+        try{
+            Usuario u = em.find(Usuario.class, nick);
+            if(u!=null && !u.getPropFavorita().isEmpty()){
+                for(Propuesta prop: u.getPropFavorita().values()){
+                    DTOPropuesta aux= new DTOPropuesta();
+                    aux.setTitulo(prop.getTitulo());
+                    aux.setImagen(prop.getImagen());
+                    aux.setCategoria(prop.getCategoria().getNombreCategoria());
+                    aux.setEstadoAct(prop.getUltimoEstado().getEstado());
+                    aux.setFechaPublicacion(prop.getFechaPublicacion());
+                    p.add(aux);
+                }
+            }
+            return p;
+        }finally{
+            em.close();
+        }
+    }
+     
     public boolean existe(String nick){
 
         em= PersistenciaManager.getEntityManager();

@@ -23,6 +23,7 @@ public class DTOPropuesta {
     private LocalDate fechaExpiracion;
     private List<TipoRetorno> Retorno = new ArrayList<>();
     private DTOCategoria cat;
+    private String categoria;
     private DTOProponente usr; 
     private Estado EstadoAct;
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
@@ -61,6 +62,10 @@ public class DTOPropuesta {
             aporte.add(new DTOColaboracion(_colaboradores.get(b).getTipoRetorno(), _colaboradores.get(b).getMonto(), _colaboradores.get(b).getColaborador().getNickname(), _colaboradores.get(b).getPropuesta().getTitulo(), _colaboradores.get(b).getCreado()));
         }
 
+    }
+    
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
     
     
@@ -118,6 +123,9 @@ public class DTOPropuesta {
     }
     public  String getLugar() {
         return Lugar;
+    }
+    public  String getCategorioToString() {
+        return categoria;
     }
     public  LocalDate getFecha() {
         return Fecha;
