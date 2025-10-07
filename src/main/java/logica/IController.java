@@ -95,7 +95,7 @@ public interface IController {
     
     //cu Registrar colaboracion a Propuesta
     Set<DTOPropuesta> ListarPropuestas(String estado1, String estado2);
-    
+    List<DTOPropuesta> getFavoritas(String nick);
     void altaColaboracion(DTOColaboracion colaboracion); 
     boolean colaboracionExiste(String colaborador, String titulo);
     int  getMontoRecaudado(String titulo);
