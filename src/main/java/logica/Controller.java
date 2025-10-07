@@ -353,19 +353,15 @@ public class Controller  implements IController {
         //CASO CANCELAR PROPUESTA
         if (accionUsuario.equals("CANCELAR")) 
         {
-            //Crear función luego...
             mPropuesta.cancelarPropuestaSeleccionada(tituloPropuesta);
             return 2; //Proponente logra cancelar.
         }
 
         //CASO EXTENDER FINANCIACION
-        if (accionUsuario.equals("EXTENDER")) 
+        if(accionUsuario.equals("EXTENDER")) 
         {
-            //Crear función luego...
-            if(mPropuesta.extenderFinanciacion(tituloPropuesta))
-            {
-                return 3; //Proponente logra extender.
-            }    
+            mPropuesta.extenderFinanciacion(tituloPropuesta);
+            return 3; //Proponente logra extender.
         }
         
         return 0;
