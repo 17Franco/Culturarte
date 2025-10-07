@@ -78,15 +78,42 @@ public class ManejadorUsuario {
     public boolean sigue(String seguidor,String seguido){
         em= PersistenciaManager.getEntityManager();
         try{
-            Usuario u=em.find(Usuario.class, seguidor);//tengo al usuario del que quiero averiguar si sigue o no al otro
-            for(Usuario s: u.getUsuarioSeguido().values()){
-                if(s.getNickname().equals(seguido)){
-                    return true;
-                }
-            }
-           return false;
+            //select count(*) from usuario_seguidos where seguidor='franco2' and seguido='mbusca';
+           
+            String consulta = "SELECT COUNT(s) FROM Usuario u JOIN u.usuarioSeguido s " + 
+                      "WHERE u.nickname = :seguidor AND s.nickname = :seguido";
+                      
+            Long count = em.createQuery(consulta, Long.class)
+                       .setParameter("seguidor", seguidor)
+                       .setParameter("seguido", seguido)
+                       .getSingleResult();
+            return count > 0;
+
         }finally{
             em.close(); 
+        }
+    
+    }
+    
+    public List<DTOUsuario> getListDTOUsuario(){
+         em= PersistenciaManager.getEntityManager();
+         List<DTOUsuario> usuarios=new ArrayList<>();
+        try{
+            List<Usuario> lista = em.createQuery("FROM Usuario", Usuario.class).getResultList();
+            for(Usuario u: lista){
+                DTOUsuario usr=new DTOUsuario();
+                usr.setNickname(u.getNickname());
+                usr.setRutaImg(u.getRutaImg());
+                if(u instanceof Proponente){
+                    usr.setTipoUsr("Proponente");
+                }else{
+                    usr.setTipoUsr("Colaborador");
+                }
+                usuarios.add(usr);
+            }
+            return usuarios;
+        }finally{
+            em.close();
         }
     
     }
