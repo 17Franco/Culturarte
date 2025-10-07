@@ -39,7 +39,7 @@ public interface IController {
     List<String> ListaProponentes();
     
     List<String> ListaColaborador();
-    
+    List<DTOUsuario> ListaDTOUsuarios();
     void marcarComoFavorita(String nickname, String tituloPropuesta);
     
     void quitarFavorita(String nickname, String tituloPropuesta);

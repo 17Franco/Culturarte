@@ -84,7 +84,12 @@ public class Controller  implements IController {
         }
     
     }
+    @Override
+    public List<DTOUsuario> ListaDTOUsuarios(){
+    return mUsuario.getListDTOUsuario();
+    }
     
+    @Override
     public boolean sigueAUsuario(String seguidor,String Seguido){
     
     return mUsuario.sigue(seguidor,Seguido);
