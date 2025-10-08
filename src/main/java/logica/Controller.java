@@ -385,6 +385,88 @@ public class Controller  implements IController {
         
         return 0;
     }
+  
+    @Override
+    public int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario,String comentario, DTOPropuesta propuestaActual, String montoStr, String tipoRetorno)
+    {
+        //Seteo tipos de retorno.
+        TipoRetorno retorno = null;
+        if(tipoRetorno != null)
+        {
+            if(tipoRetorno.equals("EntradaGratis"))     { retorno = TipoRetorno.EntradaGratis; }
+            if(tipoRetorno.equals("PorcentajeGanancia")){ retorno = TipoRetorno.PorcentajeGanancia; }
+        }
+        
+        int resultadoOperacion = 0;
+        
+        //Si es proponente...
+        if(permisos == 1)   
+        {        
+            //Se verifica que sea una propuesta de este proponente (esto puede ser pasado a una funcion en controller).
+            Set<DTOPropuesta> temp = getPropuestasCreadasPorProponente(userNick);
+            
+            for(DTOPropuesta ct : temp)
+            {
+                if(ct.nickProponenteToString().equals(userNick))
+                {
+                    resultadoOperacion = extenderOCancelarPropuesta(accionUsuario,ct.getTitulo());
+                    //resultado 3, logra extender, resultado 2, logra cancelar, 0, no sucedió nada.
+                }
+            }
+        }  
+    
+        //Si es colaborador que ya colaboró...
+        if(permisos == 2)
+        {
+            if(accionUsuario.equals("COMENTAR"))
+            {
+                if(nuevoComentario(comentario,userNick,propuestaActual.getTitulo()))
+                {
+                    resultadoOperacion = 1; //Usuario logra comentar.
+                }
+                
+            }   
+        }
+        
+        //Si es colaborador que no colaboró aún y decide colaborar con la propuesta...
+        if(permisos == 3) 
+        {   
+            if(accionUsuario.equals("COLABORAR"))
+            {
+                int monto = string_A_Int_Con_verificacion(montoStr); //Aca se verifica que esté correcto el ingreso
+                
+                DTOColaborador usuarioActual = (DTOColaborador) getDTOColaborador(userNick);
+                DTOColaboracion nuevaColaboracion = new DTOColaboracion(retorno,monto,usuarioActual.getNickname(),propuestaActual.getTitulo(),LocalDate.now(),usuarioActual,propuestaActual);
+                altaColaboracion(nuevaColaboracion);    
+                resultadoOperacion = 4;
+            }
+        }
+        
+        return resultadoOperacion;
+    }
+    
+    @Override
+    public int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual)
+    {
+        int permisos = 0;
+        
+        if (tipoUsuario != null && !userNick.equals("VISITANTE") && propuestaActual.getTitulo() != null) 
+        {
+            
+            if(!propuestaActual.usuarioHaComentadoSN(userNick))
+            {
+                permisos = accionSobrePropuesta(userNick, propuestaActual);  //Se obtienen permisos de usuario en propuesta.
+            }
+            
+            if(permisos == 3 && tipoUsuario.equals("Proponente"))   //Esto es por si un proponente visita otras props...
+            {
+                permisos = 0;   //Le quito el permiso de colaborar, lo dejo por si más adelante se agrega que puede o algo así.
+            }
+            
+        }
+        
+        return permisos;
+    }
     
     @Override
     public boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta)
@@ -405,6 +487,7 @@ public class Controller  implements IController {
         mPropuesta.actualizarEstado(colaboracion.getPropuesta());
         
     }
+
 
     public Set<DTOColaborador> ListarColaboradores() {
         return mUsuario.listaColaboradores();
@@ -480,6 +563,12 @@ public class Controller  implements IController {
         }
         
         return valor;
+    }
+    
+    @Override
+    public String formateoEstado(String estado)
+    {
+        return Estado.formateoEstado(estado);
     }
     
 
