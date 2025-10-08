@@ -38,16 +38,7 @@ public class ManejadorUsuario {
 
         usuarios = new HashMap<String, Usuario>();
         
-       /* LocalDate a = LocalDate.of(2024,01,30);
-        LocalDate b = LocalDate.of(2023,02,2);
-        //Borrar luego
-        Proponente p1 = new Proponente("Calle Falsa 123", "Bio", "www.web.com",
-                "nick1", "Juan", "Pérez", "juan@mail.com",
-                a, "img1.png");
-        Colaborador c1 = new Colaborador("nick2", "Ana", "López", "ana@mail.com",
-                b, "img2.png");
-        usuarios.put(p1.getNickname(), p1);
-        usuarios.put(c1.getNickname(), c1);*/
+       
     }
     
     public static ManejadorUsuario getInstance() {
@@ -55,7 +46,7 @@ public class ManejadorUsuario {
             instancia = new ManejadorUsuario();
         return instancia;
     }
-    
+    //agrego a la bd un usuario tipo proponente
     public void addProponente(DTOProponente u){
         Proponente p=new Proponente(u); //creo proponente
         //usuarios.put(u.getNickname(),p);
@@ -74,7 +65,35 @@ public class ManejadorUsuario {
 
     }
     
-    
+    //obengo la lista de usuario que siguen al usuario identificado por seguido
+    public List<DTOUsuario> obtenerSeguidores(String seguido){
+        em= PersistenciaManager.getEntityManager();
+        try{
+            //select count(*) from usuario_seguidos where seguidor='franco2' and seguido='mbusca';
+            List<DTOUsuario> usuarios=new ArrayList<>();
+            //esta consulta seria dame todos los usuario que en su lista seguidos es igual al pasado por parametro
+            String consulta = "SELECT u FROM Usuario u JOIN u.usuarioSeguido s " + 
+                      "WHERE  s.nickname = :seguido";
+            List<Usuario> u = em.createQuery(consulta, Usuario.class).setParameter("seguido", seguido).getResultList();
+            
+            for(Usuario usr:u){
+                DTOUsuario dtousr=new DTOUsuario();
+                dtousr.setNickname(usr.getNickname());
+                dtousr.setRutaImg(usr.getRutaImg());
+                if(usr instanceof Proponente){
+                    dtousr.setTipoUsr("Proponente");
+                }else{
+                    dtousr.setTipoUsr("Colaborador");
+                }
+                usuarios.add(dtousr);
+            }
+            return usuarios;
+
+        }finally{
+            em.close(); 
+        }
+    }
+    //compruebo si seguidor ya sigue a seguido 
     public boolean sigue(String seguidor,String seguido){
         em= PersistenciaManager.getEntityManager();
         try{
@@ -82,6 +101,8 @@ public class ManejadorUsuario {
            
             String consulta = "SELECT COUNT(s) FROM Usuario u JOIN u.usuarioSeguido s " + 
                       "WHERE u.nickname = :seguidor AND s.nickname = :seguido";
+            
+            String consulta2="SELECT ";
                       
             Long count = em.createQuery(consulta, Long.class)
                        .setParameter("seguidor", seguidor)
@@ -95,6 +116,7 @@ public class ManejadorUsuario {
     
     }
     
+    //devuelvo dtoUsuario con info minima de todos los usuarios cargados
     public List<DTOUsuario> getListDTOUsuario(){
          em= PersistenciaManager.getEntityManager();
          List<DTOUsuario> usuarios=new ArrayList<>();
@@ -117,6 +139,7 @@ public class ManejadorUsuario {
         }
     
     }
+     //insertar un colaborador a la bd
      public void addColaborador(DTOColaborador u){
         Colaborador p=new Colaborador(u);
         em= PersistenciaManager.getEntityManager();
@@ -133,7 +156,7 @@ public class ManejadorUsuario {
         em.close();
     
     }
-     
+     //devuelvo las propuestas del usuario identificado por nick
     public List<DTOPropuesta> getFavoritas(String nick){
         em= PersistenciaManager.getEntityManager();
          List<DTOPropuesta> p=new ArrayList<>();
@@ -155,7 +178,7 @@ public class ManejadorUsuario {
             em.close();
         }
     }
-     
+     //compruebo que existe un usuario identificado por nick
     public boolean existe(String nick){
 
         em= PersistenciaManager.getEntityManager();
@@ -167,6 +190,7 @@ public class ManejadorUsuario {
       }
     }
     
+    //devuelvo una Intancia de Usuario
     public Usuario getUsuario(String nick) {
          em = PersistenciaManager.getEntityManager();
          try {
@@ -175,7 +199,7 @@ public class ManejadorUsuario {
              em.close(); // se ejecuta SIEMPRE, haya error o no
          }
      }
-    
+    // devuelvo dtoUusario con la info minima de los que sigue el usuario identificado por nick
     public List<DTOUsuario> getSeguidos(String nick){
     
         em = PersistenciaManager.getEntityManager();
@@ -200,6 +224,7 @@ public class ManejadorUsuario {
             em.close(); // se ejecuta SIEMPRE, haya error o no
          }
     }
+    //devuelvo un map de las propuestas creada por un usuario de tipo proponente
     public Map<String,DTOPropuesta> getPropuestasCreadas(DTOProponente proponente){
       
         em = PersistenciaManager.getEntityManager();
@@ -217,6 +242,8 @@ public class ManejadorUsuario {
          }
       
     }
+    
+    //coprueba si el mail ya a sido registrado por algun usuario
     public boolean emailUsado(String email){
         em = PersistenciaManager.getEntityManager();
          
@@ -255,7 +282,7 @@ public class ManejadorUsuario {
          }
     }
     
-    // ACA DEVUELVO  set de DTOColaborador
+    // aca devuelvo dto de usuarios que solo son colaboradores
     public Set<DTOColaborador> listaColaboradores(){
         Set<DTOColaborador> results = new HashSet<DTOColaborador>();
         
@@ -273,7 +300,7 @@ public class ManejadorUsuario {
         }
     }
     
-    
+    //comprueba si un colaborador ya colaboro con la propuesta identificada por titulo
     public boolean existeColaboracion(String colaborador, String titulo){
         em = PersistenciaManager.getEntityManager();
          try{
@@ -288,7 +315,7 @@ public class ManejadorUsuario {
             //em.close();
          }
     }
-    
+    //devuelve una lista de las  dto colaboraciones que son de un usuario identificado por nick
     public List<DTOColaboracion> getDTOColaboraciones(String nick){
          //List<DTOColaboracion> resu=new ArrayList<>();
         em = PersistenciaManager.getEntityManager();
@@ -296,7 +323,7 @@ public class ManejadorUsuario {
         try{
             Colaborador c=em.find(Colaborador.class, nick);
              for(Colaboracion colab: c.getColaboraciones()){
-                 System.out.println("");
+               
                 DTOColaboracion DTOColab = new DTOColaboracion(colab);
                 resu.add(DTOColab);
             }
@@ -306,50 +333,51 @@ public class ManejadorUsuario {
         }
         }
         
-        public void eliminarColaboracion(String nick,String propuesta){
-            Colaborador c=(Colaborador) usuarios.get(nick);
-            Colaboracion aux=null;
-             for(Colaboracion col: c.getColaboraciones()){
-                if(col.getPropuesta().getTitulo().equals(propuesta)){
-                aux=col;
-                break;
+    //elimino la colaboracion echa a propuesta por el usuario identificado por nick 
+    public void eliminarColaboracion(String nick,String propuesta){
+        Colaborador c=(Colaborador) usuarios.get(nick);
+        Colaboracion aux=null;
+            for(Colaboracion col: c.getColaboraciones()){
+               if(col.getPropuesta().getTitulo().equals(propuesta)){
+               aux=col;
+               break;
             }
-            }
+        }
             if(aux!=null){
                 c.getColaboraciones().remove(aux);
             }
 
         }
-        
-        public boolean seguirUsr(String nick1, String nick2){
-            em = PersistenciaManager.getEntityManager();
-            EntityTransaction t = em.getTransaction();
-            try{
-                  
-                  Usuario usuario1 = em.find(Usuario.class,nick1);
-                  Usuario usuario2 = em.find(Usuario.class,nick2);
+    //operacion para seguir a usuario 
+    public boolean seguirUsr(String nick1, String nick2){
+        em = PersistenciaManager.getEntityManager();
+        EntityTransaction t = em.getTransaction();
+        try{
 
-                    if (usuario1 == null || usuario2 == null) return false;
-                    if (nick1.equals(nick2)) return false;
-                    if (usuario1.getUsuarioSeguido().containsKey(nick2)) return false;
-                    
-                    
-                    t.begin();
-                   
-                    usuario1.seguir(usuario2);
-                    //em.merge(usuario2); // sincriniza los cambios de un objeto  se usa cuando el objeto no es manage por el entitymanager 
-                    t.commit();
-                    return true;
-            
-            }catch(Exception e){
-                t.rollback();
-                return false;
-            }finally{
-                em.close();
-            }
-          
+            Usuario usuario1 = em.find(Usuario.class,nick1);
+            Usuario usuario2 = em.find(Usuario.class,nick2);
+
+            if (usuario1 == null || usuario2 == null) return false;
+            if (nick1.equals(nick2)) return false;
+            if (usuario1.getUsuarioSeguido().containsKey(nick2)) return false;
+
+
+            t.begin();
+
+            usuario1.seguir(usuario2);
+            //em.merge(usuario2); // sincriniza los cambios de un objeto  se usa cuando el objeto no es manage por el entitymanager 
+            t.commit();
+            return true;
+
+        }catch(Exception e){
+            t.rollback();
+            return false;
+        }finally{
+            em.close();
         }
-        //(mUsuario.getUsuario(usuarioActual).unfollow(mUsuario.getUsuario(usuarioToUnfollow)))
+
+        }
+        //operacion para dejar de seguir a usuario
         public boolean dejarDeSeguirUsuario(String nick1,String nick2){
              em = PersistenciaManager.getEntityManager();
              EntityTransaction t = em.getTransaction();
@@ -380,25 +408,27 @@ public class ManejadorUsuario {
             return false;
         }
         
+        //devuelvo solo los nick de los seguidos del usuario identificado por nick
         public List<String> listaSeguidos(String nick){
-            em = PersistenciaManager.getEntityManager();
-            try{
-                List<String> aux = new ArrayList<>();
-                if(nick!=null){
-                    Usuario usuario = em.find(Usuario.class,nick);
-                    if (usuario != null && usuario.getUsuarioSeguido() != null) {
-                       for(Usuario u:usuario.getUsuarioSeguido().values()){
-                           aux.add(u.getNickname());
-                       }
-                    }
+        em = PersistenciaManager.getEntityManager();
+        try{
+            List<String> aux = new ArrayList<>();
+            if(nick!=null){
+                Usuario usuario = em.find(Usuario.class,nick);
+                if (usuario != null && usuario.getUsuarioSeguido() != null) {
+                   for(Usuario u:usuario.getUsuarioSeguido().values()){
+                       aux.add(u.getNickname());
+                   }
                 }
-                return aux;
-            }finally{
-                em.close();
             }
+            return aux;
+        }finally{
+            em.close();
+        }
             
         }
         
+        //verifico si la pass del usuario identificado por nick es correcta
         public boolean verificarCredenciales(String nick, String pass){
             em = PersistenciaManager.getEntityManager();
             try{
@@ -413,6 +443,7 @@ public class ManejadorUsuario {
             
         }
         
+        //devuelvo si es proponente o no
         public boolean isProponente(String nick){
             em = PersistenciaManager.getEntityManager();
             try{
@@ -426,6 +457,7 @@ public class ManejadorUsuario {
                 em.close();
             }
         }
+        //obtengo la info minima de la propuestas creadas de un proponente 
         public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
                 em = PersistenciaManager.getEntityManager();
                    Proponente  p=em.find(Proponente.class,nick);
@@ -444,6 +476,8 @@ public class ManejadorUsuario {
                 }
         
         }
+        
+        //agregom una propuesta como favorita al usuario 
         public void marcarComoFavorita(String nickname, String tituloPropuesta) {
                 em = PersistenciaManager.getEntityManager();
                 try {
@@ -461,6 +495,8 @@ public class ManejadorUsuario {
                     em.close();
                 }
         }
+        
+        //quito de favorito la propuesta al usuario
         public void quitarFavorita(String nickname, String tituloPropuesta) {
                 em = PersistenciaManager.getEntityManager();
                 try {
@@ -475,6 +511,7 @@ public class ManejadorUsuario {
                     em.close();
                 }
         }
+        //verifico si ina propuesta esta como favorita
         public boolean esFavorita(String nickname, String tituloPropuesta) {
                 em = PersistenciaManager.getEntityManager();
                 try {
@@ -485,6 +522,7 @@ public class ManejadorUsuario {
                     em.close();
                 }
         }
+        //empieza los metodos para cargar datos de usuario y colaboraciones
         public void cargarpProponente(){
               em = PersistenciaManager.getEntityManager();
               EntityTransaction t = em.getTransaction();

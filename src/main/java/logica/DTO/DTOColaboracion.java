@@ -11,7 +11,7 @@ public class DTOColaboracion {
         private TipoRetorno tipoRetorno;
 
         private int monto;
-
+        private String imgDePropuesta;
         private String  colaborador;
         private String propuesta;
         private DTOPropuesta propuestaP;// veo inesesarios tener los punteros en el dtoColaboracion
@@ -68,11 +68,16 @@ public void setId(Long id) {
          creado=colaboracion.getCreado();
          colaborador=colaboracion.getColaborador().getNickname();
          propuesta=colaboracion.getPropuesta().getTitulo();
+         imgDePropuesta=colaboracion.getPropuesta().getImagen();
      }
 
      
     public LocalDate getCreado() {
         return creado;
+    }
+
+    public String getImgDePropuesta() {
+        return imgDePropuesta;
     }
 
     

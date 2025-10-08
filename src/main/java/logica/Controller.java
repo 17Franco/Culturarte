@@ -49,6 +49,7 @@ public class Controller  implements IController {
         }
     }
     
+    
     public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){
         if(!nombreArchivo.equals("")){
         String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
@@ -71,6 +72,12 @@ public class Controller  implements IController {
         
         return "";    
     }
+    
+    @Override
+    public List<DTOUsuario> getSeguidores(String nick){
+        return mUsuario.obtenerSeguidores(nick);
+    }
+    
     @Override
     public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
         String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
@@ -109,6 +116,7 @@ public class Controller  implements IController {
         }
     }
     
+    @Override
     public List<DTOPropuesta> getFavoritas(String nick){
         
         return mUsuario.getFavoritas(nick);

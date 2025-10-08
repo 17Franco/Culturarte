@@ -59,7 +59,7 @@ public interface IController {
     
     List<String> colaboradoresAPropuesta(String titulo);
     boolean seguir(String nick1,String nick2);
-    
+    List<DTOUsuario> getSeguidores(String nick);
     boolean unFollowUser(String usuarioActual, String usuarioToUnfollow);
     Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick);
     //Fin Usuario
