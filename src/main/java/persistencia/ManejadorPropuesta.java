@@ -785,4 +785,40 @@ public class ManejadorPropuesta {
         return temp2;
     }
     
+     public Set<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias) 
+    {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        Set<DTOPropuesta> result = new HashSet<>();
+ 
+        try 
+        {
+           
+            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);
+            List<Propuesta> propuestas = q.getResultList();
+                        
+            
+            for (Propuesta p : propuestas)
+            {   
+                if (p.getCategoria().getNombreCategoria() == null ? subcategorias == null : p.getCategoria().getNombreCategoria().equals(subcategorias)){
+                    
+                    DTOPropuesta dto= new DTOPropuesta();
+                    dto.setTitulo(p.getTitulo());
+                    dto.setDescripcion(p.getDescripcion());
+                    dto.setImagen(p.getImagen());
+                    dto.setLugar(p.getLugar());
+                    dto.setFecha(p.getFecha());
+                   result.add(dto);
+                             
+                }
+              
+            }
+        } 
+        finally
+        {
+            em.close();
+        }
+                
+        return result;
+    }
+    
 }

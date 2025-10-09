@@ -122,4 +122,9 @@ public interface IController {
    int string_A_Int_Con_verificacion(String input);
    String formateoEstado(String estado);
    
+   Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria);
+  //  private Set <DTOCategoria> subcategorias;
+   //al hacer click en la subcat traer las propu que en la BD en la columna ca
+   //crear manejadorSubCat?
+
 }

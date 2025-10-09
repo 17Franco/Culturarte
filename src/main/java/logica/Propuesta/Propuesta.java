@@ -29,10 +29,10 @@ import logica.DTO.Estado;
 @Entity
 public class Propuesta {
     @Id
-    private String Titulo;
+    public String Titulo;
     @Column(length = 2000)
-    private String Descripcion;
-    private String Imagen;
+    public String Descripcion;
+    public String Imagen;
     private String Lugar;
     private LocalDate Fecha;
     private int Precio; //tambien debe ser int 

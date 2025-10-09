@@ -573,6 +573,14 @@ public class Controller  implements IController {
         return Estado.formateoEstado(estado);
     }
     
+   
+           //    private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
+//cabecera icontroles:    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategorias);
+   @Override
+   public Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
+       return  mPropuesta.ObtenerPropuestasPorSubCategoria(subcategoria);
+}
+
 
 }
 
