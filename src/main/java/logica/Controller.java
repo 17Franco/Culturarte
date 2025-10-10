@@ -433,10 +433,24 @@ public class Controller  implements IController {
         //Si es colaborador que no colaboró aún y decide colaborar con la propuesta...
         if(permisos == 3) 
         {   
+            int monto = -1;
+
             if(accionUsuario.equals("COLABORAR"))
             {
-                int monto = string_A_Int_Con_verificacion(montoStr); //Aca se verifica que esté correcto el ingreso
+
+                if (montoStr != null && !montoStr.isEmpty()) 
+                {
+                    try //Controlar que no haya algun error extraño y asi evitar corromper la base de datos
+                    {
+                        monto = Integer.parseInt(montoStr);
+                    } 
+                    catch (NumberFormatException e){}
+                }
+            }
                 
+            if(monto != -1) //Si no hubo error con el monto...
+            {
+
                 DTOColaborador usuarioActual = (DTOColaborador) getDTOColaborador(userNick);
                 DTOColaboracion nuevaColaboracion = new DTOColaboracion(retorno,monto,usuarioActual.getNickname(),propuestaActual.getTitulo(),LocalDate.now(),usuarioActual,propuestaActual);
                 altaColaboracion(nuevaColaboracion);    
@@ -446,6 +460,7 @@ public class Controller  implements IController {
         
         return resultadoOperacion;
     }
+
     
     @Override
     public int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual)
@@ -543,27 +558,7 @@ public class Controller  implements IController {
     public void cargarColaboraciones(){
         mColaboraciones.cargarDatosColaboracion();
     }
-    @Override
-    public int string_A_Int_Con_verificacion(String input)
-    {
-     //Retorna -1 si el usuario puso algo mal
-        int valor = -1;
-
-        if (input != null && !input.isEmpty()) 
-        {
-            try 
-            {
-                valor = Integer.parseInt(input);
-            } 
-            catch (NumberFormatException e) 
-            {
-                
-            }
-        }
-        
-        return valor;
-    }
-    
+   
     @Override
     public String formateoEstado(String estado)
     {
