@@ -104,7 +104,7 @@ public interface IController {
     boolean colaboracionExiste(String colaborador, String titulo);
     int  getMontoRecaudado(String titulo);
     // cu Consulta de colaboracion a Propuesta
-    Set<DTOColaborador> ListarColaboradres();
+    
     
     // cu cancelar Colaboracion a Propuesta
     void CancelarColaboracion(Long id);    

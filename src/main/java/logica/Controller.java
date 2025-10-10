@@ -502,10 +502,7 @@ public class Controller  implements IController {
          mColaboraciones.deleteColaboracion(id);
     }
 
-    @Override
-    public Set<DTOColaborador> ListarColaboradres() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
     @Override
     public int getMontoRecaudado(String titulo){
         return mPropuesta.getMontoRecaudado(titulo);

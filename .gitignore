@@ -1,3 +1,4 @@
 /target/
 # Ignore Windows alternate data streams (created when downloading files)
 *:[Zz]one.Identifier
+/nbproject/
