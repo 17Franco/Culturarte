@@ -1007,26 +1007,6 @@ public class ControllerTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
-    
-    //NO SE DONDE VAN ESTOS
-    /**
-     * Test of string_A_Int_Con_verificacion method, of class Controller.
-     */
-    @Test
-    public void testString_A_Int_Con_verificacion() {
-        System.out.println("string_A_Int_Con_verificacion");
-        String input = "";
-        Controller instance = new Controller();
-        int expResult = 0;
-        int result = instance.string_A_Int_Con_verificacion(input);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    
-
-   
+ 
     
 }
