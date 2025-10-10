@@ -781,23 +781,7 @@ public class ControllerTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
-    /**
-     * Test of formateoEstado method, of class Controller.
-     */
-    @Test
-    public void testFormateoEstado() {
-        System.out.println("formateoEstado");
-        String estado = "";
-        Controller instance = new Controller();
-        String expResult = "";
-        String result = instance.formateoEstado(estado);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    
+
     //FIN TEST Propouestas
     /**
      * Test of altaDeCategoria method, of class Controller.

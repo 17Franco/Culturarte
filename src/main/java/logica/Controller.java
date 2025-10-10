@@ -558,13 +558,7 @@ public class Controller  implements IController {
     public void cargarColaboraciones(){
         mColaboraciones.cargarDatosColaboracion();
     }
-   
-    @Override
-    public String formateoEstado(String estado)
-    {
-        return Estado.formateoEstado(estado);
-    }
-    
+
    
            //    private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
 //cabecera icontroles:    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategorias);
