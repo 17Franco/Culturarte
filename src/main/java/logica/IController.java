@@ -118,8 +118,6 @@ public interface IController {
    void cargarCategorias();
    void cargarColaboraciones();
    
-   //verificaciones y auxiliares
-   int string_A_Int_Con_verificacion(String input);
    String formateoEstado(String estado);
    
    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria);
