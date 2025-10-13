@@ -65,6 +65,12 @@ public class ManejadorCategoria {
 
     public boolean addCategoria(DTOCategoria categoriaIngresada) 
     { 
+        
+        if(categoriaIngresada == null)
+        {
+            return false;
+        }
+        
         boolean pass = false;
         
         dbManager = PersistenciaManager.getEntityManager();
