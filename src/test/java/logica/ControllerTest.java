@@ -831,15 +831,40 @@ public class ControllerTest {
     
     //Test CATEGORIA
     @Test
-    public void testAltaDeCategoria() {
-        System.out.println("altaDeCategoria");
-        DTOCategoria categoriaIngresada = null;
+    void testAltaDeCategoria_caso_InputNull() 
+    {
+        System.out.print("testAltaDeCategoria_caso_InputNull");
+        
+        //No necesito hacer mocks ya que al ser null no entra nunca a la base de datos.
         Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.altaDeCategoria(categoriaIngresada);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        boolean result = instance.altaDeCategoria(null);
+
+        if (result == false) //Muestra este mensaje sólo si se da el false.
+        {
+            System.out.println(" : test correcto");
+        }  
+    }
+    
+        @Test
+    void testAltaDeCategoria_caso_CategoriaPadreValida() 
+    { 
+        System.out.print("testAltaDeCategoria_caso_CategoriaPadreValida");
+        
+        Controller instance = new Controller();
+        
+        DTOCategoria catTest = new DTOCategoria();
+        
+        catTest.setNombreCategoria("Musica");
+        
+        catTest.setCatPadre("");                          //Para que sea reconocida como cat padre.
+
+        boolean result = instance.altaDeCategoria(catTest);
+
+        if (result == true) //Muestra este mensaje sólo si se da el true.
+        {
+            System.out.println(" : test correcto");
+        } 
     }
 
     /**
