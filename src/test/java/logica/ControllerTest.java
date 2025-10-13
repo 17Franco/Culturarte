@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  *
@@ -50,8 +51,6 @@ public class ControllerTest {
     @AfterEach
     public void tearDown() {
     }
-    
-    
     //Test de USUSARIO
     /**
      * Test of altaUsuario method, of class Controller.
@@ -753,17 +752,60 @@ public class ControllerTest {
      * Test of permisosSobrePropuesta method, of class Controller.
      */
     @Test
-    public void testPermisosSobrePropuesta() {
-        System.out.println("permisosSobrePropuesta");
-        String userNick = "";
-        String tipoUsuario = "";
-        DTOPropuesta propuestaActual = null;
+    public void testPermisosSobrePropuesta_primerIF_false() 
+    {
+        //Caso tipoUsuario es null.
+        //UserNick igual a "visitante" 
+        //Y el titulo de la propuesta es null.
+        System.out.println("permisosSobrePropuesta_USER_NULL");
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.nickProponenteToString()).thenReturn("rodolfo");
+        when(propTest.getTitulo()).thenReturn(null);
+        
+        
+        String userNick = "";                                //Estos datos no los uso.
+        String tipoUsuario = null;                            //Estos datos no los uso.
+        
+        
         Controller instance = new Controller();
-        int expResult = 0;
-        int result = instance.permisosSobrePropuesta(userNick, tipoUsuario, propuestaActual);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = instance.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+
+    }
+    
+    @Test
+    public void testPermisosSobrePropuesta_esProponenteYpermiso3() 
+    {
+        //Caso tipoUsuario es null.
+        //UserNick igual a "visitante" 
+        //Y el titulo de la propuesta es null.
+        System.out.println("permisosSobrePropuesta_USER_NULL");
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.getTitulo()).thenReturn("PropuestaAlgo");                               
+        String userNick = "AFAEFD";                                //Estos datos no los uso.
+        String tipoUsuario = "Proponente";                            //Estos datos no los uso.
+        
+        //Se simula la funcion para que no entre al segundo if y por ende tampoco al tercero:
+        when(propTest.usuarioHaComentadoSN(anyString())).thenReturn(true);
+        
+        Controller instance = new Controller();
+        
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = instance.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+
     }
     /**
      * Test of nuevoComentario method, of class Controller.
