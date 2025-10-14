@@ -484,7 +484,7 @@ public class Controller  implements IController {
     @Override
     public boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta)
     {
-        if(userNick != null && mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta))
+        if(userNick != null && !userNick.isEmpty() && mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta))
         {
             return true;
         }
