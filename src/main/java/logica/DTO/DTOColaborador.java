@@ -15,7 +15,8 @@ import logica.Usuario.Colaborador;
 
 public class DTOColaborador extends DTOUsuario{
     private List<DTOColaboracion> colaboraciones= new ArrayList<>();
-
+    
+    public DTOColaborador(){}
     public DTOColaborador(String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         super(nickname, nombre, apellido, email, fecha, rutaImg);
     }

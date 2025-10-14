@@ -2,17 +2,21 @@ package ui;
 import javax.swing.JOptionPane;
 
 import java.beans.PropertyVetoException;
+
+import java.util.TimeZone;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuItem;
 import logica.Fabrica;
 import logica.IController;
 
 public class Main extends javax.swing.JFrame {
+    
     private IController controller = Fabrica.getInstance().getController();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main.class.getName());
 
    
     public Main() {
+        //TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         initComponents();
         jMenu2.setVisible(false);
         setLocationRelativeTo(null);

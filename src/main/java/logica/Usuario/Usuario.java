@@ -26,6 +26,7 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String email;
+    
     private LocalDate fecha;
     private String rutaImg;
     
