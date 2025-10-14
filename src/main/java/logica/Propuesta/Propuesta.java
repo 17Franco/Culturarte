@@ -15,6 +15,8 @@ import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import logica.DTO.TipoRetorno;
 import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
@@ -179,7 +181,9 @@ public class Propuesta {
     {
         if(!usuario.isEmpty() && !comentario.isEmpty())
         {
-            String comentarioConFecha = "<span style='color:gray; font-style:italic;'>" + LocalDate.now().toString() + "</span><br><p>" + comentario + "</p>"; // El <br> ese es un salto de línea  y le agrego italc gris a la fecha en HTML
+            LocalDate fechaActual = LocalDate.now(ZoneId.of("America/Montevideo"));                              //Fuerzo a la región
+            String fechaConFormatoDeAca = fechaActual.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));         //Con esto queda el tipico formato de aca y en string
+            String comentarioConFecha = "<span style='color:gray; font-style:italic;'>" + fechaConFormatoDeAca + "</span><br><p>" + comentario + "</p>"; // El <br> ese es un salto de línea  y le agrego italc gris a la fecha en HTML
             this.comentarios.put(usuario,comentarioConFecha);
         }
        
