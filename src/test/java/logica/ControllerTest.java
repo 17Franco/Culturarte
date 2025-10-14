@@ -34,13 +34,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import persistencia.ManejadorUsuario;
+import persistencia.ManejadorPropuesta;
+import org.mockito.Mock;
 
 /**
  *
  * @author fran
  */
 public class ControllerTest {
-    
+
     public ControllerTest() {
     }
     
@@ -88,6 +90,7 @@ public class ControllerTest {
 //        Retorno.add(TipoRetorno.EntradaGratis);
 //        //Estado est=Estado.INGRESADA;
 //        instance.altaPropuesta("Prueba1","Esto es una prueba","","Piriapolis", LocalDate.of(2025,10,14), 100, 10000, LocalDate.of(2025,10,20), Retorno, "Musica", "Pedro2025", Estado.INGRESADA);
+        
     }
     
     @AfterAll
@@ -1074,6 +1077,10 @@ public class ControllerTest {
     /**
      * Test of nuevoComentario method, of class Controller.
      */
+    
+    @Mock
+    private ManejadorPropuesta mPropuesta;  //creo un mock del manejador para saltar la base de datos
+    
     @Test
     public void testNuevoComentario() {
         System.out.println("nuevoComentario");
@@ -1086,6 +1093,35 @@ public class ControllerTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testNuevoComentario__fallaCuandoUserNickEsNull() 
+    {
+        System.out.println("testNuevoComentario__fallaCuandoUserNickEsNull");
+        String userNick = null;
+        String comentario = "algo comentado";
+        String tituloPropuesta = "Pinsel Shock";
+        
+        Controller instance = new Controller();
+        boolean resultado = instance.nuevoComentario(comentario, userNick, tituloPropuesta);
+
+        assertFalse(resultado); //Al ser null el nick, el if nunca debería entrar por lo tanto debería dar false
+    }
+    @Test
+    public void testNuevoComentario_CasoUserNickVacio() 
+    {
+        System.out.println("testNuevoComentario_casoUserNickVacio");
+        String comentario = "algo comentado";
+        String userNick = "";   //Aca fuerzo la reacción del if
+        String tituloPropuesta = "Pinsel Lock";
+        Controller instance = new Controller();
+        
+        when(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta)).thenReturn(true);   //En este caso devuelve true siempre que se consulta
+
+        boolean resultado = instance.nuevoComentario(comentario, userNick, tituloPropuesta);
+
+        assertTrue(resultado);
     }
 
     //FIN TEST Propouestas
