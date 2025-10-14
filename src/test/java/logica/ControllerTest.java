@@ -840,10 +840,7 @@ public class ControllerTest {
 
         boolean result = instance.altaDeCategoria(null);
 
-        if (result == false) //Muestra este mensaje sólo si se da el false.
-        {
-            System.out.println(" : test correcto");
-        }  
+        assertFalse(result); //Devuelve el mensaje en formato del test
     }
     
         @Test
@@ -861,10 +858,7 @@ public class ControllerTest {
 
         boolean result = instance.altaDeCategoria(catTest);
 
-        if (result == true) //Muestra este mensaje sólo si se da el true.
-        {
-            System.out.println(" : test correcto");
-        } 
+        assertTrue(result); //Devuelve el mensaje en formato del test
     }
 
     /**
