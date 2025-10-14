@@ -94,7 +94,7 @@ public class Controller  implements IController {
     }
     @Override
     public List<DTOUsuario> ListaDTOUsuarios(){
-    return mUsuario.getListDTOUsuario();
+        return mUsuario.getListDTOUsuario();
     }
     
     @Override
@@ -111,7 +111,7 @@ public class Controller  implements IController {
         if(!img.exists()) return null;
         //byte[] img= new ;
         
-            return Files.readAllBytes(img.toPath());//devuelve array de bytes de la img 
+          return Files.readAllBytes(img.toPath());//devuelve array de bytes de la img 
         }catch(IOException i){
             i.printStackTrace();
             return null;
@@ -120,7 +120,6 @@ public class Controller  implements IController {
     
     @Override
     public List<DTOPropuesta> getFavoritas(String nick){
-        
         return mUsuario.getFavoritas(nick);
     
     }
@@ -146,7 +145,7 @@ public class Controller  implements IController {
     }
      
     @Override
-    public List<DTOUsuario>Seguidos(String nick){
+    public List<DTOUsuario> Seguidos(String nick){
     
         return mUsuario.getSeguidos(nick);
     }
@@ -256,7 +255,7 @@ public class Controller  implements IController {
     //me crea un dtoProponente datos basicos
     public DTOProponente getDTOProponente(String nick) { 
            Proponente usr= (Proponente) mUsuario.getUsuario(nick);
-          DTOProponente resu=new DTOProponente(usr);
+           DTOProponente resu=new DTOProponente(usr);
           
           //Map<String,DTOPropuesta> p=mUsuario.getPropuestasCreadas(resu);
            

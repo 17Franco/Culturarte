@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
@@ -35,10 +36,9 @@ public class ManejadorUsuario {
 
         
     private ManejadorUsuario() {
-
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         usuarios = new HashMap<String, Usuario>();
         
-       
     }
     
     public static ManejadorUsuario getInstance() {
@@ -475,6 +475,35 @@ public class ManejadorUsuario {
                     em.close();
                 }
         
+        }
+       public void EliminarUsuario(String nick) {
+            
+            EntityManager em = PersistenciaManager.getEntityManager();
+
+            try {
+                em.getTransaction().begin();
+                Usuario usuario = em.find(Usuario.class, nick); 
+
+                if (usuario != null) {
+                    em.remove(usuario);
+                    em.getTransaction().commit();
+                    
+                } else {
+                    em.getTransaction().rollback();
+                    
+                }
+
+            } catch(Exception e) {
+                if (em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                e.printStackTrace();
+                
+            } finally {
+                 
+                em.close();
+                
+            }
         }
         
         //agregom una propuesta como favorita al usuario 
