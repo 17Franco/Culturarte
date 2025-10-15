@@ -866,6 +866,21 @@ public class ControllerTest {
         assertEquals(3, resultado);
     }
     
+    @Test
+    public void testExtenderOCancelarPropuesta_casoAnomalia() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoAnomalia");
+        
+        String accionUsuario = "????";
+        String tituloPropuesta = "propTest";
+
+        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada(tituloPropuesta);    //Me salto esta función
+
+        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+
+        assertEquals(0, resultado);
+    }
+    
      /**
      * Test of accionesSobrePropuesta method, of class Controller.
      */
