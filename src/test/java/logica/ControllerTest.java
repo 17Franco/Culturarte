@@ -838,17 +838,32 @@ public class ControllerTest {
     /**
      * Test of extenderOCancelarPropuesta method, of class Controller.
      */
+    
     @Test
-    public void testExtenderOCancelarPropuesta() {
-        System.out.println("extenderOCancelarPropuesta");
-        String accionUsuario = "";
-        String tituloPropuesta = "";
-        Controller instance = new Controller();
-        int expResult = 0;
-        int result = instance.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testExtenderOCancelarPropuesta_casoCancelar() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoCancelar");
+        
+        String accionUsuario = "CANCELAR";
+        String tituloPropuesta = "propTest";
+
+        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada(tituloPropuesta);    //Me salto esta función
+
+        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+
+        assertEquals(2, resultado);
+    }
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoExtender() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoExtender");
+
+        doNothing().when(mPropuesta).extenderFinanciacion("propTest");    //Me salto esta función
+
+        int resultado = controller.extenderOCancelarPropuesta("EXTENDER", "propTest");
+
+        assertEquals(3, resultado);
     }
     
      /**
@@ -880,7 +895,7 @@ public class ControllerTest {
 
         assertEquals(3, result);
     }
-        @Test
+    @Test
     public void testAccionesSobrePropuesta_casoProponenteCancela() 
     {
         System.out.println("accionesSobrePropuesta_casoProponenteCancela");
