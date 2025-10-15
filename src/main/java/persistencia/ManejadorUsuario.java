@@ -571,6 +571,7 @@ public class ManejadorUsuario {
                     p1.setEmail("horacio.rubino@guambia.com.uy");
                     p1.setFecha(LocalDate.of(1962,02,25));
                     p1.setRutaImg("IMG/hrubino/547129.JPG");
+                    p1.setPass("123");
                     em.persist(p1);
                 }
 
@@ -592,6 +593,7 @@ public class ManejadorUsuario {
                     p2.setEmail("Martin.bus@agadu.org.uy");
                     p2.setFecha(LocalDate.of(1972, 6, 14));
                     p2.setRutaImg("IMG/mbusca/583283.jpg");
+                    p2.setPass("123");
                     em.persist(p2);
                 }
 
@@ -610,6 +612,7 @@ public class ManejadorUsuario {
                     p3.setEmail("tabare.car@agadu.org.uy");
                     p3.setFecha(LocalDate.of(1971, 7, 24));
                     p3.setRutaImg("IMG/tabarec/images.jpeg");
+                    p3.setPass("123");
                     em.persist(p3);
                 }
 
@@ -629,6 +632,7 @@ public class ManejadorUsuario {
                     p4.setEmail("Cachila.sil@c1080.org.uy");
                     p4.setFecha(LocalDate.of(1947, 1, 1));
                     p4.setRutaImg("IMG/cachilas/8273.jpg");
+                    p4.setPass("123");
                     em.persist(p4);
                 }
 
@@ -652,6 +656,7 @@ public class ManejadorUsuario {
                     p5.setEmail("hector.gui@1galpon.org.uy");
                     p5.setFecha(LocalDate.of(1954, 1, 7));
                     p5.setRutaImg("IMG/hectorg/7232.jpg");
+                    p5.setPass("123");
                     em.persist(p5);
                 }
 
@@ -668,6 +673,7 @@ public class ManejadorUsuario {
                     p6.setEmail("juliobocca@sodre.com.uy");
                     p6.setFecha(LocalDate.of(1967, 3, 16));
                     p6.setRutaImg("");
+                    p6.setPass("123");
                     em.persist(p6);
                 }
 
@@ -684,6 +690,7 @@ public class ManejadorUsuario {
                     p7.setEmail("diego@efectocine.com");
                     p7.setFecha(LocalDate.of(1975, 1, 1));
                     p7.setRutaImg("");
+                    p7.setPass("123");
                     em.persist(p7);
                 }
 
@@ -700,6 +707,7 @@ public class ManejadorUsuario {
                     p8.setEmail("kairoher@pilsenrock.com.uy");
                     p8.setFecha(LocalDate.of(1840, 4, 25));
                     p8.setRutaImg("IMG/kairoh/images.jpeg");
+                    p8.setPass("123");
                     em.persist(p8);
                 }
 
@@ -719,6 +727,7 @@ public class ManejadorUsuario {
                     p9.setEmail("losbardo@bardocientifico.com");
                     p9.setFecha(LocalDate.of(1980, 10, 31));
                     p9.setRutaImg("IMG/losBardo/BC-head-home-heroe-color-final.jpg");
+                    p9.setPass("123");
                     em.persist(p9);
                 }
                   t.commit();
@@ -745,6 +754,7 @@ public class ManejadorUsuario {
                     c0.setEmail("Robin.h@tinglesa.com.uy");
                     c0.setFecha(LocalDate.of(1940, 8, 3));
                     c0.setRutaImg("");
+                    c0.setPass("123");
                     em.persist(c0);
                 }
 
@@ -758,6 +768,7 @@ public class ManejadorUsuario {
                     c1.setEmail("marcelot@ideasdelsur.com.ar");
                     c1.setFecha(LocalDate.of(1960, 4, 1));
                     c1.setRutaImg("IMG/marcelot/2132.jpg");
+                    c1.setPass("123");
                     em.persist(c1);
                 }
 
@@ -771,6 +782,7 @@ public class ManejadorUsuario {
                     c2.setEmail("edgardo@novick.com.uy");
                     c2.setFecha(LocalDate.of(1952, 7, 17));
                     c2.setRutaImg("IMG/novick/images.jpeg");
+                    c2.setPass("123");
                     em.persist(c2);
                 }
 
@@ -784,6 +796,7 @@ public class ManejadorUsuario {
                     c3.setEmail("puglia@alpanpan.com.uy");
                     c3.setFecha(LocalDate.of(1950, 1, 28));
                     c3.setRutaImg("IMG/sergiop/puglia01.jpg");
+                    c3.setPass("123");
                     em.persist(c3);
                 }
 
@@ -797,6 +810,7 @@ public class ManejadorUsuario {
                     c4.setEmail("chino@trico.org.uy");
                     c4.setFecha(LocalDate.of(1976, 3, 17));
                     c4.setRutaImg("");
+                    c4.setPass("123");
                     em.persist(c4);
                 }
 
@@ -810,6 +824,7 @@ public class ManejadorUsuario {
                     c5.setEmail("eltony@manya.org.uy");
                     c5.setFecha(LocalDate.of(1955, 2, 14));
                     c5.setRutaImg("IMG/tonyp/antonio.jpg");
+                    c5.setPass("123");
                     em.persist(c5);
                 }
 
@@ -823,6 +838,7 @@ public class ManejadorUsuario {
                     c6.setEmail("jodal@artech.com.uy");
                     c6.setFecha(LocalDate.of(1960, 9, 8));
                     c6.setRutaImg("IMG/nicoJ/Jodal-Nicolas.jpg");
+                    c6.setPass("123");
                     em.persist(c6);
                 }
 
@@ -836,6 +852,7 @@ public class ManejadorUsuario {
                     c7.setEmail("juanp@elpueblo.com");
                     c7.setFecha(LocalDate.of(1970, 1, 1));
                     c7.setRutaImg("");
+                    c7.setPass("123");
                     em.persist(c7);
                 }
 
@@ -849,6 +866,7 @@ public class ManejadorUsuario {
                     c8.setEmail("menganog@elpueblo.com");
                     c8.setFecha(LocalDate.of(1982, 2, 2));
                     c8.setRutaImg("");
+                    c8.setPass("123");
                     em.persist(c8);
                 }
 
@@ -862,6 +880,7 @@ public class ManejadorUsuario {
                     c9.setEmail("peregano@elpueblo.com");
                     c9.setFecha(LocalDate.of(1985, 3, 3));
                     c9.setRutaImg("");
+                    c9.setPass("123");
                     em.persist(c9);
                 }
 
@@ -875,6 +894,7 @@ public class ManejadorUsuario {
                     c10.setEmail("jacinta@elpueblo.com");
                     c10.setFecha(LocalDate.of(1990, 4, 4));
                     c10.setRutaImg("");
+                    c10.setPass("123");
                     em.persist(c10);
                 }
                   
