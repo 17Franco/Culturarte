@@ -77,6 +77,10 @@ public class Usuario {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
     
     public void setNombre(String nombre) {
         this.nombre = nombre;
