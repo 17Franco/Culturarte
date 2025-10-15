@@ -99,8 +99,7 @@ public class Controller  implements IController {
     
     @Override
     public boolean sigueAUsuario(String seguidor,String Seguido){
-    
-    return mUsuario.sigue(seguidor,Seguido);
+        return mUsuario.sigue(seguidor,Seguido);
     }
     @Override
     public byte[] getImg(String ruta) {

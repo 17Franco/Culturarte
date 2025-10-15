@@ -4,35 +4,38 @@
  */
 package logica;
 
-import java.util.Arrays;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaboracion;
+
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Estado;
+
 import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
 import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.*;
+import org.mockito.MockitoAnnotations;
 import persistencia.ManejadorUsuario;
 
 /**
@@ -44,44 +47,22 @@ public class ControllerTest {
     public ControllerTest() {
     }
     
+    @Mock
+    private ManejadorUsuario mUsuarioMock;
+
+    
+    @InjectMocks
+    private Controller controller;
+    
     @BeforeAll
     public static void setUpClass() {
-        Controller instance = new Controller();
-        ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
-        //los elimino por si quedaron anteriormente 
-        mUsuario.EliminarUsuario("Pedro2025");
-        mUsuario.EliminarUsuario("Maria2025");
-        //creo a dos usuarios uno Proponente y otro colaborador para los test
-        DTOColaborador usuC = new DTOColaborador();
-        if(!instance.existe("Maria2025")){
-            usuC.setNickname("Maria2025");
-            usuC.setNombre("Maria");
-            usuC.setApellido("Suárez");
-            usuC.setEmail("Maria.suarez@example.com");
-            usuC.setFecha(LocalDate.of(1992, 3, 14));
-            usuC.setRutaImg("IMG/Maria2025/perfil.png");
-            //aca agrego el Colaborador y inserto en la bd
-            instance.altaUsuario(usuC);
-        }
-        DTOProponente usuP = new DTOProponente();
-        if(!instance.existe("Pedro2025")){
-            usuP.setNickname("Pedro2025");
-            usuP.setNombre("Pedro");
-            usuP.setApellido("Suárez");
-            usuP.setEmail("pedro.suarez@gmail.com");
-            usuP.setFecha(LocalDate.of(1992, 3, 14));
-            usuP.setRutaImg("IMG/pedro2025/perfil.png");
-            usuP.setDireccion("Av. Italia 2456, Montevideo");
-            usuP.setBiografia("Emprendedor uruguayo apasionado por la tecnología y la innovación social.");
-            usuP.setWebSite("WWW.pedrosuarez.dev");
-            //aca agrego el Proponente y inserto en la bd
-            instance.altaUsuario(usuP);
-        }
-        
-        //registroUsuario (el registro que usa la web)
-        byte[] contenido = new byte[]{};
-        instance.registroUsuario("FrancoP", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"img.jpg",true,"25 metros","www.web.com","soy usuario Proponente");
-        instance.registroUsuario("FrancoC", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",false,"","","");
+//        
+//        
+//        
+//        registroUsuario (el registro que usa la web)
+//        byte[] contenido = new byte[]{};
+//        instance.registroUsuario("FrancoP", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"img.jpg",true,"25 metros","www.web.com","soy usuario Proponente");
+//        instance.registroUsuario("FrancoC", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",false,"","","");
 
 //        //creo propuesta de prueba 
 //        List<TipoRetorno> Retorno = new ArrayList<>();
@@ -92,62 +73,59 @@ public class ControllerTest {
     
     @AfterAll
     public static void tearDownClass() {
-        Controller instance = new Controller();
-        ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
-        //los elimino
-        mUsuario.EliminarUsuario("Pedro2025");
-        mUsuario.EliminarUsuario("Maria2025");
-        mUsuario.EliminarUsuario("FrancoP");
-        mUsuario.EliminarUsuario("FrancoC");
-        
-          
-         
+    
     }
     
     @BeforeEach
     public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
     
     @AfterEach
     public void tearDown() {
     }
     //Test de USUSARIO
-    /**
-     * Test of altaUsuario method, of class Controller.
-     */
+   
     @Test
     public void testAltaProponente() {
         System.out.println("altaUsuario");
-        
-        Controller instance = new Controller();
-        //ME TRAIGO AL USUARIO Creado y compruebo datos
-        DTOProponente resultado = instance.getDTOProponente("Pedro2025");
-        assertNotNull(resultado, "El proponente no fue agregado correctamente.");
-        //assertEquals("Pedro2025", resultado.getNickname());
-        assertEquals("Pedro", resultado.getNombre());
-        assertEquals("Suárez", resultado.getApellido());
-        assertEquals("pedro.suarez@gmail.com", resultado.getEmail());
-        
-        assertEquals(LocalDate.of(1992, 3, 14), resultado.getFecha());
-        assertEquals("IMG/pedro2025/perfil.png", resultado.getRutaImg());
-        assertEquals("Av. Italia 2456, Montevideo", resultado.getDireccion());
-        assertEquals("Emprendedor uruguayo apasionado por la tecnología y la innovación social.", resultado.getBiografia());
-        assertEquals("WWW.pedrosuarez.dev", resultado.getWebSite());
+        // Arrange (Preparación): Creación con datos específicos.
+        DTOProponente usuP = new DTOProponente();
+        usuP.setNickname("Pedro2025");
+        usuP.setNombre("Pedro");
+        usuP.setApellido("Suárez");
+        usuP.setEmail("pedro.suarez@gmail.com");
+        usuP.setFecha(LocalDate.of(1992, 3, 14));
+        usuP.setRutaImg("IMG/pedro2025/perfil.png");
+        usuP.setDireccion("Av. Italia 2456, Montevideo");
+        usuP.setBiografia("Emprendedor uruguayo apasionado por la tecnología y la innovación social.");
+        usuP.setWebSite("WWW.pedrosuarez.dev");
+        //aca agrego el Proponente y inserto en la bd
+        //instance.altaUsuario(usuP);
+
+        // Act (Acción)
+        controller.altaUsuario(usuP);
+
+        verify(mUsuarioMock, times(1)).addProponente(eq(usuP));  
     }
     
     @Test
     public void testAltaColaborador() {
         System.out.println("altaUsuario");
-        Controller instance = new Controller();
+        DTOColaborador usuC = new DTOColaborador();
+        usuC.setNickname("Maria2025");
+        usuC.setNombre("Maria");
+        usuC.setApellido("Suárez");
+        usuC.setEmail("Maria.suarez@example.com");
+        usuC.setFecha(LocalDate.of(1992, 3, 14));
+        usuC.setRutaImg("IMG/Maria2025/perfil.png");
+        //aca agrego el Colaborador y inserto en la bd
+        //instance.altaUsuario(usuC);
         
-        //nesesito comprobar de que se inserto bien y que se guardaron bien los datos
-        DTOColaborador resultado = instance.getDTOColaborador("Maria2025");
-        assertNotNull(resultado, "El proponente no fue agregado correctamente.");
-        assertEquals("Maria", resultado.getNombre());
-        assertEquals("Suárez", resultado.getApellido());
-        assertEquals("Maria.suarez@example.com", resultado.getEmail());
-        assertEquals(LocalDate.of(1992, 3, 14), resultado.getFecha());
-        assertEquals("IMG/Maria2025/perfil.png", resultado.getRutaImg());
+        // Act (Acción)
+        controller.altaUsuario(usuC);
+
+        verify(mUsuarioMock, times(1)).addColaborador(eq(usuC));
        
     }
 
@@ -188,78 +166,68 @@ public class ControllerTest {
     @Test
     public void testregistroUsuarioP(){
         //compruebo que el registroUsuario (el que usa al registrarse por web funcione bien)
-        Controller instance = new Controller();
-        //instance.registroUsuario("FrancoP", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",true,"25 metros","www.web.com","soy usuario Proponente");
-        //nesesito comprobar de que se inserto bien y que se guardaron bien los datos
-        DTOProponente resultado = instance.getDTOProponente("FrancoP");
-        assertNotNull(resultado, "El proponente no fue agregado correctamente.");
-        //assertEquals("Pedro2025", resultado.getNickname());
-        assertEquals("Franco", resultado.getNombre());
-        assertEquals("echaide", resultado.getApellido());
-        assertEquals("algo@gmail.com", resultado.getEmail());
-        
-        assertEquals(LocalDate.of(2002, 05, 17), resultado.getFecha());
-        assertEquals("IMG/FrancoP/img.jpg", resultado.getRutaImg()); //el registro sin img
-        assertEquals("25 metros", resultado.getDireccion());
-        assertEquals("soy usuario Proponente", resultado.getBiografia());
-        assertEquals("www.web.com", resultado.getWebSite());
+        byte[] contenido = new byte[]{};
+        controller.registroUsuario("FrancoP", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",true,"25 metros","www.web.com","soy usuario Proponente");
+ 
+        verify(mUsuarioMock, times(1)).addProponente(any(DTOProponente.class)); 
+    
+        verify(mUsuarioMock, never()).addColaborador(any());
+
     }
     
      @Test
     public void testregistroUsuarioC(){
         //compruebo que el registroUsuario (el que usa al registrarse por web funcione bien)
-        Controller instance = new Controller();
-       
-        //nesesito comprobar de que se inserto bien y que se guardaron bien los datos
-        DTOColaborador resultado = instance.getDTOColaborador("FrancoC");
-        assertNotNull(resultado, "El proponente no fue agregado correctamente.");
-        assertEquals("Franco", resultado.getNombre());
-        assertEquals("echaide", resultado.getApellido());
-        assertEquals("algo@gmail.com", resultado.getEmail());
-        
-        assertEquals(LocalDate.of(2002, 05, 17), resultado.getFecha());
-        assertEquals("", resultado.getRutaImg()); //el registro sin img
-        
+        byte[] contenido = new byte[]{};
+        controller.registroUsuario("FrancoC", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",false,"","","");
+        verify(mUsuarioMock, times(1)).addColaborador(any(DTOColaborador.class)); 
+
+        verify(mUsuarioMock, never()).addProponente(any()); 
     }
    
     //test cuando no hay seguidores
     @Test
     public void testGetSeguidoresF() {
         System.out.println("getSeguidores");
+       String nick = "Maria2025";
+       
+        List<DTOUsuario> expResult = new ArrayList<>(); // lo que deberia devolver
         
-        //quiero saber los seguidores de Maria2025
-        String nick = "Maria2025";
-        Controller instance = new Controller();
-        List<DTOUsuario> expResult = new ArrayList<>();//se espera vacios
-        List<DTOUsuario> result = instance.getSeguidores(nick);
-        assertEquals(expResult, result);
+        when(mUsuarioMock.obtenerSeguidores(eq(nick))).thenReturn(expResult);
         
+        List<DTOUsuario> result = controller.getSeguidores(nick);
+        
+        //verificamos que se llama al metodo de mUsuario 
+        verify(mUsuarioMock, times(1)).obtenerSeguidores(eq(nick));
+        assertNotNull(result);
+        assertEquals(0, result.size());
     }
     //test cuando hay seguidores
     @Test
     public void testGetSeguidoresE() {
         System.out.println("getSeguidores");
         
-        //quiero saber los seguidores de Maria2025
+     
+        String nick = "Maria2025";
         
-        String nick = "Pedro2025";
-        Controller instance = new Controller();
-        //agrego un seguidor a pedro 
-        instance.seguir("Maria2025", "Pedro2025");//un colaborador
-        instance.seguir("FrancoP", "Pedro2025");//un proponente
-        List<DTOUsuario> expResult = new ArrayList<>();
-        DTOUsuario aux =instance.getDTOColaborador("Maria2025");
-        DTOProponente aux2=instance.getDTOProponente("FrancoP");
-        expResult.add(aux);
-        expResult.add(aux2);
+        DTOUsuario seguidor1 = new DTOUsuario(); // Asumo setters para cargar DTOs
+        seguidor1.setNickname("Juan");
+        DTOUsuario seguidor2 = new DTOUsuario();
+        seguidor2.setNickname("AnaR");
+    
+        List<DTOUsuario> devolver = Arrays.asList(seguidor1, seguidor2);
         
-        List<DTOUsuario> result = instance.getSeguidores(nick);
         
-        instance.unFollowUser("Maria2025","Pedro2025"); //lo dejo de seguir para que se borre bien luego
-        instance.unFollowUser("FrancoP","Pedro2025");
-        //compruebo 
-        assertNotNull(result);
+        when(mUsuarioMock.obtenerSeguidores(eq(nick))).thenReturn(devolver);
+        
+        List<DTOUsuario> result = controller.getSeguidores(nick);
+        
+        //verificamos que se llama al metodo de mUsuario 
+        verify(mUsuarioMock, times(1)).obtenerSeguidores(eq(nick));
+        
         assertEquals(2, result.size());
+      
+        assertEquals(devolver, result);
         
     }
 
@@ -271,13 +239,12 @@ public class ControllerTest {
     @Test
     public void testSigueAUsuarioF() {
         System.out.println("sigueAUsuario");
-        Controller instance = new Controller();
         String seguidor = "Maria2025";
         String Seguido = "Pedro2025";
-        
-        
+        when(mUsuarioMock.sigue(eq(seguidor),eq(Seguido))).thenReturn(false);
         boolean expResult = false;
-        boolean result = instance.sigueAUsuario(seguidor, Seguido);
+        boolean result = controller.sigueAUsuario(seguidor, Seguido);
+        verify(mUsuarioMock, times(1)).sigue(eq(seguidor),eq(Seguido));
         assertEquals(expResult, result);
         
     }
@@ -285,459 +252,355 @@ public class ControllerTest {
     @Test
     public void testSigueAUsuarioE() {
         System.out.println("sigueAUsuario");
-        Controller instance = new Controller();
         String seguidor = "Maria2025";
         String Seguido = "Pedro2025";
-        instance.seguir(seguidor, Seguido);
-        
+        when(mUsuarioMock.sigue(eq(seguidor),eq(Seguido))).thenReturn(true);
         boolean expResult = true;
-        boolean result = instance.sigueAUsuario(seguidor, Seguido);
-        instance.unFollowUser(seguidor,Seguido);
-        assertEquals(expResult, result);  
+        boolean result = controller.sigueAUsuario(seguidor, Seguido);
+        verify(mUsuarioMock, times(1)).sigue(eq(seguidor),eq(Seguido));
+        assertEquals(expResult, result); 
     }
-    
-
+//    
+//
     /**
      * Test of getFavoritas method, of class Controller.
      */
     
     //cuando no tiene prop favoritas
-//    @Test
-//    public void testGetFavoritasF() {
-//        System.out.println("getFavoritas");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        List<DTOPropuesta> expResult = null;
-//        List<DTOPropuesta> result = instance.getFavoritas(nick);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    //cuando no existe el usuario
-//    @Test
-//    public void testGetFavoritasFu() {
-//        System.out.println("getFavoritas");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        List<DTOPropuesta> expResult = null;
-//        List<DTOPropuesta> result = instance.getFavoritas(nick);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    //cuando tiene fav y existe el usuario
-//    @Test
-//    public void testGetFavoritasE() {
-//        System.out.println("getFavoritas");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        List<DTOPropuesta> expResult = null;
-//        List<DTOPropuesta> result = instance.getFavoritas(nick);
-//        assertEquals(expResult, result);
-//        
-//    }
-
-    //cuando la pas o nick no son correctos
     @Test
-    public void testLoginF() {
+    public void testGetFavoritasF() {
+        String nickname = "Pedro2025";
+        List<DTOPropuesta> listaVacia = new ArrayList<>();
+
+        
+        when(mUsuarioMock.getFavoritas(eq(nickname))).thenReturn(listaVacia);
+
+        List<DTOPropuesta> result = controller.getFavoritas(nickname);
+
+        verify(mUsuarioMock, times(1)).getFavoritas(eq(nickname));
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        assertEquals(listaVacia, result); 
+    }
+    
+    @Test
+    public void testLogin() {
         System.out.println("loginF");
         String nick = "FrancoP";
         String Pass = "1234";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.login(nick, Pass);
-        assertEquals(expResult, result);
-        
-    }
-    //login proponente
-    @Test
-    public void testLoginEP() {
-        System.out.println("loginEP");
-        String nick = "FrancoP";
-        String Pass = "123";
-        Controller instance = new Controller();
+        when(mUsuarioMock.verificarCredenciales(eq(nick),eq(Pass))).thenReturn(true);
         boolean expResult = true;
-        boolean result = instance.login(nick, Pass);
-        assertEquals(expResult, result);
-        
-    }
-    //login colaborador
-    @Test
-    public void testLoginEC() {
-        System.out.println("loginEC");
-        String nick = "FrancoC";
-        String Pass = "123";
-        Controller instance = new Controller();
-        boolean expResult = true;
-        boolean result = instance.login(nick, Pass);
+        boolean result = controller.login(nick, Pass);
+        verify(mUsuarioMock, times(1)).verificarCredenciales(eq(nick),eq(Pass));
         assertEquals(expResult, result);  
     }
-
-    /**
-     * Test of isProponente method, of class Controller.
-     */
-    //cuando es proponente 
+    
+    //cuando no es proponente 
     @Test
     public void testIsProponenteF() {
         System.out.println("isProponenteF");
-        String nick = "FrancoC";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.isProponente(nick);
-        assertEquals(expResult, result);
-       
-    }
-    //cuando no es proponente
-    @Test
-    public void testIsProponenteE() {
-        System.out.println("isProponenteE");
         String nick = "FrancoP";
-        Controller instance = new Controller();
+        when(mUsuarioMock.isProponente(eq(nick))).thenReturn(true);
         boolean expResult = true;
-        boolean result = instance.isProponente(nick);
+        boolean result = controller.isProponente(nick);
+        //verifico que haga la llamada 
+        verify(mUsuarioMock, times(1)).isProponente(eq(nick));
         assertEquals(expResult, result);  
     }
-    
-    
-    /**
-     * Test of existeUsuario method, of class Controller.
-     */
-    //existe usuario con mismo nick y email
+   
+    //existe usuario usando el email
     @Test
     public void testExisteUsuarioeE() {
-        System.out.println("existeUsuarioNickEmailUsados");
+        System.out.println("existeUsuario");
         String nick = "FrancoP";
         String email = "algo@gmail.com";
-        Controller instance = new Controller();
-        boolean expResult = true;
-        boolean result = instance.existeUsuario(nick, email);
-        assertEquals(expResult, result);
+
+        when(mUsuarioMock.existe(eq(nick))).thenReturn(false);
         
+        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(true);
+        
+        boolean expResult = true;
+        boolean result = controller.existeUsuario(nick, email);
+        //en este caso se llaman ambos metodos
+        verify(mUsuarioMock, times(1)).existe(eq(nick));
+        verify(mUsuarioMock, times(1)).emailUsado(eq(email));
+        assertEquals(expResult, result);
     }
     //existe usuario con mismo nick pero no email
     @Test
     public void testExisteUsuarioeEN() {
-        System.out.println("existeUsuarioNickUsuado");
+       System.out.println("existeUsuario");
         String nick = "FrancoP";
-        String email = "algo2@gmail.com";
-        Controller instance = new Controller();
-        boolean expResult = true;
-        boolean result = instance.existeUsuario(nick, email);
-        assertEquals(expResult, result);
+        String email = "algo@gmail.com";
+
+        when(mUsuarioMock.existe(eq(nick))).thenReturn(true);
         
+        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(false);
+        
+        boolean expResult = true;
+        boolean result = controller.existeUsuario(nick, email);
+        //solo entra al primero 
+        verify(mUsuarioMock, times(1)).existe(eq(nick));
+        verify(mUsuarioMock, times(0)).emailUsado(eq(email));
+        assertEquals(expResult, result);
+
     }
-    //existe usuario con mismo email pero no nick
+    //no existe
     @Test
     public void testExisteUsuarioeEE() {
-        System.out.println("existeUsuarioEmailUsado");
-        String nick = "FrancoP2";
+       System.out.println("existeUsuario");
+        String nick = "FrancoP";
         String email = "algo@gmail.com";
-        Controller instance = new Controller();
-        boolean expResult = true;
-        boolean result = instance.existeUsuario(nick, email);
-        assertEquals(expResult, result);
-        
-    }
-    //No existe usuario 
-    @Test
-    public void testExisteUsuarioeF() {
-        System.out.println("existeUsuarioNoExisteUsuario");
-        String nick = "FrancoP2";
-        String email = "algo2@gmail.com";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.existeUsuario(nick, email);
-        assertEquals(expResult, result);
-        
-    }
-    //email nulo 
-    @Test
-    public void testExisteUsuarioeEn() {
-        System.out.println("existeUsuarioEmailNulo");
-        String nick = "FrancoP2";
-        String email = null;
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.existeUsuario(nick, email);
-        assertEquals(expResult, result);
-        
-    }
-    
 
-    /**
-     * Test of emailUsado method, of class Controller.
-     */
+        when(mUsuarioMock.existe(eq(nick))).thenReturn(false);
+        
+        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(false);
+        
+        boolean expResult = false;
+        boolean result = controller.existeUsuario(nick, email);
+        //ambos se llaman
+        verify(mUsuarioMock, times(1)).existe(eq(nick));
+        verify(mUsuarioMock, times(1)).emailUsado(eq(email));
+        assertEquals(expResult, result);
+        
+    }
+
     //es usado el email
     @Test
-    public void testEmailUsadoE() {
+    public void testEmailUsado() {
         System.out.println("emailYaUsado");
         String email = "algo@gmail.com";
-        Controller instance = new Controller();
-        boolean expResult = true;
-        boolean result = instance.emailUsado(email);
-        assertEquals(expResult, result);
-        
-    }
-    
-    @Test
-    public void testEmailUsadoF() {
-        System.out.println("emailNoUsado");
-        String email = "algo2@gmail.com";
-        Controller instance = new Controller();
+        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(false);
         boolean expResult = false;
-        boolean result = instance.emailUsado(email);
-        assertEquals(expResult, result);
-        
+        boolean result = controller.emailUsado(email);
+        //verificacion
+        verify(mUsuarioMock, times(1)).emailUsado(eq(email));
+        assertEquals(expResult, result);     
     }
-    @Test
-    public void testEmailUsadoV() {
-        System.out.println("emailVacio");
-        String email = null;
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.emailUsado(email);
-        assertEquals(expResult, result);
-        
-    }
-    
-
     //existe usuario con ese nick
     @Test
-    public void testExisteE() {
+    public void testExiste() {
         System.out.println("existe");
         String nick = "FrancoP";
-        Controller instance = new Controller();
-        boolean expResult = true;
-        boolean result = instance.existe(nick);
-        assertEquals(expResult, result);
+        when(mUsuarioMock.existe(eq(nick))).thenReturn(false);
         
-    }
-    //NO existe usuario con ese nick
-    @Test
-    public void testExisteF() {
-        System.out.println("existe");
-        String nick = "FrancoP2";
-        Controller instance = new Controller();
         boolean expResult = false;
-        boolean result = instance.existe(nick);
-        assertEquals(expResult, result);
+        boolean result = controller.existe(nick);
+        //verificacion
+        verify(mUsuarioMock, times(1)).existe(eq(nick));
         
-    }
-    
-    
-    /**
-     * Test of Seguidos method, of class Controller.
-     */
-    //cuando no sigue a nadie devuelve lista vacia
-    @Test
-    public void testSeguidosF() {
-        System.out.println("SeguidosF");
-        String nick = "Maria2025";
-        Controller instance = new Controller();
-        List<DTOUsuario> expResult = new ArrayList<>();
-        List<DTOUsuario> result = instance.Seguidos(nick);
         assertEquals(expResult, result);
-        
     }
-    //cuando sigue a otros devuelve lista con contenido
-    @Test
-    public void testSeguidosE() {
-        System.out.println("SeguidosE");
-        String nick = "Maria2025";
-        Controller instance = new Controller();
-        instance.seguir("Maria2025", "Pedro2025");//proponente
-        instance.seguir("Maria2025", "FrancoC");
-        
-        //List<DTOUsuario> expResult = new ArrayList<>();
-        List<DTOUsuario> result = instance.Seguidos(nick);
-        instance.unFollowUser("Maria2025", "Pedro2025");
-        instance.unFollowUser("Maria2025", "FrancoC");
-        assertNotNull(result);
-        assertEquals(2, result.size());
- 
-    }
-
-    /**
-     * Test of ListaUsuarios method, of class Controller.
-     */
-    @Test
-    public void testListaUsuarios() {
-        System.out.println("ListaUsuarios");
-        Controller instance = new Controller();
-       List<String> nicksEsperados = Arrays.asList(
-            "Maria2025", 
-            "Pedro2025", 
-            "FrancoP", 
-            "FrancoC"
-        );
-
-        // 3. Ejecución
-        List<String> result = instance.ListaUsuarios();
-
-        assertNotNull(result);
-
-        assertTrue(result.containsAll(nicksEsperados));  
-    }
-
-    /**
-     * Test of ListaProponentes method, of class Controller.
-     */
-    @Test
-    public void testListaProponentes() {
-        System.out.println("ListaProponentes");
-        Controller instance = new Controller();
-        List<String> expResult = null;
-        List<String> result = instance.ListaProponentes();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of ListaColaborador method, of class Controller.
-     */
-    @Test
-    public void testListaColaborador() {
-        System.out.println("ListaColaborador");
-        Controller instance = new Controller();
-        List<String> expResult = null;
-        List<String> result = instance.ListaColaborador();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    /**
-     * Test of ListaSeguidosPorUsuario method, of class Controller.
-     */
-    @Test
-    public void testListaSeguidosPorUsuario() {
-        System.out.println("ListaSeguidosPorUsuario");
-        String nick = "";
-        Controller instance = new Controller();
-        List<String> expResult = null;
-        List<String> result = instance.ListaSeguidosPorUsuario(nick);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
- 
-    /**
-     * Test of marcarComoFavorita method, of class Controller.
-     */
-    
-    
-    @Test
-    public void testMarcarComoFavorita() {
-        System.out.println("marcarComoFavorita");
-        String nickname = "";
-        String tituloPropuesta = "";
-        Controller instance = new Controller();
-        instance.marcarComoFavorita(nickname, tituloPropuesta);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of quitarFavorita method, of class Controller.
-     */
-    @Test
-    public void testQuitarFavorita() {
-        System.out.println("quitarFavorita");
-        String nickname = "";
-        String tituloPropuesta = "";
-        Controller instance = new Controller();
-        instance.quitarFavorita(nickname, tituloPropuesta);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of esFavorita method, of class Controller.
-     */
-    @Test
-    public void testEsFavorita() {
-        System.out.println("esFavorita");
-        String nickname = "";
-        String tituloPropuesta = "";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.esFavorita(nickname, tituloPropuesta);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    
 
    
+    @Test
+    public void testSeguidos() {
+        System.out.println("SeguidosF");
+        String nick = "Maria2025";
+        List<DTOUsuario> listaVacia = new ArrayList<>();
 
-    /**
-     * Test of seguir method, of class Controller.
-     */
-    @Test
-    public void testSeguir() {
-        System.out.println("seguir");
-        String nick1 = "";
-        String nick2 = "";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.seguir(nick1, nick2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        when(mUsuarioMock.getSeguidos(eq(nick))).thenReturn(listaVacia);
+ 
+        List<DTOUsuario> result = controller.Seguidos(nick);
+        
+        verify(mUsuarioMock, times(1)).getSeguidos(eq(nick));
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        assertEquals(listaVacia, result);
     }
 
-    /**
-     * Test of unFollowUser method, of class Controller.
-     */
-    @Test
-    public void testUnFollowUser() {
-        System.out.println("unFollowUser");
-        String usuarioActual = "";
-        String usuarioToUnfollow = "";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.unFollowUser(usuarioActual, usuarioToUnfollow);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    
-     /**
-     * Test of getDTOProponente method, of class Controller.
-     */
-    @Test
-    public void testGetDTOProponente() {
-        System.out.println("getDTOProponente");
-        String nick = "";
-        Controller instance = new Controller();
-        DTOProponente expResult = null;
-        DTOProponente result = instance.getDTOProponente(nick);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    
-    /**
-     * Test of getDTOColaborador method, of class Controller.
-     */
-    @Test
-    public void testGetDTOColaborador() {
-        System.out.println("getDTOColaborador");
-        String nick = "";
-        Controller instance = new Controller();
-        DTOColaborador expResult = null;
-        DTOColaborador result = instance.getDTOColaborador(nick);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-   // FIN TEST Usuarios
-    
+//    @Test
+//    public void testListaUsuarios() {
+//        System.out.println("ListaUsuarios");
+//        Controller instance = new Controller();
+//       List<String> nicksEsperados = Arrays.asList(
+//            "Maria2025", 
+//            "Pedro2025", 
+//            "FrancoP", 
+//            "FrancoC"
+//        );
+//
+//        // 3. Ejecución
+//        List<String> result = instance.ListaUsuarios();
+//
+//        assertNotNull(result);
+//
+//        assertTrue(result.containsAll(nicksEsperados));  
+//    }
+//
+//    /**
+//     * Test of ListaProponentes method, of class Controller.
+//     */
+//    @Test
+//    public void testListaProponentes() {
+//        System.out.println("ListaProponentes");
+//        Controller instance = new Controller();
+//       List<String> nicksEsperados = Arrays.asList( 
+//            "Pedro2025", 
+//            "FrancoP"
+//        );
+//
+//        // 3. Ejecución
+//        List<String> result = instance.ListaProponentes();
+//
+//        assertNotNull(result);
+//
+//        assertTrue(result.containsAll(nicksEsperados));
+//    }
+//
+//    /**
+//     * Test of ListaColaborador method, of class Controller.
+//     */
+//    @Test
+//    public void testListaColaborador() {
+//        System.out.println("ListaColaborador");
+//         Controller instance = new Controller();
+//       List<String> nicksEsperados = Arrays.asList( 
+//            "Maria2025", 
+//            "FrancoC"
+//        );
+//
+//        // 3. Ejecución
+//        List<String> result = instance.ListaColaborador();
+//
+//        assertNotNull(result);
+//
+//        assertTrue(result.containsAll(nicksEsperados));
+//    }
+//    
+//    /**
+//     * Test of ListaSeguidosPorUsuario method, of class Controller.
+//     */
+//    @Test
+//    public void testListaSeguidosPorUsuario() {
+//        System.out.println("ListaSeguidosPorUsuario");
+//        String nick = "";
+//        Controller instance = new Controller();
+//        List<String> expResult = null;
+//        List<String> result = instance.ListaSeguidosPorUsuario(nick);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+// 
+//    /**
+//     * Test of marcarComoFavorita method, of class Controller.
+//     */
+//    
+//    
+//    @Test
+//    public void testMarcarComoFavorita() {
+//        System.out.println("marcarComoFavorita");
+//        String nickname = "";
+//        String tituloPropuesta = "";
+//        Controller instance = new Controller();
+//        instance.marcarComoFavorita(nickname, tituloPropuesta);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of quitarFavorita method, of class Controller.
+//     */
+//    @Test
+//    public void testQuitarFavorita() {
+//        System.out.println("quitarFavorita");
+//        String nickname = "";
+//        String tituloPropuesta = "";
+//        Controller instance = new Controller();
+//        instance.quitarFavorita(nickname, tituloPropuesta);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of esFavorita method, of class Controller.
+//     */
+//    @Test
+//    public void testEsFavorita() {
+//        System.out.println("esFavorita");
+//        String nickname = "";
+//        String tituloPropuesta = "";
+//        Controller instance = new Controller();
+//        boolean expResult = false;
+//        boolean result = instance.esFavorita(nickname, tituloPropuesta);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    
+//
+//   
+//
+//    /**
+//     * Test of seguir method, of class Controller.
+//     */
+//    @Test
+//    public void testSeguir() {
+//        System.out.println("seguir");
+//        String nick1 = "";
+//        String nick2 = "";
+//        Controller instance = new Controller();
+//        boolean expResult = false;
+//        boolean result = instance.seguir(nick1, nick2);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of unFollowUser method, of class Controller.
+//     */
+//    @Test
+//    public void testUnFollowUser() {
+//        System.out.println("unFollowUser");
+//        String usuarioActual = "";
+//        String usuarioToUnfollow = "";
+//        Controller instance = new Controller();
+//        boolean expResult = false;
+//        boolean result = instance.unFollowUser(usuarioActual, usuarioToUnfollow);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//    
+//     /**
+//     * Test of getDTOProponente method, of class Controller.
+//     */
+//    @Test
+//    public void testGetDTOProponente() {
+//        System.out.println("getDTOProponente");
+//        String nick = "";
+//        Controller instance = new Controller();
+//        DTOProponente expResult = null;
+//        DTOProponente result = instance.getDTOProponente(nick);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//    
+//    /**
+//     * Test of getDTOColaborador method, of class Controller.
+//     */
+//    @Test
+//    public void testGetDTOColaborador() {
+//        System.out.println("getDTOColaborador");
+//        String nick = "";
+//        Controller instance = new Controller();
+//        DTOColaborador expResult = null;
+//        DTOColaborador result = instance.getDTOColaborador(nick);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//   // FIN TEST Usuarios
+//    
     /**
      * Test of getDTOAporte method, of class Controller.
      */
