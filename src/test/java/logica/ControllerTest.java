@@ -881,6 +881,19 @@ public class ControllerTest {
         assertEquals(0, resultado);
     }
     
+    @Test
+    public void testExtenderOCancelarPropuesta_casoNULL() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoNULL");
+        
+        String accionUsuario = null;
+        String tituloPropuesta = null;
+
+        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+
+        assertEquals(0, resultado);
+    }
+    
      /**
      * Test of accionesSobrePropuesta method, of class Controller.
      */
