@@ -9,8 +9,10 @@ import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOCategoria;
@@ -407,66 +409,157 @@ public class ControllerTest {
         assertTrue(result.isEmpty());
         assertEquals(listaVacia, result);
     }
+    @Test
+    public void testListaUsuariosE(){
+        System.out.println("ListaUsuarios");
+        //simulacion  
+        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
+        //debo cargar con datos un colaborador y un proponente
+        
+        //Colaborador
+        LocalDate fechaNacimiento = LocalDate.of(1990, 10, 15);
+        DTOColaborador c = new DTOColaborador("CarlosC","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosC/img.jpg");
+        listaUsuarios.put("CarlosC", c);
+        //Proponente
+        DTOProponente p = new DTOProponente("25 metros","soy un proponente","www.algo.com","CarlosP","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosP/img.jpg");
+        listaUsuarios.put("CarlosP", p);
+        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
+        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
+        
+        //lo que deberia devolver el metodo de controller
+        List<String> nicksEsperados = Arrays.asList( 
+            "CarlosP",
+            "CarlosC"
+        );
 
-//    @Test
-//    public void testListaUsuarios() {
-//        System.out.println("ListaUsuarios");
-//        Controller instance = new Controller();
-//       List<String> nicksEsperados = Arrays.asList(
-//            "Maria2025", 
-//            "Pedro2025", 
-//            "FrancoP", 
-//            "FrancoC"
-//        );
-//
-//        // 3. Ejecución
-//        List<String> result = instance.ListaUsuarios();
-//
-//        assertNotNull(result);
-//
-//        assertTrue(result.containsAll(nicksEsperados));  
-//    }
-//
-//    /**
-//     * Test of ListaProponentes method, of class Controller.
-//     */
-//    @Test
-//    public void testListaProponentes() {
-//        System.out.println("ListaProponentes");
-//        Controller instance = new Controller();
-//       List<String> nicksEsperados = Arrays.asList( 
-//            "Pedro2025", 
-//            "FrancoP"
-//        );
-//
-//        // 3. Ejecución
-//        List<String> result = instance.ListaProponentes();
-//
-//        assertNotNull(result);
-//
-//        assertTrue(result.containsAll(nicksEsperados));
-//    }
-//
-//    /**
-//     * Test of ListaColaborador method, of class Controller.
-//     */
-//    @Test
-//    public void testListaColaborador() {
-//        System.out.println("ListaColaborador");
-//         Controller instance = new Controller();
-//       List<String> nicksEsperados = Arrays.asList( 
-//            "Maria2025", 
-//            "FrancoC"
-//        );
-//
-//        // 3. Ejecución
-//        List<String> result = instance.ListaColaborador();
-//
-//        assertNotNull(result);
-//
-//        assertTrue(result.containsAll(nicksEsperados));
-//    }
-//    
+        // devuelve una lista de string de usuarios
+        List<String> result = controller.ListaUsuarios();
+        
+        //verifico que se haga la llamada al metodo del manejador 
+        verify(mUsuarioMock, times(1)).getUsuarios();
+        //que el resultado tenga mismo tamano
+        assertEquals(nicksEsperados.size(), result.size());
+        //que contenga al proponente 
+        assertTrue(result.containsAll(nicksEsperados));
+        
+    }
+    @Test
+    public void testListaUsuariosF(){
+        System.out.println("ListaUsuarios");
+        //simulacion  
+        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
+        //debo cargar con datos un colaborador y un proponente
+       
+        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
+        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
+        
+       
+       //lo que deberia devolver el metodo de controller
+        List<String> nicksEsperados = new ArrayList<>();
+
+        // devuelve una lista de string de usuarios
+        List<String> result = controller.ListaUsuarios();
+        
+       //verifico que se haga la llamada al metodo del manejador 
+        verify(mUsuarioMock, times(1)).getUsuarios();
+        assertNotNull(result);//debe devolver lista vacia no null
+        assertTrue(result.isEmpty());//que sea vacia
+        assertEquals(nicksEsperados.size(), result.size());
+        
+    }
+    @Test
+    public void testListaProponentesE() {
+        System.out.println("ListaProponentes");
+        
+        //simulacion  
+        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
+        //debo cargar con datos un colaborador y un proponente
+        
+        //Colaborador
+        LocalDate fechaNacimiento = LocalDate.of(1990, 10, 15);
+        DTOColaborador c = new DTOColaborador("CarlosC","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosC/img.jpg");
+        listaUsuarios.put("CarlosC", c);
+        //Proponente
+        DTOProponente p = new DTOProponente("25 metros","soy un proponente","www.algo.com","CarlosP","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosP/img.jpg");
+        listaUsuarios.put("CarlosP", p);
+        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
+        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
+        
+        //lo que deberia devolver el metodo de controller
+        List<String> nicksEsperados = Arrays.asList( 
+            "CarlosP"
+        );
+
+        // devuelve una lista de string de proponente
+        List<String> result = controller.ListaProponentes();
+        
+        //verifico que se haga la llamada al metodo del manejador 
+        verify(mUsuarioMock, times(1)).getUsuarios();
+        //que el resultado tenga mismo tamano
+        assertEquals(nicksEsperados.size(), result.size());
+        //que contenga al proponente 
+        assertTrue(result.containsAll(nicksEsperados));
+        
+    }
+    
+     @Test
+    public void testListaProponentesF() {
+        System.out.println("ListaProponentes");
+        
+        //simulacion  vacio
+        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
+
+        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
+        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
+        
+        //lo que deberia devolver el metodo de controller
+        List<String> nicksEsperados = new ArrayList<>();
+
+        // devuelve una lista vacia
+        List<String> result = controller.ListaProponentes();
+        
+        //verifico que se haga la llamada al metodo del manejador 
+        verify(mUsuarioMock, times(1)).getUsuarios();
+        assertNotNull(result);//debe devolver lista vacia no null
+        assertTrue(result.isEmpty());//que sea vacia
+        assertEquals(nicksEsperados.size(), result.size());
+        
+    }
+
+    @Test
+    public void testListaColaborador() {
+        System.out.println("ListaColaborador");
+          
+        //simulacion  
+        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
+        //debo cargar con datos un colaborador y un proponente
+        
+        //Colaborador
+        LocalDate fechaNacimiento = LocalDate.of(1990, 10, 15);
+        DTOColaborador c = new DTOColaborador("CarlosC","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosC/img.jpg");
+        listaUsuarios.put("CarlosC", c);
+        //Proponente
+        DTOProponente p = new DTOProponente("25 metros","soy un proponente","www.algo.com","CarlosP","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosP/img.jpg");
+        listaUsuarios.put("CarlosP", p);
+        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
+        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
+        
+        //lo que deberia devolver el metodo de controller
+        List<String> nicksEsperados = Arrays.asList( 
+            "CarlosC"
+        );
+
+        // devuelve una lista de string de proponente
+        List<String> result = controller.ListaColaborador();
+        
+        //verifico que se haga la llamada al metodo del manejador 
+        verify(mUsuarioMock, times(1)).getUsuarios();
+        //que el resultado tenga mismo tamano
+        assertEquals(nicksEsperados.size(), result.size());
+        //que contenga al proponente 
+        assertTrue(result.containsAll(nicksEsperados));
+    }
+  
 //    /**
 //     * Test of ListaSeguidosPorUsuario method, of class Controller.
 //     */
@@ -598,242 +691,277 @@ public class ControllerTest {
 //    
 //   // FIN TEST Usuarios
 //    
-    /**
-     * Test of getDTOAporte method, of class Controller.
-     */
-    @Test
-    public void testGetDTOAporte() {
-        System.out.println("getDTOAporte");
-        Colaboracion r = null;
-        String titulo = "";
-        Controller instance = new Controller();
-        DTOColaboracion expResult = null;
-        DTOColaboracion result = instance.getDTOAporte(r, titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
-    
-    //test PROPUESTAS
-    /**
-     * Test of getDTORegistroEstado method, of class Controller.
-     */
-    @Test
-    public void testGetDTORegistroEstado() {
-        System.out.println("getDTORegistroEstado");
-        Registro_Estado r = null;
-        Controller instance = new Controller();
-        DTORegistro_Estado expResult = null;
-        DTORegistro_Estado result = instance.getDTORegistroEstado(r);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getDTOPropuesta method, of class Controller.
-     */
-    @Test
-    public void testGetDTOPropuesta() {
-        System.out.println("getDTOPropuesta");
-        Propuesta p = null;
-        DTOProponente prop = null;
-        Controller instance = new Controller();
-        DTOPropuesta expResult = null;
-        DTOPropuesta result = instance.getDTOPropuesta(p, prop);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-   
-
-    /**
-     * Test of getPropuestasCreadasPorProponente method, of class Controller.
-     */
-    @Test
-    public void testGetPropuestasCreadasPorProponente() {
-        System.out.println("getPropuestasCreadasPorProponente");
-        String nick = "";
-        Controller instance = new Controller();
-        Set<DTOPropuesta> expResult = null;
-        Set<DTOPropuesta> result = instance.getPropuestasCreadasPorProponente(nick);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    
-
-    /**
-     * Test of altaPropuesta method, of class Controller.
-     */
-    @Test
-    public void testAltaPropuesta() {
-        System.out.println("altaPropuesta");
-        String Titulo = "";
-        String Descripcion = "";
-        String Imagen = "";
-        String Lugar = "";
-        LocalDate Fecha = null;
-        int Precio = 0;
-        int MontoTotal = 0;
-        LocalDate fechaPublicacio = null;
-        List<TipoRetorno> Retorno = null;
-        String cat = "";
-        String usr = "";
-        Estado est = null;
-        Controller instance = new Controller();
-        instance.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio, Retorno, cat, usr, est);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of obtenerPropuestas method, of class Controller.
-     */
-    @Test
-    public void testObtenerPropuestas() {
-        System.out.println("obtenerPropuestas");
-        String estado = "";
-        Controller instance = new Controller();
-        Set<DTOPropuesta> expResult = null;
-        Set<DTOPropuesta> result = instance.obtenerPropuestas(estado);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of obtenerPropuestasExceptoINGRESADAS method, of class Controller.
-     */
-    @Test
-    public void testObtenerPropuestasExceptoINGRESADAS() {
-        System.out.println("obtenerPropuestasExceptoINGRESADAS");
-        Controller instance = new Controller();
-        Set<DTOPropuesta> expResult = null;
-        Set<DTOPropuesta> result = instance.obtenerPropuestasExceptoINGRESADAS();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of accionSobrePropuesta method, of class Controller.
-     */
-    @Test
-    public void testAccionSobrePropuesta() {
-        System.out.println("accionSobrePropuesta");
-        String nickUsuario = "";
-        DTOPropuesta propuestaSel = null;
-        Controller instance = new Controller();
-        int expResult = 0;
-        int result = instance.accionSobrePropuesta(nickUsuario, propuestaSel);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPropuestaDTO method, of class Controller.
-     */
-    @Test
-    public void testGetPropuestaDTO() {
-        System.out.println("getPropuestaDTO");
-        String propuestaSel = "";
-        Controller instance = new Controller();
-        DTOPropuesta expResult = null;
-        DTOPropuesta result = instance.getPropuestaDTO(propuestaSel);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of existeProp method, of class Controller.
-     */
-    @Test
-    public void testExisteProp() {
-        System.out.println("existeProp");
-        String Titulo = "";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.existeProp(Titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of creadorPropuesta method, of class Controller.
-     */
-    @Test
-    public void testCreadorPropuesta() {
-        System.out.println("creadorPropuesta");
-        String titulo = "";
-        Controller instance = new Controller();
-        String expResult = "";
-        String result = instance.creadorPropuesta(titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of estadoPropuestas method, of class Controller.
-     */
-    @Test
-    public void testEstadoPropuestas() {
-        System.out.println("estadoPropuestas");
-        String titulo = "";
-        Controller instance = new Controller();
-        String expResult = "";
-        String result = instance.estadoPropuestas(titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    
-     /**
-     * Test of modificarPropuesta method, of class Controller.
-     */
-    @Test
-    public void testModificarPropuesta() {
-        System.out.println("modificarPropuesta");
-        String titulo = "";
-        String descripcion = "";
-        String rutaImagen = "";
-        String lugar = "";
-        LocalDate fechaEvento = null;
-        int precio = 0;
-        int montoTotal = 0;
-        List<TipoRetorno> retorno = null;
-        String categoria = "";
-        String usuarios = "";
-        Estado estado = null;
-        Controller instance = new Controller();
-        instance.modificarPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, usuarios, estado);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-      /**
-     * Test of ListarPropuestas method, of class Controller.
-     */
-    @Test
-    public void testListarPropuestas() {
-        System.out.println("ListarPropuestas");
-        String estado1 = "";
-        String estado2 = "";
-        Controller instance = new Controller();
-        Set<DTOPropuesta> expResult = null;
-        Set<DTOPropuesta> result = instance.ListarPropuestas(estado1, estado2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testGetDTOAporte() {
+//        System.out.println("getDTOAporte");
+//        Colaboracion r = null;
+//        String titulo = "";
+//        Controller instance = new Controller();
+//        DTOColaboracion expResult = null;
+//        DTOColaboracion result = instance.getDTOAporte(r, titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//    
+//    //test PROPUESTAS
+//    /**
+//     * Test of getDTORegistroEstado method, of class Controller.
+//     */
+//    @Test
+//    public void testGetDTORegistroEstado() {
+//        System.out.println("getDTORegistroEstado");
+//        Registro_Estado r = null;
+//        Controller instance = new Controller();
+//        DTORegistro_Estado expResult = null;
+//        DTORegistro_Estado result = instance.getDTORegistroEstado(r);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of getDTOPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testGetDTOPropuesta() {
+//        System.out.println("getDTOPropuesta");
+//        Propuesta p = null;
+//        DTOProponente prop = null;
+//        Controller instance = new Controller();
+//        DTOPropuesta expResult = null;
+//        DTOPropuesta result = instance.getDTOPropuesta(p, prop);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//   
+//
+//    /**
+//     * Test of getPropuestasCreadasPorProponente method, of class Controller.
+//     */
+//    @Test
+//    public void testGetPropuestasCreadasPorProponente() {
+//        System.out.println("getPropuestasCreadasPorProponente");
+//        String nick = "";
+//        Controller instance = new Controller();
+//        Set<DTOPropuesta> expResult = null;
+//        Set<DTOPropuesta> result = instance.getPropuestasCreadasPorProponente(nick);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    
+//
+//    /**
+//     * Test of altaPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testAltaPropuesta() {
+//        System.out.println("altaPropuesta");
+//        String Titulo = "";
+//        String Descripcion = "";
+//        String Imagen = "";
+//        String Lugar = "";
+//        LocalDate Fecha = null;
+//        int Precio = 0;
+//        int MontoTotal = 0;
+//        LocalDate fechaPublicacio = null;
+//        List<TipoRetorno> Retorno = null;
+//        String cat = "";
+//        String usr = "";
+//        Estado est = null;
+//        Controller instance = new Controller();
+//        instance.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio, Retorno, cat, usr, est);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of obtenerPropuestas method, of class Controller.
+//     */
+//    @Test
+//    public void testObtenerPropuestas() {
+//        System.out.println("obtenerPropuestas");
+//        String estado = "";
+//        Controller instance = new Controller();
+//        Set<DTOPropuesta> expResult = null;
+//        Set<DTOPropuesta> result = instance.obtenerPropuestas(estado);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of obtenerPropuestasExceptoINGRESADAS method, of class Controller.
+//     */
+//    @Test
+//    public void testObtenerPropuestasExceptoINGRESADAS() {
+//        System.out.println("obtenerPropuestasExceptoINGRESADAS");
+//        Controller instance = new Controller();
+//        Set<DTOPropuesta> expResult = null;
+//        Set<DTOPropuesta> result = instance.obtenerPropuestasExceptoINGRESADAS();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of accionSobrePropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testAccionSobrePropuesta() {
+//        System.out.println("accionSobrePropuesta");
+//        String nickUsuario = "";
+//        DTOPropuesta propuestaSel = null;
+//        Controller instance = new Controller();
+//        int expResult = 0;
+//        int result = instance.accionSobrePropuesta(nickUsuario, propuestaSel);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of getPropuestaDTO method, of class Controller.
+//     */
+//    @Test
+//    public void testGetPropuestaDTO() {
+//        System.out.println("getPropuestaDTO");
+//        String propuestaSel = "";
+//        Controller instance = new Controller();
+//        DTOPropuesta expResult = null;
+//        DTOPropuesta result = instance.getPropuestaDTO(propuestaSel);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of existeProp method, of class Controller.
+//     */
+//    @Test
+//    public void testExisteProp() {
+//        System.out.println("existeProp");
+//        String Titulo = "";
+//        Controller instance = new Controller();
+//        boolean expResult = false;
+//        boolean result = instance.existeProp(Titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of creadorPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testCreadorPropuesta() {
+//        System.out.println("creadorPropuesta");
+//        String titulo = "";
+//        Controller instance = new Controller();
+//        String expResult = "";
+//        String result = instance.creadorPropuesta(titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of estadoPropuestas method, of class Controller.
+//     */
+//    @Test
+//    public void testEstadoPropuestas() {
+//        System.out.println("estadoPropuestas");
+//        String titulo = "";
+//        Controller instance = new Controller();
+//        String expResult = "";
+//        String result = instance.estadoPropuestas(titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//    
+//     /**
+//     * Test of modificarPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testModificarPropuesta() {
+//        System.out.println("modificarPropuesta");
+//        String titulo = "";
+//        String descripcion = "";
+//        String rutaImagen = "";
+//        String lugar = "";
+//        LocalDate fechaEvento = null;
+//        int precio = 0;
+//        int montoTotal = 0;
+//        List<TipoRetorno> retorno = null;
+//        String categoria = "";
+//        String usuarios = "";
+//        Estado estado = null;
+//        Controller instance = new Controller();
+//        instance.modificarPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, usuarios, estado);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//      /**
+//     * Test of ListarPropuestas method, of class Controller.
+//     */
+//    @Test
+//    public void testListarPropuestas() {
+//        System.out.println("ListarPropuestas");
+//        String estado1 = "";
+//        String estado2 = "";
+//        Controller instance = new Controller();
+//        Set<DTOPropuesta> expResult = null;
+//        Set<DTOPropuesta> result = instance.ListarPropuestas(estado1, estado2);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//    /**
+//     * Test of extenderOCancelarPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testExtenderOCancelarPropuesta() {
+//        System.out.println("extenderOCancelarPropuesta");
+//        String accionUsuario = "";
+//        String tituloPropuesta = "";
+//        Controller instance = new Controller();
+//        int expResult = 0;
+//        int result = instance.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//     /**
+//     * Test of accionesSobrePropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testAccionesSobrePropuesta() {
+//        System.out.println("accionesSobrePropuesta");
+//        String userNick = "";
+//        int permisos = 0;
+//        String accionUsuario = "";
+//        String comentario = "";
+//        DTOPropuesta propuestaActual = null;
+//        String montoStr = "";
+//        String tipoRetorno = "";
+//        Controller instance = new Controller();
+//        int expResult = 0;
+//        int result = instance.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
     
     /**
      * Test of extenderOCancelarPropuesta method, of class Controller.
@@ -1187,227 +1315,227 @@ public class ControllerTest {
         assertTrue(result); //Devuelve el mensaje en formato del test
     }
 
-    /**
-     * Test of getCategorias method, of class Controller.
-     */
-    @Test
-    public void testGetCategorias() {
-        System.out.println("getCategorias");
-        Controller instance = new Controller();
-        List<DTOCategoria> expResult = null;
-        List<DTOCategoria> result = instance.getCategorias();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of ListaCategoria method, of class Controller.
-     */
-    @Test
-    public void testListaCategoria() {
-        System.out.println("ListaCategoria");
-        Controller instance = new Controller();
-        List<String> expResult = null;
-        List<String> result = instance.ListaCategoria();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    //FIN TEST CATEGORIA 
-   
-
-    /**
-     * Test of altaColaboracion method, of class Controller.
-     */
-    //TEST Colaboracion
-    
-     /**
-     * Test of colaboraciones method, of class Controller.
-     */
-    @Test
-    public void testColaboraciones() {
-        System.out.println("colaboraciones");
-        String nick = "";
-        Controller instance = new Controller();
-        List<DTOColaboracion> expResult = null;
-        List<DTOColaboracion> result = instance.colaboraciones(nick);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of colaboradoresAPropuesta method, of class Controller.
-     */
-    @Test
-    public void testColaboradoresAPropuesta() {
-        System.out.println("colaboradoresAPropuesta");
-        String titulo = "";
-        Controller instance = new Controller();
-        List<String> expResult = null;
-        List<String> result = instance.colaboradoresAPropuesta(titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    @Test
-    public void testAltaColaboracion() {
-        System.out.println("altaColaboracion");
-        DTOColaboracion colaboracion = null;
-        Controller instance = new Controller();
-        instance.altaColaboracion(colaboracion);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of ListarColaboradores method, of class Controller.
-     */
-    @Test
-    public void testListarColaboradores() {
-        System.out.println("ListarColaboradores");
-        Controller instance = new Controller();
-        Set<DTOColaborador> expResult = null;
-        Set<DTOColaborador> result = instance.ListarColaboradores();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of CancelarColaboracion method, of class Controller.
-     */
-    @Test
-    public void testCancelarColaboracion() {
-        System.out.println("CancelarColaboracion");
-        Long id = null;
-        Controller instance = new Controller();
-        instance.CancelarColaboracion(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-
-
-    /**
-     * Test of getMontoRecaudado method, of class Controller.
-     */
-    @Test
-    public void testGetMontoRecaudado() {
-        System.out.println("getMontoRecaudado");
-        String titulo = "";
-        Controller instance = new Controller();
-        int expResult = 0;
-        int result = instance.getMontoRecaudado(titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of colaboracionExiste method, of class Controller.
-     */
-    @Test
-    public void testColaboracionExiste() {
-        System.out.println("colaboracionExiste");
-        String colaborador = "";
-        String titulo = "";
-        Controller instance = new Controller();
-        boolean expResult = false;
-        boolean result = instance.colaboracionExiste(colaborador, titulo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getDTOColaboraciones method, of class Controller.
-     */
-    @Test
-    public void testGetDTOColaboraciones() {
-        System.out.println("getDTOColaboraciones");
-        Controller instance = new Controller();
-        Set<DTOColaboracion> expResult = null;
-        Set<DTOColaboracion> result = instance.getDTOColaboraciones();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    
-    //test de DATOS DE PREUBA [LOS DEJO PERO NI IDEA SI HAY QUE HACER ALGO SON FIJOS]
-    /**
-     * Test of cargarDatosPruebaProponente method, of class Controller.
-     */
-    @Test
-    public void testCargarDatosPruebaProponente() {
-        System.out.println("cargarDatosPruebaProponente");
-        Controller instance = new Controller();
-        instance.cargarDatosPruebaProponente();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of cargarDatosPruebaColaborador method, of class Controller.
-     */
-    @Test
-    public void testCargarDatosPruebaColaborador() {
-        System.out.println("cargarDatosPruebaColaborador");
-        Controller instance = new Controller();
-        instance.cargarDatosPruebaColaborador();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of cargarSeguidos method, of class Controller.
-     */
-    @Test
-    public void testCargarSeguidos() {
-        System.out.println("cargarSeguidos");
-        Controller instance = new Controller();
-        instance.cargarSeguidos();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of cargarPropuesta method, of class Controller.
-     */
-    @Test
-    public void testCargarPropuesta() {
-        System.out.println("cargarPropuesta");
-        Controller instance = new Controller();
-        instance.cargarPropuesta();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of cargarCategorias method, of class Controller.
-     */
-    @Test
-    public void testCargarCategorias() {
-        System.out.println("cargarCategorias");
-        Controller instance = new Controller();
-        instance.cargarCategorias();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of cargarColaboraciones method, of class Controller.
-     */
-    @Test
-    public void testCargarColaboraciones() {
-        System.out.println("cargarColaboraciones");
-        Controller instance = new Controller();
-        instance.cargarColaboraciones();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
- 
+//    /**
+//     * Test of getCategorias method, of class Controller.
+//     */
+//    @Test
+//    public void testGetCategorias() {
+//        System.out.println("getCategorias");
+//        Controller instance = new Controller();
+//        List<DTOCategoria> expResult = null;
+//        List<DTOCategoria> result = instance.getCategorias();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of ListaCategoria method, of class Controller.
+//     */
+//    @Test
+//    public void testListaCategoria() {
+//        System.out.println("ListaCategoria");
+//        Controller instance = new Controller();
+//        List<String> expResult = null;
+//        List<String> result = instance.ListaCategoria();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    //FIN TEST CATEGORIA 
+//   
+//
+//    /**
+//     * Test of altaColaboracion method, of class Controller.
+//     */
+//    //TEST Colaboracion
+//    
+//     /**
+//     * Test of colaboraciones method, of class Controller.
+//     */
+//    @Test
+//    public void testColaboraciones() {
+//        System.out.println("colaboraciones");
+//        String nick = "";
+//        Controller instance = new Controller();
+//        List<DTOColaboracion> expResult = null;
+//        List<DTOColaboracion> result = instance.colaboraciones(nick);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of colaboradoresAPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testColaboradoresAPropuesta() {
+//        System.out.println("colaboradoresAPropuesta");
+//        String titulo = "";
+//        Controller instance = new Controller();
+//        List<String> expResult = null;
+//        List<String> result = instance.colaboradoresAPropuesta(titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    @Test
+//    public void testAltaColaboracion() {
+//        System.out.println("altaColaboracion");
+//        DTOColaboracion colaboracion = null;
+//        Controller instance = new Controller();
+//        instance.altaColaboracion(colaboracion);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of ListarColaboradores method, of class Controller.
+//     */
+//    @Test
+//    public void testListarColaboradores() {
+//        System.out.println("ListarColaboradores");
+//        Controller instance = new Controller();
+//        Set<DTOColaborador> expResult = null;
+//        Set<DTOColaborador> result = instance.ListarColaboradores();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of CancelarColaboracion method, of class Controller.
+//     */
+//    @Test
+//    public void testCancelarColaboracion() {
+//        System.out.println("CancelarColaboracion");
+//        Long id = null;
+//        Controller instance = new Controller();
+//        instance.CancelarColaboracion(id);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//
+//
+//    /**
+//     * Test of getMontoRecaudado method, of class Controller.
+//     */
+//    @Test
+//    public void testGetMontoRecaudado() {
+//        System.out.println("getMontoRecaudado");
+//        String titulo = "";
+//        Controller instance = new Controller();
+//        int expResult = 0;
+//        int result = instance.getMontoRecaudado(titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of colaboracionExiste method, of class Controller.
+//     */
+//    @Test
+//    public void testColaboracionExiste() {
+//        System.out.println("colaboracionExiste");
+//        String colaborador = "";
+//        String titulo = "";
+//        Controller instance = new Controller();
+//        boolean expResult = false;
+//        boolean result = instance.colaboracionExiste(colaborador, titulo);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of getDTOColaboraciones method, of class Controller.
+//     */
+//    @Test
+//    public void testGetDTOColaboraciones() {
+//        System.out.println("getDTOColaboraciones");
+//        Controller instance = new Controller();
+//        Set<DTOColaboracion> expResult = null;
+//        Set<DTOColaboracion> result = instance.getDTOColaboraciones();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//    
+//    
+//    //test de DATOS DE PREUBA [LOS DEJO PERO NI IDEA SI HAY QUE HACER ALGO SON FIJOS]
+//    /**
+//     * Test of cargarDatosPruebaProponente method, of class Controller.
+//     */
+//    @Test
+//    public void testCargarDatosPruebaProponente() {
+//        System.out.println("cargarDatosPruebaProponente");
+//        Controller instance = new Controller();
+//        instance.cargarDatosPruebaProponente();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of cargarDatosPruebaColaborador method, of class Controller.
+//     */
+//    @Test
+//    public void testCargarDatosPruebaColaborador() {
+//        System.out.println("cargarDatosPruebaColaborador");
+//        Controller instance = new Controller();
+//        instance.cargarDatosPruebaColaborador();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of cargarSeguidos method, of class Controller.
+//     */
+//    @Test
+//    public void testCargarSeguidos() {
+//        System.out.println("cargarSeguidos");
+//        Controller instance = new Controller();
+//        instance.cargarSeguidos();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of cargarPropuesta method, of class Controller.
+//     */
+//    @Test
+//    public void testCargarPropuesta() {
+//        System.out.println("cargarPropuesta");
+//        Controller instance = new Controller();
+//        instance.cargarPropuesta();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of cargarCategorias method, of class Controller.
+//     */
+//    @Test
+//    public void testCargarCategorias() {
+//        System.out.println("cargarCategorias");
+//        Controller instance = new Controller();
+//        instance.cargarCategorias();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+//
+//    /**
+//     * Test of cargarColaboraciones method, of class Controller.
+//     */
+//    @Test
+//    public void testCargarColaboraciones() {
+//        System.out.println("cargarColaboraciones");
+//        Controller instance = new Controller();
+//        instance.cargarColaboraciones();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+// 
     
 }
