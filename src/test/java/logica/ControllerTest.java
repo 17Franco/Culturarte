@@ -41,6 +41,7 @@ import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import persistencia.ManejadorUsuario;
 import persistencia.ManejadorPropuesta;
+import persistencia.ManejadorCategoria;
 import org.mockito.Mock;
 
 /**
@@ -54,7 +55,12 @@ public class ControllerTest {
     
     @Mock
     private ManejadorUsuario mUsuarioMock;
-
+        
+    @Mock
+    private ManejadorPropuesta mPropuesta;
+    
+    @Mock 
+    private ManejadorCategoria mCategoria;
     
     @InjectMocks
     private Controller controller;
@@ -685,9 +691,7 @@ public class ControllerTest {
 //    
 //   // FIN TEST Usuarios
 //    
-    /**
-     * Test of getDTOAporte method, of class Controller.
-     */
+    
 //    @Test
 //    public void testGetDTOAporte() {
 //        System.out.println("getDTOAporte");
@@ -958,153 +962,359 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//    
-//      /**
-//     * Test of permisosSobrePropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testPermisosSobrePropuesta_primerIF_false() 
-//    {
-//        //Caso tipoUsuario es null.
-//        //UserNick igual a "visitante" 
-//        //Y el titulo de la propuesta es null.
-//        System.out.println("permisosSobrePropuesta_USER_NULL");
-//        
-//        DTOPropuesta propTest = mock(DTOPropuesta.class);
-//        
-//        //Acá se programa lo que el dto devuelve:
-//        when(propTest.nickProponenteToString()).thenReturn("rodolfo");
-//        when(propTest.getTitulo()).thenReturn(null);
-//        
-//        
-//        String userNick = "";                                //Estos datos no los uso.
-//        String tipoUsuario = null;                            //Estos datos no los uso.
-//        
-//        
-//        Controller instance = new Controller();
-//        
-//        int expResult = 0;                                  //Se espera que sea 0 el resultado.
-//        
-//        int result = instance.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
-//        
-//        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
-//
-//    }
-//    
-//    @Test
-//    public void testPermisosSobrePropuesta_esProponenteYpermiso3() 
-//    {
-//        //Caso tipoUsuario es null.
-//        //UserNick igual a "visitante" 
-//        //Y el titulo de la propuesta es null.
-//        System.out.println("permisosSobrePropuesta_USER_NULL");
-//        
-//        DTOPropuesta propTest = mock(DTOPropuesta.class);
-//        
-//        //Acá se programa lo que el dto devuelve:
-//        when(propTest.getTitulo()).thenReturn("PropuestaAlgo");                               
-//        String userNick = "AFAEFD";                                //Estos datos no los uso.
-//        String tipoUsuario = "Proponente";                            //Estos datos no los uso.
-//        
-//        //Se simula la funcion para que no entre al segundo if y por ende tampoco al tercero:
-//        when(propTest.usuarioHaComentadoSN(anyString())).thenReturn(true);
-//        
-//        Controller instance = new Controller();
-//        
-//        int expResult = 0;                                  //Se espera que sea 0 el resultado.
-//        
-//        int result = instance.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
-//        
-//        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
-//
-//    }
-//    /**
-//     * Test of nuevoComentario method, of class Controller.
-//     */
-//    
-//    @Mock
-//    private ManejadorPropuesta mPropuesta;  //creo un mock del manejador para saltar la base de datos
-//    
-//    @Test
-//    public void testNuevoComentario() {
-//        System.out.println("nuevoComentario");
-//        String comentario = "";
-//        String userNick = "";
-//        String tituloPropuesta = "";
-//        Controller instance = new Controller();
-//        boolean expResult = false;
-//        boolean result = instance.nuevoComentario(comentario, userNick, tituloPropuesta);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    @Test
-//    public void testNuevoComentario__fallaCuandoUserNickEsNull() 
-//    {
-//        System.out.println("testNuevoComentario__fallaCuandoUserNickEsNull");
-//        String userNick = null;
-//        String comentario = "algo comentado";
-//        String tituloPropuesta = "Pinsel Shock";
-//        
-//        Controller instance = new Controller();
-//        boolean resultado = instance.nuevoComentario(comentario, userNick, tituloPropuesta);
-//
-//        assertFalse(resultado); //Al ser null el nick, el if nunca debería entrar por lo tanto debería dar false
-//    }
-//    @Test
-//    public void testNuevoComentario_CasoUserNickVacio() 
-//    {
-//        System.out.println("testNuevoComentario_casoUserNickVacio");
-//        String comentario = "algo comentado";
-//        String userNick = "";   //Aca fuerzo la reacción del if
-//        String tituloPropuesta = "Pinsel Lock";
-//        Controller instance = new Controller();
-//        
-//        when(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta)).thenReturn(true);   //En este caso devuelve true siempre que se consulta
-//
-//        boolean resultado = instance.nuevoComentario(comentario, userNick, tituloPropuesta);
-//
-//        assertTrue(resultado);
-//    }
-//
-//    //FIN TEST Propouestas
-//    /**
-//     * Test of altaDeCategoria method, of class Controller.
-//     */
-//    
-//    //Test CATEGORIA
-//    @Test
-//    void testAltaDeCategoria_caso_InputNull() 
-//    {
-//        System.out.print("testAltaDeCategoria_caso_InputNull");
-//        
-//        //No necesito hacer mocks ya que al ser null no entra nunca a la base de datos.
-//        Controller instance = new Controller();
-//
-//        boolean result = instance.altaDeCategoria(null);
-//
-//        assertFalse(result); //Devuelve el mensaje en formato del test
-//    }
-//    
-//        @Test
-//    void testAltaDeCategoria_caso_CategoriaPadreValida() 
-//    { 
-//        System.out.print("testAltaDeCategoria_caso_CategoriaPadreValida");
-//        
-//        Controller instance = new Controller();
-//        
-//        DTOCategoria catTest = new DTOCategoria();
-//        
-//        catTest.setNombreCategoria("Musica");
-//        
-//        catTest.setCatPadre("");                          //Para que sea reconocida como cat padre.
-//
-//        boolean result = instance.altaDeCategoria(catTest);
-//
-//        assertTrue(result); //Devuelve el mensaje en formato del test
-//    }
-//
+    
+    /**
+     * Test of extenderOCancelarPropuesta method, of class Controller.
+     */
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoCancelar() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoCancelar");
+        
+        String accionUsuario = "CANCELAR";
+        String tituloPropuesta = "propTest";
+
+        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada(tituloPropuesta);    //Me salto esta función
+
+        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+
+        assertEquals(2, resultado);
+    }
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoExtender() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoExtender");
+
+        doNothing().when(mPropuesta).extenderFinanciacion("propTest");    //Me salto esta función
+
+        int resultado = controller.extenderOCancelarPropuesta("EXTENDER", "propTest");
+
+        assertEquals(3, resultado);
+    }
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoAnomalia() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoAnomalia");
+        
+        String accionUsuario = "????";
+        String tituloPropuesta = "propTest";
+
+        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada(tituloPropuesta);    //Me salto esta función
+
+        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+
+        assertEquals(0, resultado);
+    }
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoNULL() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoNULL");
+        
+        String accionUsuario = null;
+        String tituloPropuesta = null;
+
+        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
+
+        assertEquals(0, resultado);
+    }
+    
+     /**
+     * Test of accionesSobrePropuesta method, of class Controller.
+     */
+    @Test
+    public void testAccionesSobrePropuesta_casoProponenteExtiende() 
+    {
+        System.out.println("accionesSobrePropuesta_casoProponenteExtiende");
+        
+        String userNick = "Juan";
+        int permisos = 1;
+        String accionUsuario = "EXTENDER";
+        String comentario = ""; 
+        String montoStr = "";
+        String tipoRetorno = null;
+        
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
+        
+        
+        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
+        propuestasTest.add(propuestaActual);
+        
+        when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
+        when(controller.extenderOCancelarPropuesta(accionUsuario, "propuesta random")).thenReturn(3);   //Que retorne 3.
+        
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(3, result);
+    }
+    @Test
+    public void testAccionesSobrePropuesta_casoProponenteCancela() 
+    {
+        System.out.println("accionesSobrePropuesta_casoProponenteCancela");
+        
+        String userNick = "Juan";
+        int permisos = 1;
+        String accionUsuario = "CANCELAR";  //No hace efecto pero lo dejo igual.
+        String comentario = ""; 
+        String montoStr = "";
+        String tipoRetorno = null;
+        
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        
+        when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
+        
+        
+        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
+        propuestasTest.add(propuestaActual);
+        
+        when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
+        when(controller.extenderOCancelarPropuesta(accionUsuario, "propuesta random")).thenReturn(2);   //Que retorne 2.
+        
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(2, result);
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoProponenteSinAccion() 
+    {
+        System.out.println("accionesSobrePropuesta_casoProponenteSinAccion");
+        
+        String userNick = "Joseph";
+        int permisos = 1;
+        String accionUsuario = "NADA";  //No hace efecto pero lo dejo igual.
+        String comentario = ""; 
+        String montoStr = "";
+        String tipoRetorno = null;
+        
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        
+        when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
+        
+        
+        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
+        propuestasTest.add(propuestaActual);
+        
+        when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
+        when(controller.extenderOCancelarPropuesta(accionUsuario, "propuesta random")).thenReturn(0);   //Que retorne 0. sin cambios
+        
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(0, result);
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoAnromalSinPermisosPeroAccede() 
+    {
+        System.out.println("testAccionesSobrePropuesta_casoAnromalSinPermisosPeroAccede");
+        
+        String userNick = "DESCONOCIDO";
+        int permisos = 0;
+        String accionUsuario = "???";
+        String comentario = "???"; 
+        String montoStr = "1000000000";
+        String tipoRetorno = null;
+                
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, null, montoStr, tipoRetorno);
+
+        assertEquals(0, result);
+
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoNormalColaboradorConColabQueComenta() 
+    {
+        System.out.println("accionesSobrePropuesta_casoNormalColaboradorConColabQueComenta");
+        
+        String userNick = "Diego";
+        int permisos = 2;
+        String accionUsuario = "COMENTAR";
+        String comentario = "Hola"; 
+        String montoStr = "";
+        String tipoRetorno = "";
+        
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        
+        when(controller.nuevoComentario(comentario,userNick,anyString())).thenReturn(true);  //retorna true en vez de usar la función real
+        
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(4, result);
+
+    }
+    @Test
+    public void testAccionesSobrePropuesta_casoNormalColaboradorSinColab() 
+    {
+        System.out.println("accionesSobrePropuesta_casoNormalColaboradorSinColab");
+        
+        String userNick = "Diego";
+        int permisos = 3;
+        String accionUsuario = "COLABORAR";
+        String comentario = ""; //No lo uso
+        String montoStr = "15000";
+        String tipoRetorno = "EntradaGratis";
+        
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        DTOColaborador colaboradorActual = mock(DTOColaborador.class);
+        
+        when(colaboradorActual.getNickname()).thenReturn(userNick);
+        when(controller.getDTOColaborador(userNick)).thenReturn(colaboradorActual);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+        
+        doNothing().when(controller).altaColaboracion(any(DTOColaboracion.class));  //Salto el paso de entrar a la función.
+        
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+        
+        
+        assertEquals(4, result);
+
+    }
+    
+      /**
+     * Test of permisosSobrePropuesta method, of class Controller.
+     */
+    @Test
+    public void testPermisosSobrePropuesta_primerIF_false() 
+    {
+        //Caso tipoUsuario es null.
+        //UserNick igual a "visitante" 
+        //Y el titulo de la propuesta es null.
+        System.out.println("permisosSobrePropuesta_casoPrimerIF_false");
+        
+        String userNick = "VISITANTE";                  
+        String tipoUsuario = null;    
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.nickProponenteToString()).thenReturn("rodolfo");
+        when(propTest.getTitulo()).thenReturn(null);
+
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result); 
+
+    }
+    
+    @Test
+    public void testPermisosSobrePropuesta_esProponenteYpermiso3() 
+    {
+        //Caso tipoUsuario es proponente.
+        //UserNick no es "visitante"
+        //No ha comentado
+        //Y el titulo de la propuesta no es null.
+        
+        System.out.println("testPermisosSobrePropuesta_esProponenteYpermiso3");
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        String userNick = "propo";                             
+        String tipoUsuario = "Proponente";
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");                               
+
+        //Se simula la funcion para que no entre al segundo if y por ende tampoco al tercero:
+        when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(true);
+        //Que la funcion retorne 3, ya que no ha comentado
+        when(controller.accionSobrePropuesta(userNick,propTest)).thenReturn(3);
+        
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+
+    }
+    /**
+     * Test of nuevoComentario method, of class Controller.
+     */
+    
+    @Test
+    public void testNuevoComentario_casoTodoNormal() 
+    {
+        System.out.println("testNuevoComentario_casoTodoNormal");
+        
+        String comentario = "algo";
+        String userNick = "Rick Ricker";
+        String tituloPropuesta = "Pilsner Lock";
+        
+        when(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta)).thenReturn(true);   //Enmascaro la función esta con un true directo así entra en el if
+        
+        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
+        
+        assertTrue(resultado); 
+    }
+
+    @Test
+    public void testNuevoComentario__fallaCuandoUserNickEsNull() 
+    {
+        System.out.println("testNuevoComentario__fallaCuandoUserNickEsNull");
+        
+        String userNick = null;
+        String comentario = "algo comentado";
+        String tituloPropuesta = "Pinsel Shock";
+        
+        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
+
+        assertFalse(resultado); //Al ser null el nick, el if nunca debería entrar por lo tanto debería dar false
+    }
+    
+    @Test
+    public void testNuevoComentario_CasoUserNickVacio() 
+    {
+        System.out.println("testNuevoComentario_casoUserNickVacio");
+        
+        String comentario = "algo comentado";
+        String userNick = "";   //Aca fuerzo la reacción del if
+        String tituloPropuesta = "Pinsel Lock";
+        
+        when(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta)).thenReturn(true);   //En este caso devuelve true siempre que se consulta
+
+        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
+
+        assertTrue(resultado);
+    }
+
+    //FIN TEST Propouestas
+    /**
+     * Test of altaDeCategoria method, of class Controller.
+     */
+    
+    //Test CATEGORIA
+    @Test
+    void testAltaDeCategoria_caso_InputNull() 
+    {
+        System.out.print("testAltaDeCategoria_caso_InputNull");
+        
+        //No necesito hacer mocks ya que al ser null no entra nunca a la base de datos.
+
+        boolean result = controller.altaDeCategoria(null);
+
+        assertFalse(result); //Devuelve el mensaje en formato del test
+    }
+    
+    @Test
+    void testAltaDeCategoria_caso_CategoriaPadreValida() 
+    { 
+        System.out.print("testAltaDeCategoria_caso_CategoriaPadreValida");
+        
+        DTOCategoria catTest = new DTOCategoria();
+        
+        catTest.setNombreCategoria("Musica");
+        
+        catTest.setCatPadre("");                          //Para que sea reconocida como cat padre.
+
+        boolean result = controller.altaDeCategoria(catTest);
+
+        assertTrue(result); //Devuelve el mensaje en formato del test
+    }
+
 //    /**
 //     * Test of getCategorias method, of class Controller.
 //     */
