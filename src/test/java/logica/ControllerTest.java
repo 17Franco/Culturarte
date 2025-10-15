@@ -58,20 +58,7 @@ public class ControllerTest {
     
     @BeforeAll
     public static void setUpClass() {
-//        
-//        
-//        
-//        registroUsuario (el registro que usa la web)
-//        byte[] contenido = new byte[]{};
-//        instance.registroUsuario("FrancoP", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"img.jpg",true,"25 metros","www.web.com","soy usuario Proponente");
-//        instance.registroUsuario("FrancoC", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",false,"","","");
-
-//        //creo propuesta de prueba 
-//        List<TipoRetorno> Retorno = new ArrayList<>();
-//        Retorno.add(TipoRetorno.EntradaGratis);
-//        //Estado est=Estado.INGRESADA;
-//        instance.altaPropuesta("Prueba1","Esto es una prueba","","Piriapolis", LocalDate.of(2025,10,14), 100, 10000, LocalDate.of(2025,10,20), Retorno, "Musica", "Pedro2025", Estado.INGRESADA);
-        
+ 
     }
     
     @AfterAll
