@@ -151,9 +151,7 @@ public class ControllerTest {
        
         String result = instance.obtenerPathImg(nick, contenido, nombreArchivo);
         //compruebo que la ruta que guartdo en bd sea la correcta
-        assertEquals(expResult, result); 
-       
-        
+        assertEquals(expResult, result);    
     }
     
     @Test
@@ -554,9 +552,6 @@ public class ControllerTest {
         assertTrue(result.containsAll(nicksEsperados));
     }
   
-//    /**
-//     * Test of ListaSeguidosPorUsuario method, of class Controller.
-//     */
 //    @Test
 //    public void testListaSeguidosPorUsuario() {
 //        System.out.println("ListaSeguidosPorUsuario");
@@ -568,12 +563,7 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-// 
-//    /**
-//     * Test of marcarComoFavorita method, of class Controller.
-//     */
-//    
-//    
+
 //    @Test
 //    public void testMarcarComoFavorita() {
 //        System.out.println("marcarComoFavorita");
@@ -598,10 +588,7 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    /**
-//     * Test of esFavorita method, of class Controller.
-//     */
+
 //    @Test
 //    public void testEsFavorita() {
 //        System.out.println("esFavorita");
@@ -614,14 +601,7 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    
-//
-//   
-//
-//    /**
-//     * Test of seguir method, of class Controller.
-//     */
+
 //    @Test
 //    public void testSeguir() {
 //        System.out.println("seguir");
@@ -634,10 +614,7 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    /**
-//     * Test of unFollowUser method, of class Controller.
-//     */
+
 //    @Test
 //    public void testUnFollowUser() {
 //        System.out.println("unFollowUser");
@@ -650,11 +627,7 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//    
-//    
-//     /**
-//     * Test of getDTOProponente method, of class Controller.
-//     */
+
 //    @Test
 //    public void testGetDTOProponente() {
 //        System.out.println("getDTOProponente");
@@ -666,11 +639,7 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//    
-//    
-//    /**
-//     * Test of getDTOColaborador method, of class Controller.
-//     */
+
 //    @Test
 //    public void testGetDTOColaborador() {
 //        System.out.println("getDTOColaborador");
@@ -684,10 +653,7 @@ public class ControllerTest {
 //    }
 //    
 //   // FIN TEST Usuarios
-//    
-    /**
-     * Test of getDTOAporte method, of class Controller.
-     */
+
 //    @Test
 //    public void testGetDTOAporte() {
 //        System.out.println("getDTOAporte");
