@@ -366,18 +366,21 @@ public class Controller  implements IController {
     @Override
     public int extenderOCancelarPropuesta(String accionUsuario,String tituloPropuesta)
     {
-        //CASO CANCELAR PROPUESTA
-        if (accionUsuario.equals("CANCELAR")) 
+        if(accionUsuario != null && tituloPropuesta != null)
         {
-            mPropuesta.cancelarPropuestaSeleccionada(tituloPropuesta);
-            return 2; //Proponente logra cancelar.
-        }
+            //CASO CANCELAR PROPUESTA
+            if (accionUsuario.equals("CANCELAR")) 
+            {
+                mPropuesta.cancelarPropuestaSeleccionada(tituloPropuesta);
+                return 2; //Proponente logra cancelar.
+            }
 
-        //CASO EXTENDER FINANCIACION
-        if(accionUsuario.equals("EXTENDER")) 
-        {
-            mPropuesta.extenderFinanciacion(tituloPropuesta);
-            return 3; //Proponente logra extender.
+            //CASO EXTENDER FINANCIACION
+            if(accionUsuario.equals("EXTENDER")) 
+            {
+                mPropuesta.extenderFinanciacion(tituloPropuesta);
+                return 3; //Proponente logra extender.
+            }
         }
         
         return 0;
@@ -388,6 +391,7 @@ public class Controller  implements IController {
     {
         //Seteo tipos de retorno.
         TipoRetorno retorno = null;
+        
         if(tipoRetorno != null)
         {
             if(tipoRetorno.equals("EntradaGratis"))     { retorno = TipoRetorno.EntradaGratis; }
