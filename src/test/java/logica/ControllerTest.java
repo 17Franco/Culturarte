@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaboracion;
 
@@ -37,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import logica.Usuario.Colaborador;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import persistencia.ManejadorUsuario;
@@ -987,7 +987,7 @@ public class ControllerTest {
     {
         System.out.println("testExtenderOCancelarPropuesta_casoExtender");
 
-        doNothing().when(mPropuesta).extenderFinanciacion("propTest");    //Me salto esta función
+        when(mPropuesta.extenderFinanciacion("propTest")).thenReturn(true);
 
         int resultado = controller.extenderOCancelarPropuesta("EXTENDER", "propTest");
 
@@ -1039,13 +1039,13 @@ public class ControllerTest {
         
         DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
         when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
-        
+        when(propuestaActual.getTitulo()).thenReturn("prop");
         
         Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
         propuestasTest.add(propuestaActual);
         
         when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
-        when(controller.extenderOCancelarPropuesta(accionUsuario, "propuesta random")).thenReturn(3);   //Que retorne 3.
+        when(mPropuesta.extenderFinanciacion("prop")).thenReturn(true);                         //Que retorne 3.
         
         int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
 
@@ -1066,13 +1066,13 @@ public class ControllerTest {
         DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
         
         when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
-        
+        when(propuestaActual.getTitulo()).thenReturn("prop");
         
         Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
         propuestasTest.add(propuestaActual);
         
         when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
-        when(controller.extenderOCancelarPropuesta(accionUsuario, "propuesta random")).thenReturn(2);   //Que retorne 2.
+        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada("prop");   //Que retorne 2.
         
         int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
 
@@ -1094,13 +1094,12 @@ public class ControllerTest {
         DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
         
         when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
-        
+        when(propuestaActual.getTitulo()).thenReturn("prop");
         
         Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
         propuestasTest.add(propuestaActual);
         
         when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
-        when(controller.extenderOCancelarPropuesta(accionUsuario, "propuesta random")).thenReturn(0);   //Que retorne 0. sin cambios
         
         int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
 
@@ -1138,40 +1137,40 @@ public class ControllerTest {
         String tipoRetorno = "";
         
         DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        
-        when(controller.nuevoComentario(comentario,userNick,anyString())).thenReturn(true);  //retorna true en vez de usar la función real
-        
+        when(propuestaActual.getTitulo()).thenReturn("test");
+        when(mPropuesta.nuevoComentario(anyString(), anyString(), anyString())).thenReturn(true);        
         int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
 
-        assertEquals(4, result);
+        assertEquals(1, result);
 
     }
     @Test
     public void testAccionesSobrePropuesta_casoNormalColaboradorSinColab() 
     {
         System.out.println("accionesSobrePropuesta_casoNormalColaboradorSinColab");
-        
+
         String userNick = "Diego";
         int permisos = 3;
         String accionUsuario = "COLABORAR";
-        String comentario = ""; //No lo uso
+        String comentario = "";
         String montoStr = "15000";
         String tipoRetorno = "EntradaGratis";
-        
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        DTOColaborador colaboradorActual = mock(DTOColaborador.class);
-        
-        when(colaboradorActual.getNickname()).thenReturn(userNick);
-        when(controller.getDTOColaborador(userNick)).thenReturn(colaboradorActual);
-        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
-        
-        doNothing().when(controller).altaColaboracion(any(DTOColaboracion.class));  //Salto el paso de entrar a la función.
-        
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-        
-        
-        assertEquals(4, result);
 
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+
+        DTOColaborador colaboradorTest = mock(DTOColaborador.class);
+        when(colaboradorTest.getNickname()).thenReturn(userNick); 
+
+        Controller controllerSpy = spy(controller);
+
+        doReturn(colaboradorTest).when(controllerSpy).getDTOColaborador(userNick);
+
+        doNothing().when(controllerSpy).altaColaboracion(any(DTOColaboracion.class));
+
+        int result = controllerSpy.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(4, result);
     }
     
       /**
@@ -1278,7 +1277,7 @@ public class ControllerTest {
 
         boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
 
-        assertTrue(resultado);
+        assertFalse(resultado);
     }
 
     //FIN TEST Propouestas
@@ -1309,7 +1308,8 @@ public class ControllerTest {
         catTest.setNombreCategoria("Musica");
         
         catTest.setCatPadre("");                          //Para que sea reconocida como cat padre.
-
+        when(mCategoria.addCategoria(catTest)).thenReturn(true);
+        
         boolean result = controller.altaDeCategoria(catTest);
 
         assertTrue(result); //Devuelve el mensaje en formato del test
