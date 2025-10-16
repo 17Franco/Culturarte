@@ -926,43 +926,7 @@ public class ControllerTest {
 //        fail("The test case is a prototype.");
 //    }
 //    
-//    /**
-//     * Test of extenderOCancelarPropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testExtenderOCancelarPropuesta() {
-//        System.out.println("extenderOCancelarPropuesta");
-//        String accionUsuario = "";
-//        String tituloPropuesta = "";
-//        Controller instance = new Controller();
-//        int expResult = 0;
-//        int result = instance.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
-//     /**
-//     * Test of accionesSobrePropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testAccionesSobrePropuesta() {
-//        System.out.println("accionesSobrePropuesta");
-//        String userNick = "";
-//        int permisos = 0;
-//        String accionUsuario = "";
-//        String comentario = "";
-//        DTOPropuesta propuestaActual = null;
-//        String montoStr = "";
-//        String tipoRetorno = "";
-//        Controller instance = new Controller();
-//        int expResult = 0;
-//        int result = instance.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-    
+
     /**
      * Test of extenderOCancelarPropuesta method, of class Controller.
      */
@@ -1315,33 +1279,91 @@ public class ControllerTest {
         assertTrue(result); //Devuelve el mensaje en formato del test
     }
 
-//    /**
-//     * Test of getCategorias method, of class Controller.
-//     */
-//    @Test
-//    public void testGetCategorias() {
-//        System.out.println("getCategorias");
-//        Controller instance = new Controller();
-//        List<DTOCategoria> expResult = null;
-//        List<DTOCategoria> result = instance.getCategorias();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of ListaCategoria method, of class Controller.
-//     */
-//    @Test
-//    public void testListaCategoria() {
-//        System.out.println("ListaCategoria");
-//        Controller instance = new Controller();
-//        List<String> expResult = null;
-//        List<String> result = instance.ListaCategoria();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of getCategorias method, of class Controller.
+    */
+   @Test
+   public void testGetCategorias_casoNormal() 
+   {
+        System.out.println("getCategorias_casoNormal");
+        
+        //Creo un set unicamente para simular una devolución.
+        DTOCategoria catTest1 = new DTOCategoria("Musica");
+        DTOCategoria catTest2 = new DTOCategoria("Arte");
+        
+        List<DTOCategoria> setCatPrueba = new ArrayList<>();
+        
+        setCatPrueba.add(catTest1);  //Asignado elemento 0
+        setCatPrueba.add(catTest2);  //Y el 1 
+        
+        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
+        
+        List<DTOCategoria> result = controller.getCategorias();
+        
+        
+        //Me fijo que estén los dos elementos en el result:
+        assertEquals("Musica", result.get(0).getNombreCategoria());
+        assertEquals("Arte", result.get(1).getNombreCategoria());
+        
+   }
+   
+   @Test
+   public void testGetCategorias_casoNoHayCategorias() 
+   {
+        System.out.println("getCategorias_casoNoHayCategorias");
+        
+        List<DTOCategoria> setCatPrueba = new ArrayList<>();    //El manejador devuelve esto realmente cuando no hay nada.
+        
+        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
+        
+        List<DTOCategoria> result = controller.getCategorias();
+        
+        
+        //El test pasa si la lista está vacía.
+        assertTrue(result.isEmpty());   
+        
+   }
+
+    /**
+     * Test of ListaCategoria method, of class Controller.
+     */
+    @Test
+    public void testListaCategoria_casoNomal() 
+    {
+        System.out.println("ListaCategoria_casoNomal");
+
+        //Creo un set unicamente para simular una devolución, igual que los de arriba.
+        DTOCategoria catTest1 = new DTOCategoria("Musica");
+        DTOCategoria catTest2 = new DTOCategoria("Arte");
+
+        List<DTOCategoria> setCatPrueba = new ArrayList<>();
+
+        setCatPrueba.add(catTest1);  //Asignado elemento 0
+        setCatPrueba.add(catTest2);  //Y el 1 
+
+        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
+
+        List<String> result = controller.ListaCategoria(); 
+        
+        assertEquals("Musica", result.get(0));
+        assertEquals("Arte", result.get(1));
+        
+    }
+    
+    @Test
+    public void testListaCategoria_casoNoHayCats() 
+    {
+        System.out.println("ListaCategoria_casoNoHayCats");
+
+        List<DTOCategoria> setCatPrueba = new ArrayList<>();
+
+        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
+
+        List<String> result = controller.ListaCategoria(); 
+        
+        assertTrue(result.isEmpty());    
+    }
+   
 //    //FIN TEST CATEGORIA 
 //   
 //
