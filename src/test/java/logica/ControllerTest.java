@@ -810,21 +810,48 @@ public class ControllerTest {
 //        fail("The test case is a prototype.");
 //    }
 //
-//    /**
-//     * Test of accionSobrePropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testAccionSobrePropuesta() {
-//        System.out.println("accionSobrePropuesta");
-//        String nickUsuario = "";
-//        DTOPropuesta propuestaSel = null;
-//        Controller instance = new Controller();
-//        int expResult = 0;
-//        int result = instance.accionSobrePropuesta(nickUsuario, propuestaSel);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of accionSobrePropuesta method, of class Controller.
+     */
+    @Test
+    public void testAccionSobrePropuesta_casoEsProponente() 
+    {
+        System.out.println("accionSobrePropuesta_casoEsProponente");
+        
+        String nickUsuario = "Jose";
+        DTOPropuesta t1 = mock(DTOPropuesta.class);
+        
+        when(t1.nickProponenteToString()).thenReturn(nickUsuario);  //Para que entre en el if del proponente...
+        
+        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+        
+        assertEquals(1,result); //Si es 1 todo ok.
+   
+    }
+    
+    @Test
+    public void testAccionSobrePropuesta_casoEsColaborador() 
+    {
+        System.out.println("accionSobrePropuesta_casoEsColaborador");
+        
+        String nickUsuario = "Rodolfo";
+        DTOPropuesta t1 = mock(DTOPropuesta.class);
+        
+        //La colaboracion para pasar por el for y entrar al if de adentro
+        List<DTOColaboracion> listaTest = new ArrayList();
+        DTOColaboracion colabTest = mock(DTOColaboracion.class);
+        when(colabTest.getColaborador()).thenReturn(nickUsuario);
+        
+        listaTest.add(colabTest);
+        
+        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
+        when(t1.getAporte()).thenReturn(listaTest);
+        
+        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+        
+        assertEquals(2,result);
+   
+    }
 //
 //    /**
 //     * Test of getPropuestaDTO method, of class Controller.
@@ -1180,11 +1207,13 @@ public class ControllerTest {
         String tipoUsuario = "Proponente";
         
         //Acá se programa lo que el dto devuelve:
-        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");                               
+        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
+        when(propTest.nickProponenteToString()).thenReturn("propo");
 
         //Se simula la funcion para que no entre al segundo if y por ende tampoco al tercero:
         when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(true);
         //Que la funcion retorne 3, ya que no ha comentado
+        
         when(controller.accionSobrePropuesta(userNick,propTest)).thenReturn(3);
         
         int expResult = 0;                                  //Se espera que sea 0 el resultado.
