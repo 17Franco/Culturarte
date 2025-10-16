@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaboracion;
 
@@ -37,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import logica.Usuario.Colaborador;
+import logica.Usuario.Proponente;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import persistencia.ManejadorUsuario;
@@ -760,27 +762,43 @@ public class ControllerTest {
 //    /**
 //     * Test of altaPropuesta method, of class Controller.
 //     */
-//    @Test
-//    public void testAltaPropuesta() {
-//        System.out.println("altaPropuesta");
-//        String Titulo = "";
-//        String Descripcion = "";
-//        String Imagen = "";
-//        String Lugar = "";
-//        LocalDate Fecha = null;
-//        int Precio = 0;
-//        int MontoTotal = 0;
-//        LocalDate fechaPublicacio = null;
-//        List<TipoRetorno> Retorno = null;
-//        String cat = "";
-//        String usr = "";
-//        Estado est = null;
-//        Controller instance = new Controller();
-//        instance.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio, Retorno, cat, usr, est);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+@Test
+    public void testAltaPropuesta() {
+        System.out.println("altaPropuesta");
+
+        String titulo = "TestingPropuesta";
+        String descripcion = "TestDescrip";
+        String imagen = "";
+        String lugar = "TestLugar";
+        LocalDate fecha = LocalDate.of(2025, 12, 10);
+        int precio = 100;
+        int montoTotal = 1000;
+        LocalDate fechaPub = LocalDate.of(2025, 10, 15);
+        List<TipoRetorno> retornos = new ArrayList();
+        retornos.add(TipoRetorno.EntradaGratis);
+        String categoriaNombre = "fiesta";
+        String usuarioNombre = "paco";
+        Estado estado = Estado.PUBLICADA;
+
+        Categoria categoriaMock = mock(Categoria.class);
+        Proponente proponenteMock = mock(Proponente.class);
+
+        when(mCategoria.buscadorC(eq(categoriaNombre))).thenReturn(categoriaMock);
+        when(mUsuarioMock.getUsuario(eq(usuarioNombre))).thenReturn(proponenteMock);
+
+        controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha, precio, montoTotal, fechaPub, retornos, categoriaNombre, usuarioNombre, estado);
+
+        verify(mPropuesta, times(1)).nuevaPropuesta(argThat(propuesta
+                -> propuesta.getTitulo().equals(titulo)
+                && propuesta.getDescripcion().equals(descripcion)
+                && propuesta.getLugar().equals(lugar)
+                && propuesta.getCategoria().equals(categoriaMock)
+                && propuesta.getProponente().equals(proponenteMock)
+                && propuesta.getPrecio() == precio
+                && propuesta.getMontoTotal() == montoTotal
+                && propuesta.getUltimoEstadoString().equals(estado.name())
+        ));
+    }
 //    /**
 //     * Test of obtenerPropuestas method, of class Controller.
 //     */
