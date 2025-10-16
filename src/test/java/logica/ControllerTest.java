@@ -1214,8 +1214,6 @@ public class ControllerTest {
         when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(true);
         //Que la funcion retorne 3, ya que no ha comentado
         
-        when(controller.accionSobrePropuesta(userNick,propTest)).thenReturn(3);
-        
         int expResult = 0;                                  //Se espera que sea 0 el resultado.
         
         int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
