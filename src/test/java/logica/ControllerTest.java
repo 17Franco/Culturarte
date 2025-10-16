@@ -801,19 +801,32 @@ public class ControllerTest {
     }
 //    /**
 //     * Test of obtenerPropuestas method, of class Controller.
-//     */
-//    @Test
-//    public void testObtenerPropuestas() {
-//        System.out.println("obtenerPropuestas");
-//        String estado = "";
-//        Controller instance = new Controller();
-//        Set<DTOPropuesta> expResult = null;
-//        Set<DTOPropuesta> result = instance.obtenerPropuestas(estado);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+
+    @Test
+    public void testObtenerPropuestas() {
+        System.out.println("obtenerPropuestas");
+
+        String estado = "PUBLICADA";
+
+        DTOPropuesta datoTest1 = new DTOPropuesta();
+        datoTest1.setTitulo("Titulo1");
+
+        DTOPropuesta DatoTest2 = new DTOPropuesta();
+        DatoTest2.setTitulo("Titulo2");
+
+        Set<DTOPropuesta> propuestasEsperadas = new HashSet<>();
+        propuestasEsperadas.add(datoTest1);
+        propuestasEsperadas.add(DatoTest2);
+
+        when(mPropuesta.obtenerPropuestas(eq(estado))).thenReturn(propuestasEsperadas);
+
+        Set<DTOPropuesta> resultado = controller.obtenerPropuestas(estado);
+
+        verify(mPropuesta, times(1)).obtenerPropuestas(eq(estado));
+
+        assertEquals(propuestasEsperadas, resultado);
+    }
+
 //    /**
 //     * Test of obtenerPropuestasExceptoINGRESADAS method, of class Controller.
 //     */
