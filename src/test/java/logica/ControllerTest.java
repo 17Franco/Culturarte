@@ -897,7 +897,7 @@ public class ControllerTest {
         assertEquals(2,result);
    
     }
-//
+
 //    /**
 //     * Test of getPropuestaDTO method, of class Controller.
 //     */
@@ -912,22 +912,24 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    /**
-//     * Test of existeProp method, of class Controller.
-//     */
-//    @Test
-//    public void testExisteProp() {
-//        System.out.println("existeProp");
-//        String Titulo = "";
-//        Controller instance = new Controller();
-//        boolean expResult = false;
-//        boolean result = instance.existeProp(Titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+
+    /**
+     * Test of existeProp method, of class Controller.
+     */
+    
+    @Test
+    public void testExisteProp() {
+        System.out.println("existeProp");
+        
+        String titulo = "Titulo1";
+
+        when(mPropuesta.existeProp(eq(titulo))).thenReturn(true);
+
+        boolean resultado = controller.existeProp(titulo);
+
+        assertTrue(resultado);
+    }
+
 //    /**
 //     * Test of creadorPropuesta method, of class Controller.
 //     */
