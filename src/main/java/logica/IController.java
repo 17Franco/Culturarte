@@ -120,5 +120,6 @@ public interface IController {
   //  private Set <DTOCategoria> subcategorias;
    //al hacer click en la subcat traer las propu que en la BD en la columna ca
    //crear manejadorSubCat?
-
+// Funcion usada por el buscador web para filtrar propuestas
+   List<DTOPropuesta> BuscarPropuestas(String filtro);
 }

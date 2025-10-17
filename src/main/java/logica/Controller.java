@@ -583,7 +583,11 @@ public class Controller  implements IController {
        return  mPropuesta.ObtenerPropuestasPorSubCategoria(subcategoria);
 }
 
-
+// Funcion usada por el buscador web para filtrar propuestas
+   @Override
+   public List<DTOPropuesta> BuscarPropuestas(String filtro){
+       return mPropuesta.BuscarPropuestas(filtro);
+   }
 }
 
   

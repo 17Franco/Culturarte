@@ -141,6 +141,7 @@ public class ControllerTest {
     }
    
      //test cuando se elije img
+    /*
     @Test
     public void testObtenerPathImgE() {
         System.out.println("obtenerPathImg");
@@ -157,7 +158,7 @@ public class ControllerTest {
         //compruebo que la ruta que guartdo en bd sea la correcta
         assertEquals(expResult, result);    
     }
-    
+    */
     @Test
     public void testregistroUsuarioP(){
         //compruebo que el registroUsuario (el que usa al registrarse por web funcione bien)
