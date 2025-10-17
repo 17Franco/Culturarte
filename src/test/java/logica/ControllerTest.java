@@ -737,22 +737,38 @@ public class ControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    /**
-//     * Test of getDTOPropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testGetDTOPropuesta() {
-//        System.out.println("getDTOPropuesta");
-//        Propuesta p = null;
-//        DTOProponente prop = null;
-//        Controller instance = new Controller();
-//        DTOPropuesta expResult = null;
-//        DTOPropuesta result = instance.getDTOPropuesta(p, prop);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+   /**
+     * Test of getDTOPropuesta method, of class Controller.
+     */
+    @Test
+    public void testGetDTOPropuesta() 
+    {
+        System.out.println("getDTOPropuesta");
+        
+        Propuesta mockPropuesta = mock(Propuesta.class);
+        Categoria mockCategoria = mock(Categoria.class);
+        
+        Registro_Estado mockRegistro = mock(Registro_Estado.class);
+        
+        DTOProponente mockProponente = mock(DTOProponente.class);
+        
+        DTORegistro_Estado dtoRegistroMock = mock(DTORegistro_Estado.class);
+        
+        when(mockPropuesta.getHistorialEstados()).thenReturn(List.of(mockRegistro));
+        when(mockPropuesta.getAporte()).thenReturn(List.of());
+
+        when(mockPropuesta.getCategoria()).thenReturn(mockCategoria);
+        when(mockCategoria.Cat_a_DTO()).thenReturn(mock(DTOCategoria.class));
+        
+        Controller spyController = spy(controller);
+
+        doReturn(dtoRegistroMock).when(spyController).getDTORegistroEstado(mockRegistro);
+
+        DTOPropuesta result = spyController.getDTOPropuesta(mockPropuesta, mockProponente);
+
+        assertEquals(mockProponente, result.getUsr());
+    }
 //
 //   
 //
@@ -816,32 +832,21 @@ public class ControllerTest {
 //    /**
 //     * Test of obtenerPropuestas method, of class Controller.
 //     */
-//    @Test
-//    public void testObtenerPropuestas() {
-//        System.out.println("obtenerPropuestas");
-//        String estado = "";
-//        Controller instance = new Controller();
-//        Set<DTOPropuesta> expResult = null;
-//        Set<DTOPropuesta> result = instance.obtenerPropuestas(estado);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of obtenerPropuestasExceptoINGRESADAS method, of class Controller.
-//     */
-//    @Test
-//    public void testObtenerPropuestasExceptoINGRESADAS() {
-//        System.out.println("obtenerPropuestasExceptoINGRESADAS");
-//        Controller instance = new Controller();
-//        Set<DTOPropuesta> expResult = null;
-//        Set<DTOPropuesta> result = instance.obtenerPropuestasExceptoINGRESADAS();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    @Test
+    public void testObtenerPropuestas() 
+    {
+        System.out.println("obtenerPropuestas");
+        String estado = "staten";
+
+        Set<DTOPropuesta> expResult = new HashSet();
+        
+        when(mPropuesta.obtenerPropuestas(estado)).thenReturn(expResult);
+        
+        Set<DTOPropuesta> result = controller.obtenerPropuestas(estado);
+        assertEquals(expResult, result);
+
+    }
+
     /**
      * Test of accionSobrePropuesta method, of class Controller.
      */
@@ -884,106 +889,159 @@ public class ControllerTest {
         assertEquals(2,result);
    
     }
-//
+    
+    @Test
+    public void testAccionSobrePropuesta_casoLol() 
+    {
+        System.out.println("accionSobrePropuesta_casocasoLol");
+        
+        String nickUsuario = "Rodolfo";
+        DTOPropuesta t1 = mock(DTOPropuesta.class);
+        
+        //La colaboracion para pasar por el for y entrar al if de adentro
+        List<DTOColaboracion> listaTest = new ArrayList();
+        DTOColaboracion colabTest = mock(DTOColaboracion.class);
+        when(colabTest.getColaborador()).thenReturn("Nel");
+        
+        listaTest.add(colabTest);
+        
+        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
+        when(t1.getAporte()).thenReturn(listaTest);
+        
+        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+        
+        assertEquals(3,result);
+   
+    }
+
 //    /**
 //     * Test of getPropuestaDTO method, of class Controller.
 //     */
-//    @Test
-//    public void testGetPropuestaDTO() {
-//        System.out.println("getPropuestaDTO");
-//        String propuestaSel = "";
-//        Controller instance = new Controller();
-//        DTOPropuesta expResult = null;
-//        DTOPropuesta result = instance.getPropuestaDTO(propuestaSel);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    @Test
+    public void testGetPropuestaDTO() 
+    {
+        System.out.println("getPropuestaDTO");
+        
+        String propuestaSel = "algo";
+ 
+        DTOPropuesta expResult = new DTOPropuesta();
+        
+        when(mPropuesta.getPropuestaDTO(propuestaSel)).thenReturn(expResult);
+        
+        DTOPropuesta result = controller.getPropuestaDTO(propuestaSel);
+        assertEquals(expResult, result);
+    }
+
 //    /**
 //     * Test of existeProp method, of class Controller.
 //     */
-//    @Test
-//    public void testExisteProp() {
-//        System.out.println("existeProp");
-//        String Titulo = "";
-//        Controller instance = new Controller();
-//        boolean expResult = false;
-//        boolean result = instance.existeProp(Titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    @Test
+    public void testExisteProp() 
+    {
+        System.out.println("existeProp");
+        String Titulo = "JacoCo";
+        
+        when(mPropuesta.existeProp(Titulo)).thenReturn(true);
+        
+        boolean result = controller.existeProp(Titulo);
+        
+        assertTrue(result);
+    }
+
 //    /**
 //     * Test of creadorPropuesta method, of class Controller.
 //     */
-//    @Test
-//    public void testCreadorPropuesta() {
-//        System.out.println("creadorPropuesta");
-//        String titulo = "";
-//        Controller instance = new Controller();
-//        String expResult = "";
-//        String result = instance.creadorPropuesta(titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    @Test
+    public void testCreadorPropuesta() 
+    {
+        System.out.println("creadorPropuesta");
+        String titulo = "tituloRandom";
+        String nombreProp = "Jacoco";
+        
+        when(mPropuesta.obtenerNombreCreadorPropuesta(titulo)).thenReturn("Jacoco");
+        
+        String result = controller.creadorPropuesta(titulo);
+        assertEquals(nombreProp, result);
+    }
+
 //    /**
 //     * Test of estadoPropuestas method, of class Controller.
 //     */
-//    @Test
-//    public void testEstadoPropuestas() {
-//        System.out.println("estadoPropuestas");
-//        String titulo = "";
-//        Controller instance = new Controller();
-//        String expResult = "";
-//        String result = instance.estadoPropuestas(titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
-//    
+    @Test
+    public void testEstadoPropuestas() 
+    {
+        System.out.println("estadoPropuestas");
+        String titulo = "Canciones Aburridas";
+        
+        String expResult = "Cancelada";
+        
+        when(mPropuesta.obtenerEstado(titulo)).thenReturn("Cancelada");
+        
+        String result = controller.estadoPropuestas(titulo);
+        assertEquals(expResult, result);
+    }
+   
 //     /**
 //     * Test of modificarPropuesta method, of class Controller.
 //     */
-//    @Test
-//    public void testModificarPropuesta() {
-//        System.out.println("modificarPropuesta");
-//        String titulo = "";
-//        String descripcion = "";
-//        String rutaImagen = "";
-//        String lugar = "";
-//        LocalDate fechaEvento = null;
-//        int precio = 0;
-//        int montoTotal = 0;
-//        List<TipoRetorno> retorno = null;
-//        String categoria = "";
-//        String usuarios = "";
-//        Estado estado = null;
-//        Controller instance = new Controller();
-//        instance.modificarPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, usuarios, estado);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testModificarPropuesta() 
+    {
+        System.out.println("modificarPropuesta");
+        String titulo = "Pisler Shock";
+        String descripcion = "";
+        String rutaImagen = "";
+        String lugar = "";
+        LocalDate fechaEvento = null;
+        int precio = 0;
+        int montoTotal = 0;
+        List<TipoRetorno> retorno = null;
+        String categoria = "";
+        String usuarios = "";
+        Estado estado = null;
+        
+        Propuesta t = new Propuesta();
+        
+        when(mPropuesta.buscarPropuestaPorTitulo(titulo)).thenReturn(t);
+        
+        doNothing().when(mPropuesta).UpdatePropuesta(titulo, descripcion,rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
+                
+        controller.modificarPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, usuarios, estado);
+
+    }
 //    
 //      /**
 //     * Test of ListarPropuestas method, of class Controller.
 //     */
-//    @Test
-//    public void testListarPropuestas() {
-//        System.out.println("ListarPropuestas");
-//        String estado1 = "";
-//        String estado2 = "";
-//        Controller instance = new Controller();
-//        Set<DTOPropuesta> expResult = null;
-//        Set<DTOPropuesta> result = instance.ListarPropuestas(estado1, estado2);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testListarPropuestas() 
+    {
+        System.out.println("ListarPropuestas");
+        
+        String estado1 = "esperado1", estado2 = "esperado2";
+        
+        DTOPropuesta test = mock(DTOPropuesta.class);
+        DTOPropuesta test2 = mock(DTOPropuesta.class);
+        
+        Set<DTOPropuesta> esperado1 = new HashSet();
+        esperado1.add(test);
+        Set<DTOPropuesta> esperado2 = new HashSet(); 
+        esperado2.add(test2);
+        
+        when(mPropuesta.obtenerPropuestas("esperado1")).thenReturn(esperado1);
+        
+        when(mPropuesta.obtenerPropuestas("esperado2")).thenReturn(esperado2);
+        
+        Set<DTOPropuesta> esperado3 = new HashSet();
+        esperado3.add(test);
+        esperado3.add(test2);
+        
+        Set<DTOPropuesta> result = controller.ListarPropuestas(estado1, estado2);
+        
+        assertEquals(esperado3, result);
+        
+        
+    }
 //    
 
     /**
@@ -1167,6 +1225,7 @@ public class ControllerTest {
         assertEquals(1, result);
 
     }
+    
     @Test
     public void testAccionesSobrePropuesta_casoNormalColaboradorSinColab() 
     {
@@ -1185,18 +1244,78 @@ public class ControllerTest {
         DTOColaborador colaboradorTest = mock(DTOColaborador.class);
         when(colaboradorTest.getNickname()).thenReturn(userNick); 
 
-        Controller controllerSpy = spy(controller);
+        Controller controllerSpy = spy(controller);     //No me queda otra que usar un spy para omitir la función "getDTOColaborador"
 
-        doReturn(colaboradorTest).when(controllerSpy).getDTOColaborador(userNick);
+        doReturn(colaboradorTest).when(controllerSpy).getDTOColaborador(userNick);      //Con spy, cambia la sintaxis de la devolución del mock
 
-        doNothing().when(controllerSpy).altaColaboracion(any(DTOColaboracion.class));
+        doNothing().when(controllerSpy).altaColaboracion(any(DTOColaboracion.class));   //Lo mismo acá
 
         int result = controllerSpy.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
 
         assertEquals(4, result);
     }
     
-      /**
+       @Test
+    public void testAccionesSobrePropuesta_casoMontoInvalido() 
+    {
+        System.out.println("accionesSobrePropuesta_casoMontoInvalido");
+
+        String userNick = "Diego";
+        int permisos = 3;
+        String accionUsuario = "COLABORAR";
+        String comentario = "";
+        String montoStr = "hola";
+        String tipoRetorno = "PorcentajeGanancia";
+
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(0, result);
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoAccionNoEspecificada() 
+    {
+        System.out.println("accionesSobrePropuesta_casoAccionNoEspecificada");
+
+        String userNick = "Diego";
+        int permisos = 2;
+        String accionUsuario = "no";
+        String comentario = "";
+        String montoStr = "hola";
+        String tipoRetorno = "PorcentajeGanancia";
+
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(0, result);
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoAccionNoEspecificada2() 
+    {
+        System.out.println("accionesSobrePropuesta_casoAccionNoEspecificada2");
+
+        String userNick = "Diego";
+        int permisos = 3;
+        String accionUsuario = "no";
+        String comentario = "";
+        String montoStr = "hola";
+        String tipoRetorno = "PorcentajeGanancia";
+
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+
+        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(0, result);
+    }
+        
+     /**
      * Test of permisosSobrePropuesta method, of class Controller.
      */
     @Test
@@ -1238,13 +1357,52 @@ public class ControllerTest {
         String userNick = "propo";                             
         String tipoUsuario = "Proponente";
         
+        List<DTOColaboracion> senuelo = new ArrayList();
+        
+        when(propTest.getAporte()).thenReturn(senuelo); //Para saltarme el for e if de accionSobreProp
+        
         //Acá se programa lo que el dto devuelve:
         when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
-        when(propTest.nickProponenteToString()).thenReturn("propo");
+        when(propTest.nickProponenteToString()).thenReturn("otro");         //Obligo que falle el if que retorna 1 en la funcion accionSobreProp
 
-        //Se simula la funcion para que no entre al segundo if y por ende tampoco al tercero:
+        //Se simula la funcion para que entre al segundo if y por ende tampoco al tercero:
+        when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(false);
+        
+        //Se simula la función que da permisos si no ha comentado, retorna 3.
+        //when(controller.accionSobrePropuesta(userNick,propTest)).thenReturn(3);
+        
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+
+    }
+    
+    @Test
+    public void testPermisosSobrePropuesta_esProponenteYpermiso3HaComentado() 
+    {
+        //Caso tipoUsuario es proponente.
+        //UserNick no es "visitante"
+        //No ha comentado
+        //Y el titulo de la propuesta no es null.
+        
+        System.out.println("testPermisosSobrePropuesta_esProponenteYpermiso3HaComentado");
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        String userNick = "propo";                             
+        String tipoUsuario = "Proponente";
+        
+        List<DTOColaboracion> senuelo = new ArrayList();
+        
+        when(propTest.getAporte()).thenReturn(senuelo); //Para saltarme el for e if de accionSobreProp
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
+        when(propTest.nickProponenteToString()).thenReturn("otro");         //Obligo que falle el if que retorna 1 en la funcion accionSobreProp
+
+        //Se simula la funcion para que entre al segundo if y por ende tampoco al tercero:
         when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(true);
-        //Que la funcion retorne 3, ya que no ha comentado
         
         int expResult = 0;                                  //Se espera que sea 0 el resultado.
         
