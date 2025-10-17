@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import logica.Colaboracion.Colaboracion;
+import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Estado;
 import logica.DTO.Estado;
 
@@ -253,5 +254,15 @@ public class Propuesta {
         }
         
         return false;
+    }
+    public DTOPropuesta toDTO() {
+        DTOPropuesta dto= new DTOPropuesta();
+        dto.setTitulo(this.getTitulo());
+        dto.setDescripcion(this.getDescripcion());
+        dto.setImagen(this.getImagen());
+        dto.setLugar(this.getLugar());
+        dto.setFecha(this.getFecha());
+        dto.setEstadoAct(this.getUltimoEstado().getEstado());
+       return dto;
     }
 }
