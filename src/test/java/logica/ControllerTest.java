@@ -1756,14 +1756,16 @@ public class ControllerTest {
 //    /**
 //     * Test of cargarCategorias method, of class Controller.
 //     */
-//    @Test
-//    public void testCargarCategorias() {
-//        System.out.println("cargarCategorias");
-//        Controller instance = new Controller();
-//        instance.cargarCategorias();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testCargarCategorias() 
+    {
+        System.out.println("cargarCategorias");
+
+        doNothing().when(mCategoria).cargarCategorias();
+        
+        controller.cargarCategorias();
+        
+    }
 //
 //    /**
 //     * Test of cargarColaboraciones method, of class Controller.
