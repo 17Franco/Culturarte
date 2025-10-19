@@ -298,23 +298,22 @@ public class Controller  implements IController {
 
         if (propuestaSel.nickProponenteToString().equals(nickUsuario)) //Si es proponente
         {
-
-            return 1;
-        } else {
+            return 1;            
+        } 
+        else 
+        {
             List<DTOColaboracion> t1 = propuestaSel.getAporte();
 
-            for (DTOColaboracion ct : t1) {
+            for (DTOColaboracion ct : t1) 
+            {
                 if (ct.getColaborador().equals(nickUsuario)) //Si es colaborador
                 {
-
                     return 2;
                 }
-
             }
         }
 
-        return 3;   //Si no es ninguno de los dos.
-    
+        return 3;   //Si no es ninguno de los dos. 
     }
     
     @Override
@@ -584,7 +583,11 @@ public class Controller  implements IController {
        return  mPropuesta.ObtenerPropuestasPorSubCategoria(subcategoria);
 }
 
-
+// Funcion usada por el buscador web para filtrar propuestas
+   @Override
+   public List<DTOPropuesta> BuscarPropuestas(String filtro){
+       return mPropuesta.BuscarPropuestas(filtro);
+   }
 }
 
   

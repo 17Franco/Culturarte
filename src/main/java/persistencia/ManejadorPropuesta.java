@@ -734,28 +734,7 @@ public class ManejadorPropuesta {
     }
     
     
-    public Set<DTOPropuesta> obtenerPropuestasExceptoINGRESADAS()
-    {
-        //almacena todo menos propuestas "INGRESADAS"
-
-        Set<DTOPropuesta> temp = obtenerPropuestas("");
-        Set<DTOPropuesta> temp2 = new HashSet<>();
-        
-
-        for (DTOPropuesta ct : temp)
-        {
-            if( !(ct.getUltimoEstado().getEstadoString().equals("INGRESADA")) ) //Si la propuesta no son "INGRESADA"
-            {
-                temp2.add(ct);
-            }
-        }
-        
-
-        return temp2;
-    }
-    
-     public Set<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias) 
-    {
+    public Set<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias){
         EntityManager em = PersistenciaManager.getEntityManager();
         Set<DTOPropuesta> result = new HashSet<>();
  
@@ -769,15 +748,7 @@ public class ManejadorPropuesta {
             for (Propuesta p : propuestas)
             {   
                 if (p.getCategoria().getNombreCategoria() == null ? subcategorias == null : p.getCategoria().getNombreCategoria().equals(subcategorias)){
-                    
-                    DTOPropuesta dto= new DTOPropuesta();
-                    dto.setTitulo(p.getTitulo());
-                    dto.setDescripcion(p.getDescripcion());
-                    dto.setImagen(p.getImagen());
-                    dto.setLugar(p.getLugar());
-                    dto.setFecha(p.getFecha());
-                   result.add(dto);
-                             
+                    result.add(p.toDTO());      
                 }
               
             }
@@ -789,5 +760,28 @@ public class ManejadorPropuesta {
                 
         return result;
     }
-    
+     
+    // Funcion usada por el buscador web para filtrar propuestas
+    public List<DTOPropuesta> BuscarPropuestas(String filtro) {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        List<DTOPropuesta> filtradas = new ArrayList<>();
+        try{
+            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);
+            List<Propuesta> propuestas = q.getResultList();
+            String filtroLowerCase = filtro.toLowerCase();
+            for (Propuesta p : propuestas){ 
+                Boolean filtraPorTitulo = p.getTitulo().toLowerCase().contains(filtroLowerCase);
+                Boolean filtraPorLugar = p.getLugar().toLowerCase().contains(filtroLowerCase);
+                Boolean filtraPorDescripcion = p.getDescripcion().toLowerCase().contains(filtroLowerCase);
+                
+                if ( filtraPorTitulo || filtraPorLugar || filtraPorDescripcion){
+                    filtradas.add(p.toDTO());
+                }
+            }
+        }
+        finally{
+            em.close();
+        }
+        return filtradas;
+    }
 }
