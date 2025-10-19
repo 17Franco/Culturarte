@@ -763,19 +763,22 @@ public class ManejadorPropuesta {
      
     // Funcion usada por el buscador web para filtrar propuestas
     public List<DTOPropuesta> BuscarPropuestas(String filtro) {
-        EntityManager em = PersistenciaManager.getEntityManager();
-        List<DTOPropuesta> filtradas = new ArrayList<>();
+        EntityManager em = PersistenciaManager.getEntityManager(); 
+        List<DTOPropuesta> filtradas = new ArrayList<>();// creo lista vacia para cuando cumpla con el filtro
         try{
-            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);
+            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);//consulta jpql DISTINCT evita duplicados
             List<Propuesta> propuestas = q.getResultList();
-            String filtroLowerCase = filtro.toLowerCase();
+           
+            String filtroLowerCase = filtro.toLowerCase(); // uso lower case para dejar todo en minusculas y que no traiga problemas si meten cualquier verdura
+            
+            // Recorro todas las propuestas y filtra por título, lugar o descripción 
             for (Propuesta p : propuestas){ 
                 Boolean filtraPorTitulo = p.getTitulo().toLowerCase().contains(filtroLowerCase);
                 Boolean filtraPorLugar = p.getLugar().toLowerCase().contains(filtroLowerCase);
                 Boolean filtraPorDescripcion = p.getDescripcion().toLowerCase().contains(filtroLowerCase);
                 
                 if ( filtraPorTitulo || filtraPorLugar || filtraPorDescripcion){
-                    filtradas.add(p.toDTO());
+                    filtradas.add(p.toDTO());//se agrega a lista filtradas
                 }
             }
         }

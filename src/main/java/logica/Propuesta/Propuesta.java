@@ -262,6 +262,8 @@ public class Propuesta {
         dto.setImagen(this.getImagen());
         dto.setLugar(this.getLugar());
         dto.setFecha(this.getFecha());
+        dto.setPrecio(this.getPrecio());            
+
         dto.setEstadoAct(this.getUltimoEstado().getEstado());
        return dto;
     }
