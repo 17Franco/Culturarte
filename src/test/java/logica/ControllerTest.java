@@ -694,20 +694,44 @@ public class ControllerTest {
         
     }
 
-//    @Test
-//    public void testGetDTOColaborador() {
-//        System.out.println("getDTOColaborador");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        DTOColaborador expResult = null;
-//        DTOColaborador result = instance.getDTOColaborador(nick);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
-//   // FIN TEST Usuarios
-//    
+    @Test
+    public void testGetDTOColaborador() {
+        System.out.println("getDTOColaborador");
+        Colaborador usuP = new Colaborador();
+        usuP.setNickname("Pedro2025");
+        usuP.setNombre("Pedro");
+        usuP.setApellido("Suárez");
+        usuP.setEmail("pedro.suarez@gmail.com");
+        usuP.setFecha(LocalDate.of(1992, 3, 14));
+        usuP.setRutaImg("IMG/pedro2025/perfil.png");
+        
+        
+        DTOColaborador dtousuP = new DTOColaborador();
+        dtousuP.setNickname("Pedro2025");
+        dtousuP.setNombre("Pedro");
+        dtousuP.setApellido("Suárez");
+        dtousuP.setEmail("pedro.suarez@gmail.com");
+        dtousuP.setFecha(LocalDate.of(1992, 3, 14));
+        dtousuP.setRutaImg("IMG/pedro2025/perfil.png");
+        
+        
+        
+        String nick = "Pedro2025";
+        when(mUsuarioMock.getUsuario(eq(nick))).thenReturn(usuP);
+        
+        DTOColaborador expResult = dtousuP; 
+        
+        DTOColaborador result = controller.getDTOColaborador(nick);//tengo que recibir el dtousuP
+        
+        //verifico que se llame seguirUsr
+        verify(mUsuarioMock, times(1)).getUsuario(eq(nick));
+        
+        //verifico que tengan mismo nick para asegurar de que devuelve el proponente comvertido a dto
+        assertEquals(expResult.getNickname(), result.getNickname());
+    }
+    
+   // FIN TEST Usuarios
+    
     
 //    @Test
 //    public void testGetDTOAporte() {
