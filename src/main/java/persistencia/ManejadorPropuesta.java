@@ -167,7 +167,7 @@ public class ManejadorPropuesta {
                         ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.NO_FINANCIADA));
                     }
                     
-                    actualizarEstado(ct.getTitulo());   //Llamo a una función que actualiza el estado en la bd
+                    estadoUpdater(ct.getTitulo(), recaudado, ct.getMontoTotal());   //Llamo a una función que actualiza el estado en la bd
                 }
             }    
         }
@@ -189,9 +189,51 @@ public class ManejadorPropuesta {
                 singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(), Estado.NO_FINANCIADA));
             }
             
-            actualizarEstado(singleInput.getTitulo());   //Llamo a una función que actualiza el estado en la bd
+            estadoUpdater(singleInput.getTitulo(), recaudado, singleInput.getMontoTotal());   //Llamo a una función que actualiza el estado en la bd
         }
         //El set y o el dto single quedan modificados! se pueden usar.
+    }
+    
+    public void estadoUpdater(String titulo, int recaudado, int montoExigido) 
+    {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        EntityTransaction t = em.getTransaction();
+
+        try 
+        {
+            t.begin();
+            
+            Propuesta p = em.find(Propuesta.class, titulo);
+            
+            if (p != null) 
+            {
+
+                if (recaudado >= montoExigido) 
+                {
+                    p.addEstHistorial(Estado.FINANCIADA);
+                }
+                else
+                {
+                    p.addEstHistorial(Estado.NO_FINANCIADA);
+                }
+
+                em.merge(p);
+            }
+            
+            t.commit();
+            
+        } 
+        catch (Exception e) 
+        {
+            if (t.isActive()) 
+            {
+                t.rollback();
+            }
+        } 
+        finally 
+        {
+            em.close();
+        }
     }
     
     public void cancelarPropuestaSeleccionada(String tituloPropuesta)
