@@ -152,25 +152,46 @@ public class ManejadorPropuesta {
             {
                 if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().isBefore(LocalDate.now()))  //Si la fecha actual es mayor a la de vencimiento...
                 {
-                    cancelarPropuestaSeleccionada(ct.getTitulo());  //Se cancela.
-
-                    //También se actualiza para poder ser manipulado.
-                    ct.setEstadoAct(Estado.CANCELADA);  
-                    ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.CANCELADA));
-
+                    int recaudado = ct.chequearRecaudado(ct.getAporte());   //Obtengo recaudo total en este momento.
+                    
+                    //Se actualiza el estado.
+                    if(recaudado >= ct.getMontoTotal())
+                    {
+                        
+                        ct.setEstadoAct(Estado.FINANCIADA);  
+                        ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.FINANCIADA));
+                    }
+                    else
+                    {
+                        ct.setEstadoAct(Estado.NO_FINANCIADA);  
+                        ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.NO_FINANCIADA));
+                    }
+                    
+                    actualizarEstado(ct.getTitulo());   //Llamo a una función que actualiza el estado en la bd
                 }
             }    
         }
         
         //Si se envió un DTO unicamente:
         if(singleInput != null && singleInput.getFechaExpiracion() != null && singleInput.getFechaExpiracion().isBefore(LocalDate.now()))
-        {
-            cancelarPropuestaSeleccionada(singleInput.getTitulo());
-            singleInput.setEstadoAct(Estado.CANCELADA);
-            singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.CANCELADA));
+        {            
+            int recaudado = singleInput.chequearRecaudado(singleInput.getAporte());   //Obtengo recaudo total en este momento.
+
+            //Se actualiza el estado.
+            if (recaudado >= singleInput.getMontoTotal()) 
+            {
+
+                singleInput.setEstadoAct(Estado.FINANCIADA);
+                singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(), Estado.FINANCIADA));
+            } else 
+            {
+                singleInput.setEstadoAct(Estado.NO_FINANCIADA);
+                singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(), Estado.NO_FINANCIADA));
+            }
+            
+            actualizarEstado(singleInput.getTitulo());   //Llamo a una función que actualiza el estado en la bd
         }
-        
-        //El set y o el dto single quedan modificados! se pueden usar con seguridad.
+        //El set y o el dto single quedan modificados! se pueden usar.
     }
     
     public void cancelarPropuestaSeleccionada(String tituloPropuesta)
