@@ -530,6 +530,7 @@ public class ManejadorPropuesta {
                 p1.addEstHistorial(Estado.INGRESADA);
                 p1.setImagne("");
                 p1.setFechaPublicacion(LocalDate.now());
+                p1.setFechaExpiracion(LocalDate.now());
                 em.persist(p1);
             }
             // Religiosamente
@@ -559,6 +560,7 @@ public class ManejadorPropuesta {
                 p2.addEstHistorial(Estado.INGRESADA);
                 p2.setImagne("IMG/MOM/MOMO.jpg");
                 p2.setFechaPublicacion(LocalDate.now());
+                p2.setFechaExpiracion(LocalDate.now());
                 em.persist(p2);
             }
             // El Pimiento Indomable
@@ -586,6 +588,7 @@ public class ManejadorPropuesta {
                 p3.addEstHistorial(Estado.INGRESADA);
                 p3.setImagne("IMG/PIM/pim.jpg");
                 p3.setFechaPublicacion(LocalDate.now());
+                p3.setFechaExpiracion(LocalDate.now());
                 em.persist(p3);
             }
             // Pilsen Rock
@@ -613,6 +616,7 @@ public class ManejadorPropuesta {
                 p4.addEstHistorial(Estado.INGRESADA);
                 p4.setImagne("IMG/PIL/pil.jpg");
                 p4.setFechaPublicacion(LocalDate.now());
+                p4.setFechaExpiracion(LocalDate.now());
                 em.persist(p4);
             }
 
@@ -641,6 +645,7 @@ public class ManejadorPropuesta {
                 p5.addEstHistorial(Estado.INGRESADA);
                 p5.setImagne("IMG/RYJ/RYJ.jpg");
                 p5.setFechaPublicacion(LocalDate.now());
+                p5.setFechaExpiracion(LocalDate.now());
                 em.persist(p5);
             }
 
@@ -669,6 +674,7 @@ public class ManejadorPropuesta {
                 p6.addEstHistorial(Estado.INGRESADA);
                 p6.setImagne("IMG/UDJ/UDIJ.jpg");
                 p6.setFechaPublicacion(LocalDate.now());
+                p6.setFechaExpiracion(LocalDate.now());
                 em.persist(p6);
             }
 
@@ -696,6 +702,7 @@ public class ManejadorPropuesta {
                 p7.addEstHistorial(Estado.INGRESADA);
                 p7.setImagne("");
                 p7.setFechaPublicacion(LocalDate.now());
+                p7.setFechaExpiracion(LocalDate.now());
                 em.persist(p7);
             }
 
@@ -722,6 +729,7 @@ public class ManejadorPropuesta {
                 p8.addEstHistorial(Estado.INGRESADA);
                 p8.setImagne("");
                 p8.setFechaPublicacion(LocalDate.now());
+                p8.setFechaExpiracion(LocalDate.now());
                 em.persist(p8);
             }
             t.commit();
