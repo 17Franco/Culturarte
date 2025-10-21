@@ -178,6 +178,11 @@ public class Propuesta {
         this.comentarios = input;
     }
     
+    public void setFechaExpiracion(LocalDate _FechaExpriacion)  //Esta función solo tendrá utilidad para las publicaciones precargadas a la bd
+    {
+        fechaExpiracion = _FechaExpriacion.plusDays(30);
+    }
+    
     public void addNewComentario(String usuario, String comentario)
     {
         if(!usuario.isEmpty() && !comentario.isEmpty())
@@ -262,6 +267,8 @@ public class Propuesta {
         dto.setImagen(this.getImagen());
         dto.setLugar(this.getLugar());
         dto.setFecha(this.getFecha());
+        dto.setPrecio(this.getPrecio());            
+
         dto.setEstadoAct(this.getUltimoEstado().getEstado());
        return dto;
     }

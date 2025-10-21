@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import logica.Categoria.Categoria;
+import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaboracion;
 
@@ -694,33 +695,72 @@ public class ControllerTest {
         
     }
 
-//    @Test
-//    public void testGetDTOColaborador() {
-//        System.out.println("getDTOColaborador");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        DTOColaborador expResult = null;
-//        DTOColaborador result = instance.getDTOColaborador(nick);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
-//   // FIN TEST Usuarios
+   @Test
+    public void testGetDTOColaborador() {
+        System.out.println("getDTOColaborador");
+        Colaborador usuP = new Colaborador();
+        usuP.setNickname("Pedro2025");
+        usuP.setNombre("Pedro");
+        usuP.setApellido("Suárez");
+        usuP.setEmail("pedro.suarez@gmail.com");
+        usuP.setFecha(LocalDate.of(1992, 3, 14));
+        usuP.setRutaImg("IMG/pedro2025/perfil.png");
+        
+        
+        DTOColaborador dtousuP = new DTOColaborador();
+        dtousuP.setNickname("Pedro2025");
+        dtousuP.setNombre("Pedro");
+        dtousuP.setApellido("Suárez");
+        dtousuP.setEmail("pedro.suarez@gmail.com");
+        dtousuP.setFecha(LocalDate.of(1992, 3, 14));
+        dtousuP.setRutaImg("IMG/pedro2025/perfil.png");
+        
+        
+        
+        String nick = "Pedro2025";
+        when(mUsuarioMock.getUsuario(eq(nick))).thenReturn(usuP);
+        
+        DTOColaborador expResult = dtousuP; 
+        
+        DTOColaborador result = controller.getDTOColaborador(nick);//tengo que recibir el dtousuP
+        
+        //verifico que se llame seguirUsr
+        verify(mUsuarioMock, times(1)).getUsuario(eq(nick));
+        
+        //verifico que tengan mismo nick para asegurar de que devuelve el proponente comvertido a dto
+        assertEquals(expResult.getNickname(), result.getNickname());
+    }
+    
+   // FIN TEST Usuarios
 //    
     
-//    @Test
-//    public void testGetDTOAporte() {
-//        System.out.println("getDTOAporte");
-//        Colaboracion r = null;
-//        String titulo = "";
-//        Controller instance = new Controller();
-//        DTOColaboracion expResult = null;
-//        DTOColaboracion result = instance.getDTOAporte(r, titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testGetDTOAporte() {
+        System.out.println("getDTOAporte");
+        
+        Colaborador u= new Colaborador();
+        u.setNickname("franco");
+        Colaboracion r = new Colaboracion();
+        //DTOColaboracion(r.getTipoRetorno(),r.getMonto(),r.getColaborador().getNickname(),titulo,r.getCreado());
+        r.setColaborador(u);
+        r.setCreado(LocalDate.of(2025,05,17));
+        r.setMonto(100);
+        r.setTipoRetorno(TipoRetorno.EntradaGratis);
+        String titulo = "Pelea";
+        
+        
+        
+        
+        DTOColaboracion expResult = new DTOColaboracion(TipoRetorno.EntradaGratis,100,"franco","Pelea",LocalDate.of(2025,05,17));
+        DTOColaboracion result = controller.getDTOAporte(r, titulo);
+        
+        assertEquals(expResult.getColaborador(), result.getColaborador());
+        assertEquals(expResult.getCreado(), result.getCreado());
+        assertEquals(expResult.getTipoRetorno(), result.getTipoRetorno());
+        assertEquals(expResult.getPropuesta(), result.getPropuesta());
+        assertEquals(expResult.getCreado(), result.getCreado());
+        
+    }
 //    
 //    
 //    //test PROPUESTAS
@@ -1583,27 +1623,26 @@ public class ControllerTest {
     }
    
 //    //FIN TEST CATEGORIA 
-//   
-//
-//    /**
-//     * Test of altaColaboracion method, of class Controller.
-//     */
-//    //TEST Colaboracion
-//    
-//     /**
-//     * Test of colaboraciones method, of class Controller.
-//     */
-//    @Test
-//    public void testColaboraciones() {
-//        System.out.println("colaboraciones");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        List<DTOColaboracion> expResult = null;
-//        List<DTOColaboracion> result = instance.colaboraciones(nick);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+
+    @Test
+    public void testColaboraciones() {
+        System.out.println("colaboraciones");
+        String nick = "franco";
+        
+        List<DTOColaboracion> expResult = new ArrayList<>();
+        
+        List<DTOColaboracion> result = controller.colaboraciones(nick);
+        
+        when(mUsuarioMock.getDTOColaboraciones(eq(nick))).thenReturn(expResult);
+        
+        verify(mUsuarioMock, times(1)).getDTOColaboraciones(eq(nick));
+        
+        assertNotNull(result);//debe devolver lista vacia no null
+        
+        assertTrue(result.isEmpty());//que sea vacia  
+        
+    }
 //
 //    /**
 //     * Test of colaboradoresAPropuesta method, of class Controller.

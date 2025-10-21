@@ -150,27 +150,90 @@ public class ManejadorPropuesta {
 
             for (DTOPropuesta ct : setInput)   //Se analiza el estado actual de la propuesta y su fecha de cierre para verificar si debe ser cancelada.
             {
-                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().isBefore(LocalDate.now()))  //Si la fecha actual es mayor a la de vencimiento...
+                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().isBefore(LocalDate.now()) && (ct.getEstadoAct() == Estado.EN_FINANCIACION || ct.getEstadoAct() == Estado.PUBLICADA))  //Si la fecha actual es mayor a la de vencimiento...
                 {
-                    cancelarPropuestaSeleccionada(ct.getTitulo());  //Se cancela.
-
-                    //También se actualiza para poder ser manipulado.
-                    ct.setEstadoAct(Estado.CANCELADA);  
-                    ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.CANCELADA));
-
+                    int recaudado = ct.chequearRecaudado(ct.getAporte());   //Obtengo recaudo total en este momento.
+                    
+                    //Se actualiza el estado.
+                    if(recaudado >= ct.getMontoTotal())
+                    {
+                        
+                        ct.setEstadoAct(Estado.FINANCIADA);  
+                        ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.FINANCIADA));
+                    }
+                    else
+                    {
+                        ct.setEstadoAct(Estado.NO_FINANCIADA);  
+                        ct.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.NO_FINANCIADA));
+                    }
+                    
+                    estadoUpdater(ct.getTitulo(), recaudado, ct.getMontoTotal());   //Llamo a una función que actualiza el estado en la bd
                 }
             }    
         }
         
         //Si se envió un DTO unicamente:
-        if(singleInput != null && singleInput.getFechaExpiracion() != null && singleInput.getFechaExpiracion().isBefore(LocalDate.now()))
-        {
-            cancelarPropuestaSeleccionada(singleInput.getTitulo());
-            singleInput.setEstadoAct(Estado.CANCELADA);
-            singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(),Estado.CANCELADA));
+        if(singleInput != null && singleInput.getFechaExpiracion() != null && singleInput.getFechaExpiracion().isBefore(LocalDate.now()) && (singleInput.getEstadoAct() == Estado.EN_FINANCIACION || singleInput.getEstadoAct() == Estado.PUBLICADA))
+        {            
+            int recaudado = singleInput.chequearRecaudado(singleInput.getAporte());   //Obtengo recaudo total en este momento.
+
+            //Se actualiza el estado.
+            if (recaudado >= singleInput.getMontoTotal()) 
+            {
+
+                singleInput.setEstadoAct(Estado.FINANCIADA);
+                singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(), Estado.FINANCIADA));
+            } else 
+            {
+                singleInput.setEstadoAct(Estado.NO_FINANCIADA);
+                singleInput.setHistorialEstados(new DTORegistro_Estado(LocalDate.now(), Estado.NO_FINANCIADA));
+            }
+            
+            estadoUpdater(singleInput.getTitulo(), recaudado, singleInput.getMontoTotal());   //Llamo a una función que actualiza el estado en la bd
         }
-        
-        //El set y o el dto single quedan modificados! se pueden usar con seguridad.
+        //El set y o el dto single quedan modificados! se pueden usar.
+    }
+    
+    public void estadoUpdater(String titulo, int recaudado, int montoExigido) 
+    {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        EntityTransaction t = em.getTransaction();
+
+        try 
+        {
+            t.begin();
+            
+            Propuesta p = em.find(Propuesta.class, titulo);
+            
+            if (p != null) 
+            {
+
+                if (recaudado >= montoExigido) 
+                {
+                    p.addEstHistorial(Estado.FINANCIADA);
+                }
+                else
+                {
+                    p.addEstHistorial(Estado.NO_FINANCIADA);
+                }
+
+                em.merge(p);
+            }
+            
+            t.commit();
+            
+        } 
+        catch (Exception e) 
+        {
+            if (t.isActive()) 
+            {
+                t.rollback();
+            }
+        } 
+        finally 
+        {
+            em.close();
+        }
     }
     
     public void cancelarPropuestaSeleccionada(String tituloPropuesta)
@@ -418,33 +481,7 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
-    /*
-    public DTOPropuesta getPropuestaDTO(String propuestaSel)
-    {
-        EntityManager em = PersistenciaManager.getEntityManager();
-        try {
-            Propuesta temp = em.find(Propuesta.class, propuestaSel);
 
-            if (temp != null) {
-                if (temp.getCategoria() != null && temp.getCategoria().getSubcategorias() != null) {
-                    temp.getCategoria().getSubcategorias().size(); // fuerza la carga
-                }
-                temp.getHistorialEstados().size();
-                temp.getRetorno().size();
-                temp.getAporte().size();
-                DTOPropuesta temp1 = new DTOPropuesta();
-                temp1.extraerDatosPropuesta(temp);
-                return temp1;
-            } else {
-                return null;
-            }
-        } finally {
-            em.close();
-        }  
-    }
-    */
-
-    
     public void UpdatePropuesta(String titulo, String descripcion, String rutaImagen,String lugar, LocalDate fechaEvento, int precio, int montoTotal,List<TipoRetorno> retorno, String categoria, String usuario, Estado estado) {
        
         EntityManager em = PersistenciaManager.getEntityManager();
@@ -516,7 +553,7 @@ public class ManejadorPropuesta {
                 p1.setDescripcion("El 16 de Diciembre a la hora 20 se proyectará la película \"Clever\", en el Jardín Botánico (Av. 19 de Abril 1181) en el marco\n"
                                 + "de las actividades realizadas por el ciclo Cultura al Aire Libre. El largometraje uruguayo de ficción Clever es dirigido por\n"
                                 + "Federico Borgia y Guillermo Madeiro. Es apto para mayores de 15 años.");
-                p1.setFecha(LocalDate.of(2017, 9, 16));
+                p1.setFecha(LocalDate.of(2025, 9, 16));
                 p1.setLugar("Jardin Botanico");
                 p1.setPrecio(200);
                 p1.setMontoTotal(150000);
@@ -530,6 +567,7 @@ public class ManejadorPropuesta {
                 p1.addEstHistorial(Estado.INGRESADA);
                 p1.setImagne("");
                 p1.setFechaPublicacion(LocalDate.now());
+                p1.setFechaExpiracion(LocalDate.now());
                 em.persist(p1);
             }
             // Religiosamente
@@ -545,7 +583,7 @@ public class ManejadorPropuesta {
                         + "religión Momosapiens, mediante el humor y la reflexión, hilvana una historia que muestra al hombre inmerso en el tema\n"
                         + "religioso. El libreto está escrito utilizando diferentes lenguajes de humor, dando una visión satírica y reflexiva desde\n"
                         + "distintos puntos de vista, logrando mediante situaciones paródicas armar una propuesta plena de arte carnavalero.");
-                p2.setFecha(LocalDate.of(2017, 10, 7));
+                p2.setFecha(LocalDate.of(2025, 10, 7));
                 p2.setLugar("Teatro de Verano");
                 p2.setPrecio(300);
                 p2.setMontoTotal(300000);
@@ -559,6 +597,7 @@ public class ManejadorPropuesta {
                 p2.addEstHistorial(Estado.INGRESADA);
                 p2.setImagne("IMG/MOM/MOMO.jpg");
                 p2.setFechaPublicacion(LocalDate.now());
+                p2.setFechaExpiracion(LocalDate.now());
                 em.persist(p2);
             }
             // El Pimiento Indomable
@@ -574,7 +613,7 @@ public class ManejadorPropuesta {
                         + "Octubre, su primer trabajo. Bajo un título homónimo al del grupo, es un disco que según los propios protagonistas\n"
                         + "“no se parece al de ninguno de los dos por separado. Entre los títulos que se podrán escuchar se encuentran “Nadador\n"
                         + "salvador”, “América es más grande”, “Pescaito Enroscado” o “La reina del placer”.");
-                p3.setFecha(LocalDate.of(2017, 10, 19));
+                p3.setFecha(LocalDate.of(2025, 10, 19));
                 p3.setLugar("Teatro Solís");
                 p3.setPrecio(400);
                 p3.setMontoTotal(400000);
@@ -586,6 +625,7 @@ public class ManejadorPropuesta {
                 p3.addEstHistorial(Estado.INGRESADA);
                 p3.setImagne("IMG/PIM/pim.jpg");
                 p3.setFechaPublicacion(LocalDate.now());
+                p3.setFechaExpiracion(LocalDate.now());
                 em.persist(p3);
             }
             // Pilsen Rock
@@ -600,7 +640,7 @@ public class ManejadorPropuesta {
                 p4.setDescripcion("La edición 2017 del Pilsen Rock se celebrará el 21 de Octubre en la Rural del Prado y contará con la participación de más\n"
                         + "de 15 bandas nacionales. Quienes no puedan trasladarse al lugar, tendrán la posibilidad de disfrutar los shows a través de\n"
                         + "Internet, así como entrevistas en vivo a los músicos una vez finalizados los conciertos.");
-                p4.setFecha(LocalDate.of(2017, 10, 21));
+                p4.setFecha(LocalDate.of(2025, 10, 21));
                 p4.setLugar("Rural del Prado");
                 p4.setPrecio(1000);
                 p4.setMontoTotal(900000);
@@ -613,6 +653,7 @@ public class ManejadorPropuesta {
                 p4.addEstHistorial(Estado.INGRESADA);
                 p4.setImagne("IMG/PIL/pil.jpg");
                 p4.setFechaPublicacion(LocalDate.now());
+                p4.setFechaExpiracion(LocalDate.now());
                 em.persist(p4);
             }
 
@@ -629,7 +670,7 @@ public class ManejadorPropuesta {
                         + "nuevamente el 5 de Noviembre en el Auditorio Nacional del Sodre. Basada en la obra homónima de William Shakespeare,\n"
                         + "Romeo y Julieta es considerada la coreografía maestra del MacMillan. La producción de vestuario y escenografía se realizó\n"
                         + "en los Talleres del Auditorio Adela Reta, sobre los diseños originales.");
-                p5.setFecha(LocalDate.of(2017, 11, 5));
+                p5.setFecha(LocalDate.of(2025, 11, 5));
                 p5.setLugar("Auditorio Nacional del Sodre");
                 p5.setPrecio(800);
                 p5.setMontoTotal(750000);
@@ -641,6 +682,7 @@ public class ManejadorPropuesta {
                 p5.addEstHistorial(Estado.INGRESADA);
                 p5.setImagne("IMG/RYJ/RYJ.jpg");
                 p5.setFechaPublicacion(LocalDate.now());
+                p5.setFechaExpiracion(LocalDate.now());
                 em.persist(p5);
             }
 
@@ -656,7 +698,7 @@ public class ManejadorPropuesta {
                 p6.setDescripcion("La Catalina presenta el espectáculo \"Un Día de Julio\" en Landia. Un hombre misterioso y solitario vive encerrado entre las\n"
                         + "cuatro paredes de su casa. Intenta, con sus teorías extravagantes, cambiar el mundo exterior que le resulta inhabitable.\n"
                         + "Un día de Julio sucederá algo que cambiará su vida y la de su entorno para siempre.");
-                p6.setFecha(LocalDate.of(2017, 11, 16));
+                p6.setFecha(LocalDate.of(2025, 11, 16));
                 p6.setLugar("Landia");
                 p6.setPrecio(650);
                 p6.setMontoTotal(300000);
@@ -669,6 +711,7 @@ public class ManejadorPropuesta {
                 p6.addEstHistorial(Estado.INGRESADA);
                 p6.setImagne("IMG/UDJ/UDIJ.jpg");
                 p6.setFechaPublicacion(LocalDate.now());
+                p6.setFechaExpiracion(LocalDate.now());
                 em.persist(p6);
             }
 
@@ -685,7 +728,7 @@ public class ManejadorPropuesta {
                         + "Miami, Nueva York, Washington, México, Guadalajara, Río de Janeiro y La Habana. En nuestro país, El Lazarillo de\n"
                         + "Tormes fue nominado en los rubros mejor espectáculo y mejor dirección a los Premios Florencio 1995, obteniendo su\n"
                         + "protagonista Héctor Guido el Florencio a Mejor actor de ese año.");
-                p7.setFecha(LocalDate.of(2017, 12, 3));
+                p7.setFecha(LocalDate.of(2025, 12, 3));
                 p7.setLugar("Teatro el Galpón");
                 p7.setPrecio(350);
                 p7.setMontoTotal(175000);
@@ -696,6 +739,7 @@ public class ManejadorPropuesta {
                 p7.addEstHistorial(Estado.INGRESADA);
                 p7.setImagne("");
                 p7.setFechaPublicacion(LocalDate.now());
+                p7.setFechaExpiracion(LocalDate.now());
                 em.persist(p7);
             }
 
@@ -712,7 +756,7 @@ public class ManejadorPropuesta {
                         + "para el aprendizaje y la democratización de la ciencia, los monólogos científicos son una forma didáctica de apropiación del\n"
                         + "conocimiento científico y contribuyen a que el público aprenda ciencia de forma amena. Los invitamos a pasar un rato\n"
                         + "divertido, en un espacio en el cual aprenderán cosas de la ciencia que los sorprenderán. ¡Los esperamos!");
-                p8.setFecha(LocalDate.of(2017, 12, 10));
+                p8.setFecha(LocalDate.of(2025, 12, 10));
                 p8.setLugar("Anfiteatro Edificio \"José Luis Massera\"");
                 p8.setPrecio(200);
                 p8.setMontoTotal(100000);
@@ -722,6 +766,7 @@ public class ManejadorPropuesta {
                 p8.addEstHistorial(Estado.INGRESADA);
                 p8.setImagne("");
                 p8.setFechaPublicacion(LocalDate.now());
+                p8.setFechaExpiracion(LocalDate.now()); //No logro setear la fecha, hay algo que impide
                 em.persist(p8);
             }
             t.commit();
@@ -763,19 +808,22 @@ public class ManejadorPropuesta {
      
     // Funcion usada por el buscador web para filtrar propuestas
     public List<DTOPropuesta> BuscarPropuestas(String filtro) {
-        EntityManager em = PersistenciaManager.getEntityManager();
-        List<DTOPropuesta> filtradas = new ArrayList<>();
+        EntityManager em = PersistenciaManager.getEntityManager(); 
+        List<DTOPropuesta> filtradas = new ArrayList<>();// creo lista vacia para cuando cumpla con el filtro
         try{
-            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);
+            TypedQuery<Propuesta> q = em.createQuery("SELECT DISTINCT p FROM Propuesta p", Propuesta.class);//consulta jpql DISTINCT evita duplicados
             List<Propuesta> propuestas = q.getResultList();
-            String filtroLowerCase = filtro.toLowerCase();
+           
+            String filtroLowerCase = filtro.toLowerCase(); // uso lower case para dejar todo en minusculas y que no traiga problemas si meten cualquier verdura
+            
+            // Recorro todas las propuestas y filtra por título, lugar o descripción 
             for (Propuesta p : propuestas){ 
                 Boolean filtraPorTitulo = p.getTitulo().toLowerCase().contains(filtroLowerCase);
                 Boolean filtraPorLugar = p.getLugar().toLowerCase().contains(filtroLowerCase);
                 Boolean filtraPorDescripcion = p.getDescripcion().toLowerCase().contains(filtroLowerCase);
                 
                 if ( filtraPorTitulo || filtraPorLugar || filtraPorDescripcion){
-                    filtradas.add(p.toDTO());
+                    filtradas.add(p.toDTO());//se agrega a lista filtradas
                 }
             }
         }

@@ -338,5 +338,18 @@ public class DTOPropuesta {
         return false;
     }
    
-    
+    public int chequearRecaudado(List<DTOColaboracion> aporteInput)
+    {
+        int recaudo = 0;
+        
+        if(aporteInput != null && !aporteInput.isEmpty())
+        {
+            for(DTOColaboracion ct : aporteInput)
+            {
+                recaudo += ct.getMonto();
+            }
+        }
+        
+        return recaudo;
+    }
 }
