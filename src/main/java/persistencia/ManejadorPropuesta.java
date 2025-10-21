@@ -481,33 +481,7 @@ public class ManejadorPropuesta {
             em.close();
         }
     }
-    /*
-    public DTOPropuesta getPropuestaDTO(String propuestaSel)
-    {
-        EntityManager em = PersistenciaManager.getEntityManager();
-        try {
-            Propuesta temp = em.find(Propuesta.class, propuestaSel);
 
-            if (temp != null) {
-                if (temp.getCategoria() != null && temp.getCategoria().getSubcategorias() != null) {
-                    temp.getCategoria().getSubcategorias().size(); // fuerza la carga
-                }
-                temp.getHistorialEstados().size();
-                temp.getRetorno().size();
-                temp.getAporte().size();
-                DTOPropuesta temp1 = new DTOPropuesta();
-                temp1.extraerDatosPropuesta(temp);
-                return temp1;
-            } else {
-                return null;
-            }
-        } finally {
-            em.close();
-        }  
-    }
-    */
-
-    
     public void UpdatePropuesta(String titulo, String descripcion, String rutaImagen,String lugar, LocalDate fechaEvento, int precio, int montoTotal,List<TipoRetorno> retorno, String categoria, String usuario, Estado estado) {
        
         EntityManager em = PersistenciaManager.getEntityManager();
@@ -792,7 +766,7 @@ public class ManejadorPropuesta {
                 p8.addEstHistorial(Estado.INGRESADA);
                 p8.setImagne("");
                 p8.setFechaPublicacion(LocalDate.now());
-                p8.setFechaExpiracion(LocalDate.now());
+                p8.setFechaExpiracion(LocalDate.now()); //No logro setear la fecha, hay algo que impide
                 em.persist(p8);
             }
             t.commit();
