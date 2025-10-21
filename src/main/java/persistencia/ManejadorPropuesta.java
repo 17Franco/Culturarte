@@ -516,7 +516,7 @@ public class ManejadorPropuesta {
                 p1.setDescripcion("El 16 de Diciembre a la hora 20 se proyectará la película \"Clever\", en el Jardín Botánico (Av. 19 de Abril 1181) en el marco\n"
                                 + "de las actividades realizadas por el ciclo Cultura al Aire Libre. El largometraje uruguayo de ficción Clever es dirigido por\n"
                                 + "Federico Borgia y Guillermo Madeiro. Es apto para mayores de 15 años.");
-                p1.setFecha(LocalDate.of(2017, 9, 16));
+                p1.setFecha(LocalDate.of(2025, 9, 16));
                 p1.setLugar("Jardin Botanico");
                 p1.setPrecio(200);
                 p1.setMontoTotal(150000);
@@ -545,7 +545,7 @@ public class ManejadorPropuesta {
                         + "religión Momosapiens, mediante el humor y la reflexión, hilvana una historia que muestra al hombre inmerso en el tema\n"
                         + "religioso. El libreto está escrito utilizando diferentes lenguajes de humor, dando una visión satírica y reflexiva desde\n"
                         + "distintos puntos de vista, logrando mediante situaciones paródicas armar una propuesta plena de arte carnavalero.");
-                p2.setFecha(LocalDate.of(2017, 10, 7));
+                p2.setFecha(LocalDate.of(2025, 10, 7));
                 p2.setLugar("Teatro de Verano");
                 p2.setPrecio(300);
                 p2.setMontoTotal(300000);
@@ -574,7 +574,7 @@ public class ManejadorPropuesta {
                         + "Octubre, su primer trabajo. Bajo un título homónimo al del grupo, es un disco que según los propios protagonistas\n"
                         + "“no se parece al de ninguno de los dos por separado. Entre los títulos que se podrán escuchar se encuentran “Nadador\n"
                         + "salvador”, “América es más grande”, “Pescaito Enroscado” o “La reina del placer”.");
-                p3.setFecha(LocalDate.of(2017, 10, 19));
+                p3.setFecha(LocalDate.of(2025, 10, 19));
                 p3.setLugar("Teatro Solís");
                 p3.setPrecio(400);
                 p3.setMontoTotal(400000);
@@ -600,7 +600,7 @@ public class ManejadorPropuesta {
                 p4.setDescripcion("La edición 2017 del Pilsen Rock se celebrará el 21 de Octubre en la Rural del Prado y contará con la participación de más\n"
                         + "de 15 bandas nacionales. Quienes no puedan trasladarse al lugar, tendrán la posibilidad de disfrutar los shows a través de\n"
                         + "Internet, así como entrevistas en vivo a los músicos una vez finalizados los conciertos.");
-                p4.setFecha(LocalDate.of(2017, 10, 21));
+                p4.setFecha(LocalDate.of(2025, 10, 21));
                 p4.setLugar("Rural del Prado");
                 p4.setPrecio(1000);
                 p4.setMontoTotal(900000);
@@ -629,7 +629,7 @@ public class ManejadorPropuesta {
                         + "nuevamente el 5 de Noviembre en el Auditorio Nacional del Sodre. Basada en la obra homónima de William Shakespeare,\n"
                         + "Romeo y Julieta es considerada la coreografía maestra del MacMillan. La producción de vestuario y escenografía se realizó\n"
                         + "en los Talleres del Auditorio Adela Reta, sobre los diseños originales.");
-                p5.setFecha(LocalDate.of(2017, 11, 5));
+                p5.setFecha(LocalDate.of(2025, 11, 5));
                 p5.setLugar("Auditorio Nacional del Sodre");
                 p5.setPrecio(800);
                 p5.setMontoTotal(750000);
@@ -656,7 +656,7 @@ public class ManejadorPropuesta {
                 p6.setDescripcion("La Catalina presenta el espectáculo \"Un Día de Julio\" en Landia. Un hombre misterioso y solitario vive encerrado entre las\n"
                         + "cuatro paredes de su casa. Intenta, con sus teorías extravagantes, cambiar el mundo exterior que le resulta inhabitable.\n"
                         + "Un día de Julio sucederá algo que cambiará su vida y la de su entorno para siempre.");
-                p6.setFecha(LocalDate.of(2017, 11, 16));
+                p6.setFecha(LocalDate.of(2025, 11, 16));
                 p6.setLugar("Landia");
                 p6.setPrecio(650);
                 p6.setMontoTotal(300000);
@@ -685,7 +685,7 @@ public class ManejadorPropuesta {
                         + "Miami, Nueva York, Washington, México, Guadalajara, Río de Janeiro y La Habana. En nuestro país, El Lazarillo de\n"
                         + "Tormes fue nominado en los rubros mejor espectáculo y mejor dirección a los Premios Florencio 1995, obteniendo su\n"
                         + "protagonista Héctor Guido el Florencio a Mejor actor de ese año.");
-                p7.setFecha(LocalDate.of(2017, 12, 3));
+                p7.setFecha(LocalDate.of(2025, 12, 3));
                 p7.setLugar("Teatro el Galpón");
                 p7.setPrecio(350);
                 p7.setMontoTotal(175000);
@@ -712,7 +712,7 @@ public class ManejadorPropuesta {
                         + "para el aprendizaje y la democratización de la ciencia, los monólogos científicos son una forma didáctica de apropiación del\n"
                         + "conocimiento científico y contribuyen a que el público aprenda ciencia de forma amena. Los invitamos a pasar un rato\n"
                         + "divertido, en un espacio en el cual aprenderán cosas de la ciencia que los sorprenderán. ¡Los esperamos!");
-                p8.setFecha(LocalDate.of(2017, 12, 10));
+                p8.setFecha(LocalDate.of(2025, 12, 10));
                 p8.setLugar("Anfiteatro Edificio \"José Luis Massera\"");
                 p8.setPrecio(200);
                 p8.setMontoTotal(100000);
