@@ -398,19 +398,29 @@ public class ManejadorPropuesta {
         try {
             t.begin();
             Propuesta p = em.find(Propuesta.class, titulo);
-            if (p != null) {
-                int montoRecibido = getMontoRecaudado(titulo);
+           if (p != null) {
+            int montoRecibido = getMontoRecaudado(titulo);
+            int montoTotal = p.getMontoTotal();
+            
+           
+            Estado nuevoEstado = null;
 
-                if (montoRecibido == 0) {
-                    p.addEstHistorial(Estado.PUBLICADA);
-                } else if (montoRecibido > 0 && montoRecibido != p.getMontoTotal()) {
-                    p.addEstHistorial(Estado.EN_FINANCIACION);
-                } else if (montoRecibido > 0 && montoRecibido == p.getMontoTotal()) {
-                    p.addEstHistorial(Estado.FINANCIADA);
-                }
-
-                em.merge(p);
+            if (montoRecibido == 0) {
+                nuevoEstado = Estado.PUBLICADA;
+            } else if (montoRecibido >= montoTotal) { 
+                nuevoEstado = Estado.FINANCIADA;
+            } else if (montoRecibido > 0 && montoRecibido < montoTotal) {  
+                nuevoEstado = Estado.EN_FINANCIACION;
             }
+
+            if (nuevoEstado != null) {
+                
+                p.addEstHistorial(nuevoEstado);
+            }
+            
+
+            em.merge(p); 
+        }
             t.commit();
         } catch (Exception e) {
             if (t.isActive()) {
