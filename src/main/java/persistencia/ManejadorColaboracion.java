@@ -102,9 +102,9 @@ public class ManejadorColaboracion {
 
                 if (montoRecibido == 0) {
                     p.addEstHistorial(Estado.PUBLICADA);
-                } else if (montoRecibido > 0 && montoRecibido != p.getMontoTotal()) {
+                } else if (montoRecibido > 0 && montoRecibido <= p.getMontoTotal()) {
                     p.addEstHistorial(Estado.EN_FINANCIACION);
-                } else if (montoRecibido > 0 && montoRecibido == p.getMontoTotal()) {
+                } else if (montoRecibido > 0 && montoRecibido >= p.getMontoTotal()) {
                     p.addEstHistorial(Estado.FINANCIADA);
                 }
 
