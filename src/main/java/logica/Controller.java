@@ -103,7 +103,7 @@ public class Controller  implements IController {
     }
     @Override
     public byte[] getImg(String ruta) {
-        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA";
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab2PA";
         try{
         File img=new File(RUTA_IMAGENES + File.separator +ruta);
         //File img=new File(File.separator +ruta); ESTO ES PARA DOCKER
