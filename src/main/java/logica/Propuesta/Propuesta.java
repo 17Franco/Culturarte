@@ -106,7 +106,14 @@ public class Propuesta {
     }
     public LocalDate getFechaExpiracion()
     {
-        return fechaExpiracion;
+        if(fechaExpiracion != null)
+        {
+            return fechaExpiracion;
+        }
+        else
+        {
+            return LocalDate.of(9999, 12, 31);
+        }
     }
     public int getPrecio() {
         return Precio;
