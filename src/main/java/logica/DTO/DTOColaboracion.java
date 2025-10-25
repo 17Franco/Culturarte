@@ -63,6 +63,7 @@ public void setId(Long id) {
     }
     
      public DTOColaboracion(Colaboracion colaboracion){
+         id=colaboracion.getId();
          tipoRetorno=colaboracion.getTipoRetorno();
          monto=colaboracion.getMonto();
          creado=colaboracion.getCreado();
