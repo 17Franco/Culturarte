@@ -29,6 +29,7 @@ import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
 import logica.Propuesta.Propuesta;
+import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
 import logica.Usuario.Usuario;
 
@@ -54,6 +55,7 @@ public class ControllerTest
     public void setUp() throws Exception 
     {
 
+        
         Field instanciaField = ManejadorCategoria.class.getDeclaredField("instancia");
         instanciaField.setAccessible(true);
         instanciaField.set(null, null);
@@ -72,6 +74,206 @@ public class ControllerTest
     }
     
     //INICIO USUARIOS
+    @Test
+    public void testIsProponenteT() {
+        System.out.println("isProponenteF");
+        String nick = "diegop";
+
+        boolean result = controller.isProponente(nick);
+ 
+        assertEquals(true, result);
+    }
+    @Test
+    public void testIsProponenteF() {
+        System.out.println("isProponenteF");
+        String nick = "chino";
+
+        boolean result = controller.isProponente(nick);
+
+        assertEquals(false, result);
+    }
+    @Test
+    public void testExisteUsuarioeMailTrue() {
+        System.out.println("existeUsuarioTrue");
+        String nick = "diegop";
+        String email = "diego@efectocine.com";
+
+        boolean result = controller.emailUsado(email);
+
+        assertEquals(true, result);
+    }
+    @Test
+    public void testExisteUsuarioeMailFalse() {
+        System.out.println("existeUsuarioTrue");
+        String nick = "diegop";
+        String email = "digo@gmail.com";
+
+        boolean result = controller.emailUsado(email);
+
+        assertEquals(false, result);
+    }
+    @Test
+    public void testExisteUsuarioeE() {
+        System.out.println("existeUsuarioTrue");
+        String nick = "diegop";
+        String email = "diego@efectocine.com";
+
+        boolean result = controller.existeUsuario(nick, email);
+
+        assertEquals(true, result);
+    }
+    @Test
+    public void testExisteUsuarioeF() {
+        System.out.println("existeUsuarioFalse");
+        String nick = "manolo";
+        String email = "algo@gmail.com";
+
+        boolean result = controller.existeUsuario(nick, email);
+
+        assertEquals(false, result);
+    }
+    @Test
+    public void testExisteTrue() {
+        System.out.println("existe");
+        String nick = "diegop";
+
+        boolean result = controller.existe(nick);
+
+        assertEquals(true, result);
+    }
+    @Test
+    public void testExisteFalse() {
+        System.out.println("existe");
+        String nick = "jorge";
+
+        boolean result = controller.existe(nick);
+
+        assertEquals(false, result);
+    }
+    @Test
+    public void testSeguidos() {
+        System.out.println("SeguidosF");
+        String nick = "diegop";
+        List<DTOUsuario> listaVacia = new ArrayList<>();
+
+        List<DTOUsuario> result = controller.Seguidos(nick);
+
+        assertNotNull(result);
+    }
+    @Test
+    public void testCargarSeguidos() {
+        System.out.println("CargarSeguidos");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            // Configurar comportamiento de los mocks
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).persist(any(Usuario.class));
+            doNothing().when(mockEntityManager).close();
+
+            // Simular que no existen proponentes (retorna null para que entre en los if)
+            when(mockEntityManager.find(eq(Usuario.class), anyString())).thenReturn(null);
+
+            // Configurar el EntityManager mock
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            // Configurar PersistenciaManager para retornar nuestro mock
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            // Ejecutar el método a probar
+            controller.cargarSeguidos();
+
+        }
+    }
+    @Test
+    public void testCargarColaborador() {
+        System.out.println("CargarColaborador");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            // Configurar comportamiento de los mocks
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).persist(any(Colaborador.class));
+            doNothing().when(mockEntityManager).close();
+
+            // Simular que no existen proponentes (retorna null para que entre en los if)
+            when(mockEntityManager.find(eq(Colaborador.class), anyString())).thenReturn(null);
+
+            // Configurar el EntityManager mock
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            // Configurar PersistenciaManager para retornar nuestro mock
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            // Ejecutar el método a probar
+            controller.cargarDatosPruebaColaborador();
+
+        }
+    }
+    @Test
+    public void testCargarProponente() {
+        System.out.println("CargarProponente");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            // Configurar comportamiento de los mocks
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).persist(any(Proponente.class));
+            doNothing().when(mockEntityManager).close();
+
+            // Simular que no existen proponentes (retorna null para que entre en los if)
+            when(mockEntityManager.find(eq(Proponente.class), anyString())).thenReturn(null);
+
+            // Configurar el EntityManager mock
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            // Configurar PersistenciaManager para retornar nuestro mock
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            // Ejecutar el método a probar
+            controller.cargarDatosPruebaProponente();
+            
+        }
+    }
+    @Test
+    public void testGetFavoritasF() { //EN PRUEBAS DA SOLO 34% PORQUE NO ENTRA AL IF 
+        Usuario mockUsuario = mock(Usuario.class);
+
+        Proponente usuario = new Proponente("Test1", "Test1", "www.Test1.com","TestUsu", "TestProp", "Test1", "Test1@g.com", LocalDate.now(), "");
+        Categoria Cat = new Categoria("TestCat");
+        Propuesta propuesta = new Propuesta("Testing", "Testing", "", "Testing",LocalDate.now(), 100, 100, LocalDate.now(), new ArrayList(), Cat,usuario, Estado.PUBLICADA);
+
+        Map<String, Propuesta> listaFavoritas = new HashMap<>();
+        listaFavoritas.put("TestUsu", propuesta);
+
+        when(mockUsuario.getNickname()).thenReturn("TestUsu");
+        when(mockUsuario.getPropFavorita()).thenReturn(listaFavoritas);
+
+        List<DTOPropuesta> result = controller.getFavoritas(mockUsuario.getNickname());
+
+        assertNotNull(result);
+    }
+    @Test
+    public void testSigueAUsuarioF() {
+        System.out.println("sigueAUsuario");
+        String seguidor = "juliob";
+        String Seguido = "losBardo";
+        boolean result = controller.sigueAUsuario(seguidor, Seguido);
+        assertEquals(false, result);
+
+    }
+    @Test
+    public void testSigueAUsuarioT() {
+        System.out.println("sigueAUsuario");
+        String seguidor = "juanP";
+        String Seguido = "cachilas";
+        boolean result = controller.sigueAUsuario(seguidor, Seguido);
+        assertEquals(true, result);
+
+    }
     @Test
     public void testGetSeguidores() {
         System.out.println("getSeguidores");
@@ -92,7 +294,7 @@ public class ControllerTest
         assertNotNull(result);
     }
     @Test
-    public void testMarcarComoFavorita() {
+    public void testMarcarComoFavorita() {//en proceso
         System.out.println("testMarcarComoFavorita");
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
