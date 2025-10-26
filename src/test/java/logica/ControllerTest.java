@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import logica.DTO.DTOColaboracion;
+import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Estado;
@@ -896,7 +897,100 @@ public class ControllerTest
             assertEquals(3, resultado);
         }
     }
+
+    @Test
+    public void testPermisosSobrePropuesta_primerIF_false() 
+    {
+        //Caso tipoUsuario es null.
+        //UserNick igual a "visitante" 
+        //Y el titulo de la propuesta es null.
+        System.out.println("permisosSobrePropuesta_casoPrimerIF_false");
+
+        String userNick = "VISITANTE";
+        String tipoUsuario = null;
+
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.nickProponenteToString()).thenReturn("rodolfo");
+        when(propTest.getTitulo()).thenReturn(null);
+
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+
+        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+
+        assertEquals(expResult, result);
+
+    }
     
+    @Test
+    public void testPermisosSobrePropuesta_esProponenteYpermiso3() 
+    {
+        //Caso tipoUsuario es proponente.
+        //UserNick no es "visitante"
+        //No ha comentado
+        //Y el titulo de la propuesta no es null.
+        
+        System.out.println("testPermisosSobrePropuesta_esProponenteYpermiso3");
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        String userNick = "propo";                             
+        String tipoUsuario = "Proponente";
+        
+        List<DTOColaboracion> senuelo = new ArrayList();
+        
+        when(propTest.getAporte()).thenReturn(senuelo); //Para saltarme el for e if de accionSobreProp
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
+        when(propTest.nickProponenteToString()).thenReturn("otro");         //Obligo que falle el if que retorna 1 en la funcion accionSobreProp
+
+        //Se simula la funcion para que entre al segundo if y por ende tampoco al tercero:
+        when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(false);
+        
+        //Se simula la función que da permisos si no ha comentado, retorna 3.
+        //when(controller.accionSobrePropuesta(userNick,propTest)).thenReturn(3);
+        
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+
+    }
+    
+    @Test
+    public void testPermisosSobrePropuesta_esProponenteYpermiso3HaComentado() 
+    {
+        //Caso tipoUsuario es proponente.
+        //UserNick no es "visitante"
+        //No ha comentado
+        //Y el titulo de la propuesta no es null.
+        
+        System.out.println("testPermisosSobrePropuesta_esProponenteYpermiso3HaComentado");
+        
+        DTOPropuesta propTest = mock(DTOPropuesta.class);
+        String userNick = "propo";                             
+        String tipoUsuario = "Proponente";
+        
+        List<DTOColaboracion> senuelo = new ArrayList();
+        
+        when(propTest.getAporte()).thenReturn(senuelo); //Para saltarme el for e if de accionSobreProp
+        
+        //Acá se programa lo que el dto devuelve:
+        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
+        when(propTest.nickProponenteToString()).thenReturn("otro");         //Obligo que falle el if que retorna 1 en la funcion accionSobreProp
+
+        //Se simula la funcion para que entre al segundo if y por ende tampoco al tercero:
+        when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(true);
+        
+        int expResult = 0;                                  //Se espera que sea 0 el resultado.
+        
+        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
+        
+        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+
+    }
     
     @Test
     public void testCargarPropuesta() 
