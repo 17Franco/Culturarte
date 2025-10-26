@@ -1,1822 +1,337 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package logica;
 
-
-import java.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import logica.Categoria.Categoria;
-import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOCategoria;
-import logica.DTO.DTOColaboracion;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import persistencia.ManejadorCategoria;
+import persistencia.PersistenciaManager;
 
-import logica.DTO.DTOColaborador;
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
-import logica.DTO.DTORegistro_Estado;
-
-import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
 import logica.Propuesta.Propuesta;
-import logica.Propuesta.Registro_Estado;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import logica.Usuario.Colaborador;
 import logica.Usuario.Proponente;
+import logica.Usuario.Usuario;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import org.mockito.MockitoAnnotations;
-import persistencia.ManejadorUsuario;
-import persistencia.ManejadorPropuesta;
-import persistencia.ManejadorCategoria;
-import org.mockito.Mock;
 
-/**
- *
- * @author fran
- */
-public class ControllerTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+public class ControllerTest 
+{
 
-    public ControllerTest() {
-    }
+    @Mock
+    private EntityManager mockEntityManager;
     
     @Mock
-    private ManejadorUsuario mUsuarioMock;
-        
-    @Mock
-    private ManejadorPropuesta mPropuesta;
+    private EntityTransaction mockTransaction;
     
-    @Mock 
-    private ManejadorCategoria mCategoria;
-    
-    @InjectMocks
     private Controller controller;
-    
-    @BeforeAll
-    public static void setUpClass() {
- 
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    
-    }
+    private ManejadorCategoria manejador;
     
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-    //Test de USUSARIO
-   
-    @Test
-    public void testAltaProponente() {
-        System.out.println("altaUsuario");
-        // Arrange (Preparación): Creación con datos específicos.
-        DTOProponente usuP = new DTOProponente();
-        usuP.setNickname("Pedro2025");
-        usuP.setNombre("Pedro");
-        usuP.setApellido("Suárez");
-        usuP.setEmail("pedro.suarez@gmail.com");
-        usuP.setFecha(LocalDate.of(1992, 3, 14));
-        usuP.setRutaImg("IMG/pedro2025/perfil.png");
-        usuP.setDireccion("Av. Italia 2456, Montevideo");
-        usuP.setBiografia("Emprendedor uruguayo apasionado por la tecnología y la innovación social.");
-        usuP.setWebSite("WWW.pedrosuarez.dev");
-        
-        //llamo a controller (que tiene a manejador falso)
-        controller.altaUsuario(usuP);
-        //verifico que llame a addProponente una ves 
-        verify(mUsuarioMock, times(1)).addProponente(eq(usuP));  
-    }
-    
-    @Test
-    public void testAltaColaborador() {
-        System.out.println("altaUsuario");
-        DTOColaborador usuC = new DTOColaborador();
-        usuC.setNickname("Maria2025");
-        usuC.setNombre("Maria");
-        usuC.setApellido("Suárez");
-        usuC.setEmail("Maria.suarez@example.com");
-        usuC.setFecha(LocalDate.of(1992, 3, 14));
-        usuC.setRutaImg("IMG/Maria2025/perfil.png");
-        
-        
-        controller.altaUsuario(usuC);
-        //verifico que llame a addColaborador una ves 
-        verify(mUsuarioMock, times(1)).addColaborador(eq(usuC));
-       
-    }
+    public void setUp() throws Exception 
+    {
 
-    //test cuando no elije img
-    @Test
-    public void testObtenerPathImgF() {
-        System.out.println("obtenerPathImg");
-        String nick = "Pedro"; 
-        byte[] contenido = new byte[]{}; //vacio
-        String nombreArchivo = ""; //vacio
-        Controller instance = new Controller();
-        String expResult = ""; //se espera que devuelva vacio
-        String result = instance.obtenerPathImg(nick, contenido, nombreArchivo);
-        assertEquals(expResult, result);
+        Field instanciaField = ManejadorCategoria.class.getDeclaredField("instancia");
+        instanciaField.setAccessible(true);
+        instanciaField.set(null, null);
         
+        manejador = ManejadorCategoria.getInstance();
+
+        controller = new Controller();
+        
+        Field mCategoriaField = Controller.class.getDeclaredField("mCategoria");
+        mCategoriaField.setAccessible(true);
+        mCategoriaField.set(controller, manejador);
+
+        when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+        when(mockTransaction.isActive()).thenReturn(true);
     }
-   
-     //test cuando se elije img
-    /*
+    
+    //INICIO USUARIOS
+
+    //FIN USUARIOS
+    
+    //INICIO CATEGORIA
     @Test
-    public void testObtenerPathImgE() {
-        System.out.println("obtenerPathImg");
-        //String RUTA_IMAGENES_BASE = "/home/fran/Escritorio/Lab2PA/IMG";
-        Controller instance = new Controller();
-        String nick = "Pedro";
-        //byte[] contenido = null;
-        byte[] contenido = new byte[]{10, 20, 30, 40, 50, 60, 70, 80};
-        String nombreArchivo = "img.jpg";
-       
-        String expResult = "IMG/Pedro/img.jpg"; //esto deberia ser la ruta que guardo en db
-       
-        String result = instance.obtenerPathImg(nick, contenido, nombreArchivo);
-        //compruebo que la ruta que guartdo en bd sea la correcta
-        assertEquals(expResult, result);    
+    public void testAltaDeCategoriaExitosa_CategoriaPadre() 
+    {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
+            
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Categoria.class));
+            doNothing().when(mockEntityManager).close();
+            
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+            
+            DTOCategoria categoriaDTO = new DTOCategoria();
+            categoriaDTO.setNombreCategoria("Teatro");
+            categoriaDTO.setCatPadre("");
+            
+            boolean resultado = controller.altaDeCategoria(categoriaDTO);
+            
+            assertTrue(resultado);
+
+        }
     }
-    */
+    
+    //FIN CATEGORIA
+    
+
     @Test
-    public void testregistroUsuarioP(){
-        //compruebo que el registroUsuario (el que usa al registrarse por web funcione bien)
-        byte[] contenido = new byte[]{};
-        controller.registroUsuario("FrancoP", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",true,"25 metros","www.web.com","soy usuario Proponente");
+    public void testAltaPropuesta_CasoProponenteNULL() 
+    {
+        System.out.println("altaPropuesta_CasoProponenteNULL");
+                    
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
+            
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Categoria.class));
+            doNothing().when(mockEntityManager).close();
+            
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            String titulo = "TestingPropuesta";
+            String descripcion = "TestDescrip";
+            String imagen = "";
+            String lugar = "TestLugar";
+            LocalDate fecha = LocalDate.of(2025, 12, 10);
+            int precio = 100;
+            int montoTotal = 1000;
+            LocalDate fechaPub = LocalDate.of(2025, 10, 15);
+            List<TipoRetorno> retornos = new ArrayList();
+            retornos.add(TipoRetorno.EntradaGratis);
+            String categoriaNombre = "fiesta";
+            String usuarioNombre = "Jose";
+            Estado estado = Estado.PUBLICADA;
+            
+            controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha, precio, montoTotal, fechaPub, retornos, categoriaNombre, usuarioNombre, estado);
+
+        
+        }
+    }
+    
+    @Test
+    public void testAltaDeCategoria_Subcategoria() 
+    {
+        
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {         
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).close();
+
+            when(mockEntityManager.merge(any(Categoria.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            
+            Categoria categoriaPadre = new Categoria("Teatro", null);
+
+            when(mockEntityManager.find(Categoria.class, "Teatro")).thenReturn(categoriaPadre);
+            when(mockEntityManager.find(Categoria.class, "Comedia")).thenReturn(null);
+            
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+            
+            DTOCategoria subcategoriaDTO = new DTOCategoria();
+            subcategoriaDTO.setNombreCategoria("Comedia");
+            subcategoriaDTO.setCatPadre("Teatro");
+            
+           
+            boolean resultado = controller.altaDeCategoria(subcategoriaDTO);
  
-        verify(mUsuarioMock, times(1)).addProponente(any(DTOProponente.class)); 
-    
-        verify(mUsuarioMock, never()).addColaborador(any());
-
-    }
-    
-     @Test
-    public void testregistroUsuarioC(){
-        //compruebo que el registroUsuario (el que usa al registrarse por web funcione bien)
-        byte[] contenido = new byte[]{};
-        controller.registroUsuario("FrancoC", "123", "Franco", "echaide", "algo@gmail.com", LocalDate.of(2002,05,17),contenido,"",false,"","","");
-        
-        verify(mUsuarioMock, times(1)).addColaborador(any(DTOColaborador.class)); 
-
-        verify(mUsuarioMock, never()).addProponente(any()); 
-    }
-   
-    //test cuando no hay seguidores
-    @Test
-    public void testGetSeguidoresF() {
-        System.out.println("getSeguidores");
-       String nick = "Maria2025";
-       
-        List<DTOUsuario> expResult = new ArrayList<>(); // lo que deberia devolver
-        
-        when(mUsuarioMock.obtenerSeguidores(eq(nick))).thenReturn(expResult);
-        
-        List<DTOUsuario> result = controller.getSeguidores(nick);
-        
-        //verificamos que se llama al metodo de mUsuario 
-        verify(mUsuarioMock, times(1)).obtenerSeguidores(eq(nick));
-        
-        assertNotNull(result);
-        
-        assertEquals(0, result.size());
-    }
-    //test cuando hay seguidores
-    @Test
-    public void testGetSeguidoresE() {
-        System.out.println("getSeguidores");
-        
-     
-        String nick = "Maria2025";
-        
-        DTOUsuario seguidor1 = new DTOUsuario(); // Asumo setters para cargar DTOs
-        seguidor1.setNickname("Juan");
-        DTOUsuario seguidor2 = new DTOUsuario();
-        seguidor2.setNickname("AnaR");
-    
-        List<DTOUsuario> devolver = Arrays.asList(seguidor1, seguidor2);
-        
-        
-        when(mUsuarioMock.obtenerSeguidores(eq(nick))).thenReturn(devolver);
-        
-        List<DTOUsuario> result = controller.getSeguidores(nick);
-        
-        //verificamos que se llama al metodo de mUsuario 
-        verify(mUsuarioMock, times(1)).obtenerSeguidores(eq(nick));
-        
-        assertEquals(2, result.size());
-      
-        assertEquals(devolver, result);
-        
-    }
-    
-    //cuando no sigue
-    @Test
-    public void testSigueAUsuarioF() {
-        System.out.println("sigueAUsuario");
-        String seguidor = "Maria2025";
-        String Seguido = "Pedro2025";
-        when(mUsuarioMock.sigue(eq(seguidor),eq(Seguido))).thenReturn(false);
-        boolean expResult = false;
-        boolean result = controller.sigueAUsuario(seguidor, Seguido);
-        verify(mUsuarioMock, times(1)).sigue(eq(seguidor),eq(Seguido));
-        assertEquals(expResult, result);
-        
-    }
-     //cuando lo sigue 
-    @Test
-    public void testSigueAUsuarioE() {
-        System.out.println("sigueAUsuario");
-        String seguidor = "Maria2025";
-        String Seguido = "Pedro2025";
-        when(mUsuarioMock.sigue(eq(seguidor),eq(Seguido))).thenReturn(true);
-        boolean expResult = true;
-        boolean result = controller.sigueAUsuario(seguidor, Seguido);
-        verify(mUsuarioMock, times(1)).sigue(eq(seguidor),eq(Seguido));
-        assertEquals(expResult, result); 
-    }
-
-    
-    //cuando no tiene prop favoritas
-    @Test
-    public void testGetFavoritasF() {
-        String nickname = "Pedro2025";
-        List<DTOPropuesta> listaVacia = new ArrayList<>();
-
-        
-        when(mUsuarioMock.getFavoritas(eq(nickname))).thenReturn(listaVacia);
-
-        List<DTOPropuesta> result = controller.getFavoritas(nickname);
-
-        verify(mUsuarioMock, times(1)).getFavoritas(eq(nickname));
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        assertEquals(listaVacia, result); 
+            assertTrue(resultado);
+        }
     }
     
     @Test
-    public void testLogin() {
-        System.out.println("loginF");
-        String nick = "FrancoP";
-        String Pass = "1234";
-        when(mUsuarioMock.verificarCredenciales(eq(nick),eq(Pass))).thenReturn(true);
-        boolean expResult = true;
-        boolean result = controller.login(nick, Pass);
-        verify(mUsuarioMock, times(1)).verificarCredenciales(eq(nick),eq(Pass));
-        assertEquals(expResult, result);  
+    public void testGetCategorias_ConCategoriasExistentes() 
+    {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            // Mockear operaciones de JPA
+            doNothing().when(mockEntityManager).close();
+
+            // Crear Query mock
+            jakarta.persistence.TypedQuery<Categoria> mockQuery = mock(jakarta.persistence.TypedQuery.class);
+
+            // Crear categorías padre REALES para retornar
+            Categoria teatro = new Categoria("Teatro", null);
+            Categoria musica = new Categoria("Música", null);
+            Categoria cine = new Categoria("Cine", null);
+
+            List<Categoria> categoriasDB = new ArrayList<>();
+            categoriasDB.add(teatro);
+            categoriasDB.add(musica);
+            categoriasDB.add(cine);
+
+            // Configurar el query para que retorne las categorías
+            when(mockEntityManager.createQuery(
+                eq("select catImport from Categoria catImport where catImport.catPadre is NULL"), 
+                eq(Categoria.class)))
+                .thenReturn(mockQuery);
+            when(mockQuery.getResultList()).thenReturn(categoriasDB);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager)
+                       .thenReturn(mockEntityManager);
+
+            // Ejecutar
+            List<DTOCategoria> resultado = controller.getCategorias();
+
+            // Verificaciones
+            assertNotNull(resultado, "El resultado no debería ser null");
+            assertEquals(3, resultado.size(), "Debería retornar 3 categorías");
+
+            // Verificar que se llamaron los métodos correctos
+            verify(mockEntityManager, times(1)).createQuery(
+                eq("select catImport from Categoria catImport where catImport.catPadre is NULL"),
+                eq(Categoria.class));
+            verify(mockQuery, times(1)).getResultList();
+            verify(mockEntityManager, times(1)).close();
+
+            // Verificar el contenido de las categorías retornadas
+            assertEquals("Teatro", resultado.get(0).getNombreCategoria());
+            assertEquals("Música", resultado.get(1).getNombreCategoria());
+            assertEquals("Cine", resultado.get(2).getNombreCategoria());
+
+            // Verificar que todas son categorías padre (sin padre)
+            for (DTOCategoria dto : resultado) {
+                assertTrue(dto.getCatPadre() == null || dto.getCatPadre().isEmpty(), 
+                    "Todas deberían ser categorías padre");
+            }
+        }
     }
+
+    @Test
+    public void testGetCategorias_SinCategorias() 
+    {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
+
+            doNothing().when(mockEntityManager).close();
+
+            jakarta.persistence.TypedQuery<Categoria> mockQuery = mock(jakarta.persistence.TypedQuery.class);
+
+            List<Categoria> categoriasVacias = new ArrayList<>();
+
+            when(mockEntityManager.createQuery(eq("select catImport from Categoria catImport where catImport.catPadre is NULL"), eq(Categoria.class))).thenReturn(mockQuery);
+            when(mockQuery.getResultList()).thenReturn(categoriasVacias);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            
+            List<DTOCategoria> resultado = controller.getCategorias();
+
+            
+            assertNotNull(resultado, "El resultado no debería ser null");
+            assertEquals(0, resultado.size(), "Debería retornar lista vacía");
+
+        }
+    }
+
+    @Test
+    public void testGetCategorias_ConSubcategorias() 
+    {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            jakarta.persistence.TypedQuery<Categoria> mockQuery = mock(jakarta.persistence.TypedQuery.class);
+
+            Categoria teatro = new Categoria("Teatro", null);
+            Categoria comedia = new Categoria("Comedia", teatro);
+            Categoria drama = new Categoria("Drama", teatro);
+            teatro.addSubcategoria(comedia);
+            teatro.addSubcategoria(drama);
+
+            List<Categoria> categoriasDB = new ArrayList<>();
+            categoriasDB.add(teatro);
+
+            when(mockEntityManager.createQuery(eq("select catImport from Categoria catImport where catImport.catPadre is NULL"),eq(Categoria.class))).thenReturn(mockQuery);
+            when(mockQuery.getResultList()).thenReturn(categoriasDB);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            List<DTOCategoria> resultado = controller.getCategorias();
+
+            assertNotNull(resultado);
+
+        }
+    }
+
+    @Test
+    public void testGetCategorias_ExceptionEnQuery() {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            when(mockEntityManager.createQuery(anyString(), eq(Categoria.class))).thenThrow(new RuntimeException("Error en query"));
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+
+            assertThrows(RuntimeException.class, () -> {controller.getCategorias();});
+
+
+        }
+    }
+
+    //INICIO PROPUESTA
+    @Test
+    public void testAltaPropuesta_CasoProponenteExiste() 
+    {
+        System.out.println("altaPropuesta_CasoProponenteExiste");
+                    
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
+            
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+            
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            String titulo = "TestingPropuesta";
+            String descripcion = "TestDescrip";
+            String imagen = "";
+            String lugar = "TestLugar";
+            LocalDate fecha = LocalDate.of(2025, 12, 10);
+            int precio = 100;
+            int montoTotal = 1000;
+            LocalDate fechaPub = LocalDate.of(2025, 10, 15);
+            List<TipoRetorno> retornos = new ArrayList();
+            retornos.add(TipoRetorno.EntradaGratis);
+            String categoriaNombre = "fiesta";
+            String usuarioNombre = "diegop";
+            Estado estado = Estado.PUBLICADA;
+
+            controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha, precio, montoTotal, fechaPub, retornos, categoriaNombre, usuarioNombre, estado);
+
+        
+        }
+    }
+    //FIN PROPUESTA
     
-    //cuando no es proponente 
-    @Test
-    public void testIsProponenteF() {
-        System.out.println("isProponenteF");
-        String nick = "FrancoP";
-        when(mUsuarioMock.isProponente(eq(nick))).thenReturn(true);
-        boolean expResult = true;
-        boolean result = controller.isProponente(nick);
-        //verifico que haga la llamada 
-        verify(mUsuarioMock, times(1)).isProponente(eq(nick));
-        assertEquals(expResult, result);  
-    }
-   
-    //existe usuario usando el email
-    @Test
-    public void testExisteUsuarioeE() {
-        System.out.println("existeUsuario");
-        String nick = "FrancoP";
-        String email = "algo@gmail.com";
-
-        when(mUsuarioMock.existe(eq(nick))).thenReturn(false);
-        
-        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(true);
-        
-        boolean expResult = true;
-        boolean result = controller.existeUsuario(nick, email);
-        //en este caso se llaman ambos metodos
-        verify(mUsuarioMock, times(1)).existe(eq(nick));
-        verify(mUsuarioMock, times(1)).emailUsado(eq(email));
-        assertEquals(expResult, result);
-    }
-    //existe usuario con mismo nick pero no email
-    @Test
-    public void testExisteUsuarioeEN() {
-       System.out.println("existeUsuario");
-        String nick = "FrancoP";
-        String email = "algo@gmail.com";
-
-        when(mUsuarioMock.existe(eq(nick))).thenReturn(true);
-        
-        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(false);
-        
-        boolean expResult = true;
-        boolean result = controller.existeUsuario(nick, email);
-        //solo entra al primero 
-        verify(mUsuarioMock, times(1)).existe(eq(nick));
-        verify(mUsuarioMock, times(0)).emailUsado(eq(email));
-        assertEquals(expResult, result);
-
-    }
-    //no existe
-    @Test
-    public void testExisteUsuarioeEE() {
-       System.out.println("existeUsuario");
-        String nick = "FrancoP";
-        String email = "algo@gmail.com";
-
-        when(mUsuarioMock.existe(eq(nick))).thenReturn(false);
-        
-        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(false);
-        
-        boolean expResult = false;
-        boolean result = controller.existeUsuario(nick, email);
-        //ambos se llaman
-        verify(mUsuarioMock, times(1)).existe(eq(nick));
-        verify(mUsuarioMock, times(1)).emailUsado(eq(email));
-        assertEquals(expResult, result);
-        
-    }
-
-    //es usado el email
-    @Test
-    public void testEmailUsado() {
-        System.out.println("emailYaUsado");
-        String email = "algo@gmail.com";
-        when(mUsuarioMock.emailUsado(eq(email))).thenReturn(false);
-        boolean expResult = false;
-        boolean result = controller.emailUsado(email);
-        //verificacion
-        verify(mUsuarioMock, times(1)).emailUsado(eq(email));
-        assertEquals(expResult, result);     
-    }
-    //existe usuario con ese nick
-    @Test
-    public void testExiste() {
-        System.out.println("existe");
-        String nick = "FrancoP";
-        when(mUsuarioMock.existe(eq(nick))).thenReturn(false);
-        
-        boolean expResult = false;
-        boolean result = controller.existe(nick);
-        //verificacion
-        verify(mUsuarioMock, times(1)).existe(eq(nick));
-        
-        assertEquals(expResult, result);
-    }
-
-   
-    @Test
-    public void testSeguidos() {
-        System.out.println("SeguidosF");
-        String nick = "Maria2025";
-        List<DTOUsuario> listaVacia = new ArrayList<>();
-
-        when(mUsuarioMock.getSeguidos(eq(nick))).thenReturn(listaVacia);
- 
-        List<DTOUsuario> result = controller.Seguidos(nick);
-        
-        verify(mUsuarioMock, times(1)).getSeguidos(eq(nick));
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        assertEquals(listaVacia, result);
-    }
-    @Test
-    public void testListaUsuariosE(){
-        System.out.println("ListaUsuarios");
-        //simulacion  
-        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
-        //debo cargar con datos un colaborador y un proponente
-        
-        //Colaborador
-        LocalDate fechaNacimiento = LocalDate.of(1990, 10, 15);
-        DTOColaborador c = new DTOColaborador("CarlosC","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosC/img.jpg");
-        listaUsuarios.put("CarlosC", c);
-        //Proponente
-        DTOProponente p = new DTOProponente("25 metros","soy un proponente","www.algo.com","CarlosP","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosP/img.jpg");
-        listaUsuarios.put("CarlosP", p);
-        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
-        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
-        
-        //lo que deberia devolver el metodo de controller
-        List<String> nicksEsperados = Arrays.asList( 
-            "CarlosP",
-            "CarlosC"
-        );
-
-        // devuelve una lista de string de usuarios
-        List<String> result = controller.ListaUsuarios();
-        
-        //verifico que se haga la llamada al metodo del manejador 
-        verify(mUsuarioMock, times(1)).getUsuarios();
-        //que el resultado tenga mismo tamano
-        assertEquals(nicksEsperados.size(), result.size());
-        //que contenga al proponente 
-        assertTrue(result.containsAll(nicksEsperados));
-        
-    }
-    @Test
-    public void testListaUsuariosF(){
-        System.out.println("ListaUsuarios");
-        //simulacion  
-        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
-        //debo cargar con datos un colaborador y un proponente
-       
-        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
-        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
-        
-       
-       //lo que deberia devolver el metodo de controller
-        List<String> nicksEsperados = new ArrayList<>();
-
-        // devuelve una lista de string de usuarios
-        List<String> result = controller.ListaUsuarios();
-        
-       //verifico que se haga la llamada al metodo del manejador 
-        verify(mUsuarioMock, times(1)).getUsuarios();
-        assertNotNull(result);//debe devolver lista vacia no null
-        assertTrue(result.isEmpty());//que sea vacia
-        assertEquals(nicksEsperados.size(), result.size());
-        
-    }
-    @Test
-    public void testListaProponentesE() {
-        System.out.println("ListaProponentes");
-        
-        //simulacion  
-        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
-        //debo cargar con datos un colaborador y un proponente
-        
-        //Colaborador
-        LocalDate fechaNacimiento = LocalDate.of(1990, 10, 15);
-        DTOColaborador c = new DTOColaborador("CarlosC","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosC/img.jpg");
-        listaUsuarios.put("CarlosC", c);
-        //Proponente
-        DTOProponente p = new DTOProponente("25 metros","soy un proponente","www.algo.com","CarlosP","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosP/img.jpg");
-        listaUsuarios.put("CarlosP", p);
-        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
-        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
-        
-        //lo que deberia devolver el metodo de controller
-        List<String> nicksEsperados = Arrays.asList( 
-            "CarlosP"
-        );
-
-        // devuelve una lista de string de proponente
-        List<String> result = controller.ListaProponentes();
-        
-        //verifico que se haga la llamada al metodo del manejador 
-        verify(mUsuarioMock, times(1)).getUsuarios();
-        //que el resultado tenga mismo tamano
-        assertEquals(nicksEsperados.size(), result.size());
-        //que contenga al proponente 
-        assertTrue(result.containsAll(nicksEsperados));
-        
-    }
     
-     @Test
-    public void testListaProponentesF() {
-        System.out.println("ListaProponentes");
-        
-        //simulacion  vacio
-        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
-
-        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
-        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
-        
-        //lo que deberia devolver el metodo de controller
-        List<String> nicksEsperados = new ArrayList<>();
-
-        // devuelve una lista vacia
-        List<String> result = controller.ListaProponentes();
-        
-        //verifico que se haga la llamada al metodo del manejador 
-        verify(mUsuarioMock, times(1)).getUsuarios();
-        assertNotNull(result);//debe devolver lista vacia no null
-        assertTrue(result.isEmpty());//que sea vacia
-        assertEquals(nicksEsperados.size(), result.size());
-        
-    }
-
-    @Test
-    public void testListaColaborador() {
-        System.out.println("ListaColaborador");
-          
-        //simulacion  
-        Map<String,DTOUsuario> listaUsuarios=new HashMap<>();
-        //debo cargar con datos un colaborador y un proponente
-        
-        //Colaborador
-        LocalDate fechaNacimiento = LocalDate.of(1990, 10, 15);
-        DTOColaborador c = new DTOColaborador("CarlosC","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosC/img.jpg");
-        listaUsuarios.put("CarlosC", c);
-        //Proponente
-        DTOProponente p = new DTOProponente("25 metros","soy un proponente","www.algo.com","CarlosP","Carlos","Gimenez","carlos.g@corp.com",fechaNacimiento,"/img/CarlosP/img.jpg");
-        listaUsuarios.put("CarlosP", p);
-        //esto devuelve un map de Usuario tanto Proponente como Colaboradores
-        when(mUsuarioMock.getUsuarios()).thenReturn(listaUsuarios);
-        
-        //lo que deberia devolver el metodo de controller
-        List<String> nicksEsperados = Arrays.asList( 
-            "CarlosC"
-        );
-
-        // devuelve una lista de string de proponente
-        List<String> result = controller.ListaColaborador();
-        
-        //verifico que se haga la llamada al metodo del manejador 
-        verify(mUsuarioMock, times(1)).getUsuarios();
-        //que el resultado tenga mismo tamano
-        assertEquals(nicksEsperados.size(), result.size());
-        //que contenga al proponente 
-        assertTrue(result.containsAll(nicksEsperados));
-    }
-  
-    @Test
-    public void testListaSeguidosPorUsuario() {
-        System.out.println("ListaSeguidosPorUsuario");
-        //solo debo verificar que se haga el llamado 
-        String nick = "FrancoP";
-        
-        List<String> expResult = new ArrayList<>();;
-        
-        //devuelvo vacio
-        when(mUsuarioMock.listaSeguidos(eq(nick))).thenReturn(expResult);
-        
-        List<String> result = controller.ListaSeguidosPorUsuario(nick);
-        
-        verify(mUsuarioMock, times(1)).listaSeguidos(eq(nick));
-        
-        assertTrue(result.isEmpty());
-      
-    }
-  
-    @Test
-    public void testMarcarComoFavorita() {
-        System.out.println("marcarComoFavorita");
-        String nickname = "Maria";
-        String tituloPropuesta = "testPropouesta";
-   
-        controller.marcarComoFavorita(nickname, tituloPropuesta);
-        
-        //verificamos que llame al metodo (es lo unico que hace el controoller en este caso)
-        verify(mUsuarioMock, times(1)).marcarComoFavorita(eq(nickname), eq(tituloPropuesta));
-        
-    }
-
-    @Test
-    public void testQuitarFavorita() {
-        System.out.println("quitarFavorita");
-        String nickname = "Maria";
-        String tituloPropuesta = "testPropouesta";
-   
-        controller.quitarFavorita(nickname, tituloPropuesta);
-        
-        //verificamos que llame al metodo (es lo unico que hace el controoller en este caso)
-        verify(mUsuarioMock, times(1)).quitarFavorita(eq(nickname), eq(tituloPropuesta));
-    }
-
-    @Test
-    public void testEsFavorita() {
-        System.out.println("esFavorita");
-        String nickname = "Maria";
-        String tituloPropuesta = "testPropouesta";
-        boolean expResu=true;
-        when(mUsuarioMock.esFavorita(eq(nickname), eq(tituloPropuesta))).thenReturn(true);
-        
-        boolean result=controller.esFavorita(nickname, tituloPropuesta);
-        
-        //verificamos que llame al metodo (es lo unico que hace el controoller en este caso)
-        verify(mUsuarioMock, times(1)).esFavorita(eq(nickname), eq(tituloPropuesta));
-        
-        assertEquals(expResu, result);
-        
-        
-    }
-
-    @Test
-    public void testSeguir() {
-        System.out.println("seguir");
-        String nick1 = "Franco";
-        String nick2 = "Maria";
-        
-        boolean expResult = false;
-        
-        when(mUsuarioMock.seguirUsr(eq(nick1), eq(nick2))).thenReturn(false);
-        
-        boolean result = controller.seguir(nick1, nick2);
-        
-        //verifico que se llame seguirUsr
-        verify(mUsuarioMock, times(1)).seguirUsr(eq(nick1), eq(nick2));
-        
-        assertEquals(expResult, result);
-        
-    }
-
-    @Test
-    public void testUnFollowUser() {
-        System.out.println("unFollowUser");
-         String nick1 = "Franco";
-        String nick2 = "Maria";
-        
-        boolean expResult = false;
-        
-        when(mUsuarioMock.dejarDeSeguirUsuario(eq(nick1), eq(nick2))).thenReturn(false);
-        
-        boolean result = controller.unFollowUser(nick1, nick2);
-        
-        //verifico que se llame seguirUsr
-        verify(mUsuarioMock, times(1)).dejarDeSeguirUsuario(eq(nick1), eq(nick2));
-        
-        assertEquals(expResult, result);
-        
-    }
-
-    @Test
-    public void testGetDTOProponente() {
-        System.out.println("getDTOProponente");
-        
-        Proponente usuP = new Proponente();
-        usuP.setNickname("Pedro2025");
-        usuP.setNombre("Pedro");
-        usuP.setApellido("Suárez");
-        usuP.setEmail("pedro.suarez@gmail.com");
-        usuP.setFecha(LocalDate.of(1992, 3, 14));
-        usuP.setRutaImg("IMG/pedro2025/perfil.png");
-        usuP.setDireccion("Av. Italia 2456, Montevideo");
-        usuP.setBiografia("Emprendedor uruguayo apasionado por la tecnología y la innovación social.");
-        usuP.setWebSite("WWW.pedrosuarez.dev");
-        
-        DTOProponente dtousuP = new DTOProponente();
-        dtousuP.setNickname("Pedro2025");
-        dtousuP.setNombre("Pedro");
-        dtousuP.setApellido("Suárez");
-        dtousuP.setEmail("pedro.suarez@gmail.com");
-        dtousuP.setFecha(LocalDate.of(1992, 3, 14));
-        dtousuP.setRutaImg("IMG/pedro2025/perfil.png");
-        dtousuP.setDireccion("Av. Italia 2456, Montevideo");
-        dtousuP.setBiografia("Emprendedor uruguayo apasionado por la tecnología y la innovación social.");
-        dtousuP.setWebSite("WWW.pedrosuarez.dev");
-        
-        
-        String nick = "Pedro2025";
-        when(mUsuarioMock.getUsuario(eq(nick))).thenReturn(usuP);
-        
-        DTOProponente expResult = dtousuP; 
-        
-        DTOProponente result = controller.getDTOProponente(nick);//devo recibir el dtousuP
-        
-        //verifico que se llame seguirUsr
-        verify(mUsuarioMock, times(1)).getUsuario(eq(nick));
-        
-        //verifico que tengan mismo nick para asegurar de que devuelve el proponente comvertido a dto
-        assertEquals(expResult.getNickname(), result.getNickname());
-        
-    }
-
-   @Test
-    public void testGetDTOColaborador() {
-        System.out.println("getDTOColaborador");
-        Colaborador usuP = new Colaborador();
-        usuP.setNickname("Pedro2025");
-        usuP.setNombre("Pedro");
-        usuP.setApellido("Suárez");
-        usuP.setEmail("pedro.suarez@gmail.com");
-        usuP.setFecha(LocalDate.of(1992, 3, 14));
-        usuP.setRutaImg("IMG/pedro2025/perfil.png");
-        
-        
-        DTOColaborador dtousuP = new DTOColaborador();
-        dtousuP.setNickname("Pedro2025");
-        dtousuP.setNombre("Pedro");
-        dtousuP.setApellido("Suárez");
-        dtousuP.setEmail("pedro.suarez@gmail.com");
-        dtousuP.setFecha(LocalDate.of(1992, 3, 14));
-        dtousuP.setRutaImg("IMG/pedro2025/perfil.png");
-        
-        
-        
-        String nick = "Pedro2025";
-        when(mUsuarioMock.getUsuario(eq(nick))).thenReturn(usuP);
-        
-        DTOColaborador expResult = dtousuP; 
-        
-        DTOColaborador result = controller.getDTOColaborador(nick);//tengo que recibir el dtousuP
-        
-        //verifico que se llame seguirUsr
-        verify(mUsuarioMock, times(1)).getUsuario(eq(nick));
-        
-        //verifico que tengan mismo nick para asegurar de que devuelve el proponente comvertido a dto
-        assertEquals(expResult.getNickname(), result.getNickname());
-    }
-    
-   // FIN TEST Usuarios
-//    
-    
-    @Test
-    public void testGetDTOAporte() {
-        System.out.println("getDTOAporte");
-        
-        Colaborador u= new Colaborador();
-        u.setNickname("franco");
-        Colaboracion r = new Colaboracion();
-        //DTOColaboracion(r.getTipoRetorno(),r.getMonto(),r.getColaborador().getNickname(),titulo,r.getCreado());
-        r.setColaborador(u);
-        r.setCreado(LocalDate.of(2025,05,17));
-        r.setMonto(100);
-        r.setTipoRetorno(TipoRetorno.EntradaGratis);
-        String titulo = "Pelea";
-        
-        
-        
-        
-        DTOColaboracion expResult = new DTOColaboracion(TipoRetorno.EntradaGratis,100,"franco","Pelea",LocalDate.of(2025,05,17));
-        DTOColaboracion result = controller.getDTOAporte(r, titulo);
-        
-        assertEquals(expResult.getColaborador(), result.getColaborador());
-        assertEquals(expResult.getCreado(), result.getCreado());
-        assertEquals(expResult.getTipoRetorno(), result.getTipoRetorno());
-        assertEquals(expResult.getPropuesta(), result.getPropuesta());
-        assertEquals(expResult.getCreado(), result.getCreado());
-        
-    }
-//    
-//    
-//    //test PROPUESTAS
-//    /**
-//     * Test of getDTORegistroEstado method, of class Controller.
-//     */
-//    @Test
-//    public void testGetDTORegistroEstado() {
-//        System.out.println("getDTORegistroEstado");
-//        Registro_Estado r = null;
-//        Controller instance = new Controller();
-//        DTORegistro_Estado expResult = null;
-//        DTORegistro_Estado result = instance.getDTORegistroEstado(r);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-   /**
-     * Test of getDTOPropuesta method, of class Controller.
-     */
-    @Test
-    public void testGetDTOPropuesta() 
-    {
-        System.out.println("getDTOPropuesta");
-        
-        Propuesta mockPropuesta = mock(Propuesta.class);
-        Categoria mockCategoria = mock(Categoria.class);
-        
-        Registro_Estado mockRegistro = mock(Registro_Estado.class);
-        
-        DTOProponente mockProponente = mock(DTOProponente.class);
-        
-        DTORegistro_Estado dtoRegistroMock = mock(DTORegistro_Estado.class);
-        
-        when(mockPropuesta.getHistorialEstados()).thenReturn(List.of(mockRegistro));
-        when(mockPropuesta.getAporte()).thenReturn(List.of());
-
-        when(mockPropuesta.getCategoria()).thenReturn(mockCategoria);
-        when(mockCategoria.Cat_a_DTO()).thenReturn(mock(DTOCategoria.class));
-        
-        Controller spyController = spy(controller);
-
-        doReturn(dtoRegistroMock).when(spyController).getDTORegistroEstado(mockRegistro);
-
-        DTOPropuesta result = spyController.getDTOPropuesta(mockPropuesta, mockProponente);
-
-        assertEquals(mockProponente, result.getUsr());
-    }
-//
-//   
-//
-//    /**
-//     * Test of getPropuestasCreadasPorProponente method, of class Controller.
-//     */
-//    @Test
-//    public void testGetPropuestasCreadasPorProponente() {
-//        System.out.println("getPropuestasCreadasPorProponente");
-//        String nick = "";
-//        Controller instance = new Controller();
-//        Set<DTOPropuesta> expResult = null;
-//        Set<DTOPropuesta> result = instance.getPropuestasCreadasPorProponente(nick);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    
-//
-//    /**
-//     * Test of altaPropuesta method, of class Controller.
-//     */
-@Test
-    public void testAltaPropuesta() {
-        System.out.println("altaPropuesta");
-
-        String titulo = "TestingPropuesta";
-        String descripcion = "TestDescrip";
-        String imagen = "";
-        String lugar = "TestLugar";
-        LocalDate fecha = LocalDate.of(2025, 12, 10);
-        int precio = 100;
-        int montoTotal = 1000;
-        LocalDate fechaPub = LocalDate.of(2025, 10, 15);
-        List<TipoRetorno> retornos = new ArrayList();
-        retornos.add(TipoRetorno.EntradaGratis);
-        String categoriaNombre = "fiesta";
-        String usuarioNombre = "paco";
-        Estado estado = Estado.PUBLICADA;
-
-        Categoria categoriaMock = mock(Categoria.class);
-        Proponente proponenteMock = mock(Proponente.class);
-
-        when(mCategoria.buscadorC(eq(categoriaNombre))).thenReturn(categoriaMock);
-        when(mUsuarioMock.getUsuario(eq(usuarioNombre))).thenReturn(proponenteMock);
-
-        controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha, precio, montoTotal, fechaPub, retornos, categoriaNombre, usuarioNombre, estado);
-
-        verify(mPropuesta, times(1)).nuevaPropuesta(argThat(propuesta
-                -> propuesta.getTitulo().equals(titulo)
-                && propuesta.getDescripcion().equals(descripcion)
-                && propuesta.getLugar().equals(lugar)
-                && propuesta.getCategoria().equals(categoriaMock)
-                && propuesta.getProponente().equals(proponenteMock)
-                && propuesta.getPrecio() == precio
-                && propuesta.getMontoTotal() == montoTotal
-                && propuesta.getUltimoEstadoString().equals(estado.name())
-        ));
-    }
-//    /**
-//     * Test of obtenerPropuestas method, of class Controller.
-//     */
-    @Test
-    public void testObtenerPropuestas() 
-    {
-        System.out.println("obtenerPropuestas");
-        String estado = "staten";
-
-        Set<DTOPropuesta> expResult = new HashSet();
-        
-        when(mPropuesta.obtenerPropuestas(estado)).thenReturn(expResult);
-        
-        Set<DTOPropuesta> result = controller.obtenerPropuestas(estado);
-        assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of accionSobrePropuesta method, of class Controller.
-     */
-    @Test
-    public void testAccionSobrePropuesta_casoEsProponente() 
-    {
-        System.out.println("accionSobrePropuesta_casoEsProponente");
-        
-        String nickUsuario = "Jose";
-        DTOPropuesta t1 = mock(DTOPropuesta.class);
-        
-        when(t1.nickProponenteToString()).thenReturn(nickUsuario);  //Para que entre en el if del proponente...
-        
-        int result = controller.accionSobrePropuesta(nickUsuario, t1);
-        
-        assertEquals(1,result); //Si es 1 todo ok.
-   
-    }
-    
-    @Test
-    public void testAccionSobrePropuesta_casoEsColaborador() 
-    {
-        System.out.println("accionSobrePropuesta_casoEsColaborador");
-        
-        String nickUsuario = "Rodolfo";
-        DTOPropuesta t1 = mock(DTOPropuesta.class);
-        
-        //La colaboracion para pasar por el for y entrar al if de adentro
-        List<DTOColaboracion> listaTest = new ArrayList();
-        DTOColaboracion colabTest = mock(DTOColaboracion.class);
-        when(colabTest.getColaborador()).thenReturn(nickUsuario);
-        
-        listaTest.add(colabTest);
-        
-        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
-        when(t1.getAporte()).thenReturn(listaTest);
-        
-        int result = controller.accionSobrePropuesta(nickUsuario, t1);
-        
-        assertEquals(2,result);
-   
-    }
-    
-    @Test
-    public void testAccionSobrePropuesta_casoLol() 
-    {
-        System.out.println("accionSobrePropuesta_casocasoLol");
-        
-        String nickUsuario = "Rodolfo";
-        DTOPropuesta t1 = mock(DTOPropuesta.class);
-        
-        //La colaboracion para pasar por el for y entrar al if de adentro
-        List<DTOColaboracion> listaTest = new ArrayList();
-        DTOColaboracion colabTest = mock(DTOColaboracion.class);
-        when(colabTest.getColaborador()).thenReturn("Nel");
-        
-        listaTest.add(colabTest);
-        
-        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
-        when(t1.getAporte()).thenReturn(listaTest);
-        
-        int result = controller.accionSobrePropuesta(nickUsuario, t1);
-        
-        assertEquals(3,result);
-   
-    }
-
-//    /**
-//     * Test of getPropuestaDTO method, of class Controller.
-//     */
-    @Test
-    public void testGetPropuestaDTO() 
-    {
-        System.out.println("getPropuestaDTO");
-        
-        String propuestaSel = "algo";
- 
-        DTOPropuesta expResult = new DTOPropuesta();
-        
-        when(mPropuesta.getPropuestaDTO(propuestaSel)).thenReturn(expResult);
-        
-        DTOPropuesta result = controller.getPropuestaDTO(propuestaSel);
-        assertEquals(expResult, result);
-    }
-
-//    /**
-//     * Test of existeProp method, of class Controller.
-//     */
-    @Test
-    public void testExisteProp() 
-    {
-        System.out.println("existeProp");
-        String Titulo = "JacoCo";
-        
-        when(mPropuesta.existeProp(Titulo)).thenReturn(true);
-        
-        boolean result = controller.existeProp(Titulo);
-        
-        assertTrue(result);
-    }
-
-//    /**
-//     * Test of creadorPropuesta method, of class Controller.
-//     */
-    @Test
-    public void testCreadorPropuesta() 
-    {
-        System.out.println("creadorPropuesta");
-        String titulo = "tituloRandom";
-        String nombreProp = "Jacoco";
-        
-        when(mPropuesta.obtenerNombreCreadorPropuesta(titulo)).thenReturn("Jacoco");
-        
-        String result = controller.creadorPropuesta(titulo);
-        assertEquals(nombreProp, result);
-    }
-
-//    /**
-//     * Test of estadoPropuestas method, of class Controller.
-//     */
-    @Test
-    public void testEstadoPropuestas() 
-    {
-        System.out.println("estadoPropuestas");
-        String titulo = "Canciones Aburridas";
-        
-        String expResult = "Cancelada";
-        
-        when(mPropuesta.obtenerEstado(titulo)).thenReturn("Cancelada");
-        
-        String result = controller.estadoPropuestas(titulo);
-        assertEquals(expResult, result);
-    }
-   
-//     /**
-//     * Test of modificarPropuesta method, of class Controller.
-//     */
-    @Test
-    public void testModificarPropuesta() 
-    {
-        System.out.println("modificarPropuesta");
-        String titulo = "Pisler Shock";
-        String descripcion = "";
-        String rutaImagen = "";
-        String lugar = "";
-        LocalDate fechaEvento = null;
-        int precio = 0;
-        int montoTotal = 0;
-        List<TipoRetorno> retorno = null;
-        String categoria = "";
-        String usuarios = "";
-        Estado estado = null;
-        
-        Propuesta t = new Propuesta();
-        
-        when(mPropuesta.buscarPropuestaPorTitulo(titulo)).thenReturn(t);
-        
-        doNothing().when(mPropuesta).UpdatePropuesta(titulo, descripcion,rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
-                
-        controller.modificarPropuesta(titulo, descripcion, rutaImagen, lugar, fechaEvento, precio, montoTotal, retorno, categoria, usuarios, estado);
-
-    }
-//    
-//      /**
-//     * Test of ListarPropuestas method, of class Controller.
-//     */
-    @Test
-    public void testListarPropuestas() 
-    {
-        System.out.println("ListarPropuestas");
-        
-        String estado1 = "esperado1", estado2 = "esperado2";
-        
-        DTOPropuesta test = mock(DTOPropuesta.class);
-        DTOPropuesta test2 = mock(DTOPropuesta.class);
-        
-        Set<DTOPropuesta> esperado1 = new HashSet();
-        esperado1.add(test);
-        Set<DTOPropuesta> esperado2 = new HashSet(); 
-        esperado2.add(test2);
-        
-        when(mPropuesta.obtenerPropuestas("esperado1")).thenReturn(esperado1);
-        
-        when(mPropuesta.obtenerPropuestas("esperado2")).thenReturn(esperado2);
-        
-        Set<DTOPropuesta> esperado3 = new HashSet();
-        esperado3.add(test);
-        esperado3.add(test2);
-        
-        Set<DTOPropuesta> result = controller.ListarPropuestas(estado1, estado2);
-        
-        assertEquals(esperado3, result);
-        
-        
-    }
-//    
-
-    /**
-     * Test of extenderOCancelarPropuesta method, of class Controller.
-     */
-    
-    @Test
-    public void testExtenderOCancelarPropuesta_casoCancelar() 
-    {
-        System.out.println("testExtenderOCancelarPropuesta_casoCancelar");
-        
-        String accionUsuario = "CANCELAR";
-        String tituloPropuesta = "propTest";
-
-        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada(tituloPropuesta);    //Me salto esta función
-
-        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
-
-        assertEquals(2, resultado);
-    }
-    
-    @Test
-    public void testExtenderOCancelarPropuesta_casoExtender() 
-    {
-        System.out.println("testExtenderOCancelarPropuesta_casoExtender");
-
-        when(mPropuesta.extenderFinanciacion("propTest")).thenReturn(true);
-
-        int resultado = controller.extenderOCancelarPropuesta("EXTENDER", "propTest");
-
-        assertEquals(3, resultado);
-    }
-    
-    @Test
-    public void testExtenderOCancelarPropuesta_casoAnomalia() 
-    {
-        System.out.println("testExtenderOCancelarPropuesta_casoAnomalia");
-        
-        String accionUsuario = "????";
-        String tituloPropuesta = "propTest";
-
-        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada(tituloPropuesta);    //Me salto esta función
-
-        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
-
-        assertEquals(0, resultado);
-    }
-    
-    @Test
-    public void testExtenderOCancelarPropuesta_casoNULL() 
-    {
-        System.out.println("testExtenderOCancelarPropuesta_casoNULL");
-        
-        String accionUsuario = null;
-        String tituloPropuesta = null;
-
-        int resultado = controller.extenderOCancelarPropuesta(accionUsuario, tituloPropuesta);
-
-        assertEquals(0, resultado);
-    }
-    
-     /**
-     * Test of accionesSobrePropuesta method, of class Controller.
-     */
-    @Test
-    public void testAccionesSobrePropuesta_casoProponenteExtiende() 
-    {
-        System.out.println("accionesSobrePropuesta_casoProponenteExtiende");
-        
-        String userNick = "Juan";
-        int permisos = 1;
-        String accionUsuario = "EXTENDER";
-        String comentario = ""; 
-        String montoStr = "";
-        String tipoRetorno = null;
-        
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
-        when(propuestaActual.getTitulo()).thenReturn("prop");
-        
-        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
-        propuestasTest.add(propuestaActual);
-        
-        when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
-        when(mPropuesta.extenderFinanciacion("prop")).thenReturn(true);                         //Que retorne 3.
-        
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(3, result);
-    }
-    @Test
-    public void testAccionesSobrePropuesta_casoProponenteCancela() 
-    {
-        System.out.println("accionesSobrePropuesta_casoProponenteCancela");
-        
-        String userNick = "Juan";
-        int permisos = 1;
-        String accionUsuario = "CANCELAR";  //No hace efecto pero lo dejo igual.
-        String comentario = ""; 
-        String montoStr = "";
-        String tipoRetorno = null;
-        
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        
-        when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
-        when(propuestaActual.getTitulo()).thenReturn("prop");
-        
-        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
-        propuestasTest.add(propuestaActual);
-        
-        when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
-        doNothing().when(mPropuesta).cancelarPropuestaSeleccionada("prop");   //Que retorne 2.
-        
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(2, result);
-    }
-    
-    @Test
-    public void testAccionesSobrePropuesta_casoProponenteSinAccion() 
-    {
-        System.out.println("accionesSobrePropuesta_casoProponenteSinAccion");
-        
-        String userNick = "Joseph";
-        int permisos = 1;
-        String accionUsuario = "NADA";  //No hace efecto pero lo dejo igual.
-        String comentario = ""; 
-        String montoStr = "";
-        String tipoRetorno = null;
-        
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        
-        when(propuestaActual.nickProponenteToString()).thenReturn(userNick);    //Para que entre el if del for
-        when(propuestaActual.getTitulo()).thenReturn("prop");
-        
-        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
-        propuestasTest.add(propuestaActual);
-        
-        when(controller.getPropuestasCreadasPorProponente(userNick)).thenReturn(propuestasTest);    //Cambia uso de función por retorno del set creado arriba.
-        
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(0, result);
-    }
-    
-    @Test
-    public void testAccionesSobrePropuesta_casoAnromalSinPermisosPeroAccede() 
-    {
-        System.out.println("testAccionesSobrePropuesta_casoAnromalSinPermisosPeroAccede");
-        
-        String userNick = "DESCONOCIDO";
-        int permisos = 0;
-        String accionUsuario = "???";
-        String comentario = "???"; 
-        String montoStr = "1000000000";
-        String tipoRetorno = null;
-                
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, null, montoStr, tipoRetorno);
-
-        assertEquals(0, result);
-
-    }
-    
-    @Test
-    public void testAccionesSobrePropuesta_casoNormalColaboradorConColabQueComenta() 
-    {
-        System.out.println("accionesSobrePropuesta_casoNormalColaboradorConColabQueComenta");
-        
-        String userNick = "Diego";
-        int permisos = 2;
-        String accionUsuario = "COMENTAR";
-        String comentario = "Hola"; 
-        String montoStr = "";
-        String tipoRetorno = "";
-        
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        when(propuestaActual.getTitulo()).thenReturn("test");
-        when(mPropuesta.nuevoComentario(anyString(), anyString(), anyString())).thenReturn(true);        
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(1, result);
-
-    }
-    
-    @Test
-    public void testAccionesSobrePropuesta_casoNormalColaboradorSinColab() 
-    {
-        System.out.println("accionesSobrePropuesta_casoNormalColaboradorSinColab");
-
-        String userNick = "Diego";
-        int permisos = 3;
-        String accionUsuario = "COLABORAR";
-        String comentario = "";
-        String montoStr = "15000";
-        String tipoRetorno = "EntradaGratis";
-
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
-
-        DTOColaborador colaboradorTest = mock(DTOColaborador.class);
-        when(colaboradorTest.getNickname()).thenReturn(userNick); 
-
-        Controller controllerSpy = spy(controller);     //No me queda otra que usar un spy para omitir la función "getDTOColaborador"
-
-        doReturn(colaboradorTest).when(controllerSpy).getDTOColaborador(userNick);      //Con spy, cambia la sintaxis de la devolución del mock
-
-        doNothing().when(controllerSpy).altaColaboracion(any(DTOColaboracion.class));   //Lo mismo acá
-
-        int result = controllerSpy.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(4, result);
-    }
-    
-       @Test
-    public void testAccionesSobrePropuesta_casoMontoInvalido() 
-    {
-        System.out.println("accionesSobrePropuesta_casoMontoInvalido");
-
-        String userNick = "Diego";
-        int permisos = 3;
-        String accionUsuario = "COLABORAR";
-        String comentario = "";
-        String montoStr = "hola";
-        String tipoRetorno = "PorcentajeGanancia";
-
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
-
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(0, result);
-    }
-    
-    @Test
-    public void testAccionesSobrePropuesta_casoAccionNoEspecificada() 
-    {
-        System.out.println("accionesSobrePropuesta_casoAccionNoEspecificada");
-
-        String userNick = "Diego";
-        int permisos = 2;
-        String accionUsuario = "no";
-        String comentario = "";
-        String montoStr = "hola";
-        String tipoRetorno = "PorcentajeGanancia";
-
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
-
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(0, result);
-    }
-    
-    @Test
-    public void testAccionesSobrePropuesta_casoAccionNoEspecificada2() 
-    {
-        System.out.println("accionesSobrePropuesta_casoAccionNoEspecificada2");
-
-        String userNick = "Diego";
-        int permisos = 3;
-        String accionUsuario = "no";
-        String comentario = "";
-        String montoStr = "hola";
-        String tipoRetorno = "PorcentajeGanancia";
-
-        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
-        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
-
-        int result = controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
-
-        assertEquals(0, result);
-    }
-        
-     /**
-     * Test of permisosSobrePropuesta method, of class Controller.
-     */
-    @Test
-    public void testPermisosSobrePropuesta_primerIF_false() 
-    {
-        //Caso tipoUsuario es null.
-        //UserNick igual a "visitante" 
-        //Y el titulo de la propuesta es null.
-        System.out.println("permisosSobrePropuesta_casoPrimerIF_false");
-        
-        String userNick = "VISITANTE";                  
-        String tipoUsuario = null;    
-        
-        DTOPropuesta propTest = mock(DTOPropuesta.class);
-        
-        //Acá se programa lo que el dto devuelve:
-        when(propTest.nickProponenteToString()).thenReturn("rodolfo");
-        when(propTest.getTitulo()).thenReturn(null);
-
-        int expResult = 0;                                  //Se espera que sea 0 el resultado.
-        
-        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
-        
-        assertEquals(expResult, result); 
-
-    }
-    
-    @Test
-    public void testPermisosSobrePropuesta_esProponenteYpermiso3() 
-    {
-        //Caso tipoUsuario es proponente.
-        //UserNick no es "visitante"
-        //No ha comentado
-        //Y el titulo de la propuesta no es null.
-        
-        System.out.println("testPermisosSobrePropuesta_esProponenteYpermiso3");
-        
-        DTOPropuesta propTest = mock(DTOPropuesta.class);
-        String userNick = "propo";                             
-        String tipoUsuario = "Proponente";
-        
-        List<DTOColaboracion> senuelo = new ArrayList();
-        
-        when(propTest.getAporte()).thenReturn(senuelo); //Para saltarme el for e if de accionSobreProp
-        
-        //Acá se programa lo que el dto devuelve:
-        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
-        when(propTest.nickProponenteToString()).thenReturn("otro");         //Obligo que falle el if que retorna 1 en la funcion accionSobreProp
-
-        //Se simula la funcion para que entre al segundo if y por ende tampoco al tercero:
-        when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(false);
-        
-        //Se simula la función que da permisos si no ha comentado, retorna 3.
-        //when(controller.accionSobrePropuesta(userNick,propTest)).thenReturn(3);
-        
-        int expResult = 0;                                  //Se espera que sea 0 el resultado.
-        
-        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
-        
-        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
-
-    }
-    
-    @Test
-    public void testPermisosSobrePropuesta_esProponenteYpermiso3HaComentado() 
-    {
-        //Caso tipoUsuario es proponente.
-        //UserNick no es "visitante"
-        //No ha comentado
-        //Y el titulo de la propuesta no es null.
-        
-        System.out.println("testPermisosSobrePropuesta_esProponenteYpermiso3HaComentado");
-        
-        DTOPropuesta propTest = mock(DTOPropuesta.class);
-        String userNick = "propo";                             
-        String tipoUsuario = "Proponente";
-        
-        List<DTOColaboracion> senuelo = new ArrayList();
-        
-        when(propTest.getAporte()).thenReturn(senuelo); //Para saltarme el for e if de accionSobreProp
-        
-        //Acá se programa lo que el dto devuelve:
-        when(propTest.getTitulo()).thenReturn("El quijote endemoniado");    
-        when(propTest.nickProponenteToString()).thenReturn("otro");         //Obligo que falle el if que retorna 1 en la funcion accionSobreProp
-
-        //Se simula la funcion para que entre al segundo if y por ende tampoco al tercero:
-        when(propTest.usuarioHaComentadoSN(userNick)).thenReturn(true);
-        
-        int expResult = 0;                                  //Se espera que sea 0 el resultado.
-        
-        int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
-        
-        assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
-
-    }
-    /**
-     * Test of nuevoComentario method, of class Controller.
-     */
-    
-    @Test
-    public void testNuevoComentario_casoTodoNormal() 
-    {
-        System.out.println("testNuevoComentario_casoTodoNormal");
-        
-        String comentario = "algo";
-        String userNick = "Rick Ricker";
-        String tituloPropuesta = "Pilsner Lock";
-        
-        when(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta)).thenReturn(true);   //Enmascaro la función esta con un true directo así entra en el if
-        
-        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
-        
-        assertTrue(resultado); 
-    }
-
-    @Test
-    public void testNuevoComentario__fallaCuandoUserNickEsNull() 
-    {
-        System.out.println("testNuevoComentario__fallaCuandoUserNickEsNull");
-        
-        String userNick = null;
-        String comentario = "algo comentado";
-        String tituloPropuesta = "Pinsel Shock";
-        
-        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
-
-        assertFalse(resultado); //Al ser null el nick, el if nunca debería entrar por lo tanto debería dar false
-    }
-    
-    @Test
-    public void testNuevoComentario_CasoUserNickVacio() 
-    {
-        System.out.println("testNuevoComentario_casoUserNickVacio");
-        
-        String comentario = "algo comentado";
-        String userNick = "";   //Aca fuerzo la reacción del if
-        String tituloPropuesta = "Pinsel Lock";
-        
-        when(mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta)).thenReturn(true);   //En este caso devuelve true siempre que se consulta
-
-        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
-
-        assertFalse(resultado);
-    }
-
-    //FIN TEST Propouestas
-    /**
-     * Test of altaDeCategoria method, of class Controller.
-     */
-    
-    //Test CATEGORIA
-    @Test
-    void testAltaDeCategoria_caso_InputNull() 
-    {
-        System.out.print("testAltaDeCategoria_caso_InputNull");
-        
-        //No necesito hacer mocks ya que al ser null no entra nunca a la base de datos.
-
-        boolean result = controller.altaDeCategoria(null);
-
-        assertFalse(result); //Devuelve el mensaje en formato del test
-    }
-    
-    @Test
-    void testAltaDeCategoria_caso_CategoriaPadreValida() 
-    { 
-        System.out.print("testAltaDeCategoria_caso_CategoriaPadreValida");
-        
-        DTOCategoria catTest = new DTOCategoria();
-        
-        catTest.setNombreCategoria("Musica");
-        
-        catTest.setCatPadre("");                          //Para que sea reconocida como cat padre.
-        when(mCategoria.addCategoria(catTest)).thenReturn(true);
-        
-        boolean result = controller.altaDeCategoria(catTest);
-
-        assertTrue(result); //Devuelve el mensaje en formato del test
-    }
-
-    /**
-     * Test of getCategorias method, of class Controller.
-    */
-   @Test
-   public void testGetCategorias_casoNormal() 
-   {
-        System.out.println("getCategorias_casoNormal");
-        
-        //Creo un set unicamente para simular una devolución.
-        DTOCategoria catTest1 = new DTOCategoria("Musica");
-        DTOCategoria catTest2 = new DTOCategoria("Arte");
-        
-        List<DTOCategoria> setCatPrueba = new ArrayList<>();
-        
-        setCatPrueba.add(catTest1);  //Asignado elemento 0
-        setCatPrueba.add(catTest2);  //Y el 1 
-        
-        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
-        
-        List<DTOCategoria> result = controller.getCategorias();
-        
-        
-        //Me fijo que estén los dos elementos en el result:
-        assertEquals("Musica", result.get(0).getNombreCategoria());
-        assertEquals("Arte", result.get(1).getNombreCategoria());
-        
-   }
-   
-   @Test
-   public void testGetCategorias_casoNoHayCategorias() 
-   {
-        System.out.println("getCategorias_casoNoHayCategorias");
-        
-        List<DTOCategoria> setCatPrueba = new ArrayList<>();    //El manejador devuelve esto realmente cuando no hay nada.
-        
-        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
-        
-        List<DTOCategoria> result = controller.getCategorias();
-        
-        
-        //El test pasa si la lista está vacía.
-        assertTrue(result.isEmpty());   
-        
-   }
-
-    /**
-     * Test of ListaCategoria method, of class Controller.
-     */
-    @Test
-    public void testListaCategoria_casoNomal() 
-    {
-        System.out.println("ListaCategoria_casoNomal");
-
-        //Creo un set unicamente para simular una devolución, igual que los de arriba.
-        DTOCategoria catTest1 = new DTOCategoria("Musica");
-        DTOCategoria catTest2 = new DTOCategoria("Arte");
-
-        List<DTOCategoria> setCatPrueba = new ArrayList<>();
-
-        setCatPrueba.add(catTest1);  //Asignado elemento 0
-        setCatPrueba.add(catTest2);  //Y el 1 
-
-        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
-
-        List<String> result = controller.ListaCategoria(); 
-        
-        assertEquals("Musica", result.get(0));
-        assertEquals("Arte", result.get(1));
-        
-    }
-    
-    @Test
-    public void testListaCategoria_casoNoHayCats() 
-    {
-        System.out.println("ListaCategoria_casoNoHayCats");
-
-        List<DTOCategoria> setCatPrueba = new ArrayList<>();
-
-        when(mCategoria.getCategorias()).thenReturn(setCatPrueba);
-
-        List<String> result = controller.ListaCategoria(); 
-        
-        assertTrue(result.isEmpty());    
-    }
-   
-//    //FIN TEST CATEGORIA 
-
-
-    @Test
-    public void testColaboraciones() {
-        System.out.println("colaboraciones");
-        String nick = "franco";
-        
-        List<DTOColaboracion> expResult = new ArrayList<>();
-        
-        List<DTOColaboracion> result = controller.colaboraciones(nick);
-        
-        when(mUsuarioMock.getDTOColaboraciones(eq(nick))).thenReturn(expResult);
-        
-        verify(mUsuarioMock, times(1)).getDTOColaboraciones(eq(nick));
-        
-        assertNotNull(result);//debe devolver lista vacia no null
-        
-        assertTrue(result.isEmpty());//que sea vacia  
-        
-    }
-//
-//    /**
-//     * Test of colaboradoresAPropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testColaboradoresAPropuesta() {
-//        System.out.println("colaboradoresAPropuesta");
-//        String titulo = "";
-//        Controller instance = new Controller();
-//        List<String> expResult = null;
-//        List<String> result = instance.colaboradoresAPropuesta(titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    @Test
-//    public void testAltaColaboracion() {
-//        System.out.println("altaColaboracion");
-//        DTOColaboracion colaboracion = null;
-//        Controller instance = new Controller();
-//        instance.altaColaboracion(colaboracion);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of ListarColaboradores method, of class Controller.
-//     */
-//    @Test
-//    public void testListarColaboradores() {
-//        System.out.println("ListarColaboradores");
-//        Controller instance = new Controller();
-//        Set<DTOColaborador> expResult = null;
-//        Set<DTOColaborador> result = instance.ListarColaboradores();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of CancelarColaboracion method, of class Controller.
-//     */
-//    @Test
-//    public void testCancelarColaboracion() {
-//        System.out.println("CancelarColaboracion");
-//        Long id = null;
-//        Controller instance = new Controller();
-//        instance.CancelarColaboracion(id);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//
-//
-//    /**
-//     * Test of getMontoRecaudado method, of class Controller.
-//     */
-//    @Test
-//    public void testGetMontoRecaudado() {
-//        System.out.println("getMontoRecaudado");
-//        String titulo = "";
-//        Controller instance = new Controller();
-//        int expResult = 0;
-//        int result = instance.getMontoRecaudado(titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of colaboracionExiste method, of class Controller.
-//     */
-//    @Test
-//    public void testColaboracionExiste() {
-//        System.out.println("colaboracionExiste");
-//        String colaborador = "";
-//        String titulo = "";
-//        Controller instance = new Controller();
-//        boolean expResult = false;
-//        boolean result = instance.colaboracionExiste(colaborador, titulo);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getDTOColaboraciones method, of class Controller.
-//     */
-//    @Test
-//    public void testGetDTOColaboraciones() {
-//        System.out.println("getDTOColaboraciones");
-//        Controller instance = new Controller();
-//        Set<DTOColaboracion> expResult = null;
-//        Set<DTOColaboracion> result = instance.getDTOColaboraciones();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
-//    
-//    //test de DATOS DE PREUBA [LOS DEJO PERO NI IDEA SI HAY QUE HACER ALGO SON FIJOS]
-//    /**
-//     * Test of cargarDatosPruebaProponente method, of class Controller.
-//     */
-//    @Test
-//    public void testCargarDatosPruebaProponente() {
-//        System.out.println("cargarDatosPruebaProponente");
-//        Controller instance = new Controller();
-//        instance.cargarDatosPruebaProponente();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of cargarDatosPruebaColaborador method, of class Controller.
-//     */
-//    @Test
-//    public void testCargarDatosPruebaColaborador() {
-//        System.out.println("cargarDatosPruebaColaborador");
-//        Controller instance = new Controller();
-//        instance.cargarDatosPruebaColaborador();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of cargarSeguidos method, of class Controller.
-//     */
-//    @Test
-//    public void testCargarSeguidos() {
-//        System.out.println("cargarSeguidos");
-//        Controller instance = new Controller();
-//        instance.cargarSeguidos();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of cargarPropuesta method, of class Controller.
-//     */
-//    @Test
-//    public void testCargarPropuesta() {
-//        System.out.println("cargarPropuesta");
-//        Controller instance = new Controller();
-//        instance.cargarPropuesta();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of cargarCategorias method, of class Controller.
-//     */
-    @Test
-    public void testCargarCategorias() 
-    {
-        System.out.println("cargarCategorias");
-
-        doNothing().when(mCategoria).cargarCategorias();
-        
-        controller.cargarCategorias();
-        
-    }
-//
-//    /**
-//     * Test of cargarColaboraciones method, of class Controller.
-//     */
-//    @Test
-//    public void testCargarColaboraciones() {
-//        System.out.println("cargarColaboraciones");
-//        Controller instance = new Controller();
-//        instance.cargarColaboraciones();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-// 
-    
+    //INICIO COLABORACION
+    //FIN COLABORACION
 }
