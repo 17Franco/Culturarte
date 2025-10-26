@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
 import logica.Propuesta.Propuesta;
@@ -71,8 +73,20 @@ public class ControllerTest
     
     //INICIO USUARIOS
     @Test
-    public void testMarcarComoFavorita_SinBase() {
-        System.out.println("testMarcarComoFavorita_SinBase");
+    public void testListaUsuarios() {
+        System.out.println("ListaUsuarios");
+        List<String> result = controller.ListaUsuarios();
+        assertNotNull(result);
+    }
+    @Test
+    public void testListaProponentesE() {
+        System.out.println("ListaProponentes");
+        List<String> result = controller.ListaProponentes();
+        assertNotNull(result);
+    }
+    @Test
+    public void testMarcarComoFavorita() {
+        System.out.println("testMarcarComoFavorita");
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
 
