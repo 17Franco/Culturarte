@@ -73,6 +73,13 @@ public class ControllerTest
     
     //INICIO USUARIOS
     @Test
+    public void testGetSeguidores() {
+        System.out.println("getSeguidores");
+        String nick = "diegop";
+        List<DTOUsuario> result = controller.getSeguidores(nick);
+        assertNotNull(result);
+    }
+    @Test
     public void testListaUsuarios() {
         System.out.println("ListaUsuarios");
         List<String> result = controller.ListaUsuarios();
