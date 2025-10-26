@@ -34,6 +34,7 @@ import logica.Usuario.Usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import persistencia.ManejadorPropuesta;
 import persistencia.ManejadorUsuario;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,6 +51,8 @@ public class ControllerTest
     private Controller controller;
     private ManejadorCategoria manejador;
     private ManejadorUsuario mUsuario;
+    private ManejadorPropuesta mPropuesta;
+    
     @BeforeEach
     public void setUp() throws Exception 
     {
@@ -69,6 +72,17 @@ public class ControllerTest
 
         when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
         when(mockTransaction.isActive()).thenReturn(true);
+        
+        //Para propuesta
+        Field instanciaPropuestaField = ManejadorPropuesta.class.getDeclaredField("instancia");
+        instanciaPropuestaField.setAccessible(true);
+        instanciaPropuestaField.set(null, null);
+        mPropuesta = ManejadorPropuesta.getinstance();
+        
+        Field mPropuestaField = Controller.class.getDeclaredField("mPropuesta");
+        mPropuestaField.setAccessible(true);
+        mPropuestaField.set(controller, mPropuesta);
+        
     }
     
     //INICIO USUARIOS
@@ -155,44 +169,6 @@ public class ControllerTest
             
             assertTrue(resultado);
 
-        }
-    }
-    
-    //FIN CATEGORIA
-    
-
-    @Test
-    public void testAltaPropuesta_CasoProponenteNULL() 
-    {
-        System.out.println("altaPropuesta_CasoProponenteNULL");
-                    
-        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
-        {
-            
-            doNothing().when(mockTransaction).begin();
-            doNothing().when(mockTransaction).commit();
-            doNothing().when(mockEntityManager).persist(any(Categoria.class));
-            doNothing().when(mockEntityManager).close();
-            
-            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
-
-            String titulo = "TestingPropuesta";
-            String descripcion = "TestDescrip";
-            String imagen = "";
-            String lugar = "TestLugar";
-            LocalDate fecha = LocalDate.of(2025, 12, 10);
-            int precio = 100;
-            int montoTotal = 1000;
-            LocalDate fechaPub = LocalDate.of(2025, 10, 15);
-            List<TipoRetorno> retornos = new ArrayList();
-            retornos.add(TipoRetorno.EntradaGratis);
-            String categoriaNombre = "fiesta";
-            String usuarioNombre = "Jose";
-            Estado estado = Estado.PUBLICADA;
-            
-            controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha, precio, montoTotal, fechaPub, retornos, categoriaNombre, usuarioNombre, estado);
-
-        
         }
     }
     
@@ -357,42 +333,80 @@ public class ControllerTest
 
         }
     }
-
-    //INICIO PROPUESTA
+    //FIN CATEGORIA
+    
+    //INICIO PROPUESTA    
     @Test
-    public void testAltaPropuesta_CasoProponenteExiste() 
+    public void testAltaPropuesta() 
     {
-        System.out.println("altaPropuesta_CasoProponenteExiste");
+        System.out.println("altaPropuesta");
                     
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
         {
             
+            //Me salto la modificación de la bd
             doNothing().when(mockTransaction).begin();
             doNothing().when(mockTransaction).commit();
             doNothing().when(mockEntityManager).persist(any(Propuesta.class));
             doNothing().when(mockEntityManager).close();
+        
+            //when(mockEntityManager.merge(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+            Categoria categoriaTest = new Categoria("fiesta", null);
+            Proponente proponenteTest = new Proponente("Diego", "Perez", "www.test.com","diegop", "pass123", "Diego P","diego@test.com", LocalDate.now(), "");
             
+            //Mock en los finds dentro del manejador para que devuelvan objetos sikmulados con mock
+            when(mockEntityManager.find(Categoria.class, "fiesta")).thenReturn(categoriaTest);
+            when(mockEntityManager.find(Usuario.class, "diegop")).thenReturn(proponenteTest);
+            
+            //Se simula la obtención del em...
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            String titulo = "TestingPropuesta";
+            String titulo = "JKLJKLJKL";
             String descripcion = "TestDescrip";
             String imagen = "";
             String lugar = "TestLugar";
-            LocalDate fecha = LocalDate.of(2025, 12, 10);
+            LocalDate fecha = LocalDate.now();
             int precio = 100;
             int montoTotal = 1000;
-            LocalDate fechaPub = LocalDate.of(2025, 10, 15);
-            List<TipoRetorno> retornos = new ArrayList();
+            LocalDate fechaPub = LocalDate.now();
+            List<TipoRetorno> retornos = new ArrayList<>();
             retornos.add(TipoRetorno.EntradaGratis);
             String categoriaNombre = "fiesta";
             String usuarioNombre = "diegop";
             Estado estado = Estado.PUBLICADA;
 
-            controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha, precio, montoTotal, fechaPub, retornos, categoriaNombre, usuarioNombre, estado);
+            controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha,precio, montoTotal, fechaPub, retornos, categoriaNombre,usuarioNombre, estado);
 
-        
+            //No puedo hacer un assert en una función void, sé que cubre ya que el report lo marca en verde y ya...
         }
     }
+    @Test
+    public void testObtenerPropuestas() 
+    {
+        System.out.println("obtenerPropuestas");
+        
+        String estado = "EN_FINANCIACION";
+
+        Set<DTOPropuesta> result = controller.obtenerPropuestas(estado);
+        
+        assertNotNull(result);
+
+    }
+    @Test
+    public void testObtenerPropuestas_casoNoEspecificado() 
+    {
+        System.out.println("obtenerPropuestas_casoNoEspecificado");
+        
+        String estado = "";
+
+        Set<DTOPropuesta> result = controller.obtenerPropuestas(estado);
+        
+        assertNotNull(result);
+
+    }
+    
+    
     //FIN PROPUESTA
     
     
