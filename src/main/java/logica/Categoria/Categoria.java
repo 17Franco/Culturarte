@@ -66,33 +66,6 @@ public class Categoria
         nombreCategoria = _nombreCategoria;
     }
 
-    public void setSubcategorias(Set<DTOCategoria> _subcategorias) //Elimina las existentes y agrega nuevas.
-    {
-        Iterator<DTOCategoria> it = _subcategorias.iterator();
-
-        subcategorias.clear();
-
-        while (it.hasNext()) 
-        {
-            subcategorias.add(DTO_a_Cat(it.next()));
-        }
-    }
-
-    public void eliminarSubcategoria(String subCatAEliminar) 
-    {
-        Iterator<Categoria> iterator = subcategorias.iterator();
-
-        while (iterator.hasNext()) 
-        {
-            Categoria subcategoriasIT = iterator.next();
-
-            if (subcategoriasIT.getNombreCategoria().equals("subCatAEliminar")) 
-            {
-                iterator.remove();
-            }
-        }
-    }
-
     public void addSubcategoria(Categoria _subCat) //Añade una nueva.
     {
         subcategorias.add(_subCat);
