@@ -920,7 +920,6 @@ public class ControllerTest
         int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
 
         assertEquals(expResult, result);
-
     }
     
     @Test
@@ -989,7 +988,6 @@ public class ControllerTest
         int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
         
         assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
-
     }
     
     @Test
