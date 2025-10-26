@@ -92,6 +92,7 @@ public class ControllerTest
     }
     
     //INICIO USUARIOS
+    
     @Test
     public void testloginF() {
         System.out.println("login");
@@ -388,12 +389,11 @@ public class ControllerTest
     }
     @Test
     public void testesFavorita() {
-        System.out.println("isProponenteF");
+        System.out.println("esFavorita");
         String nick = "diegop";
-
-        boolean result = controller.isProponente(nick);
-
-        assertEquals(true, result);
+        String titulo = "Romeo y Julieta";
+        boolean result = controller.esFavorita(nick, titulo);
+        assertEquals(false, result);
     }
     @Test
     public void testGetFavoritasF() { //EN PRUEBAS DA SOLO 34% PORQUE NO ENTRA AL IF 
