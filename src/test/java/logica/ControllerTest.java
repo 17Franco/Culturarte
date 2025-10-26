@@ -19,7 +19,9 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.Estado;
@@ -30,6 +32,7 @@ import logica.Usuario.Usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import persistencia.ManejadorUsuario;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -44,7 +47,7 @@ public class ControllerTest
     
     private Controller controller;
     private ManejadorCategoria manejador;
-    
+    private ManejadorUsuario mUsuario;
     @BeforeEach
     public void setUp() throws Exception 
     {
@@ -54,7 +57,8 @@ public class ControllerTest
         instanciaField.set(null, null);
         
         manejador = ManejadorCategoria.getInstance();
-
+        mUsuario = ManejadorUsuario.getInstance();
+        
         controller = new Controller();
         
         Field mCategoriaField = Controller.class.getDeclaredField("mCategoria");
@@ -66,7 +70,46 @@ public class ControllerTest
     }
     
     //INICIO USUARIOS
+    @Test
+    public void testMarcarComoFavorita_SinBase() {
+        System.out.println("testMarcarComoFavorita_SinBase");
 
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            EntityManager mockEntityManager = mock(EntityManager.class);
+            EntityTransaction mockTransaction = mock(EntityTransaction.class);
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).close();
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            Proponente usuario = new Proponente("Test1", "Test1", "www.Test1.com", "TestUsu", "TestProp", "Test1", "Test1@g.com", LocalDate.now(), "");
+
+            Categoria Cat = new Categoria("TestCat");
+
+            Propuesta propuesta = new Propuesta("Testing", "Testing", "", "Testing", LocalDate.now(), 100, 100, LocalDate.now(), new ArrayList(), Cat, usuario, Estado.PUBLICADA);
+
+            usuario.Favorita(propuesta);
+
+            when(mockEntityManager.find(Usuario.class, "TestNick")).thenReturn(usuario);
+            when(mockEntityManager.find(Propuesta.class, "Testing")).thenReturn(propuesta);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+            
+            mUsuario.marcarComoFavorita("TestNick", "Testing");
+
+            verify(mockTransaction).begin();
+            verify(mockEntityManager).find(Usuario.class, "TestNick");
+            verify(mockEntityManager).find(Propuesta.class, "Testing");
+            verify(mockTransaction).commit();
+            verify(mockEntityManager).close();
+
+            assertTrue(usuario.getPropFavorita().containsKey("Testing"));
+            assertEquals(propuesta, usuario.getPropFavorita().get("Testing"));
+            assertEquals("Testing", propuesta.getTitulo());
+        }
+    }
     //FIN USUARIOS
     
     //INICIO CATEGORIA
