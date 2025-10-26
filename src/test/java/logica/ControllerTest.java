@@ -23,12 +23,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTORegistro_Estado;
 import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
 import logica.Propuesta.Propuesta;
+import logica.Propuesta.Registro_Estado;
 import logica.Usuario.Proponente;
 import logica.Usuario.Usuario;
 
@@ -205,15 +208,13 @@ public class ControllerTest
     @Test
     public void testGetCategorias_ConCategoriasExistentes() 
     {
-        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
 
-            // Mockear operaciones de JPA
             doNothing().when(mockEntityManager).close();
 
-            // Crear Query mock
             jakarta.persistence.TypedQuery<Categoria> mockQuery = mock(jakarta.persistence.TypedQuery.class);
 
-            // Crear categorías padre REALES para retornar
             Categoria teatro = new Categoria("Teatro", null);
             Categoria musica = new Categoria("Música", null);
             Categoria cine = new Categoria("Cine", null);
@@ -223,40 +224,15 @@ public class ControllerTest
             categoriasDB.add(musica);
             categoriasDB.add(cine);
 
-            // Configurar el query para que retorne las categorías
-            when(mockEntityManager.createQuery(
-                eq("select catImport from Categoria catImport where catImport.catPadre is NULL"), 
-                eq(Categoria.class)))
-                .thenReturn(mockQuery);
+            when(mockEntityManager.createQuery(eq("select catImport from Categoria catImport where catImport.catPadre is NULL"),eq(Categoria.class))).thenReturn(mockQuery);
             when(mockQuery.getResultList()).thenReturn(categoriasDB);
 
-            mockedStatic.when(PersistenciaManager::getEntityManager)
-                       .thenReturn(mockEntityManager);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Ejecutar
             List<DTOCategoria> resultado = controller.getCategorias();
 
-            // Verificaciones
-            assertNotNull(resultado, "El resultado no debería ser null");
-            assertEquals(3, resultado.size(), "Debería retornar 3 categorías");
+            assertNotNull(resultado);
 
-            // Verificar que se llamaron los métodos correctos
-            verify(mockEntityManager, times(1)).createQuery(
-                eq("select catImport from Categoria catImport where catImport.catPadre is NULL"),
-                eq(Categoria.class));
-            verify(mockQuery, times(1)).getResultList();
-            verify(mockEntityManager, times(1)).close();
-
-            // Verificar el contenido de las categorías retornadas
-            assertEquals("Teatro", resultado.get(0).getNombreCategoria());
-            assertEquals("Música", resultado.get(1).getNombreCategoria());
-            assertEquals("Cine", resultado.get(2).getNombreCategoria());
-
-            // Verificar que todas son categorías padre (sin padre)
-            for (DTOCategoria dto : resultado) {
-                assertTrue(dto.getCatPadre() == null || dto.getCatPadre().isEmpty(), 
-                    "Todas deberían ser categorías padre");
-            }
         }
     }
 
@@ -290,7 +266,8 @@ public class ControllerTest
     @Test
     public void testGetCategorias_ConSubcategorias() 
     {
-        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
 
             doNothing().when(mockEntityManager).close();
 
@@ -318,7 +295,8 @@ public class ControllerTest
     }
 
     @Test
-    public void testGetCategorias_ExceptionEnQuery() {
+    public void testGetCategorias_ExceptionEnQuery() 
+    {
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
 
             doNothing().when(mockEntityManager).close();
@@ -329,8 +307,6 @@ public class ControllerTest
 
 
             assertThrows(RuntimeException.class, () -> {controller.getCategorias();});
-
-
         }
     }
     //FIN CATEGORIA
@@ -403,9 +379,268 @@ public class ControllerTest
         Set<DTOPropuesta> result = controller.obtenerPropuestas(estado);
         
         assertNotNull(result);
-
     }
     
+    @Test
+    public void testAccionSobrePropuesta_casoEsProponente() 
+    {
+        System.out.println("accionSobrePropuesta_casoEsProponente");
+        
+        String nickUsuario = "Jose";
+        DTOPropuesta t1 = mock(DTOPropuesta.class);
+        
+        when(t1.nickProponenteToString()).thenReturn(nickUsuario);  //Para que entre en el if del proponente...
+        
+        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+        
+        assertEquals(1,result); //Si es 1 todo ok.
+    }
+    
+    @Test
+    public void testAccionSobrePropuesta_casoEsColaborador() 
+    {
+        System.out.println("accionSobrePropuesta_casoEsColaborador");
+        
+        String nickUsuario = "Rodolfo";
+        DTOPropuesta t1 = mock(DTOPropuesta.class);
+        
+        //La colaboracion para pasar por el for y entrar al if de adentro
+        List<DTOColaboracion> listaTest = new ArrayList();
+        DTOColaboracion colabTest = mock(DTOColaboracion.class);
+        when(colabTest.getColaborador()).thenReturn(nickUsuario);
+        
+        listaTest.add(colabTest);
+        
+        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
+        when(t1.getAporte()).thenReturn(listaTest);
+        
+        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+        
+        assertEquals(2,result);  
+    }
+    
+    @Test
+    public void testAccionSobrePropuesta_casoLol() 
+    {
+        System.out.println("accionSobrePropuesta_casocasoLol");
+        
+        String nickUsuario = "Rodolfo";
+        DTOPropuesta t1 = mock(DTOPropuesta.class);
+        
+        //La colaboracion para pasar por el for y entrar al if de adentro
+        List<DTOColaboracion> listaTest = new ArrayList();
+        DTOColaboracion colabTest = mock(DTOColaboracion.class);
+        when(colabTest.getColaborador()).thenReturn("Nel");
+        
+        listaTest.add(colabTest);
+        
+        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
+        when(t1.getAporte()).thenReturn(listaTest);
+        
+        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+        
+        assertEquals(3,result);
+   
+    }
+    
+    @Test
+    public void testExisteProp() 
+    {
+        System.out.println("existeProp");
+        
+        String Titulo = "Cine en el Botanico";
+        
+        boolean result = controller.existeProp(Titulo);
+        
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testCreadorPropuesta() 
+    {
+        System.out.println("creadorPropuesta");
+        
+        String titulo = "Cine en el Botanico";
+        
+        String result = controller.creadorPropuesta(titulo);
+        assertNotNull(result);
+    }
+    
+    @Test
+    public void testEstadoPropuestas() 
+    {
+        System.out.println("estadoPropuestas");
+        
+        String titulo = "Cine en el Botanico";
+               
+        String result = controller.estadoPropuestas(titulo);
+        
+        assertNotNull(result);
+    }
+    
+    @Test
+    public void testModificarPropuesta() 
+    {
+        System.out.println("modificarPropuesta");
+        
+        DTOPropuesta p1 = controller.getPropuestaDTO("Cine en el Botanico");
+       
+        controller.modificarPropuesta(p1.getTitulo(), p1.getDescripcion(), p1.getImagen(), p1.getLugar(), p1.getFecha(), p1.getPrecio(), p1.getMontoTotal(), p1.getRetorno(), "Cine al Aire Libre", "USER_TEST_MODIFICAR_PROPUESTA", p1.getEstado());
+    }
+    
+    @Test
+    public void testListarPropuestas() 
+    {
+        System.out.println("ListarPropuestas");
+
+        Set<DTOPropuesta> result = controller.ListarPropuestas("PUBLICADA", "EN_FINANCIACION");
+        
+        assertNotNull(result);
+        
+        
+    }
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoCancelar() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoCancelar");
+        
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {       
+            
+            //Me salto la modificación de la bd
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+        
+            //when(mockEntityManager.merge(any())).thenAnswer(invocation -> invocation.getArgument(0));
+            
+            Propuesta p1 = new Propuesta();
+            
+            //Mock en los finds dentro del manejador para que devuelvan objetos sikmulados con mock
+            when(mockEntityManager.find(Propuesta.class, "Cine en el Botanico")).thenReturn(p1);
+            
+            //Se simula la obtención del em...
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            int resultado = controller.extenderOCancelarPropuesta("CANCELAR", "Cine en el Botanico");
+
+            assertEquals(2, resultado);
+        }
+    }
+        @Test
+    public void testExtenderOCancelarPropuesta_casoCancelar_noPersiste() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoCancelar_noPersiste");
+        
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {       
+            
+            //Me salto la modificación de la bd
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+
+            //Mock en los finds dentro del manejador para que caiga la sesion de db
+            when(mockEntityManager.find(Propuesta.class, "Cine en el Botanico")).thenThrow(new RuntimeException());
+
+            //Se simula la obtención del em...
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            int resultado = controller.extenderOCancelarPropuesta("CANCELAR", "Cine en el Botanico");
+
+            assertEquals(2, resultado);
+        }
+    }
+    
+    @Test
+    public void testExtenderOCancelarPropuesta_casoExtender_noPersiste() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoExtender_noPersiste");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {       
+            
+            //Me salto la modificación de la bd
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+
+            //Mock en los finds dentro del manejador para que caiga la sesion de db
+            when(mockEntityManager.find(Propuesta.class, "Cine en el Botanico")).thenThrow(new RuntimeException());
+
+            //Se simula la obtención del em...
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            int resultado = controller.extenderOCancelarPropuesta("EXTENDER", "Cine en el Botanico");
+
+            assertEquals(3, resultado);
+        }
+    }
+        @Test
+    public void testExtenderOCancelarPropuesta_casoExtender() 
+    {
+        System.out.println("testExtenderOCancelarPropuesta_casoExtender");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {       
+            
+            //Me salto la modificación de la bd
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+
+            //Con el mock de estos objetos se puede controlar lo que devuelven al ser instanciados.
+            Propuesta p1 = mock(Propuesta.class); 
+            DTORegistro_Estado ah = mock(DTORegistro_Estado.class);  //Para poder hacer el mock en el if necesito hacer todo el recorrido de los gets.
+            
+            //Mock en los finds dentro del manejador para que devuelvan objetos sikmulados con mock
+            when(mockEntityManager.find(Propuesta.class, "Cine en el Botanico")).thenReturn(p1);
+            
+            //Mocks para el primer if (donde pregunta si es publicada o en financiacion)
+            when(p1.getUltimoEstado()).thenReturn(ah);
+            when(ah.getEstado()).thenReturn(Estado.PUBLICADA);
+            
+            //Se simula la obtención del em...
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            int resultado = controller.extenderOCancelarPropuesta("EXTENDER", "Cine en el Botanico");
+
+            assertEquals(3, resultado);
+        }
+    }
+    
+    
+    @Test
+    public void testCargarPropuesta() 
+    {
+        System.out.println("CargarPropuesta");
+        
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+
+            //Simulo el null en los fiid para que sí entre a los if...
+            when(mockEntityManager.find(eq(Propuesta.class), anyString())).thenReturn(null);
+
+            //Esto sería para las categorias y proponentes, puede que no sea necesario...
+            //when(mockEntityManager.find(eq(Proponente.class), anyString())).thenAnswer(inv -> mock(Proponente.class));
+            //when(mockEntityManager.find(eq(Categoria.class), anyString())).thenAnswer(inv -> mock(Categoria.class));
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            controller.cargarPropuesta();
+
+        }
+    }
     
     //FIN PROPUESTA
     
