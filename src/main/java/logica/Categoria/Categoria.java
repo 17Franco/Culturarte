@@ -122,21 +122,6 @@ public class Categoria
         return nombreCategoria;
     }
     
-    public boolean existeSubCat(String nombreSubCat) //true si existe subcat con ese string.
-    {
-        Iterator<Categoria> it = subcategorias.iterator();
-
-        while (it.hasNext()) 
-        {
-            if (it.next().getNombreCategoria().equals(nombreSubCat)) 
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    
     public void setCatPadre(Categoria input)
     {
         catPadre = input;
