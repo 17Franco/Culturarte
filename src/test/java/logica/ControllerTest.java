@@ -20,6 +20,8 @@ import persistencia.PersistenciaManager;
 
 import java.lang.reflect.Field;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,6 +231,426 @@ public class ControllerTest
         }
     }
     @Test
+    public void testDejarDeSeguirUsuarioExitoso() {
+        System.out.println("dejarDeSeguirUsuario - Exitoso");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            when(mockTransaction.isActive()).thenReturn(false);
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            usuariosSeguidos.put("usuario2", usuario2);
+
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("usuario1", "usuario2");
+
+            assertTrue(resultado);
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioNoSeguia() {
+        System.out.println("dejarDeSeguirUsuario - No seguía");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("usuario1", "usuario2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioPrimerUsuarioNoExiste() {
+        System.out.println("dejarDeSeguirUsuario - Primer usuario no existe");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario2 = mock(Usuario.class);
+
+            when(mockEntityManager.find(Usuario.class, "noexiste")).thenReturn(null);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("noexiste", "usuario2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioSegundoUsuarioNoExiste() {
+        System.out.println("dejarDeSeguirUsuario - Segundo usuario no existe");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "noexiste")).thenReturn(null);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("usuario1", "noexiste");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioMismoNickname() {
+        System.out.println("dejarDeSeguirUsuario - Mismo nickname");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario = mock(Usuario.class);
+
+            when(mockEntityManager.find(Usuario.class, "mismo")).thenReturn(usuario);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("mismo", "mismo");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioConExcepcion() {
+        System.out.println("dejarDeSeguirUsuario - Con excepción");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).rollback();
+            when(mockTransaction.isActive()).thenReturn(true);
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            usuariosSeguidos.put("usuario2", usuario2);
+
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+
+            doThrow(new RuntimeException("Error simulado")).when(usuario1).unfollow(usuario2);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("usuario1", "usuario2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioMultiplesSeguidores() {
+        System.out.println("dejarDeSeguirUsuario - Usuario sigue a múltiples");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            when(mockTransaction.isActive()).thenReturn(false);
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+            Usuario usuario3 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            usuariosSeguidos.put("usuario2", usuario2);
+            usuariosSeguidos.put("usuario3", usuario3);
+
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+            // ❌ No mockear unfollow aquí tampoco
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("usuario1", "usuario2");
+
+            assertTrue(resultado);
+            verify(usuario1, times(1)).unfollow(usuario2);
+            verify(mockTransaction, times(1)).commit();
+            verify(mockEntityManager, times(1)).close();
+        }
+    }
+
+    @Test
+    public void testDejarDeSeguirUsuarioAmbosUsuariosNull() {
+        System.out.println("dejarDeSeguirUsuario - Ambos usuarios null");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockEntityManager).close();
+
+            when(mockEntityManager.find(Usuario.class, "noexiste1")).thenReturn(null);
+            when(mockEntityManager.find(Usuario.class, "noexiste2")).thenReturn(null);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.unFollowUser("noexiste1", "noexiste2");
+
+            assertFalse(resultado);
+            verify(mockTransaction, never()).begin();
+            verify(mockEntityManager, times(1)).close();
+        }
+    }
+    @Test
+    public void testSeguirUsrExitoso() {
+        System.out.println("seguirUsr - Exitoso");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("usuario1", "usuario2");
+
+            assertTrue(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrYaSeguia() {
+        System.out.println("seguirUsr - Ya seguía");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            usuariosSeguidos.put("usuario2", usuario2);
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("usuario1", "usuario2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrPrimerUsuarioNoExiste() {
+        System.out.println("seguirUsr - Primer usuario no existe");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario2 = mock(Usuario.class);
+
+            when(mockEntityManager.find(Usuario.class, "noexiste")).thenReturn(null);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("noexiste", "usuario2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrSegundoUsuarioNoExiste() {
+        System.out.println("seguirUsr - Segundo usuario no existe");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "noexiste")).thenReturn(null);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("usuario1", "noexiste");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrMismoNickname() {
+        System.out.println("seguirUsr - Mismo nickname");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario = mock(Usuario.class);
+
+            when(mockEntityManager.find(Usuario.class, "mismo")).thenReturn(usuario);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("mismo", "mismo");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrConExcepcion() {
+        System.out.println("seguirUsr - Con excepción");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+
+            doThrow(new RuntimeException("Error simulado")).when(usuario1).seguir(usuario2);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("usuario1", "usuario2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrAmbosUsuariosNull() {
+        System.out.println("seguirUsr - Ambos usuarios null");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            when(mockEntityManager.find(Usuario.class, "noexiste1")).thenReturn(null);
+            when(mockEntityManager.find(Usuario.class, "noexiste2")).thenReturn(null);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("noexiste1", "noexiste2");
+
+            assertFalse(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrMultiplesSeguidores() {
+        System.out.println("seguirUsr - Seguir a múltiples usuarios");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+            Usuario usuario3 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos = new HashMap<>();
+            usuariosSeguidos.put("usuario3", usuario3);
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.seguir("usuario1", "usuario2");
+
+            assertTrue(resultado);
+        }
+    }
+
+    @Test
+    public void testSeguirUsrSeguirYDejarDeSeguir() {
+        System.out.println("seguirUsr - Seguir y luego dejar de seguir");
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).close();
+
+            Usuario usuario1 = mock(Usuario.class);
+            Usuario usuario2 = mock(Usuario.class);
+
+            Map<String, Usuario> usuariosSeguidos1 = new HashMap<>();
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos1);
+
+            when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
+            when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado1 = controller.seguir("usuario1", "usuario2");
+            assertTrue(resultado1);
+
+            Map<String, Usuario> usuariosSeguidos2 = new HashMap<>();
+            usuariosSeguidos2.put("usuario2", usuario2);
+            when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos2);
+
+            boolean resultado2 = controller.seguir("usuario1", "usuario2");
+            assertFalse(resultado2);
+        }
+    }
+    @Test
     public void testIsProponenteT() {
         System.out.println("isProponenteF");
         String nick = "diegop";
@@ -340,6 +762,44 @@ public class ControllerTest
 
         }
     }
+    @Test
+    public void testGetImg_exception() throws Exception {
+    String ruta = "archivo.jpg";
+    String rutaCompleta = "/home/fran/Escritorio/Lab2PA" + File.separator + ruta;
+
+    Controller controller = new Controller();
+
+    try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+        filesMock.when(() -> Files.readAllBytes(Paths.get(rutaCompleta))).thenThrow(new IOException("Error simulado"));
+
+        byte[] resultado = controller.getImg(ruta);
+
+        assertNull(resultado);
+    }
+    }
+    @Test
+    public void testObtenerPathImg_exception() throws Exception {
+    String nick = "Rick";
+    String nombreArchivo = "foto.jpg";
+    byte[] contenido = new byte[]{1,2,3};
+
+    Controller controller = new Controller();
+    String rutaEsperada = "IMG" + File.separator + nick + File.separator + nombreArchivo;
+    String carpetaDestino = "/home/fran/Escritorio/Lab2PA/IMG" + File.separator + nick;
+    Path destino = Paths.get(carpetaDestino, nombreArchivo);
+
+    try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+        // Forzar que Files.write lance IOException
+        filesMock.when(() -> Files.write(destino, contenido))
+                 .thenThrow(new IOException("Error simulado"));
+
+        String resultado = controller.obtenerPathImg(nick, contenido, nombreArchivo);
+
+        assertNull(resultado); // Devuelve null cuando hay excepción
+    }
+    }
+
+    
     @Test
     public void testCargarColaborador() {
         System.out.println("CargarColaborador");
@@ -725,6 +1185,16 @@ public void testGetFavoritasConPropuestas() {
         }
     }
 
+    @Test
+    public void testListaCategoria_casoNomal() 
+    {
+        System.out.println("ListaCategoria_casoNomal");
+
+        List<String> result = controller.ListaCategoria(); 
+        
+        assertNotNull(result);
+        
+    }
     
     @Test
     public void testGetCategorias_ConCategoriasExistentes() 
@@ -1181,7 +1651,6 @@ public void testGetFavoritasConPropuestas() {
         int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
 
         assertEquals(expResult, result);
-
     }
     
     @Test
@@ -1250,8 +1719,200 @@ public void testGetFavoritasConPropuestas() {
         int result = controller.permisosSobrePropuesta(userNick, tipoUsuario, propTest);
         
         assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoProponenteExtiende() 
+    {
+        System.out.println("accionesSobrePropuesta_casoProponenteExtiende");
+        
+        Controller controllerR = new Controller();   //Debe ser un spy por que necesito que se ejecute la lógica en el controller, el mock falla y retorna 0
+        Controller controllerClonado = spy(controllerR);
+
+        String userNick = "Juan";
+        int permisos = 1;
+        String accionUsuario = "EXTENDER";
+        String comentario = ""; 
+        String montoStr = "";
+        String tipoRetorno = null;
+                
+        DTOProponente mockUsuario = mock(DTOProponente.class);
+        when(mockUsuario.getNickname()).thenReturn("Juan");
+        
+        DTOPropuesta propuestaActual = new DTOPropuesta();
+        propuestaActual.setTitulo("prop");
+        propuestaActual.setProponente(mockUsuario);
+
+        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
+        propuestasTest.add(propuestaActual);
+        
+        doReturn(propuestasTest).when(controllerClonado).getPropuestasCreadasPorProponente(userNick);
+        doReturn(3).when(controllerClonado).extenderOCancelarPropuesta(accionUsuario, "prop");        //Que retorne 3.
+        
+        int result = controllerClonado.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(3, result);
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoNormalColaboradorConColabQueComenta() 
+    {
+        System.out.println("accionesSobrePropuesta_casoNormalColaboradorConColabQueComenta");
+        
+        Controller controllerR = new Controller();   //Debe ser un spy por que necesito que se ejecute la lógica en el controller, el mock falla y retorna 0
+        Controller controllerClonado = spy(controllerR);
+        
+        String userNick = "Diego";
+        int permisos = 2;
+        String accionUsuario = "COMENTAR";
+        String comentario = "Hola"; 
+        String montoStr = "";
+        String tipoRetorno = "";
+        
+        DTOPropuesta propuestaActual = new DTOPropuesta();
+        propuestaActual.setTitulo("test");
+               
+        doReturn(true).when(controllerClonado).nuevoComentario(anyString(), anyString(), anyString()); 
+        
+        int result = controllerClonado.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(1, result);
 
     }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoNormalColaboradorSinColab() 
+    {
+        System.out.println("accionesSobrePropuesta_casoNormalColaboradorSinColab");
+
+        String userNick = "Diego";
+        int permisos = 3;
+        String accionUsuario = "COLABORAR";
+        String comentario = "";
+        String montoStr = "15000";
+        String tipoRetorno = "EntradaGratis";
+
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+
+        DTOColaborador colaboradorTest = mock(DTOColaborador.class);
+        when(colaboradorTest.getNickname()).thenReturn(userNick); 
+
+        Controller controllerSpy = spy(controller);     //No me queda otra que usar un spy para omitir la función "getDTOColaborador"
+
+        doReturn(colaboradorTest).when(controllerSpy).getDTOColaborador(userNick);      //Con spy, cambia la sintaxis de la devolución del mock
+
+        doNothing().when(controllerSpy).altaColaboracion(any(DTOColaboracion.class));   //Lo mismo acá
+
+        int result = controllerSpy.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(4, result);
+    }
+    
+    @Test
+    public void testGetDTOPropuesta() 
+    {
+        System.out.println("getDTOPropuesta");
+        
+        Propuesta mockPropuesta = mock(Propuesta.class);
+        Categoria mockCategoria = mock(Categoria.class);
+        
+        Registro_Estado mockRegistro = mock(Registro_Estado.class);
+        
+        DTOProponente mockProponente = mock(DTOProponente.class);
+        
+        DTORegistro_Estado dtoRegistroMock = mock(DTORegistro_Estado.class);
+        
+        when(mockPropuesta.getHistorialEstados()).thenReturn(List.of(mockRegistro));
+        when(mockPropuesta.getAporte()).thenReturn(List.of());
+
+        when(mockPropuesta.getCategoria()).thenReturn(mockCategoria);
+        when(mockCategoria.Cat_a_DTO()).thenReturn(mock(DTOCategoria.class));
+        
+        Controller spyController = spy(controller);
+
+        doReturn(dtoRegistroMock).when(spyController).getDTORegistroEstado(mockRegistro);
+
+        DTOPropuesta result = spyController.getDTOPropuesta(mockPropuesta, mockProponente);
+
+        assertEquals(mockProponente, result.getUsr());
+    }
+    
+//    @Test
+//    public void testNuevoComentario_exitoso() throws Exception 
+//    {
+//        
+//    
+//    String comentario = "algo";
+//    String userNick = "Rick Ricker";
+//    String tituloPropuesta = "Pilsner Lock";
+//
+//    
+//    EntityManager emMock = mock(EntityManager.class);
+//    EntityTransaction txMock = mock(EntityTransaction.class);
+//
+//    
+//    try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+//    {
+//        mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(emMock);
+//
+//        
+//        Propuesta propuestaMock = mock(Propuesta.class);
+//        when(emMock.find(Propuesta.class, tituloPropuesta)).thenReturn(propuestaMock);
+//
+//        
+//        when(emMock.getTransaction()).thenReturn(txMock);
+//        doNothing().when(txMock).begin();
+//        doNothing().when(txMock).commit();
+//        when(txMock.isActive()).thenReturn(true);
+//        doNothing().when(txMock).rollback();
+//        doNothing().when(emMock).close();
+//
+//        
+//        Controller controller = new Controller();
+//
+//        
+//        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
+//
+//        
+//        assertTrue(resultado);
+//
+//    }
+//}
+
+     @Test
+    public void testColaboradoresAPropuesta() 
+    {
+        System.out.println("colaboradoresAPropuesta");
+        
+        String titulo = "Cine en el Botanico";
+        List<String> result = controller.colaboradoresAPropuesta(titulo);
+        assertNotNull(result);
+
+    }
+    
+    @Test
+    public void testObtenerPropuestaPorSubCategoria() 
+    {
+        System.out.println("ObtenerPropuestaPorSubCategoria");
+        
+        String subCat = "Ballet";
+        Set<DTOPropuesta> result = controller.ObtenerPropuestaPorSubCategoria(subCat);
+        assertNotNull(result);
+
+    }
+    
+    @Test
+    public void testBuscarPropuestas() 
+    {
+        System.out.println("BuscarPropuestas");
+        
+        String titulo = "Cine en el Botanico";
+        List<DTOPropuesta> result = controller.BuscarPropuestas(titulo);
+        assertNotNull(result);
+
+    }
+    
     
     @Test
     public void testCargarPropuesta() 

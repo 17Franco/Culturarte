@@ -245,13 +245,6 @@ public class Propuesta {
         addEstHistorial(Estado.PUBLICADA);
                
     }
-    public void addRetorno(List<TipoRetorno> retornos) { //NO lo uso por el momento pero esto en vez de sobreescibir te deja agregar algo que falte en los retonos
-        for (TipoRetorno r : retornos) {
-            if (!this.Retorno.contains(r)) {
-                this.Retorno.add(r);
-            }
-        }
-    }
     
     public Map<String,String> getComentarios()
     {
