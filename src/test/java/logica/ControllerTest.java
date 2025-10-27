@@ -2,6 +2,9 @@ package logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +19,7 @@ import persistencia.ManejadorCategoria;
 import persistencia.PersistenciaManager;
 
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +42,7 @@ import logica.Usuario.Proponente;
 import logica.Usuario.Usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.io.TempDir;
 import static org.mockito.Mockito.*;
 import persistencia.ManejadorPropuesta;
 import persistencia.ManejadorUsuario;
@@ -388,6 +393,61 @@ public class ControllerTest
         }
     }
     @Test
+    public void testGetDTOColaborador() {
+        System.out.println("getDTOColaborador");
+
+        String nick = "chino"; 
+
+        DTOColaborador resultado = controller.getDTOColaborador(nick);
+
+        assertNotNull(resultado);
+        assertEquals(nick, resultado.getNickname());
+    }
+    @Test
+    public void testGetDTOColaboradorF() {
+        System.out.println("getDTOColaborador donde no existe");
+        String nick = "test";
+        try {
+            DTOColaborador resultado = controller.getDTOColaborador(nick);
+            assertNull(resultado);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+    }
+    @Test
+    public void testGetDTOProponente() {
+        System.out.println("getDTOProponente");
+
+        String nick = "diegop";
+
+        DTOProponente resultado = controller.getDTOProponente(nick);
+
+        assertNotNull(resultado);
+        assertEquals(nick, resultado.getNickname());
+    }
+
+    @Test
+    public void testGetDTOProponenteF() {
+        System.out.println("getDTOProponente donde no existe");
+        String nick = "test";
+        try {
+            DTOProponente resultado = controller.getDTOProponente(nick);
+            assertNull(resultado);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+    }
+    @Test
+    public void getPropuestasCreadasPorProponente() {
+        System.out.println("getPropuestasCreadasPorProponente");
+
+        String nick = "diegop";
+
+        Set<DTOPropuesta> resultado = controller.getPropuestasCreadasPorProponente(nick);
+
+        assertNotNull(resultado);
+    }
+    @Test
     public void testesFavorita() {
         System.out.println("esFavorita");
         String nick = "diegop";
@@ -395,24 +455,41 @@ public class ControllerTest
         boolean result = controller.esFavorita(nick, titulo);
         assertEquals(false, result);
     }
-    @Test
-    public void testGetFavoritasF() { //EN PRUEBAS DA SOLO 34% PORQUE NO ENTRA AL IF 
-        Usuario mockUsuario = mock(Usuario.class);
+@Test
+public void testGetFavoritasConPropuestas() {
+    System.out.println("getFavoritas - Con propuestas favoritas");
+    
+    try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+        
+        doNothing().when(mockEntityManager).close();
+        
+        Categoria categoria = new Categoria("TestCat");
+        
+        Proponente proponente = new Proponente("Test1", "Test1", "www.Test1.com", "TestUsu", "TestProp", "Test1", "Test1@g.com", LocalDate.now(), "");
+        
+        Propuesta propuesta1 = new Propuesta("Propuesta Test 1","Descripción test","img1.jpg","Lugar Test",LocalDate.now().plusDays(10),100,1000,LocalDate.now(),new ArrayList<>(),categoria,proponente,Estado.PUBLICADA);
+        
+        Propuesta propuesta2 = new Propuesta("Propuesta Test 2","Descripción 2","img2.jpg","Lugar 2",LocalDate.now().plusDays(15),200,2000,LocalDate.now(),new ArrayList<>(),categoria,proponente,Estado.FINANCIADA);
+        
+        Usuario usuario = mock(Usuario.class);
+        Map<String, Propuesta> favoritas = new HashMap<>();
+        favoritas.put("prop1", propuesta1);
+        favoritas.put("prop2", propuesta2);
+        
+        when(usuario.getPropFavorita()).thenReturn(favoritas);
+        when(mockEntityManager.find(Usuario.class, "testusuario")).thenReturn(usuario);
+        mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+        
+        List<DTOPropuesta> resultado = controller.getFavoritas("testusuario");
 
-        Proponente usuario = new Proponente("Test1", "Test1", "www.Test1.com","TestUsu", "TestProp", "Test1", "Test1@g.com", LocalDate.now(), "");
-        Categoria Cat = new Categoria("TestCat");
-        Propuesta propuesta = new Propuesta("Testing", "Testing", "", "Testing",LocalDate.now(), 100, 100, LocalDate.now(), new ArrayList(), Cat,usuario, Estado.PUBLICADA);
+        assertNotNull(resultado);
 
-        Map<String, Propuesta> listaFavoritas = new HashMap<>();
-        listaFavoritas.put("TestUsu", propuesta);
-
-        when(mockUsuario.getNickname()).thenReturn("TestUsu");
-        when(mockUsuario.getPropFavorita()).thenReturn(listaFavoritas);
-
-        List<DTOPropuesta> result = controller.getFavoritas(mockUsuario.getNickname());
-
-        assertNotNull(result);
+        DTOPropuesta dto1 = resultado.stream().filter(p -> "Propuesta Test 1".equals(p.getTitulo())).findFirst().orElse(null);
+        
+        assertNotNull(dto1);
+        assertEquals("Propuesta Test 1", dto1.getTitulo());
     }
+}
     @Test
     public void testSigueAUsuarioF() {
         System.out.println("sigueAUsuario");
@@ -457,6 +534,13 @@ public class ControllerTest
         assertNotNull(result);
     }
     @Test
+    public void testListaSeguidosPorUsuario() {
+        System.out.println("ListaColaboradores");
+        String nick = "diegop";
+        List<String> result = controller.ListaSeguidosPorUsuario(nick);
+        assertNotNull(result);
+    }
+    @Test
     public void testMarcarComoFavorita() {//en proceso
         System.out.println("testMarcarComoFavorita");
 
@@ -483,7 +567,7 @@ public class ControllerTest
 
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
             
-            mUsuario.marcarComoFavorita("TestNick", "Testing");
+            controller.marcarComoFavorita("TestNick", "Testing");
 
             verify(mockTransaction).begin();
             verify(mockEntityManager).find(Usuario.class, "TestNick");
@@ -496,6 +580,38 @@ public class ControllerTest
             assertEquals("Testing", propuesta.getTitulo());
         }
     }
+    @Test
+    public void testQuitarFavorita() {
+        System.out.println("testQuitarFavorita");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            EntityManager mockEntityManager = mock(EntityManager.class);
+            EntityTransaction mockTransaction = mock(EntityTransaction.class);
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).close();
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+            Proponente usuario = new Proponente("Test1", "Test1", "www.Test1.com", "TestUsu", "TestProp", "Test1", "Test1@g.com", LocalDate.now(), "");
+            Categoria cat = new Categoria("TestCat");
+            Propuesta propuesta = new Propuesta("Testing", "Testing", "", "Testing", LocalDate.now(), 100, 100, LocalDate.now(), new ArrayList<>(), cat, usuario, Estado.PUBLICADA);
+
+            usuario.Favorita(propuesta);
+            assertTrue(usuario.getPropFavorita().containsKey("Testing"));
+
+            when(mockEntityManager.find(Usuario.class, "TestNick")).thenReturn(usuario);
+            when(mockEntityManager.find(Propuesta.class, "Testing")).thenReturn(propuesta);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            controller.quitarFavorita("TestNick", "Testing");
+
+            assertFalse(usuario.getPropFavorita().containsKey("Testing"));
+        }
+    }
+
     //FIN USUARIOS
     
     //INICIO CATEGORIA
