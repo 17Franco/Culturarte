@@ -97,6 +97,137 @@ public class ControllerTest
     }
     
     //INICIO USUARIOS
+    
+    @Test
+    public void testloginF() {
+        System.out.println("login");
+        String nick = "diegop";
+        String pass = "nada";
+        boolean result = controller.login(nick, pass);
+
+        assertEquals(false, result);
+    }
+    @Test
+    public void testloginT() {
+        System.out.println("login");
+        String nick = "diegop";
+        String pass = "123";
+        boolean result = controller.login(nick, pass);
+
+        assertEquals(true, result);
+    }
+    @Test
+    public void testRegistroUsuarioProponente() {
+        System.out.println("registroUsuario - Proponente");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Proponente.class));
+            doNothing().when(mockEntityManager).close();
+
+            when(mockEntityManager.find(Usuario.class, "proptest")).thenReturn(null);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            String nickname = "proptest";
+            String pass = "123";
+            String nombre = "Juan";
+            String apellido = "test";
+            String email = "juan@test.com";
+            LocalDate fecha = LocalDate.now();
+            byte[] contenido = "imagen de prueba".getBytes();
+            String nombreArchivo = "foto.jpg";
+            boolean isProponente = true;
+            String direccion = "test";
+            String web = "www.juan.com";
+            String biografia = "test";
+
+            controller.registroUsuario(nickname, pass, nombre, apellido, email,fecha, contenido, nombreArchivo, isProponente, direccion, web, biografia);
+        }
+    }
+    @Test
+    public void testRegistroUsuarioColaborador() {
+        System.out.println("registroUsuario - Colaborador");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Colaborador.class));
+            doNothing().when(mockEntityManager).close();
+            
+            when(mockEntityManager.find(Usuario.class, "colabtest")).thenReturn(null);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            String nickname = "testC";
+            String pass = "test";
+            String nombre = "test";
+            String apellido = "test";
+            String email = "maria@test.com";
+            LocalDate fecha = LocalDate.now();
+            byte[] contenido = "imagen colaborador".getBytes();
+            String nombreArchivo = "perfil.jpg";
+            boolean isProponente = false;
+            String direccion = "";
+            String web = "";
+            String biografia = "";
+
+            controller.registroUsuario(nickname, pass, nombre, apellido, email,fecha, contenido, nombreArchivo, isProponente, direccion, web, biografia);
+        }
+    }
+    @Test
+    public void testAltaUsuarioColaborador() {
+        System.out.println("altaUsuario - Colaborador");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            // Me salto la modificación de la BD
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Colaborador.class));
+            doNothing().when(mockEntityManager).close();
+
+            // Simular que el usuario NO existe (para que se pueda crear)
+            when(mockEntityManager.find(Usuario.class, "testcolab")).thenReturn(null);
+
+            // Se simula la obtención del EntityManager
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            DTOColaborador dtoColaborador = new DTOColaborador("TestC", "123", "algotest", "algo", "test2@g.com", LocalDate.now(), "", "Colaborador");
+
+            // Ejecutar el método
+            controller.altaUsuario(dtoColaborador);
+        }
+    }
+
+    @Test
+    public void testAltaUsuarioProponente() {
+        System.out.println("altaUsuario - Proponente");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            // Me salto la modificación de la BD
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Proponente.class));
+            doNothing().when(mockEntityManager).close();
+
+            // Simular que el usuario NO existe
+            when(mockEntityManager.find(Usuario.class, "testprop")).thenReturn(null);
+
+            // Se simula la obtención del EntityManager
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            // Crear el DTO del proponente
+            DTOProponente dtoProponente = new DTOProponente("algo", "algo", "www.comt.com", "testP", "123", "test", "pacotest", "test@g.com", LocalDate.now(), "", "Proponente");
+
+            // Ejecutar el método
+            controller.altaUsuario(dtoProponente);
+        }
+    }
     @Test
     public void testIsProponenteT() {
         System.out.println("isProponenteF");
@@ -300,6 +431,14 @@ public class ControllerTest
         }
     }
     @Test
+    public void testesFavorita() {
+        System.out.println("esFavorita");
+        String nick = "diegop";
+        String titulo = "Romeo y Julieta";
+        boolean result = controller.esFavorita(nick, titulo);
+        assertEquals(false, result);
+    }
+    @Test
     public void testGetFavoritasF() { //EN PRUEBAS DA SOLO 34% PORQUE NO ENTRA AL IF 
         Usuario mockUsuario = mock(Usuario.class);
 
@@ -352,6 +491,12 @@ public class ControllerTest
     public void testListaProponentesE() {
         System.out.println("ListaProponentes");
         List<String> result = controller.ListaProponentes();
+        assertNotNull(result);
+    }
+    @Test
+    public void testListaColaboradorE() {
+        System.out.println("ListaColaboradores");
+        List<String> result = controller.ListaColaborador();
         assertNotNull(result);
     }
     @Test
