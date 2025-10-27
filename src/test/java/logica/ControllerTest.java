@@ -2,6 +2,8 @@ package logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import java.io.File;
+import java.io.IOException;
 import logica.Categoria.Categoria;
 import logica.DTO.DTOCategoria;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +18,9 @@ import persistencia.ManejadorCategoria;
 import persistencia.PersistenciaManager;
 
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -204,6 +209,44 @@ public class ControllerTest
 
         }
     }
+    @Test
+    public void testGetImg_exception() throws Exception {
+    String ruta = "archivo.jpg";
+    String rutaCompleta = "/home/fran/Escritorio/Lab2PA" + File.separator + ruta;
+
+    Controller controller = new Controller();
+
+    try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+        filesMock.when(() -> Files.readAllBytes(Paths.get(rutaCompleta))).thenThrow(new IOException("Error simulado"));
+
+        byte[] resultado = controller.getImg(ruta);
+
+        assertNull(resultado);
+    }
+    }
+    @Test
+    public void testObtenerPathImg_exception() throws Exception {
+    String nick = "Rick";
+    String nombreArchivo = "foto.jpg";
+    byte[] contenido = new byte[]{1,2,3};
+
+    Controller controller = new Controller();
+    String rutaEsperada = "IMG" + File.separator + nick + File.separator + nombreArchivo;
+    String carpetaDestino = "/home/fran/Escritorio/Lab2PA/IMG" + File.separator + nick;
+    Path destino = Paths.get(carpetaDestino, nombreArchivo);
+
+    try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+        // Forzar que Files.write lance IOException
+        filesMock.when(() -> Files.write(destino, contenido))
+                 .thenThrow(new IOException("Error simulado"));
+
+        String resultado = controller.obtenerPathImg(nick, contenido, nombreArchivo);
+
+        assertNull(resultado); // Devuelve null cuando hay excepción
+    }
+    }
+
+    
     @Test
     public void testCargarColaborador() {
         System.out.println("CargarColaborador");
@@ -464,6 +507,16 @@ public class ControllerTest
         }
     }
 
+    @Test
+    public void testListaCategoria_casoNomal() 
+    {
+        System.out.println("ListaCategoria_casoNomal");
+
+        List<String> result = controller.ListaCategoria(); 
+        
+        assertNotNull(result);
+        
+    }
     
     @Test
     public void testGetCategorias_ConCategoriasExistentes() 
@@ -989,6 +1042,199 @@ public class ControllerTest
         
         assertEquals(expResult, result);    //Esto evaluará el resultado y lo esperado
     }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoProponenteExtiende() 
+    {
+        System.out.println("accionesSobrePropuesta_casoProponenteExtiende");
+        
+        Controller controllerR = new Controller();   //Debe ser un spy por que necesito que se ejecute la lógica en el controller, el mock falla y retorna 0
+        Controller controllerClonado = spy(controllerR);
+
+        String userNick = "Juan";
+        int permisos = 1;
+        String accionUsuario = "EXTENDER";
+        String comentario = ""; 
+        String montoStr = "";
+        String tipoRetorno = null;
+                
+        DTOProponente mockUsuario = mock(DTOProponente.class);
+        when(mockUsuario.getNickname()).thenReturn("Juan");
+        
+        DTOPropuesta propuestaActual = new DTOPropuesta();
+        propuestaActual.setTitulo("prop");
+        propuestaActual.setProponente(mockUsuario);
+
+        Set<DTOPropuesta> propuestasTest = new HashSet<>();                     //Armo un set simple de prueba con ese solo elemento
+        propuestasTest.add(propuestaActual);
+        
+        doReturn(propuestasTest).when(controllerClonado).getPropuestasCreadasPorProponente(userNick);
+        doReturn(3).when(controllerClonado).extenderOCancelarPropuesta(accionUsuario, "prop");        //Que retorne 3.
+        
+        int result = controllerClonado.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(3, result);
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoNormalColaboradorConColabQueComenta() 
+    {
+        System.out.println("accionesSobrePropuesta_casoNormalColaboradorConColabQueComenta");
+        
+        Controller controllerR = new Controller();   //Debe ser un spy por que necesito que se ejecute la lógica en el controller, el mock falla y retorna 0
+        Controller controllerClonado = spy(controllerR);
+        
+        String userNick = "Diego";
+        int permisos = 2;
+        String accionUsuario = "COMENTAR";
+        String comentario = "Hola"; 
+        String montoStr = "";
+        String tipoRetorno = "";
+        
+        DTOPropuesta propuestaActual = new DTOPropuesta();
+        propuestaActual.setTitulo("test");
+               
+        doReturn(true).when(controllerClonado).nuevoComentario(anyString(), anyString(), anyString()); 
+        
+        int result = controllerClonado.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(1, result);
+
+    }
+    
+    @Test
+    public void testAccionesSobrePropuesta_casoNormalColaboradorSinColab() 
+    {
+        System.out.println("accionesSobrePropuesta_casoNormalColaboradorSinColab");
+
+        String userNick = "Diego";
+        int permisos = 3;
+        String accionUsuario = "COLABORAR";
+        String comentario = "";
+        String montoStr = "15000";
+        String tipoRetorno = "EntradaGratis";
+
+        DTOPropuesta propuestaActual = mock(DTOPropuesta.class);
+        when(propuestaActual.getTitulo()).thenReturn("El jijote de la manchea");
+
+        DTOColaborador colaboradorTest = mock(DTOColaborador.class);
+        when(colaboradorTest.getNickname()).thenReturn(userNick); 
+
+        Controller controllerSpy = spy(controller);     //No me queda otra que usar un spy para omitir la función "getDTOColaborador"
+
+        doReturn(colaboradorTest).when(controllerSpy).getDTOColaborador(userNick);      //Con spy, cambia la sintaxis de la devolución del mock
+
+        doNothing().when(controllerSpy).altaColaboracion(any(DTOColaboracion.class));   //Lo mismo acá
+
+        int result = controllerSpy.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+
+        assertEquals(4, result);
+    }
+    
+    @Test
+    public void testGetDTOPropuesta() 
+    {
+        System.out.println("getDTOPropuesta");
+        
+        Propuesta mockPropuesta = mock(Propuesta.class);
+        Categoria mockCategoria = mock(Categoria.class);
+        
+        Registro_Estado mockRegistro = mock(Registro_Estado.class);
+        
+        DTOProponente mockProponente = mock(DTOProponente.class);
+        
+        DTORegistro_Estado dtoRegistroMock = mock(DTORegistro_Estado.class);
+        
+        when(mockPropuesta.getHistorialEstados()).thenReturn(List.of(mockRegistro));
+        when(mockPropuesta.getAporte()).thenReturn(List.of());
+
+        when(mockPropuesta.getCategoria()).thenReturn(mockCategoria);
+        when(mockCategoria.Cat_a_DTO()).thenReturn(mock(DTOCategoria.class));
+        
+        Controller spyController = spy(controller);
+
+        doReturn(dtoRegistroMock).when(spyController).getDTORegistroEstado(mockRegistro);
+
+        DTOPropuesta result = spyController.getDTOPropuesta(mockPropuesta, mockProponente);
+
+        assertEquals(mockProponente, result.getUsr());
+    }
+    
+//    @Test
+//    public void testNuevoComentario_exitoso() throws Exception 
+//    {
+//        
+//    
+//    String comentario = "algo";
+//    String userNick = "Rick Ricker";
+//    String tituloPropuesta = "Pilsner Lock";
+//
+//    
+//    EntityManager emMock = mock(EntityManager.class);
+//    EntityTransaction txMock = mock(EntityTransaction.class);
+//
+//    
+//    try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+//    {
+//        mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(emMock);
+//
+//        
+//        Propuesta propuestaMock = mock(Propuesta.class);
+//        when(emMock.find(Propuesta.class, tituloPropuesta)).thenReturn(propuestaMock);
+//
+//        
+//        when(emMock.getTransaction()).thenReturn(txMock);
+//        doNothing().when(txMock).begin();
+//        doNothing().when(txMock).commit();
+//        when(txMock.isActive()).thenReturn(true);
+//        doNothing().when(txMock).rollback();
+//        doNothing().when(emMock).close();
+//
+//        
+//        Controller controller = new Controller();
+//
+//        
+//        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
+//
+//        
+//        assertTrue(resultado);
+//
+//    }
+//}
+
+     @Test
+    public void testColaboradoresAPropuesta() 
+    {
+        System.out.println("colaboradoresAPropuesta");
+        
+        String titulo = "Cine en el Botanico";
+        List<String> result = controller.colaboradoresAPropuesta(titulo);
+        assertNotNull(result);
+
+    }
+    
+    @Test
+    public void testObtenerPropuestaPorSubCategoria() 
+    {
+        System.out.println("ObtenerPropuestaPorSubCategoria");
+        
+        String subCat = "Ballet";
+        Set<DTOPropuesta> result = controller.ObtenerPropuestaPorSubCategoria(subCat);
+        assertNotNull(result);
+
+    }
+    
+    @Test
+    public void testBuscarPropuestas() 
+    {
+        System.out.println("BuscarPropuestas");
+        
+        String titulo = "Cine en el Botanico";
+        List<DTOPropuesta> result = controller.BuscarPropuestas(titulo);
+        assertNotNull(result);
+
+    }
+    
     
     @Test
     public void testCargarPropuesta() 
