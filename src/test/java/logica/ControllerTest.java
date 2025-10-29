@@ -2,6 +2,7 @@ package logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,11 +25,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -117,6 +120,58 @@ public class ControllerTest
         boolean result = controller.login(nick, pass);
 
         assertEquals(true, result);
+    }
+    @Test
+    public void testgetListaDTOUsuarios() {
+        System.out.println("ListaDTOUsuarios");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            List<Usuario> listaVacia = new ArrayList<>();
+
+            TypedQuery<Usuario> mockQuery = mock(TypedQuery.class);
+            when(mockQuery.getResultList()).thenReturn(listaVacia);
+            when(mockEntityManager.createQuery(eq("FROM Usuario"), eq(Usuario.class))).thenReturn(mockQuery);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            List<DTOUsuario> result = controller.ListaDTOUsuarios();
+
+            assertNotNull(result);
+        }
+    }
+    @Test
+    public void testListaColaboradores() {
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Colaborador colab1 = new Colaborador(
+                    "colab1", "Juan", "Pérez",
+                    "juan@test.com", LocalDate.of(1990, 5, 15), "img1.jpg"
+            );
+
+            Colaborador colab2 = new Colaborador(
+                    "colab2", "María", "González",
+                    "maria@test.com", LocalDate.of(1992, 8, 20), "img2.jpg"
+            );
+
+            List<Colaborador> listaColaboradores = Arrays.asList(colab1, colab2);
+
+            // Mockear la query (aunque tenga sintaxis incorrecta, el mock la intercepta)
+            TypedQuery<Colaborador> mockQuery = mock(TypedQuery.class);
+            when(mockQuery.getResultList()).thenReturn(listaColaboradores);
+            when(mockEntityManager.createQuery(anyString(), eq(Colaborador.class))).thenReturn(mockQuery);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            // Ejecutar
+            Set<DTOColaborador> result = controller.ListarColaboradores();
+
+            // Verificar
+            assertNotNull(result);
+            assertEquals(2, result.size());
+        }
     }
     @Test
     public void testRegistroUsuarioProponente() {
@@ -1945,5 +2000,52 @@ public void testGetFavoritasConPropuestas() {
     
     
     //INICIO COLABORACION
+@Test
+    public void testCargarColaboraciones() {
+        System.out.println("cargarColaboraciones");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any());
+            doNothing().when(mockEntityManager).close();
+
+            // Mockear TypedQuery para existeColaboracion
+            TypedQuery<Long> mockQuery = mock(TypedQuery.class);
+            when(mockQuery.setParameter(anyString(), any())).thenReturn(mockQuery);
+            when(mockQuery.getResultList()).thenReturn(new ArrayList<>());
+
+            // ✅ Mockear getSingleResult para COUNT query (retorna 0L = no existe)
+            when(mockQuery.getSingleResult()).thenReturn(0L);
+
+            when(mockEntityManager.createQuery(anyString(), any(Class.class))).thenReturn(mockQuery);
+
+            // Mockear colaboradores
+            when(mockEntityManager.find(eq(Colaborador.class), anyString())).thenAnswer(inv -> {
+                Colaborador c = mock(Colaborador.class);
+                String nick = inv.getArgument(1);
+                when(c.getNickname()).thenReturn(nick);
+                return c;
+            });
+
+            // Mockear propuestas
+            when(mockEntityManager.find(eq(Propuesta.class), anyString())).thenAnswer(inv -> {
+                Propuesta p = mock(Propuesta.class);
+                String titulo = inv.getArgument(1);
+                when(p.getTitulo()).thenReturn(titulo);
+                return p;
+            });
+
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            // Ejecutar
+            controller.cargarColaboraciones();
+
+            // Verificar que se persistieron colaboraciones
+            verify(mockEntityManager, atLeastOnce()).persist(any());
+        }
+    }
     //FIN COLABORACION
 }
