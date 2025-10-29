@@ -2035,17 +2035,14 @@ public void testGetFavoritasConPropuestas() {
             doNothing().when(mockEntityManager).persist(any());
             doNothing().when(mockEntityManager).close();
 
-            // Mockear TypedQuery para existeColaboracion
             TypedQuery<Long> mockQuery = mock(TypedQuery.class);
             when(mockQuery.setParameter(anyString(), any())).thenReturn(mockQuery);
             when(mockQuery.getResultList()).thenReturn(new ArrayList<>());
 
-            // ✅ Mockear getSingleResult para COUNT query (retorna 0L = no existe)
             when(mockQuery.getSingleResult()).thenReturn(0L);
 
             when(mockEntityManager.createQuery(anyString(), any(Class.class))).thenReturn(mockQuery);
 
-            // Mockear colaboradores
             when(mockEntityManager.find(eq(Colaborador.class), anyString())).thenAnswer(inv -> {
                 Colaborador c = mock(Colaborador.class);
                 String nick = inv.getArgument(1);
@@ -2053,7 +2050,6 @@ public void testGetFavoritasConPropuestas() {
                 return c;
             });
 
-            // Mockear propuestas
             when(mockEntityManager.find(eq(Propuesta.class), anyString())).thenAnswer(inv -> {
                 Propuesta p = mock(Propuesta.class);
                 String titulo = inv.getArgument(1);
@@ -2064,10 +2060,8 @@ public void testGetFavoritasConPropuestas() {
             when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Ejecutar
             controller.cargarColaboraciones();
 
-            // Verificar que se persistieron colaboraciones
             verify(mockEntityManager, atLeastOnce()).persist(any());
         }
     }
