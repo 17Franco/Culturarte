@@ -1427,6 +1427,49 @@ public void testGetFavoritasConPropuestas() {
             //No puedo hacer un assert en una función void, sé que cubre ya que el report lo marca en verde y ya...
         }
     }
+    
+    @Test
+    public void testAltaPropuesta_casoProponenteNULL() 
+    {
+        System.out.println("altaPropuesta_casoProponenteNULL");
+                    
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
+        {
+            
+            //Me salto la modificación de la bd
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockEntityManager).persist(any(Propuesta.class));
+            doNothing().when(mockEntityManager).close();
+        
+            Categoria categoriaTest = new Categoria("fiesta", null);
+            
+            //Mock en find dentro del manejador para que devuelva objeto sikmulado con mock
+            when(mockEntityManager.find(Categoria.class, "fiesta")).thenReturn(categoriaTest);
+            
+            //Se simula la obtención del em...
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            String titulo = "JKLJKLJKL";
+            String descripcion = "TestDescrip";
+            String imagen = "";
+            String lugar = "TestLugar";
+            LocalDate fecha = LocalDate.now();
+            int precio = 100;
+            int montoTotal = 1000;
+            LocalDate fechaPub = LocalDate.now();
+            List<TipoRetorno> retornos = new ArrayList<>();
+            retornos.add(TipoRetorno.EntradaGratis);
+            String categoriaNombre = "fiesta";
+            String usuarioNombre = "nada";
+            Estado estado = Estado.PUBLICADA;
+
+            controller.altaPropuesta(titulo, descripcion, imagen, lugar, fecha,precio, montoTotal, fechaPub, retornos, categoriaNombre,usuarioNombre, estado);
+
+            //No puedo hacer un assert en una función void, sé que cubre ya que el report lo marca en verde y ya...
+        }
+    }
+    
     @Test
     public void testObtenerPropuestas() 
     {
@@ -1568,6 +1611,14 @@ public void testGetFavoritasConPropuestas() {
         assertNotNull(result);
         
         
+    }
+    
+    @Test
+    public void testGetMontoRecaudado() 
+    {
+        System.out.println("GetMontoRecaudado");
+
+        controller.getMontoRecaudado("Cine en el Botanico");      
     }
     
     @Test
@@ -1892,48 +1943,21 @@ public void testGetFavoritasConPropuestas() {
 
         assertEquals(mockProponente, result.getUsr());
     }
-    
-//    @Test
-//    public void testNuevoComentario_exitoso() throws Exception 
-//    {
-//        
-//    
-//    String comentario = "algo";
-//    String userNick = "Rick Ricker";
-//    String tituloPropuesta = "Pilsner Lock";
-//
-//    
-//    EntityManager emMock = mock(EntityManager.class);
-//    EntityTransaction txMock = mock(EntityTransaction.class);
-//
-//    
-//    try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) 
-//    {
-//        mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(emMock);
-//
-//        
-//        Propuesta propuestaMock = mock(Propuesta.class);
-//        when(emMock.find(Propuesta.class, tituloPropuesta)).thenReturn(propuestaMock);
-//
-//        
-//        when(emMock.getTransaction()).thenReturn(txMock);
-//        doNothing().when(txMock).begin();
-//        doNothing().when(txMock).commit();
-//        when(txMock.isActive()).thenReturn(true);
-//        doNothing().when(txMock).rollback();
-//        doNothing().when(emMock).close();
-//
-//        
-//        Controller controller = new Controller();
-//
-//        
-//        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
-//
-//        
-//        assertTrue(resultado);
-//
-//    }
-//}
+
+    @Test
+    public void testNuevoComentario_errorPropuestaNoExiste()
+    {
+        
+        System.out.println("NuevoComentario_errorPropuestaNoExiste");
+        
+        String comentario = "algo";
+        String userNick = "Rick Ricker";
+        String tituloPropuesta = "Pilsner Lock";    //Para que falle al buscarlo en el manejador
+        boolean resultado = controller.nuevoComentario(comentario, userNick, tituloPropuesta);
+
+
+        assertFalse(resultado);
+    }
 
      @Test
     public void testColaboradoresAPropuesta() 
