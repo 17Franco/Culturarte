@@ -157,18 +157,14 @@ public class ControllerTest
             );
 
             List<Colaborador> listaColaboradores = Arrays.asList(colab1, colab2);
-
-            // Mockear la query (aunque tenga sintaxis incorrecta, el mock la intercepta)
             TypedQuery<Colaborador> mockQuery = mock(TypedQuery.class);
             when(mockQuery.getResultList()).thenReturn(listaColaboradores);
             when(mockEntityManager.createQuery(anyString(), eq(Colaborador.class))).thenReturn(mockQuery);
 
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Ejecutar
             Set<DTOColaborador> result = controller.ListarColaboradores();
 
-            // Verificar
             assertNotNull(result);
             assertEquals(2, result.size());
         }
@@ -241,21 +237,15 @@ public class ControllerTest
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
 
-            // Me salto la modificación de la BD
             doNothing().when(mockTransaction).begin();
             doNothing().when(mockTransaction).commit();
             doNothing().when(mockEntityManager).persist(any(Colaborador.class));
             doNothing().when(mockEntityManager).close();
 
-            // Simular que el usuario NO existe (para que se pueda crear)
             when(mockEntityManager.find(Usuario.class, "testcolab")).thenReturn(null);
-
-            // Se simula la obtención del EntityManager
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
             DTOColaborador dtoColaborador = new DTOColaborador("TestC", "123", "algotest", "algo", "test2@g.com", LocalDate.now(), "", "Colaborador");
-
-            // Ejecutar el método
             controller.altaUsuario(dtoColaborador);
         }
     }
@@ -266,22 +256,16 @@ public class ControllerTest
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
 
-            // Me salto la modificación de la BD
             doNothing().when(mockTransaction).begin();
             doNothing().when(mockTransaction).commit();
             doNothing().when(mockEntityManager).persist(any(Proponente.class));
             doNothing().when(mockEntityManager).close();
 
-            // Simular que el usuario NO existe
             when(mockEntityManager.find(Usuario.class, "testprop")).thenReturn(null);
 
-            // Se simula la obtención del EntityManager
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Crear el DTO del proponente
             DTOProponente dtoProponente = new DTOProponente("algo", "algo", "www.comt.com", "testP", "123", "test", "pacotest", "test@g.com", LocalDate.now(), "", "Proponente");
-
-            // Ejecutar el método
             controller.altaUsuario(dtoProponente);
         }
     }
@@ -460,7 +444,6 @@ public class ControllerTest
             usuariosSeguidos.put("usuario3", usuario3);
 
             when(usuario1.getUsuarioSeguido()).thenReturn(usuariosSeguidos);
-            // ❌ No mockear unfollow aquí tampoco
 
             when(mockEntityManager.find(Usuario.class, "usuario1")).thenReturn(usuario1);
             when(mockEntityManager.find(Usuario.class, "usuario2")).thenReturn(usuario2);
@@ -796,23 +779,17 @@ public class ControllerTest
         System.out.println("CargarSeguidos");
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
-            // Configurar comportamiento de los mocks
             doNothing().when(mockTransaction).begin();
             doNothing().when(mockTransaction).commit();
             doNothing().when(mockTransaction).rollback();
             doNothing().when(mockEntityManager).persist(any(Usuario.class));
             doNothing().when(mockEntityManager).close();
-
-            // Simular que no existen proponentes (retorna null para que entre en los if)
             when(mockEntityManager.find(eq(Usuario.class), anyString())).thenReturn(null);
 
-            // Configurar el EntityManager mock
             when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 
-            // Configurar PersistenciaManager para retornar nuestro mock
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Ejecutar el método a probar
             controller.cargarSeguidos();
 
         }
@@ -844,13 +821,12 @@ public class ControllerTest
     Path destino = Paths.get(carpetaDestino, nombreArchivo);
 
     try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
-        // Forzar que Files.write lance IOException
         filesMock.when(() -> Files.write(destino, contenido))
                  .thenThrow(new IOException("Error simulado"));
 
         String resultado = controller.obtenerPathImg(nick, contenido, nombreArchivo);
 
-        assertNull(resultado); // Devuelve null cuando hay excepción
+        assertNull(resultado); 
     }
     }
 
@@ -860,23 +836,18 @@ public class ControllerTest
         System.out.println("CargarColaborador");
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
-            // Configurar comportamiento de los mocks
             doNothing().when(mockTransaction).begin();
             doNothing().when(mockTransaction).commit();
             doNothing().when(mockTransaction).rollback();
             doNothing().when(mockEntityManager).persist(any(Colaborador.class));
             doNothing().when(mockEntityManager).close();
 
-            // Simular que no existen proponentes (retorna null para que entre en los if)
             when(mockEntityManager.find(eq(Colaborador.class), anyString())).thenReturn(null);
 
-            // Configurar el EntityManager mock
             when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 
-            // Configurar PersistenciaManager para retornar nuestro mock
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Ejecutar el método a probar
             controller.cargarDatosPruebaColaborador();
 
         }
@@ -886,23 +857,17 @@ public class ControllerTest
         System.out.println("CargarProponente");
 
         try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
-            // Configurar comportamiento de los mocks
             doNothing().when(mockTransaction).begin();
             doNothing().when(mockTransaction).commit();
             doNothing().when(mockTransaction).rollback();
             doNothing().when(mockEntityManager).persist(any(Proponente.class));
             doNothing().when(mockEntityManager).close();
 
-            // Simular que no existen proponentes (retorna null para que entre en los if)
             when(mockEntityManager.find(eq(Proponente.class), anyString())).thenReturn(null);
-
-            // Configurar el EntityManager mock
             when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 
-            // Configurar PersistenciaManager para retornar nuestro mock
             mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
 
-            // Ejecutar el método a probar
             controller.cargarDatosPruebaProponente();
             
         }
