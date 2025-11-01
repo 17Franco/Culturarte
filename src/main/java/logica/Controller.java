@@ -37,9 +37,8 @@ public class Controller  implements IController {
     private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
     private ManejadorColaboracion mColaboraciones = ManejadorColaboracion.getInstance();
     
-
-       
-    //Usuarios
+  
+    //USUARIOS
     @Override
     public void altaUsuario(DTOUsuario usu) {
         if(usu instanceof DTOProponente){
@@ -49,7 +48,128 @@ public class Controller  implements IController {
         }
     }
     
+     @Override
+    public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
+        String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
+        if(isProponente){
+            
+            DTOProponente p=new DTOProponente(direccion,Biografia,web,nickname,pass,nombre,apellido,email,fecha,ruta,"Proponente");
+            mUsuario.addProponente((DTOProponente) p);
+        }else{
+            DTOColaborador c= new DTOColaborador(nickname,pass,nombre,apellido,email,fecha,ruta,"Colaborador");
+            mUsuario.addColaborador((DTOColaborador) c);
+        }
     
+    }
+    
+    @Override
+    public boolean existeUsuario(String nick, String email) {
+           return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
+    }
+    
+    public boolean emailUsado(String email){
+        return mUsuario.emailUsado(email);
+    }
+    
+     public boolean existe(String nick){
+            return mUsuario.existe(nick);
+    }
+     
+    @Override
+    public List<String> ListaUsuarios(){
+        List<String> aux = new ArrayList<>();
+        for (DTOUsuario c : mUsuario.getUsuarios().values()){
+                aux.add(c.getNickname());
+        }
+       return aux;    
+    }
+    
+    @Override
+    public List<String> ListaProponentes(){
+        List<String> aux = new ArrayList<>();
+        for (DTOUsuario c : mUsuario.getUsuarios().values()){
+           if (c instanceof DTOProponente){
+                aux.add(c.getNickname());
+           }
+        }
+       return aux;    
+    }
+    @Override
+    public List<String> ListaColaborador(){
+        List<String> aux = new ArrayList<>();
+        for (DTOUsuario c : mUsuario.getUsuarios().values()){
+           if (c instanceof DTOColaborador){
+                aux.add(c.getNickname());
+           }
+        }
+       return aux;    
+    }
+    
+    @Override
+    public List<DTOColaboracion>  colaboraciones(String nick){
+           return mUsuario.getDTOColaboraciones(nick);
+    }
+    
+    @Override
+    public List<String> ListaSeguidosPorUsuario(String nick){
+
+        return mUsuario.listaSeguidos(nick);
+    }
+    
+    @Override
+    //me crea un dtoProponente datos basicos
+    public DTOProponente getDTOProponente(String nick) { 
+        Proponente usr= (Proponente) mUsuario.getUsuario(nick);
+        DTOProponente resu=new DTOProponente(usr);
+
+        return resu;
+    }
+    
+    @Override
+    public DTOColaborador getDTOColaborador(String nick) { 
+        Colaborador usr= (Colaborador) mUsuario.getUsuario(nick);
+        DTOColaborador resu=new DTOColaborador(usr);
+
+        return resu;
+    }
+    
+    @Override
+    public List<String> colaboradoresAPropuesta(String titulo){
+       return  mPropuesta.listColaboradores(titulo);
+    }
+    
+    @Override
+    public boolean seguir(String nick1,String nick2){
+        return mUsuario.seguirUsr(nick1,nick2);
+    }
+    
+    @Override
+    public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow){
+       return mUsuario.dejarDeSeguirUsuario(usuarioActual, usuarioToUnfollow);  
+    }
+    
+    public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
+
+        return mUsuario.getPropuestasCreadasPorProponente(nick);
+    }
+    
+    //METODOS QUE SE USAN EN WEB
+    
+    @Override
+    public boolean login(String nick,String Pass){
+        return mUsuario.verificarCredenciales(nick,Pass);
+    }
+    
+    @Override
+    public boolean isProponente(String nick){
+        return mUsuario.isProponente(nick);
+    }
+    
+    @Override
+    public List<DTOUsuario> rankingUsuarios(){
+        List<DTOUsuario> u=new ArrayList<>();
+        return u;
+    }
     public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){
         if(!nombreArchivo.equals("")){
         //String RUTA_IMAGENES = "/IMG"; //RUTA PARA DOCKER
@@ -75,33 +195,6 @@ public class Controller  implements IController {
     }
     
     @Override
-    public List<DTOUsuario> getSeguidores(String nick){
-        return mUsuario.obtenerSeguidores(nick);
-    }
-    
-    @Override
-    public void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia){
-        String ruta = obtenerPathImg(nickname,contenido,nombreArchivo);
-        if(isProponente){
-            
-            DTOProponente p=new DTOProponente(direccion,Biografia,web,nickname,pass,nombre,apellido,email,fecha,ruta,"Proponente");
-            mUsuario.addProponente((DTOProponente) p);
-        }else{
-            DTOColaborador c= new DTOColaborador(nickname,pass,nombre,apellido,email,fecha,ruta,"Colaborador");
-            mUsuario.addColaborador((DTOColaborador) c);
-        }
-    
-    }
-    @Override
-    public List<DTOUsuario> ListaDTOUsuarios(){
-        return mUsuario.getListDTOUsuario();
-    }
-    
-    @Override
-    public boolean sigueAUsuario(String seguidor,String Seguido){
-        return mUsuario.sigue(seguidor,Seguido);
-    }
-    @Override
     public byte[] getImg(String ruta) {
         String RUTA_IMAGENES = "/home/fran/Escritorio/Lab2PA";
         try{
@@ -118,66 +211,10 @@ public class Controller  implements IController {
     }
     
     @Override
-    public List<DTOPropuesta> getFavoritas(String nick){
-        return mUsuario.getFavoritas(nick);
-    
-    }
-    @Override
-    public boolean login(String nick,String Pass){
-        return mUsuario.verificarCredenciales(nick,Pass);
-    }
-    @Override
-    public boolean isProponente(String nick){
-        return mUsuario.isProponente(nick);
-    }
-    @Override
-    public boolean existeUsuario(String nick, String email) {
-           return (mUsuario.existe(nick) || mUsuario.emailUsado(email));
+    public List<DTOUsuario> ListaDTOUsuarios(){
+        return mUsuario.getListDTOUsuario();
     }
     
-    public boolean emailUsado(String email){
-        return mUsuario.emailUsado(email);
-    }
-    
-     public boolean existe(String nick){
-            return mUsuario.existe(nick);
-    }
-     
-    @Override
-    public List<DTOUsuario> Seguidos(String nick){
-    
-        return mUsuario.getSeguidos(nick);
-    }
-    
-    @Override
-    public List<String> ListaUsuarios(){
-        List<String> aux = new ArrayList<>();
-        for (DTOUsuario c : mUsuario.getUsuarios().values()){
-                aux.add(c.getNickname());
-        }
-       return aux;    
-    }
-     
-    @Override
-     public List<String> ListaProponentes(){
-         List<String> aux = new ArrayList<>();
-         for (DTOUsuario c : mUsuario.getUsuarios().values()){
-            if (c instanceof DTOProponente){
-                 aux.add(c.getNickname());
-            }
-         }
-        return aux;    
-     }
-     @Override
-     public List<String> ListaColaborador(){
-         List<String> aux = new ArrayList<>();
-         for (DTOUsuario c : mUsuario.getUsuarios().values()){
-            if (c instanceof DTOColaborador){
-                 aux.add(c.getNickname());
-            }
-         }
-        return aux;    
-     }
     @Override
     public void marcarComoFavorita(String nickname, String tituloPropuesta) {     
         mUsuario.marcarComoFavorita(nickname, tituloPropuesta);
@@ -190,46 +227,37 @@ public class Controller  implements IController {
     public boolean esFavorita(String nickname, String tituloPropuesta) {
         return mUsuario.esFavorita(nickname, tituloPropuesta);
     }
-     @Override
-     public List<String> ListaSeguidosPorUsuario(String nick){
-        /* List<String> aux = new ArrayList<>();
-         Usuario usuario = mUsuario.buscador(nick);
-         if (usuario != null && usuario.getUsuarioSeguido() != null) {
-            for(Usuario u:usuario.getUsuarioSeguido().values()){
-                aux.add(u.getNickname());
-            }
-         }*/
-         return mUsuario.listaSeguidos(nick);
-     }
-     @Override
-    public List<DTOColaboracion>  colaboraciones(String nick){
-           return mUsuario.getDTOColaboraciones(nick);
+    
+    @Override
+    public boolean sigueAUsuario(String seguidor,String Seguido){
+        return mUsuario.sigue(seguidor,Seguido);
     }
-     
-     
-     @Override
-      public List<String> colaboradoresAPropuesta(String titulo){
-         return  mPropuesta.listColaboradores(titulo);
-      }
-     
-     @Override
-     public boolean seguir(String nick1,String nick2){
-         
-         return mUsuario.seguirUsr(nick1,nick2);
+    
+    @Override
+    public List<DTOUsuario> Seguidos(String nick){
+    
+        return mUsuario.getSeguidos(nick);
+    }
+    
+    @Override
+    public List<DTOUsuario> getSeguidores(String nick){
+        return mUsuario.obtenerSeguidores(nick);
+    }
 
-     }
-     @Override
-     public boolean unFollowUser(String usuarioActual, String usuarioToUnfollow)
-     {
-        return mUsuario.dejarDeSeguirUsuario(usuarioActual, usuarioToUnfollow);  
-     }
-     
+    @Override
+    public List<DTOPropuesta> getFavoritas(String nick){
+        return mUsuario.getFavoritas(nick);
+    }
+    
+    //FIN METODOS QUE SE USAN EN WEB (USUARIOS)
+    
+    //FIN USUARIOS
+    
     // Funciones que devuelven Distintos DTO 
     public DTOColaboracion getDTOAporte(Colaboracion r,String titulo){
         return new DTOColaboracion(r.getTipoRetorno(),r.getMonto(),r.getColaborador().getNickname(),titulo,r.getCreado());
     }
     
-  
     public DTORegistro_Estado getDTORegistroEstado(Registro_Estado r){
         return new DTORegistro_Estado(r.getFechaReg(),r.getEstado());
     }
@@ -247,46 +275,61 @@ public class Controller  implements IController {
             return propuesta;
     }
     
-    @Override
-    //me crea un dtoProponente datos basicos
-    public DTOProponente getDTOProponente(String nick) { 
-           Proponente usr= (Proponente) mUsuario.getUsuario(nick);
-           DTOProponente resu=new DTOProponente(usr);
-          
-          //Map<String,DTOPropuesta> p=mUsuario.getPropuestasCreadas(resu);
-           
-          //resu.setPropCreadas(p);
-           
-           return resu;
-    }
-
-    public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
-
-        return mUsuario.getPropuestasCreadasPorProponente(nick);
-    }
-
- 
-    @Override
-     public DTOColaborador getDTOColaborador(String nick) { 
-           Colaborador usr= (Colaborador) mUsuario.getUsuario(nick);
-           DTOColaborador resu=new DTOColaborador(usr);
-
-           return resu;
-    }
-     //Fin de Devolucion de DTO
+    //PROPUESTAS
     
-   
     @Override
     public void altaPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         
         Propuesta propuesta = new Propuesta (Titulo, Descripcion,Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
         mPropuesta.nuevaPropuesta(propuesta);
     }
+    
     @Override
-     public Set<DTOPropuesta> obtenerPropuestas(String estado){
+    public void modificarPropuesta(String titulo, String descripcion,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
+        Propuesta propuestaSeleccionada = null;
+        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
+        if (propuestaSeleccionada != null){  
+            mPropuesta.UpdatePropuesta(titulo, descripcion,rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
+        }
+    }
+    
+    @Override
+      public boolean existeProp(String Titulo){
+         return (mPropuesta.existeProp(Titulo));
+    }
+    
+    @Override
+    public Set<DTOPropuesta> obtenerPropuestas(String estado){
         return  mPropuesta.obtenerPropuestas(estado);
-     }
-     
+    }
+    
+    @Override
+    public DTOPropuesta getPropuestaDTO(String propuestaSel)
+    {
+        return mPropuesta.getPropuestaDTO(propuestaSel);
+
+    }
+    
+    @Override
+    public String creadorPropuesta(String titulo){
+        return mPropuesta.obtenerNombreCreadorPropuesta(titulo);
+    }
+      
+    @Override
+    public String estadoPropuestas(String titulo){
+        return mPropuesta.obtenerEstado(titulo);
+    }
+    
+    @Override
+    public Set<DTOPropuesta> ListarPropuestas(String estado1, String estado2) {
+        Set<DTOPropuesta>propuestaEstado1=mPropuesta.obtenerPropuestas(estado1); //estado publicado
+        Set<DTOPropuesta> propuestaEstado2=mPropuesta.obtenerPropuestas(estado2);//estado en financiacion
+        propuestaEstado1.addAll(propuestaEstado2);
+        return propuestaEstado1;
+    }
+    
+    //SE USAN EN WEB (PROPUESTAS)
+    
     @Override
     public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel)
     {
@@ -317,70 +360,6 @@ public class Controller  implements IController {
     }
     
     @Override
-    public DTOPropuesta getPropuestaDTO(String propuestaSel)
-    {
-        return mPropuesta.getPropuestaDTO(propuestaSel);
-
-    }
-    
-    @Override
-      public boolean existeProp(String Titulo){
-         return (mPropuesta.existeProp(Titulo));
-    }
-      
-      @Override
-      public String creadorPropuesta(String titulo){
-          return mPropuesta.obtenerNombreCreadorPropuesta(titulo);
-      }
-      @Override
-      public String estadoPropuestas(String titulo){
-          return mPropuesta.obtenerEstado(titulo);
-      }
-      //Fin Propuesta
-    
-      //Categoria
-    @Override
-    public boolean altaDeCategoria(DTOCategoria categoriaIngresada) 
-    {
-        return mCategoria.addCategoria(categoriaIngresada);
-
-    }
-    @Override
-    public List<DTOCategoria> getCategorias() 
-    {
-
-        return mCategoria.getCategorias();
-    }
-    
-    @Override
-    public List<String> ListaCategoria()
-    {
-         List<String> aux2 = new ArrayList<>();
-         for(DTOCategoria c : mCategoria.getCategorias())
-         {
-             aux2.add(c.getNombreCategoria());
-         }
-             return aux2;
-    }
-    
-    //Propuesta
-    
-    @Override
-    public void modificarPropuesta(String titulo, String descripcion,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
-        Propuesta propuestaSeleccionada = null;
-        propuestaSeleccionada = mPropuesta.buscarPropuestaPorTitulo(titulo);
-        if (propuestaSeleccionada != null){  
-            mPropuesta.UpdatePropuesta(titulo, descripcion,rutaImagen, lugar, fechaEvento,precio, montoTotal, retorno, categoria, usuarios, estado);
-        }
-     }
-     @Override
-    public Set<DTOPropuesta> ListarPropuestas(String estado1, String estado2) {
-        Set<DTOPropuesta>propuestaEstado1=mPropuesta.obtenerPropuestas(estado1); //estado publicado
-        Set<DTOPropuesta> propuestaEstado2=mPropuesta.obtenerPropuestas(estado2);//estado en financiacion
-        propuestaEstado1.addAll(propuestaEstado2);
-        return propuestaEstado1;
-    }
-    @Override
     public int extenderOCancelarPropuesta(String accionUsuario,String tituloPropuesta)
     {
         if(accionUsuario != null && tituloPropuesta != null)
@@ -402,7 +381,18 @@ public class Controller  implements IController {
         
         return 0;
     }
-  
+    
+    @Override
+    public boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta)
+    {
+        if(userNick != null && !userNick.isEmpty() && mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta))
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
     @Override
     public int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario,String comentario, DTOPropuesta propuestaActual, String montoStr, String tipoRetorno)
     {
@@ -476,7 +466,6 @@ public class Controller  implements IController {
         
         return resultadoOperacion;
     }
-
     
     @Override
     public int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual)
@@ -500,54 +489,72 @@ public class Controller  implements IController {
         
         return permisos;
     }
+    //FIN WEB (PROPUESTAS)
     
+    //Fin Propuesta
+    
+    //Categoria
     @Override
-    public boolean nuevoComentario(String comentario,String userNick,String tituloPropuesta)
-    {
-        if(userNick != null && !userNick.isEmpty() && mPropuesta.nuevoComentario(comentario, userNick, tituloPropuesta))
-        {
-            return true;
-        }
-        
-        return false;
+    public boolean altaDeCategoria(DTOCategoria categoriaIngresada) {
+        return mCategoria.addCategoria(categoriaIngresada);
     }
     
     @Override
+    public List<DTOCategoria> getCategorias(){
+        return mCategoria.getCategorias();
+    }
+    
+    @Override
+    public List<String> ListaCategoria()
+    {
+         List<String> aux2 = new ArrayList<>();
+         for(DTOCategoria c : mCategoria.getCategorias())
+         {
+             aux2.add(c.getNombreCategoria());
+         }
+             return aux2;
+    }
+    //FIN CATEGORIA
+    
+    
+    //COLABORACIONES
+    @Override
     public void altaColaboracion(DTOColaboracion colaboracion){
-  
         mColaboraciones.addColaboracion(colaboracion);
         //actualizo despues de agregar la colaboracion 
         mPropuesta.actualizarEstado(colaboracion.getPropuesta());
         
     }
-
-
-    public Set<DTOColaborador> ListarColaboradores() {
-        return mUsuario.listaColaboradores();
-    }
-
-  
     
-    @Override
-    public void CancelarColaboracion(Long id){
-         mColaboraciones.deleteColaboracion(id);
-    }
-
-    
-    @Override
-    public int getMontoRecaudado(String titulo){
-        return mPropuesta.getMontoRecaudado(titulo);
-    }
     @Override
     public boolean colaboracionExiste(String colaborador, String titulo){
         
         return mUsuario.existeColaboracion(colaborador, titulo); 
     }
+    
+    @Override
+    public int getMontoRecaudado(String titulo){
+        return mPropuesta.getMontoRecaudado(titulo);
+    }
+    
+    @Override
+    public void CancelarColaboracion(Long id){
+         mColaboraciones.deleteColaboracion(id);
+    }
+    
     @Override
     public Set<DTOColaboracion> getDTOColaboraciones(){
         return mColaboraciones.getColaboraciones();
         
     }
+    
+    public Set<DTOColaborador> ListarColaboradores() {
+        return mUsuario.listaColaboradores();
+    }
+    
+    //FIN COLABORACIONES
+    
+    //CARGA DE DATOS
     @Override
     public void cargarDatosPruebaProponente(){
         mUsuario.cargarpProponente();
@@ -567,27 +574,30 @@ public class Controller  implements IController {
     public void cargarPropuesta(){
         mPropuesta.cargarPropuesta();
     }
+    @Override
     public void cargarCategorias(){
         mCategoria.cargarCategorias();
     }
     
+    @Override
     public void cargarColaboraciones(){
         mColaboraciones.cargarDatosColaboracion();
     }
-
+    
+    //FIN CARGA DE DATOS
    
-           //    private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
-//cabecera icontroles:    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategorias);
-   @Override
-   public Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
+    //private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
+    //cabecera icontroles:    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategorias);
+    @Override
+    public Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
        return  mPropuesta.ObtenerPropuestasPorSubCategoria(subcategoria);
-}
+    }
 
-// Funcion usada por el buscador web para filtrar propuestas
-   @Override
-   public List<DTOPropuesta> BuscarPropuestas(String filtro){
+    // Funcion usada por el buscador web para filtrar propuestas
+    @Override
+    public List<DTOPropuesta> BuscarPropuestas(String filtro){
        return mPropuesta.BuscarPropuestas(filtro);
-   }
+    }
 }
 
   

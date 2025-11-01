@@ -25,59 +25,85 @@ import logica.DTO.TipoRetorno;
 public interface IController {
     //Usuarios
     void altaUsuario(DTOUsuario usu);
+    
     void registroUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, byte[] contenido,String nombreArchivo,boolean isProponente,String direccion,String web,String Biografia);
+    
     boolean existeUsuario(String nick, String email);
     
     boolean emailUsado(String email);
-    boolean login(String nick,String Pass);
+    
     boolean existe(String nick);
     
-    boolean isProponente(String nick);
     List<String> ListaUsuarios();
     
-    byte[] getImg(String ruta) ;
     List<String> ListaProponentes();
     
     List<String> ListaColaborador();
-    List<DTOUsuario> ListaDTOUsuarios();
-    void marcarComoFavorita(String nickname, String tituloPropuesta);
-    
-    void quitarFavorita(String nickname, String tituloPropuesta);
-    
-    boolean esFavorita(String nickname, String tituloPropuesta);
     
     List<DTOColaboracion>  colaboraciones(String nick);
-    boolean sigueAUsuario(String seguidor,String Seguido);
-   
-    List<String>ListaSeguidosPorUsuario(String nick);
     
-    List<DTOUsuario>Seguidos(String nick);
+    List<String>ListaSeguidosPorUsuario(String nick);
     
     DTOProponente getDTOProponente(String nick);
     
     DTOColaborador getDTOColaborador(String nick);
     
     List<String> colaboradoresAPropuesta(String titulo);
+    
     boolean seguir(String nick1,String nick2);
-    List<DTOUsuario> getSeguidores(String nick);
+    
     boolean unFollowUser(String usuarioActual, String usuarioToUnfollow);
+    
     Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick);
+    
+    //SE USAN EN WEB
+    
+    boolean login(String nick,String Pass);
+    
+    boolean isProponente(String nick);
+    
+    List<DTOUsuario> rankingUsuarios();
+    
+    byte[] getImg(String ruta) ;
+    
+    List<DTOUsuario> ListaDTOUsuarios();
+    
+    void marcarComoFavorita(String nickname, String tituloPropuesta);
+    
+    void quitarFavorita(String nickname, String tituloPropuesta);
+    
+    boolean esFavorita(String nickname, String tituloPropuesta);
+    
+    boolean sigueAUsuario(String seguidor,String Seguido);
+    
+    List<DTOUsuario>Seguidos(String nick);
+    
+    List<DTOUsuario> getSeguidores(String nick);
+    
+    List<DTOPropuesta> getFavoritas(String nick);
+    //FIN WEB
+    
     //Fin Usuario
     
     //Propuestas
     void altaPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate fechaPublicacio,List<TipoRetorno> Retorno, String cat, String usr,Estado est);
+    
     void modificarPropuesta(String titulo, String descripcion, String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno, String categoria, String usuarios, Estado estado);
+    
     boolean existeProp(String Titulo);
     
     Set<DTOPropuesta> obtenerPropuestas(String estado);
     
     DTOPropuesta getPropuestaDTO(String propuestaSel);
-    
-    int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel);
-    
+
     String creadorPropuesta(String titulo);
     
     String estadoPropuestas(String titulo);
+    
+    Set<DTOPropuesta> ListarPropuestas(String estado1, String estado2);
+    
+    //SE USAN EN WEB
+    int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel);
     
     int extenderOCancelarPropuesta(String accionUsuario,String tituloPropuesta);
     
@@ -87,39 +113,49 @@ public interface IController {
 
     int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual);
     
+    //FIN WEB (PROPUESTAS)
+    
     //Fin Propuesta
     
     //Categoria
     boolean altaDeCategoria(DTOCategoria categoriaIngresada);
+    
     List<DTOCategoria> getCategorias();
+    
     List<String> ListaCategoria();
+    
     //Fin Categoria
     
-    //cu Registrar colaboracion a Propuesta
-    Set<DTOPropuesta> ListarPropuestas(String estado1, String estado2);
-    List<DTOPropuesta> getFavoritas(String nick);
+    //COLABORACIONES
     void altaColaboracion(DTOColaboracion colaboracion); 
+    
     boolean colaboracionExiste(String colaborador, String titulo);
+    
     int  getMontoRecaudado(String titulo);
-    // cu Consulta de colaboracion a Propuesta
     
+    void CancelarColaboracion(Long id); 
     
-    // cu cancelar Colaboracion a Propuesta
-    void CancelarColaboracion(Long id);    
-   Set<DTOColaboracion> getDTOColaboraciones();
+    Set<DTOColaboracion> getDTOColaboraciones();
+    
+    //CARGA DE DATOS
+    void cargarDatosPruebaProponente();
+    
+    void cargarDatosPruebaColaborador();
+    
+    void cargarSeguidos();
+
+    void cargarPropuesta();
+    
+    void cargarCategorias();
+    
+    void cargarColaboraciones();
+    
+    //FIN CARGA DE DATOS
    
-   void cargarDatosPruebaProponente();
-   void cargarDatosPruebaColaborador();
-   void cargarSeguidos();
-   
-   void cargarPropuesta();
-   void cargarCategorias();
-   void cargarColaboraciones();
-   
-   Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria);
-  //  private Set <DTOCategoria> subcategorias;
-   //al hacer click en la subcat traer las propu que en la BD en la columna ca
-   //crear manejadorSubCat?
-// Funcion usada por el buscador web para filtrar propuestas
-   List<DTOPropuesta> BuscarPropuestas(String filtro);
+    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria);
+    // private Set <DTOCategoria> subcategorias;
+    // al hacer click en la subcat traer las propu que en la BD en la columna ca
+    // crear manejadorSubCat?
+    // Funcion usada por el buscador web para filtrar propuestas
+    List<DTOPropuesta> BuscarPropuestas(String filtro);
 }
