@@ -16,7 +16,7 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import persistencia.ManejadorCategoria;
+import logica.Manejadores.ManejadorCategoria;
 import persistencia.PersistenciaManager;
 
 import java.lang.reflect.Field;
@@ -49,8 +49,8 @@ import logica.Usuario.Usuario;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.io.TempDir;
 import static org.mockito.Mockito.*;
-import persistencia.ManejadorPropuesta;
-import persistencia.ManejadorUsuario;
+import logica.Manejadores.ManejadorPropuesta;
+import logica.Manejadores.ManejadorUsuario;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

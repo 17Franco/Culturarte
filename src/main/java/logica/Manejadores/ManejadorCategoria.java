@@ -1,10 +1,11 @@
-package persistencia;
+package logica.Manejadores;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import logica.DTO.DTOCategoria;
 import java.util.ArrayList;
 import java.util.List;
 import logica.Categoria.Categoria;
+import persistencia.PersistenciaManager;
 
 public class ManejadorCategoria {
 
