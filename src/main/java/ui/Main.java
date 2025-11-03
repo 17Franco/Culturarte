@@ -35,6 +35,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         CargarDatos = new javax.swing.JMenu();
 
@@ -87,6 +88,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem5);
+
+        jMenuItem6.setText("Registros");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
 
@@ -231,7 +240,7 @@ public class Main extends javax.swing.JFrame {
           
         jMenu2.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+ 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
             
         jMenu2.setText("Propuesta");
@@ -354,6 +363,18 @@ public class Main extends javax.swing.JFrame {
        controller.cargarColaboraciones();
        JOptionPane.showMessageDialog(this, "Se han cargado los datos a la bd.", "Información", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_CargarDatosMouseClicked
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        jMenu2.setText("Registros");
+        jMenu2.removeAll();
+        JMenuItem registroItem = new JMenuItem("Registro de accesos a la Web");
+        
+        
+        registroItem.addActionListener(e -> { abrirInternalFrame(LoginReg.class); });
+
+        jMenu2.add(registroItem);
+        jMenu2.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
     
     
    
@@ -373,5 +394,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }
