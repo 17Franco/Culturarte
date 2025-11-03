@@ -367,7 +367,7 @@ public class Main extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         jMenu2.setText("Registros");
         jMenu2.removeAll();
-        JMenuItem registroItem = new JMenuItem("Registro de accesos a la Web");
+        JMenuItem registroItem = new JMenuItem("Registro de accesos Web");
         
         
         registroItem.addActionListener(e -> { abrirInternalFrame(LoginReg.class); });
