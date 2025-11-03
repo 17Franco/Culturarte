@@ -370,7 +370,7 @@ public class Main extends javax.swing.JFrame {
         JMenuItem registroItem = new JMenuItem("Registro de accesos Web");
         
         
-        registroItem.addActionListener(e -> { abrirInternalFrame(LoginReg.class); });
+        registroItem.addActionListener(e -> { abrirInternalFrame(AccessReg.class); });
 
         jMenu2.add(registroItem);
         jMenu2.setVisible(true);
