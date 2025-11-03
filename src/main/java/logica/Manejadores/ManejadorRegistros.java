@@ -6,6 +6,7 @@ package logica.Manejadores;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import logica.DTO.DTORegistrosAccesoWeb;
@@ -39,6 +40,8 @@ public class ManejadorRegistros
     {
         List<DTORegistrosAccesoWeb> almacen = new ArrayList<>();
         
+        regUpdater();   //Actualizo borrando registros viejos
+        
         dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
         
         try 
@@ -68,13 +71,18 @@ public class ManejadorRegistros
         {
             return pass;
         }
+        
+        //Formateo navegador y SO:
+        
+        String navegadorWeb = formateadorNavegador_SO(input.getNavegadorWeb(),1);
+        String SO = formateadorNavegador_SO(input.getSO(),2);
 
         dbManager = PersistenciaManager.getEntityManager();
         EntityTransaction transaccionActual = dbManager.getTransaction();
 
         transaccionActual.begin();
 
-        RegistrosAccesoWeb reg = new RegistrosAccesoWeb(input.getIp(), input.getNavegadorWebSO(), input.getUrl());
+        RegistrosAccesoWeb reg = new RegistrosAccesoWeb(input.getIp(), navegadorWeb, SO, input.getUrl(), LocalDate.now());
         
             try
             {
@@ -99,4 +107,76 @@ public class ManejadorRegistros
             
             return pass;
     }
+    
+    public String formateadorNavegador_SO(String input, int sel)
+    {  
+        //Sel = 1 navegadores
+        //Sel = 2 SO.
+        
+        if(sel == 1)
+        {
+            if (input == null || input.isEmpty()) {return "Desconocido";}
+        
+
+            if (input.contains("Edg/")) return "Edge";
+            if (input.contains("OPR/") || input.contains("Opera/")) return "Opera";
+            if (input.contains("Chrome/")) return "Chrome";
+            if (input.contains("Firefox/")) return "Firefox";
+            if (input.contains("Safari/")) return "Safari";
+            if (input.contains("MSIE") || input.contains("Trident/")) return "Internet Explorer";
+
+            return "Ofuscado";
+        }
+        
+        if (sel == 2)
+        {
+            if (input == null || input.isEmpty()) {return "Desconocido";}
+   
+            if (input.contains("Android")) {return "Android";}
+            
+            if (input.contains("iPhone") || input.contains("iPad")) {return "iOS";}
+            
+            if (input.contains("Windows NT")) {return "Windows";}
+            
+            if (input.contains("Mac OS X")) {return "macOS";}
+            
+            if (input.contains("Linux")) {return "Linux";}
+
+            return "Ofuscado";
+        }
+        
+        return "error";
+    }
+    
+    public void regUpdater() 
+    {
+        
+        dbManager = PersistenciaManager.getEntityManager();
+        EntityTransaction transaccionActual = dbManager.getTransaction();
+        
+        try 
+        {
+            transaccionActual.begin();
+
+            LocalDate hace30Dias = LocalDate.now().minusDays(30);
+
+            dbManager.createQuery("delete from RegistrosAccesoWeb r where r.fechaRegistro < :fechaLimite").setParameter("fechaLimite", hace30Dias).executeUpdate();
+
+            dbManager.getTransaction().commit();
+
+        } 
+        catch (Exception e) 
+        {
+            if (dbManager.getTransaction().isActive()) 
+            {
+                dbManager.getTransaction().rollback();
+            }
+               
+        } 
+        finally 
+        {
+            dbManager.close();
+        }
+    }
 }
+
