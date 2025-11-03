@@ -56,7 +56,7 @@ public class AccessReg extends javax.swing.JInternalFrame {
         
         worker = new SwingWorker<>() 
         {
-            private final DefaultTableModel modelo = new DefaultTableModel(new String[]{"#", "IP", "URL", "Browser", "SO"}, 0) 
+            private final DefaultTableModel modelo = new DefaultTableModel(new String[]{"#", "IP", "URL", "Navegador", "SO"}, 0) 
             {
                 @Override
                 public boolean isCellEditable(int row, int column) 
@@ -153,7 +153,7 @@ public class AccessReg extends javax.swing.JInternalFrame {
         setTitle("Registros de Acceso Web");
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
-        jLabel1.setText("Registros de este mes:");
+        jLabel1.setText("Registros de los últimos 30 días:");
 
         BotonSalir.setText("Salir");
         BotonSalir.addActionListener(new java.awt.event.ActionListener() {
