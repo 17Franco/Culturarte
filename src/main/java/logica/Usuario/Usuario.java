@@ -3,6 +3,7 @@ package logica.Usuario;
 
 //import  jakarta.persistence.*;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -21,6 +22,7 @@ import java.util.Iterator;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
     @Id
+    @Column(columnDefinition = "VARCHAR(255) COLLATE utf8_bin")
     private String nickname;
     private String pass;
     private String nombre;
