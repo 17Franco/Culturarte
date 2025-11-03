@@ -17,17 +17,20 @@ public class DTORegistrosAccesoWeb
     
     private String ip;
     
-    private String navegadorWebSO;
+    private String navegadorWeb;
+    
+    private String so;
     
     private String url;
     
     
     public DTORegistrosAccesoWeb() {}
     
-    public DTORegistrosAccesoWeb(String _ip, String _navegadorWebSO, String _url) 
+    public DTORegistrosAccesoWeb(String _ip, String _navegadorWeb, String _so, String _url) 
     {   
         ip = _ip;
-        navegadorWebSO = _navegadorWebSO;
+        navegadorWeb = _navegadorWeb;
+        so = _so;
         url = _url;
     }
     
@@ -36,15 +39,17 @@ public class DTORegistrosAccesoWeb
     {
         id = input.getId();
         ip = input.getIp();
-        navegadorWebSO = input.getNavegadorWebSO();
+        navegadorWeb = input.getNavegadorWeb();
+        so = input.getSO();
         url = input.getUrl();      
     }
     
-    public DTORegistrosAccesoWeb(int _id, String _ip, String _navegadorWebSO, String _url) 
+    public DTORegistrosAccesoWeb(int _id, String _ip, String _navegadorWeb, String _so, String _url) 
     {   //Por ahora no se utiliza
         id = _id;
         ip = _ip;
-        navegadorWebSO = _navegadorWebSO;
+        navegadorWeb = _navegadorWeb;
+        so = _so;
         url = _url;
     }
     
@@ -63,14 +68,24 @@ public class DTORegistrosAccesoWeb
         url = _url;
     }
         
-    public void setNavegadorWebSO(String navegador) 
+    public void setNavegadorWeb(String navegador) 
     {
-        navegadorWebSO = navegador;
+        navegadorWeb = navegador;
     }
     
-    public String getNavegadorWebSO() 
+    public void setSO(String _so) 
     {
-        return navegadorWebSO;
+        so = _so;
+    }
+    
+    public String getNavegadorWeb() 
+    {
+        return navegadorWeb;
+    }
+    
+    public String getSO()
+    {
+        return so;
     }
   
     public Integer getId() 
@@ -91,6 +106,6 @@ public class DTORegistrosAccesoWeb
     public String getAcceso() 
     {
         String numeroID = String.valueOf(id);
-        return numeroID + "  " + ip + "  " + url + "  " + navegadorWebSO;
+        return numeroID + "  " + ip + "  " + url + "  " + navegadorWeb + "  " + so;
     }
 }
