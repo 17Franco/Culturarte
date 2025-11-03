@@ -4,6 +4,7 @@
  */
 package logica.Registros;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -20,21 +21,28 @@ public class RegistrosAccesoWeb
     @Column(name = "ip", nullable = false, length = 50)
     private String ip;
     
-    @Column(name = "navegador_web_so", length = 500)    //Almaceno el SO y el navegador web en el mismo string
-    private String navegadorWebSO;
+    @Column(name = "navegador_web", length = 500)
+    private String navegadorWeb;
+    
+    @Column(name = "so", length = 100)
+    private String so;
     
     @Column(name = "url", nullable = false, length = 512)
     private String url;
     
+    @Column(name = "fecha_registro", nullable = false)
+    private LocalDate fechaRegistro;
+    
     
     public RegistrosAccesoWeb() {}
     
-    public RegistrosAccesoWeb(String _ip, String _navegadorWebSO, String _url) 
+    public RegistrosAccesoWeb(String _ip, String _navegadorWeb, String _so, String _url, LocalDate fecha) 
     {
         ip = _ip;
-        navegadorWebSO = _navegadorWebSO;
+        navegadorWeb = _navegadorWeb;
+        so = _so;
         url = _url;
-
+        fechaRegistro = fecha;
     }
     
     public Integer getId() 
@@ -51,14 +59,19 @@ public class RegistrosAccesoWeb
         this.ip = ip;
     }
     
-    public String getNavegadorWebSO() 
+    public String getNavegadorWeb() 
     {
-        return navegadorWebSO;
+        return navegadorWeb;
     }
     
-    public void setNavegadorWebSO(String navegador) 
+    public String getSO()
     {
-        this.navegadorWebSO = navegador;
+        return so;
+    }
+    
+    public void setNavegadorWeb(String navegador) 
+    {
+        this.navegadorWeb = navegador;
     }
     
     public String getUrl() 
@@ -69,5 +82,20 @@ public class RegistrosAccesoWeb
     public void setUrl(String url) 
     {
         this.url = url;
+    }
+    
+    public void setSO(String _so) 
+    {
+        so = _so;
+    }
+    
+    public LocalDate getFechaRegistro() 
+    {
+        return fechaRegistro;
+    }
+    
+    public void setFechaRegistro(LocalDate _fechaRegistro) 
+    {
+        fechaRegistro = _fechaRegistro;
     }
 }
