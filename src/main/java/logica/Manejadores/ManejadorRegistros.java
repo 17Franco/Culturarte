@@ -20,7 +20,7 @@ import persistencia.PersistenciaManager;
 public class ManejadorRegistros 
 {
     private static ManejadorRegistros instancia = null; 
-    private EntityManager dbManager;
+    //private EntityManager dbManager;
     
     private ManejadorRegistros() 
     {
@@ -42,7 +42,7 @@ public class ManejadorRegistros
         
         regUpdater();   //Actualizo borrando registros viejos
         
-        dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
+       EntityManager dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
         
         try 
         {
@@ -79,7 +79,7 @@ public class ManejadorRegistros
         String navegadorWeb = formateadorNavegador_SO(input.getNavegadorWeb(),1);
         String SO = formateadorNavegador_SO(input.getSO(),2);
 
-        dbManager = PersistenciaManager.getEntityManager();
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
         EntityTransaction transaccionActual = dbManager.getTransaction();
 
         transaccionActual.begin();
@@ -153,7 +153,7 @@ public class ManejadorRegistros
     public void regUpdater() 
     {
         
-        dbManager = PersistenciaManager.getEntityManager();
+       EntityManager dbManager = PersistenciaManager.getEntityManager();
         EntityTransaction transaccionActual = dbManager.getTransaction();
         
         try 
@@ -183,7 +183,7 @@ public class ManejadorRegistros
     
     public void regSpaceManager() 
     {
-        dbManager = PersistenciaManager.getEntityManager();
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
         EntityTransaction transaccionActual = dbManager.getTransaction();
 
         try 
