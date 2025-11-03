@@ -11,6 +11,7 @@ import java.util.Set;
 import logica.Manejadores.ManejadorPropuesta;
 import logica.Manejadores.ManejadorCategoria;
 import logica.Manejadores.ManejadorColaboracion;
+import logica.Manejadores.ManejadorRegistros;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
@@ -29,13 +30,15 @@ import logica.DTO.Estado;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import logica.DTO.DTORegistrosAccesoWeb;
+import logica.Registros.RegistrosAccesoWeb;
 
 public class Controller  implements IController {
     private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
     private ManejadorCategoria mCategoria=ManejadorCategoria.getInstance();
     private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
     private ManejadorColaboracion mColaboraciones = ManejadorColaboracion.getInstance();
+    private ManejadorRegistros mRegistros = ManejadorRegistros.getInstance();
     
   
     //USUARIOS
@@ -554,6 +557,22 @@ public class Controller  implements IController {
     }
     
     //FIN COLABORACIONES
+    
+    //Inicio Registros
+    
+    @Override
+    public List<DTORegistrosAccesoWeb> obtenerRegistrosAccesoWeb()
+    {
+        return mRegistros.obtenerRegistrosAccesoWeb();
+    }
+    
+    @Override
+    public boolean agregarRegistroAccesoWeb(DTORegistrosAccesoWeb input)
+    {
+        return mRegistros.agregarRegistroAccesoWeb(input);
+    }
+    
+    //Fin Registros
     
     //CARGA DE DATOS
     @Override
