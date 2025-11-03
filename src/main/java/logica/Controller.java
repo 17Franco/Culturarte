@@ -168,6 +168,7 @@ public class Controller  implements IController {
     @Override
     public List<DTOUsuario> rankingUsuarios(){
         List<DTOUsuario> u=new ArrayList<>();
+        u=mUsuario.rankUsuario();
         return u;
     }
     public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){

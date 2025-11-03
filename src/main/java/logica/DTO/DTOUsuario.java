@@ -17,6 +17,7 @@ public class DTOUsuario {
     private LocalDate fecha;
     private String rutaImg;
     private String tipoUsr;
+    private int cantSeguidores;
     //private List<String> usuarioSeguido=new ArrayList<>(); las saco porque si solicito la info no pongo todo dentro del dto
     //private List<String> propFavorita=new ArrayList<>();      el dto es para manda info basica 
 
@@ -65,6 +66,14 @@ public class DTOUsuario {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setCantSeguidores(int cantSeguidores) {
+        this.cantSeguidores = cantSeguidores;
+    }
+
+    public int getCantSeguidores() {
+        return cantSeguidores;
     }
 
     public String getTipoUsr() {
