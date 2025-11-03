@@ -24,6 +24,14 @@ public class DTORegistrosAccesoWeb
     
     public DTORegistrosAccesoWeb() {}
     
+    public DTORegistrosAccesoWeb(String _ip, String _navegadorWebSO, String _url) 
+    {   
+        ip = _ip;
+        navegadorWebSO = _navegadorWebSO;
+        url = _url;
+    }
+    
+    
     public DTORegistrosAccesoWeb(RegistrosAccesoWeb input) //Exporto directo del objeto
     {
         id = input.getId();
