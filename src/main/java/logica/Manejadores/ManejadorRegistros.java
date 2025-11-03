@@ -67,6 +67,8 @@ public class ManejadorRegistros
         
         boolean pass = false;
         
+        regSpaceManager(); //Si no hay espacio, le hace uno nuevo borrando el registro más viejo
+        
         if(input == null)
         {
             return pass;
@@ -172,6 +174,39 @@ public class ManejadorRegistros
                 dbManager.getTransaction().rollback();
             }
                
+        } 
+        finally 
+        {
+            dbManager.close();
+        }
+    }
+    
+    public void regSpaceManager() 
+    {
+        dbManager = PersistenciaManager.getEntityManager();
+        EntityTransaction transaccionActual = dbManager.getTransaction();
+
+        try 
+        {
+            transaccionActual.begin();
+
+            int totalRegistros = (int) dbManager.createQuery("SELECT COUNT(r) FROM RegistrosAccesoWeb r").getSingleResult();
+
+            if (totalRegistros >= 10000)    //Si hay más de 10k, borra el más viejo para que entre uno nuevo. 
+            {
+                Integer old = (Integer) dbManager.createQuery("SELECT r.id FROM RegistrosAccesoWeb r ORDER BY r.fechaRegistro ASC").setMaxResults(1).getSingleResult();
+
+                dbManager.createQuery("DELETE FROM RegistrosAccesoWeb r WHERE r.id = :id").setParameter("id", old).executeUpdate();
+            }
+
+            dbManager.getTransaction().commit();
+        } 
+        catch (Exception e) 
+        {
+            if (dbManager.getTransaction().isActive()) 
+            {
+                dbManager.getTransaction().rollback();
+            }
         } 
         finally 
         {
