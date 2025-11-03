@@ -4,6 +4,7 @@
  */
 package logica.DTO;
 
+import java.time.LocalDate;
 import logica.Registros.RegistrosAccesoWeb;
 
 /**
@@ -23,15 +24,24 @@ public class DTORegistrosAccesoWeb
     
     private String url;
     
+    private LocalDate fechaReg;
+    
     
     public DTORegistrosAccesoWeb() {}
     
-    public DTORegistrosAccesoWeb(String _ip, String _navegadorWeb, String _so, String _url) 
+    public DTORegistrosAccesoWeb(String _ip, String _navegadorWeb, String _so, String _url, LocalDate fecha) 
     {   
         ip = _ip;
         navegadorWeb = _navegadorWeb;
         so = _so;
         url = _url;
+        
+        if(fecha == null)
+        {
+           fechaReg = LocalDate.now();
+        }
+        
+        fechaReg = fecha;   
     }
     
     
@@ -41,21 +51,18 @@ public class DTORegistrosAccesoWeb
         ip = input.getIp();
         navegadorWeb = input.getNavegadorWeb();
         so = input.getSO();
-        url = input.getUrl();      
-    }
-    
-    public DTORegistrosAccesoWeb(int _id, String _ip, String _navegadorWeb, String _so, String _url) 
-    {   //Por ahora no se utiliza
-        id = _id;
-        ip = _ip;
-        navegadorWeb = _navegadorWeb;
-        so = _so;
-        url = _url;
+        url = input.getUrl();
+        fechaReg = input.getFechaRegistro();
     }
     
     public void setId(int _id) 
     {
         id = _id;
+    }
+    
+    public void setFechaReg(LocalDate fecha) 
+    {
+        fechaReg = fecha;
     }
     
     public void setIp(String _ip) 
@@ -86,6 +93,11 @@ public class DTORegistrosAccesoWeb
     public String getSO()
     {
         return so;
+    }
+    
+    public LocalDate getFechaReg()
+    {
+        return fechaReg;
     }
   
     public Integer getId() 
