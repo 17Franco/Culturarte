@@ -17,6 +17,7 @@ import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
+import logica.DTO.DTORegistrosAccesoWeb;
 import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
@@ -136,6 +137,14 @@ public interface IController {
     void CancelarColaboracion(Long id); 
     
     Set<DTOColaboracion> getDTOColaboraciones();
+    
+    //Registros
+    
+    List<DTORegistrosAccesoWeb> obtenerRegistrosAccesoWeb();
+    
+    public boolean agregarRegistroAccesoWeb(DTORegistrosAccesoWeb input);
+    
+    //Fin registros
     
     //CARGA DE DATOS
     void cargarDatosPruebaProponente();
