@@ -20,7 +20,6 @@ import persistencia.PersistenciaManager;
 public class ManejadorRegistros 
 {
     private static ManejadorRegistros instancia = null; 
-    private EntityManager dbManager;
     
     private List<DTORegistrosAccesoWeb> buffer; //Evito sobrecargar las llamadas a bases de datos cada vez que se produce una llegada de registros.
     private long tiempoAnterior;  //Almacen de tiempos
@@ -53,7 +52,7 @@ public class ManejadorRegistros
             verificarDatos = false;     //Aseguro que solo sea una vez por conexión
         }
         
-        dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
+       EntityManager dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
         
         try 
         {                     
@@ -116,7 +115,7 @@ public class ManejadorRegistros
     
     private synchronized void agregarRegistroAccesoWeb() 
     {
-        dbManager = PersistenciaManager.getEntityManager();
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
         EntityTransaction transaccion = dbManager.getTransaction();
         
         try 

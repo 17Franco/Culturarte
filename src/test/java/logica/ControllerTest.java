@@ -1989,6 +1989,224 @@ public void testGetFavoritasConPropuestas() {
     
     
     //INICIO COLABORACION
+    @Test
+    public void testGetDTOColaboraciones() {
+        System.out.println("getDTOColaboraciones");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Colaborador colab1 = mock(Colaborador.class);
+            when(colab1.getNickname()).thenReturn("novick");
+
+            Propuesta prop1 = mock(Propuesta.class);
+            when(prop1.getTitulo()).thenReturn("Cine en el Botánico");
+
+            Colaboracion colaboracion1 = mock(Colaboracion.class);
+            when(colaboracion1.getId()).thenReturn(1L);
+            when(colaboracion1.getTipoRetorno()).thenReturn(TipoRetorno.PorcentajeGanancia);
+            when(colaboracion1.getMonto()).thenReturn(50000);
+            when(colaboracion1.getColaborador()).thenReturn(colab1);
+            when(colaboracion1.getPropuesta()).thenReturn(prop1);
+            when(colaboracion1.getCreado()).thenReturn(LocalDate.of(2017, 5, 20));
+
+            Colaborador colab2 = mock(Colaborador.class);
+            when(colab2.getNickname()).thenReturn("robinh");
+
+            Propuesta prop2 = mock(Propuesta.class);
+            when(prop2.getTitulo()).thenReturn("Romeo y Julieta");
+
+            Colaboracion colaboracion2 = mock(Colaboracion.class);
+            when(colaboracion2.getId()).thenReturn(2L);
+            when(colaboracion2.getTipoRetorno()).thenReturn(TipoRetorno.EntradaGratis);
+            when(colaboracion2.getMonto()).thenReturn(1000);
+            when(colaboracion2.getColaborador()).thenReturn(colab2);
+            when(colaboracion2.getPropuesta()).thenReturn(prop2);
+            when(colaboracion2.getCreado()).thenReturn(LocalDate.of(2017, 6, 15));
+
+            List<Colaboracion> listaColaboraciones = Arrays.asList(colaboracion1, colaboracion2);
+            
+            TypedQuery<Colaboracion> mockQuery = mock(TypedQuery.class);
+            when(mockQuery.getResultList()).thenReturn(listaColaboraciones);
+            when(mockEntityManager.createQuery(eq("SELECT c FROM Colaboracion c"), eq(Colaboracion.class)))
+                    .thenReturn(mockQuery);
+
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            Set<DTOColaboracion> resultado = controller.getDTOColaboraciones();
+
+            assertNotNull(resultado);
+            assertEquals(2, resultado.size());
+
+            assertTrue(resultado.stream().anyMatch(dto-> "novick".equals(dto.getColaborador()) && "Cine en el Botánico".equals(dto.getPropuesta())));
+            assertTrue(resultado.stream().anyMatch(dto-> "robinh".equals(dto.getColaborador()) && "Romeo y Julieta".equals(dto.getPropuesta())));
+        }
+    }
+    @Test
+    public void testCancelarColaboracion() {
+        System.out.println("CancelarColaboracion");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).remove(any());
+            doNothing().when(mockEntityManager).close();
+
+            Colaboracion colaboracion = mock(Colaboracion.class);
+            when(colaboracion.getId()).thenReturn(1L);
+            when(colaboracion.getMonto()).thenReturn(50000);
+
+            Propuesta propuesta = mock(Propuesta.class);
+            when(propuesta.getTitulo()).thenReturn("Test Propuesta");
+            when(propuesta.getMontoTotal()).thenReturn(100000);
+
+            List<Colaboracion> aportes = new ArrayList<>();
+            aportes.add(colaboracion);
+            when(propuesta.getAporte()).thenReturn(aportes);
+
+            when(colaboracion.getPropuesta()).thenReturn(propuesta);
+
+            when(mockEntityManager.find(Colaboracion.class, 1L)).thenReturn(colaboracion);
+            when(mockEntityManager.find(Propuesta.class, "Test Propuesta")).thenReturn(propuesta);
+
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            controller.CancelarColaboracion(1L);
+
+            verify(mockTransaction, times(1)).begin();
+            verify(mockTransaction, times(1)).commit();
+            verify(mockEntityManager, times(1)).remove(colaboracion);
+            verify(mockEntityManager, times(1)).close();
+        }
+    }
+    @Test
+    public void testColaboraciones() {
+        System.out.println("colaboraciones");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            doNothing().when(mockEntityManager).close();
+
+            Colaborador colaborador = mock(Colaborador.class);
+            when(colaborador.getNickname()).thenReturn("novick");
+
+            Propuesta prop1 = mock(Propuesta.class);
+            when(prop1.getTitulo()).thenReturn("Cine en el Botánico");
+
+            Propuesta prop2 = mock(Propuesta.class);
+            when(prop2.getTitulo()).thenReturn("Religiosamente");
+
+            Colaboracion colab1 = mock(Colaboracion.class);
+            when(colab1.getId()).thenReturn(1L);
+            when(colab1.getTipoRetorno()).thenReturn(TipoRetorno.PorcentajeGanancia);
+            when(colab1.getMonto()).thenReturn(50000);
+            when(colab1.getColaborador()).thenReturn(colaborador);
+            when(colab1.getPropuesta()).thenReturn(prop1);
+            when(colab1.getCreado()).thenReturn(LocalDate.of(2017, 5, 20));
+
+            Colaboracion colab2 = mock(Colaboracion.class);
+            when(colab2.getId()).thenReturn(2L);
+            when(colab2.getTipoRetorno()).thenReturn(TipoRetorno.PorcentajeGanancia);
+            when(colab2.getMonto()).thenReturn(50000);
+            when(colab2.getColaborador()).thenReturn(colaborador);
+            when(colab2.getPropuesta()).thenReturn(prop2);
+            when(colab2.getCreado()).thenReturn(LocalDate.of(2017, 7, 10));
+
+            List<Colaboracion> listaColaboraciones = Arrays.asList(colab1, colab2);
+            when(colaborador.getColaboraciones()).thenReturn(listaColaboraciones);
+
+            when(mockEntityManager.find(Colaborador.class, "novick")).thenReturn(colaborador);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            List<DTOColaboracion> resultado = controller.colaboraciones("novick");
+
+            assertNotNull(resultado);
+        }
+    }
+    @Test
+    public void testColaboracionExisteTrue() {
+        System.out.println("colaboracionExiste");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+            
+            TypedQuery<Long> mockQuery = mock(TypedQuery.class);
+            when(mockQuery.setParameter(eq("colaborador"), anyString())).thenReturn(mockQuery);
+            when(mockQuery.setParameter(eq("titulo"), anyString())).thenReturn(mockQuery);
+            when(mockQuery.getSingleResult()).thenReturn(1L); // Existe (count > 0)
+
+            when(mockEntityManager.createQuery(anyString(), eq(Long.class))).thenReturn(mockQuery);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.colaboracionExiste("novick", "Cine en el Botánico");
+
+            assertTrue(resultado);
+        }
+    }
+
+    @Test
+    public void testColaboracionExisteFalse() {
+        System.out.println("colaboracionExiste");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            TypedQuery<Long> mockQuery = mock(TypedQuery.class);
+            when(mockQuery.setParameter(eq("colaborador"), anyString())).thenReturn(mockQuery);
+            when(mockQuery.setParameter(eq("titulo"), anyString())).thenReturn(mockQuery);
+            when(mockQuery.getSingleResult()).thenReturn(0L); // No existe (count = 0)
+
+            when(mockEntityManager.createQuery(anyString(), eq(Long.class))).thenReturn(mockQuery);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            boolean resultado = controller.colaboracionExiste("novick", "Propuesta Inexistente");
+
+            assertFalse(resultado);
+        }
+    }
+    @Test
+    public void testGetDTOAporte() {
+        System.out.println("getDTOAporte");
+
+        Colaborador mockColab = mock(Colaborador.class);
+        when(mockColab.getNickname()).thenReturn("novick");
+
+        Colaboracion mockColabEntity = mock(Colaboracion.class);
+        when(mockColabEntity.getTipoRetorno()).thenReturn(TipoRetorno.PorcentajeGanancia);
+        when(mockColabEntity.getMonto()).thenReturn(2500);
+        when(mockColabEntity.getColaborador()).thenReturn(mockColab);
+        when(mockColabEntity.getCreado()).thenReturn(LocalDate.of(2023, 10, 15));
+
+        String tituloPropuesta = "Romeo y Julieta";
+
+        DTOColaboracion dto = controller.getDTOAporte(mockColabEntity, tituloPropuesta);
+
+        assertNotNull(dto);
+        assertEquals(TipoRetorno.PorcentajeGanancia, dto.getTipoRetorno());
+        assertEquals(2500, dto.getMonto());
+        assertEquals("novick", dto.getColaborador());
+        assertEquals("Romeo y Julieta", dto.getPropuesta());
+        assertEquals(LocalDate.of(2023, 10, 15), dto.getCreado());
+
+    }
+    @Test
+    public void testAltaColaboracion() {
+        System.out.println("altaColaboracion");
+
+        try (MockedStatic<PersistenciaManager> mockedStatic = mockStatic(PersistenciaManager.class)) {
+
+            doNothing().when(mockTransaction).begin();
+            doNothing().when(mockTransaction).commit();
+            doNothing().when(mockTransaction).rollback();
+            doNothing().when(mockEntityManager).persist(any(Colaboracion.class));
+            doNothing().when(mockEntityManager).close();
+
+            when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+            mockedStatic.when(PersistenciaManager::getEntityManager).thenReturn(mockEntityManager);
+
+            DTOColaboracion dto = new DTOColaboracion(TipoRetorno.PorcentajeGanancia,2500,"testaltacol", "testPropAC",LocalDate.of(2023, 10, 15));
+            controller.altaColaboracion(dto);
+        }
+    }
 @Test
     public void testCargarColaboraciones() {
         System.out.println("cargarColaboraciones");
@@ -2030,5 +2248,6 @@ public void testGetFavoritasConPropuestas() {
             verify(mockEntityManager, atLeastOnce()).persist(any());
         }
     }
+    
     //FIN COLABORACION
 }

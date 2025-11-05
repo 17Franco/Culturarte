@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -551,6 +552,46 @@ public class ManejadorUsuario {
                 } finally {
                     em.close();
                 }
+        }
+        
+        
+        public List<DTOUsuario> rankUsuario(){
+            List<DTOUsuario> usu=new ArrayList<>();
+            em = PersistenciaManager.getEntityManager();
+           
+            try{
+                TypedQuery<Object[]> q = em.createQuery(
+                    "SELECT seguido, COUNT(seguidor) " +
+                    "FROM Usuario seguidor JOIN seguidor.usuarioSeguido seguido " +
+                    "GROUP BY seguido.nickname " +
+                    "ORDER BY COUNT(seguidor) DESC",
+                    Object[].class);
+
+                List<Object[]> resultados = q.getResultList();
+                
+                for (Object[] fila : resultados) {
+                    Usuario u = (Usuario) fila[0];
+                    Long cantSeguidores = (Long) fila[1];
+
+                    DTOUsuario dto = new DTOUsuario();
+                    dto.setNickname(u.getNickname());
+                    dto.setRutaImg(u.getRutaImg());
+                    
+                    if(u instanceof Proponente){
+                        dto.setTipoUsr("Proponente");
+                    }else{
+                        dto.setTipoUsr("Colaborador");
+                    }
+                    
+                    dto.setCantSeguidores(cantSeguidores.intValue());
+
+                    usu.add(dto);
+                }
+            }finally{
+                em.close();
+            }
+              
+            return usu;
         }
         //empieza los metodos para cargar datos de usuario y colaboraciones
         public void cargarpProponente(){
