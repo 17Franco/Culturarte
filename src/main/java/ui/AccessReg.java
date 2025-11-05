@@ -96,6 +96,8 @@ public class AccessReg extends javax.swing.JInternalFrame {
     
     public void descargarInfo()
     {     
+        setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));    //Cursor de carga
+        
         SwingWorker<Void, Void> worker; 
         
         worker = new SwingWorker<>() 
@@ -145,6 +147,8 @@ public class AccessReg extends javax.swing.JInternalFrame {
             @Override //Luego dependiendo de como finalice arriba se hace esto...
             protected void done() 
             {
+                setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR)); //Dejo el cursor original
+                
                 if (pass == 0) //Saco para que no quede una pantalla vacía
                 {
                     JOptionPane.showMessageDialog(AccessReg.this,"No hay registros actualmente","Culturarte Workstation",JOptionPane.INFORMATION_MESSAGE);
