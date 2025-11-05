@@ -44,16 +44,18 @@ public class ManejadorColaboracion {
                     .getResultList();
             for(Colaboracion colab: listaColaboraciones){
                 // Convierto cada colaboracion en un dto (abreviado)
-                DTOColaboracion dtoColab=new DTOColaboracion(
-                        colab.getTipoRetorno(),
-                        colab.getMonto(),
-                        colab.getColaborador().getNickname(),
-                        colab.getPropuesta().getTitulo(),
-                        colab.getCreado()
-                );
-                dtoColab.setId(colab.getId());
-                // Agrego cada dto a la lista de resultados
-                results.add( dtoColab);
+                if("Activo".equals(colab.getEstado())){
+                    DTOColaboracion dtoColab=new DTOColaboracion(
+                            colab.getTipoRetorno(),
+                            colab.getMonto(),
+                            colab.getColaborador().getNickname(),
+                            colab.getPropuesta().getTitulo(),
+                            colab.getCreado()
+                    );
+                    dtoColab.setId(colab.getId());
+                    // Agrego cada dto a la lista de resultados
+                    results.add( dtoColab);
+                }
             }
         }
         finally{

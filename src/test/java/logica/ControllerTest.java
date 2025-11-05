@@ -2009,7 +2009,8 @@ public void testGetFavoritasConPropuestas() {
             when(colaboracion1.getColaborador()).thenReturn(colab1);
             when(colaboracion1.getPropuesta()).thenReturn(prop1);
             when(colaboracion1.getCreado()).thenReturn(LocalDate.of(2017, 5, 20));
-
+            when(colaboracion1.getEstado()).thenReturn("Activo");
+            
             Colaborador colab2 = mock(Colaborador.class);
             when(colab2.getNickname()).thenReturn("robinh");
 
@@ -2023,6 +2024,7 @@ public void testGetFavoritasConPropuestas() {
             when(colaboracion2.getColaborador()).thenReturn(colab2);
             when(colaboracion2.getPropuesta()).thenReturn(prop2);
             when(colaboracion2.getCreado()).thenReturn(LocalDate.of(2017, 6, 15));
+            when(colaboracion2.getEstado()).thenReturn("Activo");
 
             List<Colaboracion> listaColaboraciones = Arrays.asList(colaboracion1, colaboracion2);
             
