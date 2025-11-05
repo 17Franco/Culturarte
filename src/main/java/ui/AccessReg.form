@@ -8,7 +8,7 @@
     <Property name="resizable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="Registros de Acceso Web"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-      <Color id="Cursor de Espera"/>
+      <Color id="Cursor Por defecto"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -32,16 +32,22 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="toggleAbajo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="mensaje" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="BotonSalir" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="speedToggle" min="-2" pref="81" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="velocidadAct" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -51,13 +57,20 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" pref="17" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane2" pref="383" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="velocidadAct" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="speedToggle" pref="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="374" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="BotonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jToggleButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="mensaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="toggleAbajo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -99,7 +112,7 @@
               <TableColumnModel selectionModel="0"/>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor de Espera"/>
+              <Color id="Cursor Por defecto"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -108,14 +121,32 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+    <Component class="javax.swing.JLabel" name="mensaje">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Mantener ScrllBar abajo"/>
+        <Property name="text" type="java.lang.String" value="La barra se mantendr&#xe1; abajo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="toggleAbajo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fijar abajo"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jToggleButton1MouseClicked"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleAbajoActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="speedToggle">
+      <Properties>
+        <Property name="snapToTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" value="Velocidad de actualizaci&#xf3;n de la informaci&#xf3;n"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor de Mano"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="velocidadAct">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="2s"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
