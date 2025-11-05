@@ -3,9 +3,6 @@ package logica.DTO;
 
 import java.time.LocalDate;
 import logica.Colaboracion.Colaboracion;
-import logica.Usuario.Colaborador;
-import logica.Propuesta.Propuesta;
-
 
 public class DTOColaboracion {
         private TipoRetorno tipoRetorno;
@@ -17,6 +14,7 @@ public class DTOColaboracion {
         private DTOPropuesta propuestaP;// veo inesesarios tener los punteros en el dtoColaboracion
         private DTOColaborador colaboradorP;
         private LocalDate creado;
+        private boolean acreditada;
     
     private Long id;
 
@@ -43,6 +41,20 @@ public void setId(Long id) {
         return this.creado.equals(obj.creado);
     }
     public DTOColaboracion(){}
+    
+    
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, DTOColaborador colaboradorP, DTOPropuesta propuestaP, boolean acreditada) {
+        this.tipoRetorno = tipoRetorno;
+        this.monto = monto;
+        this.colaborador = colaborador;
+        this.propuesta = propuesta;
+        this.colaboradorP = colaboradorP;
+        this.propuestaP = propuestaP;
+        this.creado = creado;
+        this.acreditada = acreditada;
+    }
+    
+    
     public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
@@ -121,6 +133,10 @@ public void setId(Long id) {
         return tipoRetorno;
     }
 
+    public boolean getAcreditada()
+    {
+        return acreditada;
+    }
     
     public void setTipoRetorno(TipoRetorno tipoRetorno) {
         this.tipoRetorno = tipoRetorno;
@@ -144,5 +160,10 @@ public void setId(Long id) {
     public DTOColaborador getColaboradorP()
     {
        return colaboradorP;
+    }
+    
+    public void setAcreditada(boolean _acreditada)
+    {
+        acreditada = _acreditada;
     }
 }

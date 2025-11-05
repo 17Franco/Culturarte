@@ -556,6 +556,11 @@ public class Controller  implements IController {
         return mUsuario.listaColaboradores();
     }
     
+    public boolean acreditarColaboracion(Long id)
+    {
+        return mColaboraciones.acreditarColaboracion(id);
+    }
+    
     //FIN COLABORACIONES
     
     //Inicio Registros

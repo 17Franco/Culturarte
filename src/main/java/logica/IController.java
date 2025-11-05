@@ -138,6 +138,8 @@ public interface IController {
     
     Set<DTOColaboracion> getDTOColaboraciones();
     
+    boolean acreditarColaboracion(Long id);
+
     //Registros
     
     List<DTORegistrosAccesoWeb> obtenerRegistrosAccesoWeb();

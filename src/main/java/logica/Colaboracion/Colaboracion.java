@@ -20,6 +20,9 @@ public class Colaboracion {
 
         private int monto;
         
+        @Column(name = "acreditada", nullable = false)
+        private boolean acreditada;
+        
         @ManyToOne
         @JoinColumn(name = "colaborador")
         private Colaborador colaborador;
@@ -61,6 +64,7 @@ public class Colaboracion {
         this.colaborador = colaborador;
         this.propuesta = propuesta;
         this.creado = creado;
+        this.acreditada = false;
     }
      public Colaboracion(DTOColaboracion colaboracion,Colaborador c, Propuesta p){
          tipoRetorno=colaboracion.getTipoRetorno();
@@ -68,12 +72,17 @@ public class Colaboracion {
          creado=colaboracion.getCreado();
          colaborador=c;
          propuesta=p;
+         this.acreditada = false;
      }
      
     public LocalDate getCreado() {
         return creado;
     }
 
+    public boolean getAcreditada()
+    {
+        return acreditada;
+    }
     
     public void setCreado(LocalDate creado) {
         this.creado = creado;
@@ -88,7 +97,10 @@ public class Colaboracion {
         this.propuesta = propuesta;
     }
 
-
+    public void setAcreditada(boolean input)
+    {
+        acreditada = input;
+    }
    
     public Colaborador getColaborador() {
         return colaborador;

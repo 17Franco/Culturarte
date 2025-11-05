@@ -122,6 +122,41 @@ public class ManejadorColaboracion {
         em.close();// cierro el manejador 
     }
     
+    public boolean acreditarColaboracion(Long id)
+    { 
+        boolean pass;
+        
+        em = PersistenciaManager.getEntityManager();
+        EntityTransaction tr = em.getTransaction();
+
+        try
+        {
+            tr.begin(); 
+            
+            Colaboracion colaboracionAPagar = em.find(Colaboracion.class, id);
+            
+            colaboracionAPagar.setAcreditada(true); //No necesito merge ya que find lo mantiene conectado a la db.
+            tr.commit();
+            
+            pass = true;
+            
+        }
+        catch(Exception e)
+        {
+            tr.rollback(); 
+            pass = false;
+        } 
+        finally 
+        {
+            em.close();
+            
+        }
+        
+        return pass;
+    }
+    
+    
+    
     public void cargarDatosColaboracion(){
        EntityManager local = PersistenciaManager.getEntityManager();
         ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();
