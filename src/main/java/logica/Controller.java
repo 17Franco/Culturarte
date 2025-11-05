@@ -355,6 +355,7 @@ public class Controller  implements IController {
         //          1: El usuario es proponente.
         //          2: El usuario es colaborador.
         //          3: El usuario no ha participado aún en la propuesta.
+        //          4: El usuario aún no ha pagado la propuesta.
 
         if (propuestaSel.nickProponenteToString().equals(nickUsuario)) //Si es proponente
         {
@@ -368,12 +369,17 @@ public class Controller  implements IController {
             {
                 if (ct.getColaborador().equals(nickUsuario)) //Si es colaborador
                 {
-                    return 2;
+                    if(ct.getAcreditada() == false)  //Si no fué pagada
+                    {
+                        return 4;   //Aparece botón de pago
+                    }
+                        
+                    return 2;   //Solo podría comentar. (el if que controla si comentó está en el servlet!)
                 }
             }
         }
 
-        return 3;   //Si no es ninguno de los dos. 
+        return 3;   //Si no es ninguno. 
     }
     
     @Override
