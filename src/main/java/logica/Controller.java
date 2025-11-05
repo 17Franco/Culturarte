@@ -30,8 +30,8 @@ import logica.DTO.Estado;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import logica.DTO.DTORegistrosAccesoWeb;
-import logica.Registros.RegistrosAccesoWeb;
 
 public class Controller  implements IController {
     private ManejadorUsuario mUsuario=ManejadorUsuario.getInstance();

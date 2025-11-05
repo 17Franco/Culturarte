@@ -2,6 +2,7 @@
 package logica.DTO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import logica.Colaboracion.Colaboracion;
 
 public class DTOColaboracion {
@@ -15,6 +16,7 @@ public class DTOColaboracion {
         private DTOColaborador colaboradorP;
         private LocalDate creado;
         private boolean acreditada;
+        private LocalDateTime fechaPago;
     
     private Long id;
 
@@ -43,7 +45,7 @@ public void setId(Long id) {
     public DTOColaboracion(){}
     
     
-    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, DTOColaborador colaboradorP, DTOPropuesta propuestaP, boolean acreditada) {
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, DTOColaborador colaboradorP, DTOPropuesta propuestaP, boolean acreditada, LocalDateTime _fechaPago) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
         this.colaborador = colaborador;
@@ -52,6 +54,7 @@ public void setId(Long id) {
         this.propuestaP = propuestaP;
         this.creado = creado;
         this.acreditada = acreditada;
+        this.fechaPago = _fechaPago;
     }
     
     
@@ -166,4 +169,11 @@ public void setId(Long id) {
     {
         acreditada = _acreditada;
     }
+    public LocalDateTime getFechaPago() {
+        return fechaPago;
+    }
+    public void setFechaPago(LocalDateTime fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+    
 }

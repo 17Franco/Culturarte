@@ -3,6 +3,7 @@ package logica.Manejadores;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -134,7 +135,7 @@ public class ManejadorColaboracion {
             tr.begin(); 
             
             Colaboracion colaboracionAPagar = em.find(Colaboracion.class, id);
-            
+            colaboracionAPagar.setFechaPago(LocalDateTime.now());
             colaboracionAPagar.setAcreditada(true); //No necesito merge ya que find lo mantiene conectado a la db.
             tr.commit();
             

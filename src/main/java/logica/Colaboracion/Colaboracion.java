@@ -7,6 +7,7 @@ import logica.Usuario.Colaborador;
 import logica.DTO.TipoRetorno;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Colaboracion {
@@ -22,6 +23,9 @@ public class Colaboracion {
         
         @Column(name = "acreditada", nullable = false)
         private boolean acreditada;
+        
+        @Column(name = "fecha_pago")
+        private LocalDateTime fechaPago;
         
         @ManyToOne
         @JoinColumn(name = "colaborador")
@@ -64,7 +68,9 @@ public class Colaboracion {
         this.colaborador = colaborador;
         this.propuesta = propuesta;
         this.creado = creado;
-        this.acreditada = false;
+        
+        this.acreditada = false;    //Solo se setean al pagar
+        this.fechaPago = null;
     }
      public Colaboracion(DTOColaboracion colaboracion,Colaborador c, Propuesta p){
          tipoRetorno=colaboracion.getTipoRetorno();
@@ -72,7 +78,9 @@ public class Colaboracion {
          creado=colaboracion.getCreado();
          colaborador=c;
          propuesta=p;
-         this.acreditada = false;
+         
+         this.acreditada = false;   //Solo se setean al pagar
+         this.fechaPago = null;
      }
      
     public LocalDate getCreado() {
@@ -131,4 +139,11 @@ public class Colaboracion {
         this.tipoRetorno = tipoRetorno;
     }
 
+    public LocalDateTime getFechaPago() {
+        return fechaPago;
+    }
+
+    public void setFechaPago(LocalDateTime fechaPago) {
+        this.fechaPago = fechaPago;
+    }
 }
