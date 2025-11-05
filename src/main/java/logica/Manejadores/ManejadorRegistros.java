@@ -22,9 +22,16 @@ public class ManejadorRegistros
     private static ManejadorRegistros instancia = null; 
     private EntityManager dbManager;
     
+    private List<DTORegistrosAccesoWeb> buffer; //Evito sobrecargar las llamadas a bases de datos cada vez que se produce una llegada de registros.
+    private long tiempoAnterior;  //Almacen de tiempos
+    int frecuencia = 2000;  //Esto es para la velocidad de actualización en la base de datos en milisegundos
+    boolean verificarDatos = true;
+    
+    
     private ManejadorRegistros() 
     {
-        
+        buffer = new ArrayList<>();
+        tiempoAnterior = System.currentTimeMillis();    //Almaceno milisegundos (reduce carga cpu)
     }
     
     public static ManejadorRegistros getInstance() 
@@ -40,12 +47,16 @@ public class ManejadorRegistros
     {
         List<DTORegistrosAccesoWeb> almacen = new ArrayList<>();
         
-        regUpdater();   //Actualizo borrando registros viejos
+        if(verificarDatos == true) //Elimino entradas de más de un mes, reviso una sola vez por conexión
+        {
+            regUpdaterAsync();   //Más de 30 dias, se borran
+            verificarDatos = false;     //Aseguro que solo sea una vez por conexión
+        }
         
         dbManager = PersistenciaManager.getEntityManager(); //Se asigna base de datos
         
         try 
-        {
+        {                     
             List<RegistrosAccesoWeb> datosImportadosDb = dbManager.createQuery("select regs from RegistrosAccesoWeb regs", RegistrosAccesoWeb.class).getResultList();
 
             for (RegistrosAccesoWeb ct : datosImportadosDb) 
@@ -62,52 +73,85 @@ public class ManejadorRegistros
         return almacen;
     }
     
-    public boolean agregarRegistroAccesoWeb(DTORegistrosAccesoWeb input)
+    public synchronized boolean agregarRegistroAccesoWeb(DTORegistrosAccesoWeb input)
     {
-        
         boolean pass = false;
         
-        regSpaceManager(); //Si no hay espacio, le hace uno nuevo borrando el registro más viejo
-        
-        if(input == null)
+        if(verificarDatos == true) //Elimino entradas de más de un mes, reviso una sola vez por conexión
         {
-            return pass;
+            regUpdaterAsync();   //Más de 30 dias, se borran
+            verificarDatos = false;     //Aseguro que solo sea una vez por conexión
         }
         
-        //Formateo navegador y SO:
-        
-        String navegadorWeb = formateadorNavegador_SO(input.getNavegadorWeb(),1);
-        String SO = formateadorNavegador_SO(input.getSO(),2);
+        if(input != null)   //Ingreso en el buffer
+        {
+           pass = agregarAlBufferRegistrosWeb(input);
+        }
+ 
+        if(pass == true && !(buffer.isEmpty()))
+        {
+            agregarRegistroAccesoWeb();
+            return true;
+        }
 
+        return false;
+    }
+    
+    public synchronized boolean agregarAlBufferRegistrosWeb(DTORegistrosAccesoWeb input)   //Synchro permite concurrencia
+    {
+        buffer.add(input);
+
+        long ahora = System.currentTimeMillis();
+        long tiempoTranscurrido = ahora - tiempoAnterior;
+
+        if (tiempoTranscurrido >= frecuencia || buffer.size() >= 100)     //Almaceno en db cada 2 segundos (setear arriba)
+        {
+            tiempoAnterior = System.currentTimeMillis();
+            return true;
+        }
+        
+        return false;
+
+    }
+    
+    private synchronized void agregarRegistroAccesoWeb() 
+    {
         dbManager = PersistenciaManager.getEntityManager();
-        EntityTransaction transaccionActual = dbManager.getTransaction();
-
-        transaccionActual.begin();
-
-        RegistrosAccesoWeb reg = new RegistrosAccesoWeb(input.getIp(), navegadorWeb, SO, input.getUrl(), LocalDate.now());
+        EntityTransaction transaccion = dbManager.getTransaction();
         
-            try
-            {
-                dbManager.persist(reg);
-                transaccionActual.commit();
-
-                pass = true;    //Aviso en bool que fué todo asignado correctamente o a la espera de posible exception.
-            }
-            catch(Exception wtf)
-            {
-                if(transaccionActual.isActive())    
-                {
-                    transaccionActual.rollback();
-                }
-                
-                pass = false;   //Almaceno en bool que hubo un error inesperado al ingresar los datos...  
-            }
-            finally
-            {
-                dbManager.close(); 
-            }  
+        try 
+        {
+            transaccion.begin();
             
-            return pass;
+            regSpaceManager(dbManager);  //Abro espacio si hay 10000 registros.
+
+            for (DTORegistrosAccesoWeb ct : buffer) 
+            {
+                String navegador = formateadorNavegador_SO(ct.getNavegadorWeb(), 1);
+                String so = formateadorNavegador_SO(ct.getSO(), 2);
+
+                RegistrosAccesoWeb reg = new RegistrosAccesoWeb(ct.getIp(), navegador, so, ct.getUrl(), LocalDate.now());
+
+                dbManager.persist(reg);
+            }
+
+            transaccion.commit();
+            buffer.clear(); //Limpio buffer
+            
+
+        } 
+        catch (Exception e) 
+        {
+            if (transaccion.isActive()) 
+            {
+                transaccion.rollback();
+            }
+            
+        } 
+        finally 
+        {
+            dbManager.close();
+        }
     }
     
     public String formateadorNavegador_SO(String input, int sel)
@@ -150,6 +194,37 @@ public class ManejadorRegistros
         return "error";
     }
     
+    public void regUpdaterAsync() {
+    // Se ejecuta en un hilo independiente
+    new Thread(() -> {
+        EntityManager em = PersistenciaManager.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        LocalDate limite = LocalDate.now().minusDays(30);
+        int batchSize = 500;
+        int deleted;
+
+        try {
+            do {
+                tx.begin();
+                // Borra un lote de registros antiguos
+                deleted = em.createQuery(
+                    "DELETE FROM RegistrosAccesoWeb r WHERE r.fechaRegistro < :fechaLimite"
+                )
+                .setParameter("fechaLimite", limite)
+                .setMaxResults(batchSize)
+                .executeUpdate();
+
+                tx.commit();
+            } while (deleted > 0);
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }).start();
+}
+    
     public void regUpdater() 
     {
         
@@ -164,14 +239,14 @@ public class ManejadorRegistros
 
             dbManager.createQuery("delete from RegistrosAccesoWeb r where r.fechaRegistro < :fechaLimite").setParameter("fechaLimite", hace30Dias).executeUpdate();
 
-            dbManager.getTransaction().commit();
+            transaccionActual.commit();
 
         } 
         catch (Exception e) 
         {
-            if (dbManager.getTransaction().isActive()) 
+            if (transaccionActual.isActive()) 
             {
-                dbManager.getTransaction().rollback();
+                transaccionActual.rollback();
             }
                
         } 
@@ -181,36 +256,21 @@ public class ManejadorRegistros
         }
     }
     
-    public void regSpaceManager() 
+    public void regSpaceManager(EntityManager dbManager) 
     {
-        dbManager = PersistenciaManager.getEntityManager();
-        EntityTransaction transaccionActual = dbManager.getTransaction();
-
-        try 
+        int cantElementosEnBuffer = buffer.size();
+            
+        //Averiguo cantidad actual de datos
+        Long totalRegistros = (Long) dbManager.createQuery("SELECT COUNT(r) FROM RegistrosAccesoWeb r").getSingleResult();
+        System.out.print(totalRegistros + "AAAAAAAAAAAAAa " + cantElementosEnBuffer);
+        if (totalRegistros >= 10000)    //Si hay más de 10k, borra los más viejos para que entren. 
         {
-            transaccionActual.begin();
-
-            int totalRegistros = (int) dbManager.createQuery("SELECT COUNT(r) FROM RegistrosAccesoWeb r").getSingleResult();
-
-            if (totalRegistros >= 10000)    //Si hay más de 10k, borra el más viejo para que entre uno nuevo. 
+            List<Long> olds = (List<Long>) dbManager.createQuery("SELECT r.id FROM RegistrosAccesoWeb r ORDER BY r.fechaRegistro ASC").setMaxResults(cantElementosEnBuffer).getResultList();
+            
+            if (!olds.isEmpty()) 
             {
-                Integer old = (Integer) dbManager.createQuery("SELECT r.id FROM RegistrosAccesoWeb r ORDER BY r.fechaRegistro ASC").setMaxResults(1).getSingleResult();
-
-                dbManager.createQuery("DELETE FROM RegistrosAccesoWeb r WHERE r.id = :id").setParameter("id", old).executeUpdate();
+                dbManager.createQuery("DELETE FROM RegistrosAccesoWeb r WHERE r.id IN :ids").setParameter("ids", olds).executeUpdate();
             }
-
-            dbManager.getTransaction().commit();
-        } 
-        catch (Exception e) 
-        {
-            if (dbManager.getTransaction().isActive()) 
-            {
-                dbManager.getTransaction().rollback();
-            }
-        } 
-        finally 
-        {
-            dbManager.close();
         }
     }
 }
