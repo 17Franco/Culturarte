@@ -365,7 +365,7 @@ public class Controller  implements IController {
         {
             List<DTOColaboracion> t1 = propuestaSel.getAporte();
 
-            for (DTOColaboracion ct : t1) 
+            for (DTOColaboracion ct : t1)
             {
                 if (ct.getColaborador().equals(nickUsuario)) //Si es colaborador
                 {

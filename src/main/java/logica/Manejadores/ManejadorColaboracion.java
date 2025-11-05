@@ -129,14 +129,14 @@ public class ManejadorColaboracion {
     { 
         boolean pass;
         
-        em = PersistenciaManager.getEntityManager();
-        EntityTransaction tr = em.getTransaction();
+        EntityManager dbManager = PersistenciaManager.getEntityManager();
+        EntityTransaction tr = dbManager.getTransaction();
 
         try
         {
             tr.begin(); 
             
-            Colaboracion colaboracionAPagar = em.find(Colaboracion.class, id);
+            Colaboracion colaboracionAPagar = dbManager.find(Colaboracion.class, id);
             colaboracionAPagar.setFechaPago(LocalDateTime.now());
             colaboracionAPagar.setAcreditada(true); //No necesito merge ya que find lo mantiene conectado a la db.
             tr.commit();
@@ -146,12 +146,18 @@ public class ManejadorColaboracion {
         }
         catch(Exception e)
         {
-            tr.rollback(); 
+            e.printStackTrace();
+            
+             if (tr.isActive())
+             {
+                 tr.rollback();
+             } 
+             
             pass = false;
         } 
         finally 
         {
-            em.close();
+            dbManager.close();
             
         }
         

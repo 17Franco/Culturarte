@@ -45,13 +45,11 @@ public void setId(Long id) {
     public DTOColaboracion(){}
     
     
-    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, DTOColaborador colaboradorP, DTOPropuesta propuestaP, boolean acreditada, LocalDateTime _fechaPago) {
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, boolean acreditada, LocalDateTime _fechaPago) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
         this.colaborador = colaborador;
         this.propuesta = propuesta;
-        this.colaboradorP = colaboradorP;
-        this.propuestaP = propuestaP;
         this.creado = creado;
         this.acreditada = acreditada;
         this.fechaPago = _fechaPago;

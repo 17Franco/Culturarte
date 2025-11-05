@@ -256,7 +256,7 @@ public class DTOPropuesta {
         }
         for (int b = 0; b < in.getAporte().size(); b++) 
         {
-            aporte.add(new DTOColaboracion(in.getAporte().get(b).getTipoRetorno(), in.getAporte().get(b).getMonto(), in.getAporte().get(b).getColaborador().getNickname(), in.getAporte().get(b).getPropuesta().getTitulo(), in.getAporte().get(b).getCreado()));
+            aporte.add(new DTOColaboracion(in.getAporte().get(b).getTipoRetorno(), in.getAporte().get(b).getMonto(), in.getAporte().get(b).getColaborador().getNickname(), in.getAporte().get(b).getPropuesta().getTitulo(), in.getAporte().get(b).getCreado(), in.getAporte().get(b).getAcreditada(), in.getAporte().get(b).getFechaPago()));
         }
     }
         
