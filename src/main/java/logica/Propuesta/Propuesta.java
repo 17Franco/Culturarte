@@ -28,6 +28,7 @@ import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTORegistro_Estado;
 import logica.DTO.Estado;
+import org.hibernate.annotations.Where;
 
 @Entity
 public class Propuesta {
@@ -42,7 +43,7 @@ public class Propuesta {
     private int MontoTotal;  //deberia ser int o por lo menos controlar si es texto que se pueda transformar a numero
     private LocalDate FechaPublicacion;
     private LocalDate fechaExpiracion;
-    
+    private String estado="Activo";
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "comentarios", joinColumns = @JoinColumn(name = "propuesta"))
     @MapKeyColumn(name = "usuario")   //Mapeo de la Key
@@ -68,6 +69,7 @@ public class Propuesta {
     @JoinColumn(name = "propuesta") // FK en la tabla registro_estado
     @OrderBy("id DESC") //Orden de más nuevo a más antiguo
     private List<Registro_Estado> historialEstados = new ArrayList<>();
+    
     
     @OneToMany(mappedBy = "propuesta", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Colaboracion> Aporte= new ArrayList<>();// se guarda los aportes que a recibido la propuesta 
@@ -95,6 +97,15 @@ public class Propuesta {
     public  String getDescripcion() {
         return Descripcion;
     }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+    
     public  String getImagen() {
         return Imagen;
     }

@@ -48,25 +48,88 @@ public class ManejadorUsuario {
             instancia = new ManejadorUsuario();
         return instancia;
     }
+    
+    public void reactivarProponente(String nick){
+        em = PersistenciaManager.getEntityManager();
+            try {
+                em.getTransaction().begin();
+
+                Usuario u = em.find(Usuario.class, nick);
+                if (u != null){ 
+
+                    u.setEstado("Activo");
+
+                    // Si es proponente, marcar sus propuestas y colaboraciones
+                    if (u instanceof Proponente) {
+                        Proponente p = (Proponente) u;
+                        for (Propuesta prop : p.getPropCreadas().values()) {
+                            prop.setEstado("Activo");
+
+                            // Marcar colaboraciones como inactivas
+                            for (Colaboracion c : prop.getAporte()) {
+                                c.setEstado("Activo");
+                                em.merge(c);
+                            }
+
+                            em.merge(prop);
+                        }
+                    }
+                    em.merge(u);
+
+                    em.getTransaction().commit();
+                } 
+            } catch (Exception e) {
+                em.getTransaction().rollback();
+                e.printStackTrace();
+                
+            } finally {
+                em.close();
+            }
+    }
     //agrego a la bd un usuario tipo proponente
     public void addProponente(DTOProponente u){
-        Proponente p=new Proponente(u); //creo proponente
-        //usuarios.put(u.getNickname(),p);
-        
-        em= PersistenciaManager.getEntityManager();//instancia del manegador de la persistencia 
-        EntityTransaction t = em.getTransaction(); // intancia de una transaccion nesesario si se hace alta baja y modificado 
-        try{
-            t.begin(); // aca inicio transaccion
-            em.persist(p);// persisto los datos 
-            t.commit();// los aseguro  
-        }
-        catch(Exception e){
-            t.rollback();    // en caso de error hace rollback
+        em= PersistenciaManager.getEntityManager();//instancia del manegador de la persistencia
+        Usuario usu = em.find(Usuario.class, u.getNickname());
+        //nesesito saber si esta intentando reactivar cuenta inactiva
+        if(usu!=null){
+            reactivarProponente(u.getNickname());
+        }else{
+
+            Proponente p=new Proponente(u); //creo proponente
+            //usuarios.put(u.getNickname(),p);
+
+
+            EntityTransaction t = em.getTransaction(); // intancia de una transaccion nesesario si se hace alta baja y modificado 
+            try{
+                t.begin(); // aca inicio transaccion
+                em.persist(p);// persisto los datos 
+                t.commit();// los aseguro  
+            }
+            catch(Exception e){
+                t.rollback();    // en caso de error hace rollback
+            }
+            
         }
         em.close();// cierro el manejador 
-
     }
     
+     //insertar un colaborador a la bd
+     public void addColaborador(DTOColaborador u){
+        Colaborador p=new Colaborador(u);
+        em= PersistenciaManager.getEntityManager();
+        EntityTransaction t = em.getTransaction();
+        try{
+            t.begin();
+            em.persist(p);
+            t.commit();
+            
+        }
+        catch(Exception e){
+            t.rollback();    
+        }
+        em.close();
+    
+    }
     //obengo la lista de usuario que siguen al usuario identificado por seguido
     public List<DTOUsuario> obtenerSeguidores(String seguido){
         em= PersistenciaManager.getEntityManager();
@@ -125,15 +188,17 @@ public class ManejadorUsuario {
         try{
             List<Usuario> lista = em.createQuery("FROM Usuario", Usuario.class).getResultList();
             for(Usuario u: lista){
-                DTOUsuario usr=new DTOUsuario();
-                usr.setNickname(u.getNickname());
-                usr.setRutaImg(u.getRutaImg());
-                if(u instanceof Proponente){
-                    usr.setTipoUsr("Proponente");
-                }else{
-                    usr.setTipoUsr("Colaborador");
+                if("Activo".equals(u.getEstado())){
+                    DTOUsuario usr=new DTOUsuario();
+                    usr.setNickname(u.getNickname());
+                    usr.setRutaImg(u.getRutaImg());
+                    if(u instanceof Proponente){
+                        usr.setTipoUsr("Proponente");
+                    }else{
+                        usr.setTipoUsr("Colaborador");
+                    }
+                    usuarios.add(usr);
                 }
-                usuarios.add(usr);
             }
             return usuarios;
         }finally{
@@ -141,23 +206,7 @@ public class ManejadorUsuario {
         }
     
     }
-     //insertar un colaborador a la bd
-     public void addColaborador(DTOColaborador u){
-        Colaborador p=new Colaborador(u);
-        em= PersistenciaManager.getEntityManager();
-        EntityTransaction t = em.getTransaction();
-        try{
-            t.begin();
-            em.persist(p);
-            t.commit();
-            
-        }
-        catch(Exception e){
-            t.rollback();    
-        }
-        em.close();
     
-    }
      //devuelvo las propuestas del usuario identificado por nick
     public List<DTOPropuesta> getFavoritas(String nick){
         em= PersistenciaManager.getEntityManager();
@@ -186,7 +235,7 @@ public class ManejadorUsuario {
         em= PersistenciaManager.getEntityManager();
       try{
             Usuario u = em.find(Usuario.class, nick);
-            return  (u != null);
+            return  (u != null && "Activo".equals(u.getEstado()));
       }finally{
             em.close(); 
       }
@@ -252,7 +301,12 @@ public class ManejadorUsuario {
          try{
              String norm = email == null ? null : email.trim().toLowerCase();
              Long count = em.createQuery(
-            "SELECT COUNT(u) FROM Usuario u WHERE u.email = :email", Long.class).setParameter("email", norm).getSingleResult();
+            "SELECT COUNT(u) FROM Usuario u " +
+            "WHERE u.email = :email AND u.estado = 'Activo'", 
+            Long.class
+            )
+            .setParameter("email", norm)
+            .getSingleResult();
             return count > 0;
          }finally{
             em.close();
@@ -270,12 +324,14 @@ public class ManejadorUsuario {
             List<Usuario> lista = em.createQuery("FROM Usuario", Usuario.class).getResultList();
             Map<String,DTOUsuario> mapDtoUsuario=new HashMap<>();
             for(Usuario u: lista){
-                if(u instanceof Colaborador){
-                    DTOColaborador c= new DTOColaborador( (Colaborador) u);
-                    mapDtoUsuario.put(c.getNickname(), c);
-                }else{
-                    DTOProponente p=new DTOProponente((Proponente) u);
-                    mapDtoUsuario.put(p.getNickname(), p);
+                if("Activo".equals(u.getEstado())){
+                    if(u instanceof Colaborador){
+                        DTOColaborador c= new DTOColaborador( (Colaborador) u);
+                        mapDtoUsuario.put(c.getNickname(), c);
+                    }else{
+                        DTOProponente p=new DTOProponente((Proponente) u);
+                        mapDtoUsuario.put(p.getNickname(), p);
+                    }
                 }
             }
             return mapDtoUsuario;
@@ -333,7 +389,7 @@ public class ManejadorUsuario {
         }finally{
             em.close();
         }
-        }
+    }
         
     //elimino la colaboracion echa a propuesta por el usuario identificado por nick 
     public void eliminarColaboracion(String nick,String propuesta){
@@ -435,7 +491,7 @@ public class ManejadorUsuario {
             em = PersistenciaManager.getEntityManager();
             try{
               Usuario usuario = em.find(Usuario.class,nick);
-                if(usuario !=null && usuario.getPass().equals(pass)){
+                if(usuario !=null && usuario.getPass().equals(pass) && "Activo".equals(usuario.getEstado())){
                   return true;      
                 }
                 return false;
@@ -592,6 +648,52 @@ public class ManejadorUsuario {
             }
               
             return usu;
+        }
+        
+        public boolean eliminarProponente(String nick){
+            
+            //verificar que sea proponente talves
+            //traer el Usuario cambiar su estado a inactivo 
+            //su propuestas creadas cambiarlas a inactivas
+            //la gente que lo sigue hacer que lo dejen de seguir
+            //eliminar sus prop favoritas y lo que hallan marcado como favorita alguna que alla creado
+            em = PersistenciaManager.getEntityManager();
+            try {
+                em.getTransaction().begin();
+
+                Usuario u = em.find(Usuario.class, nick);
+                if (u == null) return false;
+
+                u.setEstado("Inactivo");
+                
+                // Si es proponente, marcar sus propuestas y colaboraciones
+                if (u instanceof Proponente) {
+                    Proponente p = (Proponente) u;
+                    for (Propuesta prop : p.getPropCreadas().values()) {
+                        prop.setEstado("Inactivo");
+
+                        // Marcar colaboraciones como inactivas
+                        for (Colaboracion c : prop.getAporte()) {
+                            c.setEstado("Inactivo");
+                            em.merge(c);
+                        }
+
+                        em.merge(prop);
+                    }
+                }
+                em.merge(u);
+
+                em.getTransaction().commit();
+                return true;
+            } catch (Exception e) {
+                em.getTransaction().rollback();
+                e.printStackTrace();
+                return false;
+            } finally {
+                em.close();
+            }
+            
+           
         }
         //empieza los metodos para cargar datos de usuario y colaboraciones
         public void cargarpProponente(){

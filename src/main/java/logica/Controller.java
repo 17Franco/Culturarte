@@ -253,6 +253,10 @@ public class Controller  implements IController {
         return mUsuario.getFavoritas(nick);
     }
     
+    @Override
+    public boolean eliminarProponente(String nick){
+        return mUsuario.eliminarProponente(nick);
+    }
     //FIN METODOS QUE SE USAN EN WEB (USUARIOS)
     
     //FIN USUARIOS

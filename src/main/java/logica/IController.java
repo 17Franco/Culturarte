@@ -83,6 +83,8 @@ public interface IController {
     List<DTOUsuario> getSeguidores(String nick);
     
     List<DTOPropuesta> getFavoritas(String nick);
+    
+    boolean eliminarProponente(String nick);
     //FIN WEB
     
     //Fin Usuario

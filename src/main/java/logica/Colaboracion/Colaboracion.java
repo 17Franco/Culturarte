@@ -36,6 +36,8 @@ public class Colaboracion {
         private Propuesta propuesta;
 
         private LocalDate creado;
+        
+        private String estado="Activo";
     
     public Colaboracion() {
     }
@@ -96,7 +98,15 @@ public class Colaboracion {
         this.creado = creado;
     }
 
+    public String getEstado() {
+        return estado;
+    }
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
     public Propuesta getPropuesta() {
         return propuesta;
     }

@@ -108,25 +108,27 @@ public class ManejadorPropuesta {
             
             for (Propuesta p : propuestas)
             {   
-                p.getHistorialEstados().size(); //Hibernate no me quiere cargar estas listas desde el inixio (forzado)
-                p.getRetorno().size();
-                p.getAporte().size();
+                if("Activo".equals(p.getEstado())){
+                    p.getHistorialEstados().size(); //Hibernate no me quiere cargar estas listas desde el inixio (forzado)
+                    p.getRetorno().size();
+                    p.getAporte().size();
 
-                if(!estadoInput.isEmpty())  //Solo almacenará propuestas que coincidan en el estado imputeado
-                {
+                    if(!estadoInput.isEmpty())  //Solo almacenará propuestas que coincidan en el estado imputeado
+                    {
 
-                    if(p.getUltimoEstado() != null && p.getUltimoEstadoString().equals(estadoInput))   //Si existe ultimo estado y coincide con el necesario
-                    {       
-                        DTOPropuesta temp = new DTOPropuesta();
-                        temp.extraerDatosPropuesta(p);           
-                        result.add(temp);                       
-                    }    
-                }
-                else    //Almacena todas las propuestas
-                {
-                    DTOPropuesta dto = new DTOPropuesta();
-                    dto.extraerDatosPropuesta(p);
-                    result.add(dto);
+                        if(p.getUltimoEstado() != null && p.getUltimoEstadoString().equals(estadoInput))   //Si existe ultimo estado y coincide con el necesario
+                        {       
+                            DTOPropuesta temp = new DTOPropuesta();
+                            temp.extraerDatosPropuesta(p);           
+                            result.add(temp);                       
+                        }    
+                    }
+                    else    //Almacena todas las propuestas
+                    {
+                        DTOPropuesta dto = new DTOPropuesta();
+                        dto.extraerDatosPropuesta(p);
+                        result.add(dto);
+                    }
                 }
             }
         } 
@@ -803,6 +805,7 @@ public class ManejadorPropuesta {
             
             for (Propuesta p : propuestas)
             {   
+                if("Activo".equals(p.getEstado()))
                 if (p.getCategoria().getNombreCategoria() == null ? subcategorias == null : p.getCategoria().getNombreCategoria().equals(subcategorias)){
                     result.add(p.toDTO());      
                 }
@@ -829,12 +832,14 @@ public class ManejadorPropuesta {
             
             // Recorro todas las propuestas y filtra por título, lugar o descripción 
             for (Propuesta p : propuestas){ 
-                Boolean filtraPorTitulo = p.getTitulo().toLowerCase().contains(filtroLowerCase);
-                Boolean filtraPorLugar = p.getLugar().toLowerCase().contains(filtroLowerCase);
-                Boolean filtraPorDescripcion = p.getDescripcion().toLowerCase().contains(filtroLowerCase);
-                
-                if ( filtraPorTitulo || filtraPorLugar || filtraPorDescripcion){
-                    filtradas.add(p.toDTO());//se agrega a lista filtradas
+                if("Activo".equals(p.getEstado())){
+                    Boolean filtraPorTitulo = p.getTitulo().toLowerCase().contains(filtroLowerCase);
+                    Boolean filtraPorLugar = p.getLugar().toLowerCase().contains(filtroLowerCase);
+                    Boolean filtraPorDescripcion = p.getDescripcion().toLowerCase().contains(filtroLowerCase);
+
+                    if ( filtraPorTitulo || filtraPorLugar || filtraPorDescripcion){
+                        filtradas.add(p.toDTO());//se agrega a lista filtradas
+                    }
                 }
             }
         }

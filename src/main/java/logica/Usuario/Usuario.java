@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import logica.Propuesta.Propuesta;
 import java.util.Iterator;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -31,13 +32,14 @@ public class Usuario {
     
     private LocalDate fecha;
     private String rutaImg;
-    
+    private String estado="Activo";
     @ManyToMany
     @JoinTable(
         name = "usuario_seguidos",
         joinColumns = @JoinColumn(name = "seguidor"),          // el que sigue
         inverseJoinColumns = @JoinColumn(name = "seguido")     // al que sigo
     )
+    @Where(clause = "estado = 'Activo'")
     @MapKey(name = "nickname")
     private Map<String,Usuario> usuarioSeguido=new HashMap<>();
     
@@ -47,6 +49,7 @@ public class Usuario {
         joinColumns = @JoinColumn(name = "usuario"),          // el usuario
         inverseJoinColumns = @JoinColumn(name = "propuesta")     // la prop favorita
     )
+    @Where(clause = "estado = 'Activo'")
     @MapKey(name = "Titulo") // asigna 
     private Map<String,Propuesta> propFavorita=new HashMap<>();
 
@@ -66,6 +69,14 @@ public class Usuario {
         this.rutaImg = rutaImg;
     }
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+    
     public Usuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
         this.nickname = nickname;
         this.pass = pass;

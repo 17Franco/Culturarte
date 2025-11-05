@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import logica.DTO.DTOProponente;
 import logica.Propuesta.Propuesta;
+import org.hibernate.annotations.Where;
 
 @Entity
 public class Proponente extends Usuario{
@@ -23,6 +24,8 @@ public class Proponente extends Usuario{
     private String biografia;
     private String webSite;
     
+    
+    //@Where(clause = "estado = 'Activo'")
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, orphanRemoval = true)
     @MapKey(name = "Titulo")  
     private Map<String,Propuesta> propCreadas=new HashMap<>();

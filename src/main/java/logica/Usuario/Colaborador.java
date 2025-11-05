@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaborador;
+import org.hibernate.annotations.Where;
 
 @Entity
 public class Colaborador extends Usuario{
     
-     @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL)
+    @Where(clause = "estado = 'Activo'")
+    @OneToMany(mappedBy = "colaborador", cascade = CascadeType.ALL)
     private List<Colaboracion> colaboraciones= new ArrayList<>();
 
     public Colaborador() {
