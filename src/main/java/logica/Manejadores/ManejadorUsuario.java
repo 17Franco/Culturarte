@@ -340,6 +340,32 @@ public class ManejadorUsuario {
          }
     }
     
+    public Map<String, DTOUsuario> getProponenteEliminados() {
+        
+         Map<String, DTOUsuario> resu = new HashMap<>();
+       em = PersistenciaManager.getEntityManager();
+         
+         try{
+           // Traigo todos los usuarios en una lista
+            List<Usuario> lista = em.createQuery("FROM Usuario", Usuario.class).getResultList();
+            Map<String,DTOUsuario> mapDtoUsuario=new HashMap<>();
+            for(Usuario u: lista){
+                if("Inactivo".equals(u.getEstado())){
+                    if(u instanceof Colaborador){
+                        DTOColaborador c= new DTOColaborador( (Colaborador) u);
+                        mapDtoUsuario.put(c.getNickname(), c);
+                    }else{
+                        DTOProponente p=new DTOProponente((Proponente) u);
+                        mapDtoUsuario.put(p.getNickname(), p);
+                    }
+                }
+            }
+            return mapDtoUsuario;
+         }finally{
+            em.close();
+         }
+    }
+    
     // aca devuelvo dto de usuarios que solo son colaboradores
     public Set<DTOColaborador> listaColaboradores(){
         Set<DTOColaborador> results = new HashSet<DTOColaborador>();

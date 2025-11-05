@@ -38,6 +38,8 @@ public interface IController {
     
     List<String> ListaUsuarios();
     
+    List<String> ProponenteEliminados();
+    
     List<String> ListaProponentes();
     
     List<String> ListaColaborador();

@@ -88,6 +88,15 @@ public class Controller  implements IController {
     }
     
     @Override
+    public List<String> ProponenteEliminados(){
+        List<String> aux = new ArrayList<>();
+        for (DTOUsuario c : mUsuario.getProponenteEliminados().values()){
+                aux.add(c.getNickname());
+        }
+       return aux; 
+    }
+    
+    @Override
     public List<String> ListaProponentes(){
         List<String> aux = new ArrayList<>();
         for (DTOUsuario c : mUsuario.getUsuarios().values()){
