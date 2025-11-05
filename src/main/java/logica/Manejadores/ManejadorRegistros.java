@@ -162,7 +162,6 @@ public class ManejadorRegistros
         if(sel == 1)
         {
             if (input == null || input.isEmpty()) {return "Desconocido";}
-        
 
             if (input.contains("Edg/")) return "Edge";
             if (input.contains("OPR/") || input.contains("Opera/")) return "Opera";
@@ -177,15 +176,10 @@ public class ManejadorRegistros
         if (sel == 2)
         {
             if (input == null || input.isEmpty()) {return "Desconocido";}
-   
-            if (input.contains("Android")) {return "Android";}
-            
-            if (input.contains("iPhone") || input.contains("iPad")) {return "iOS";}
-            
-            if (input.contains("Windows NT")) {return "Windows";}
-            
-            if (input.contains("Mac OS X")) {return "macOS";}
-            
+            if (input.contains("Android")) {return "Android";}   
+            if (input.contains("iPhone") || input.contains("iPad")) {return "iOS";}         
+            if (input.contains("Windows NT")) {return "Windows";}        
+            if (input.contains("Mac OS X")) {return "macOS";}         
             if (input.contains("Linux")) {return "Linux";}
 
             return "Ofuscado";
@@ -194,66 +188,59 @@ public class ManejadorRegistros
         return "error";
     }
     
-    public void regUpdaterAsync() {
-    // Se ejecuta en un hilo independiente
-    new Thread(() -> {
-        EntityManager em = PersistenciaManager.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        LocalDate limite = LocalDate.now().minusDays(30);
-        int batchSize = 500;
-        int deleted;
-
-        try {
-            do {
-                tx.begin();
-                // Borra un lote de registros antiguos
-                deleted = em.createQuery(
-                    "DELETE FROM RegistrosAccesoWeb r WHERE r.fechaRegistro < :fechaLimite"
-                )
-                .setParameter("fechaLimite", limite)
-                .setMaxResults(batchSize)
-                .executeUpdate();
-
-                tx.commit();
-            } while (deleted > 0);
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-    }).start();
-}
-    
-    public void regUpdater() 
+    public void regUpdaterAsync() 
     {
-        
-        dbManager = PersistenciaManager.getEntityManager();
-        EntityTransaction transaccionActual = dbManager.getTransaction();
-        
-        try 
+        new Thread(() ->   
         {
-            transaccionActual.begin();
+            LocalDate limite = LocalDate.now().minusDays(30);
+            int batchSize = 500;
 
-            LocalDate hace30Dias = LocalDate.now().minusDays(30);
-
-            dbManager.createQuery("delete from RegistrosAccesoWeb r where r.fechaRegistro < :fechaLimite").setParameter("fechaLimite", hace30Dias).executeUpdate();
-
-            transaccionActual.commit();
-
-        } 
-        catch (Exception e) 
-        {
-            if (transaccionActual.isActive()) 
+            while (true) 
             {
-                transaccionActual.rollback();
+                EntityManager em = PersistenciaManager.getEntityManager();
+                EntityTransaction transaccionActual = em.getTransaction();
+                
+                int deleted = 0;
+
+                try 
+                {
+                    
+                    List<Long> ids = em.createQuery("SELECT r.id FROM RegistrosAccesoWeb r WHERE r.fechaRegistro < :limite", Long.class).setParameter("limite", limite).setMaxResults(batchSize).getResultList();
+
+                    if (ids.isEmpty()) 
+                    {
+                        break;
+                    }
+
+                    transaccionActual.begin();
+                    
+                    em.createQuery("DELETE FROM RegistrosAccesoWeb r WHERE r.id IN :ids").setParameter("ids", ids).executeUpdate();
+                    
+                    transaccionActual.commit();
+
+                    deleted = ids.size();
+                    
+                } 
+                catch (Exception e) 
+                {
+                    if (transaccionActual.isActive()) 
+                    {
+                        transaccionActual.rollback();
+                    }
+                    break;
+                } 
+                finally 
+                {
+                    em.close();
+                }
+
+                if (deleted < batchSize) 
+                {
+                    break;
+                }
             }
-               
-        } 
-        finally 
-        {
-            dbManager.close();
-        }
+            
+        }).start();
     }
     
     public void regSpaceManager(EntityManager dbManager) 
@@ -262,7 +249,7 @@ public class ManejadorRegistros
             
         //Averiguo cantidad actual de datos
         Long totalRegistros = (Long) dbManager.createQuery("SELECT COUNT(r) FROM RegistrosAccesoWeb r").getSingleResult();
-        System.out.print(totalRegistros + "AAAAAAAAAAAAAa " + cantElementosEnBuffer);
+        
         if (totalRegistros >= 10000)    //Si hay más de 10k, borra los más viejos para que entren. 
         {
             List<Long> olds = (List<Long>) dbManager.createQuery("SELECT r.id FROM RegistrosAccesoWeb r ORDER BY r.fechaRegistro ASC").setMaxResults(cantElementosEnBuffer).getResultList();

@@ -6,7 +6,9 @@ package ui;
 
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -27,9 +29,36 @@ public class AccessReg extends javax.swing.JInternalFrame {
     public AccessReg() 
     {
         initComponents();
+        vertScrollBarManager();
         descargarInfo();
         
     }
+    
+    
+    private void vertScrollBarManager()
+    {
+        jScrollPane2.getVerticalScrollBar().addAdjustmentListener(e -> 
+        {
+          
+            if (!e.getValueIsAdjusting()) 
+            {
+                //Obtengo parámetros del scroll para comparar
+                int max = jScrollPane2.getVerticalScrollBar().getMaximum();
+                int visible = jScrollPane2.getVerticalScrollBar().getVisibleAmount();
+                int value = e.getValue();
+
+                //Si no está abajo y está siendo usado...
+                if (value + visible < max && jToggleButton1.isSelected()) 
+                {
+                    jToggleButton1.setSelected(false);  //Lo apago
+                    jToggleButton1.repaint();
+                    jToggleButton1.revalidate();
+                }
+            }
+        });
+    }
+    
+    
     
     @Override
     public void dispose() 
@@ -114,12 +143,20 @@ public class AccessReg extends javax.swing.JInternalFrame {
                     
                     tablaDatos.getColumnModel().getColumn(0).setPreferredWidth(60); 
                     tablaDatos.getColumnModel().getColumn(1).setPreferredWidth(150);
-                    tablaDatos.getColumnModel().getColumn(2).setPreferredWidth(400); 
-                    tablaDatos.getColumnModel().getColumn(3).setPreferredWidth(60); 
-                    tablaDatos.getColumnModel().getColumn(4).setPreferredWidth(60); 
+                    tablaDatos.getColumnModel().getColumn(2).setPreferredWidth(500); 
+                    tablaDatos.getColumnModel().getColumn(3).setPreferredWidth(80); 
+                    tablaDatos.getColumnModel().getColumn(4).setPreferredWidth(80); 
                     
                     tablaDatos.revalidate();
                     tablaDatos.repaint();
+                    
+                    //Esto para que la scrollbar vertical quede al final
+                    if (jToggleButton1.isSelected()) 
+                    {
+                        JScrollBar barra = jScrollPane2.getVerticalScrollBar();
+                        barra.setValue(barra.getMaximum());             //La manda al fndo
+                    }
+
                     
                     if(pass == 1)
                     {
@@ -145,6 +182,7 @@ public class AccessReg extends javax.swing.JInternalFrame {
         BotonSalir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaDatos = new javax.swing.JTable();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -162,6 +200,8 @@ public class AccessReg extends javax.swing.JInternalFrame {
             }
         });
 
+        jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         tablaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -174,7 +214,20 @@ public class AccessReg extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaDatos.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         jScrollPane2.setViewportView(tablaDatos);
+
+        jToggleButton1.setText("Mantener ScrllBar abajo");
+        jToggleButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jToggleButton1MouseClicked(evt);
+            }
+        });
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,10 +237,13 @@ public class AccessReg extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jToggleButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BotonSalir))
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,7 +254,9 @@ public class AccessReg extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(BotonSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonSalir)
+                    .addComponent(jToggleButton1))
                 .addContainerGap())
         );
 
@@ -215,11 +273,30 @@ public class AccessReg extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_BotonSalirActionPerformed
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MouseClicked
+       
+        if(jToggleButton1.isSelected())
+       {
+           jToggleButton1.setSelected(false);
+           jToggleButton1.repaint();
+       }
+        else
+        {
+            jToggleButton1.setSelected(true);
+            jToggleButton1.repaint();
+        }
+    }//GEN-LAST:event_jToggleButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTable tablaDatos;
     // End of variables declaration//GEN-END:variables
 }
