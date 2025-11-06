@@ -18,6 +18,7 @@ import logica.DTO.DTOColaborador;
 import logica.DTO.DTOProponente;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
+import logica.DTO.DTOPago;
 import logica.DTO.DTORegistrosAccesoWeb;
 import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
@@ -143,7 +144,7 @@ public interface IController {
     
     Set<DTOColaboracion> getDTOColaboraciones();
     
-    boolean acreditarColaboracion(Long id);
+    boolean acreditarColaboracion(Long id, DTOPago datosPago);
 
     //Registros
     

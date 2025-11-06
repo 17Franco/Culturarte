@@ -4,6 +4,7 @@ package logica.DTO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import logica.Colaboracion.Colaboracion;
+import logica.Colaboracion.Pago;
 
 public class DTOColaboracion {
         private TipoRetorno tipoRetorno;
@@ -15,8 +16,7 @@ public class DTOColaboracion {
         private DTOPropuesta propuestaP;// veo inesesarios tener los punteros en el dtoColaboracion
         private DTOColaborador colaboradorP;
         private LocalDate creado;
-        private boolean acreditada;
-        private LocalDateTime fechaPago;
+        private Pago datosPago;
     
     private Long id;
 
@@ -45,14 +45,13 @@ public void setId(Long id) {
     public DTOColaboracion(){}
     
     
-    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, boolean acreditada, LocalDateTime _fechaPago) {
+    public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado, Pago pago) {
         this.tipoRetorno = tipoRetorno;
         this.monto = monto;
         this.colaborador = colaborador;
         this.propuesta = propuesta;
         this.creado = creado;
-        this.acreditada = acreditada;
-        this.fechaPago = _fechaPago;
+        this.datosPago = pago;
     }
     
     
@@ -134,9 +133,9 @@ public void setId(Long id) {
         return tipoRetorno;
     }
 
-    public boolean getAcreditada()
+    public Pago getDatosPago()
     {
-        return acreditada;
+        return datosPago;
     }
     
     public void setTipoRetorno(TipoRetorno tipoRetorno) {
@@ -163,15 +162,9 @@ public void setId(Long id) {
        return colaboradorP;
     }
     
-    public void setAcreditada(boolean _acreditada)
+    public void setDatosPago(Pago input)
     {
-        acreditada = _acreditada;
-    }
-    public LocalDateTime getFechaPago() {
-        return fechaPago;
-    }
-    public void setFechaPago(LocalDateTime fechaPago) {
-        this.fechaPago = fechaPago;
+        datosPago = input;
     }
     
 }

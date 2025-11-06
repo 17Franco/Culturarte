@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOColaboracion;
+import logica.DTO.DTOPago;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
 import logica.DTO.TipoRetorno;
@@ -125,7 +126,7 @@ public class ManejadorColaboracion {
         em.close();// cierro el manejador 
     }
     
-    public boolean acreditarColaboracion(Long id)
+    public boolean acreditarColaboracion(Long id, DTOPago datos)
     { 
         boolean pass;
         
@@ -137,8 +138,8 @@ public class ManejadorColaboracion {
             tr.begin(); 
             
             Colaboracion colaboracionAPagar = dbManager.find(Colaboracion.class, id);
-            colaboracionAPagar.setFechaPago(LocalDateTime.now());
-            colaboracionAPagar.setAcreditada(true); //No necesito merge ya que find lo mantiene conectado a la db.
+            datos.setFechaPago(LocalDateTime.now());
+            colaboracionAPagar.setDatosPago(datos);
             tr.commit();
             
             pass = true;

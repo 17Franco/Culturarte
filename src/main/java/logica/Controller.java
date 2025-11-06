@@ -30,7 +30,7 @@ import logica.DTO.Estado;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import logica.DTO.DTOPago;
 import logica.DTO.DTORegistrosAccesoWeb;
 
 public class Controller  implements IController {
@@ -369,7 +369,7 @@ public class Controller  implements IController {
             {
                 if (ct.getColaborador().equals(nickUsuario)) //Si es colaborador
                 {
-                    if(ct.getAcreditada() == false)  //Si no fué pagada
+                    if(ct.getDatosPago() == null)  //Si no fué pagada
                     {
                         return 4;   //Aparece botón de pago
                     }
@@ -575,9 +575,9 @@ public class Controller  implements IController {
         return mUsuario.listaColaboradores();
     }
     
-    public boolean acreditarColaboracion(Long id)
+    public boolean acreditarColaboracion(Long id, DTOPago datosPago)
     {
-        return mColaboraciones.acreditarColaboracion(id);
+        return mColaboraciones.acreditarColaboracion(id, datosPago);
     }
     
     //FIN COLABORACIONES

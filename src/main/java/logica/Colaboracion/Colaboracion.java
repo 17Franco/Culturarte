@@ -1,6 +1,7 @@
 package logica.Colaboracion;
 
 import java.time.LocalDate;
+import logica.Colaboracion.Pago;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
@@ -8,6 +9,7 @@ import logica.DTO.TipoRetorno;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import logica.DTO.DTOPago;
 
 @Entity
 public class Colaboracion {
@@ -21,11 +23,9 @@ public class Colaboracion {
 
         private int monto;
         
-        @Column(name = "acreditada", nullable = false)
-        private boolean acreditada;
-        
-        @Column(name = "fecha_pago")
-        private LocalDateTime fechaPago;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "id_pago", referencedColumnName = "id")
+        private Pago datosPago;
         
         @ManyToOne
         @JoinColumn(name = "colaborador")
@@ -70,9 +70,9 @@ public class Colaboracion {
         this.colaborador = colaborador;
         this.propuesta = propuesta;
         this.creado = creado;
-        
-        this.acreditada = false;    //Solo se setean al pagar
-        this.fechaPago = null;
+   
+        //Solo se setea al pagar
+        this.datosPago = null;
     }
      public Colaboracion(DTOColaboracion colaboracion,Colaborador c, Propuesta p){
          tipoRetorno=colaboracion.getTipoRetorno();
@@ -81,17 +81,24 @@ public class Colaboracion {
          colaborador=c;
          propuesta=p;
          
-         this.acreditada = false;   //Solo se setean al pagar
-         this.fechaPago = null;
+         //Solo se setea al pagar
+        this.datosPago = null;
      }
      
     public LocalDate getCreado() {
         return creado;
     }
 
-    public boolean getAcreditada()
+    public Pago getDatosPago()
+    {   
+        return datosPago;
+    }
+    
+    public void setDatosPago(DTOPago input)
     {
-        return acreditada;
+        Pago temp = new Pago(input);    //Constructor directo con el DTO
+        
+        datosPago = temp;
     }
     
     public void setCreado(LocalDate creado) {
@@ -115,9 +122,9 @@ public class Colaboracion {
         this.propuesta = propuesta;
     }
 
-    public void setAcreditada(boolean input)
+    public void setAcreditada(Pago input)
     {
-        acreditada = input;
+        datosPago = input;
     }
    
     public Colaborador getColaborador() {
@@ -147,13 +154,5 @@ public class Colaboracion {
     
     public void setTipoRetorno(TipoRetorno tipoRetorno) {
         this.tipoRetorno = tipoRetorno;
-    }
-
-    public LocalDateTime getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(LocalDateTime fechaPago) {
-        this.fechaPago = fechaPago;
     }
 }
