@@ -128,7 +128,6 @@ public class ManejadorColaboracion {
     
     public boolean acreditarColaboracion(Long id, DTOPago datos)
     { 
-        boolean pass;
         
         EntityManager dbManager = PersistenciaManager.getEntityManager();
         EntityTransaction tr = dbManager.getTransaction();
@@ -142,8 +141,7 @@ public class ManejadorColaboracion {
             colaboracionAPagar.setDatosPago(datos);
             tr.commit();
             
-            pass = true;
-            
+            return true;  
         }
         catch(Exception e)
         {
@@ -154,7 +152,7 @@ public class ManejadorColaboracion {
                  tr.rollback();
              } 
              
-            pass = false;
+            return false;
         } 
         finally 
         {
@@ -162,7 +160,6 @@ public class ManejadorColaboracion {
             
         }
         
-        return pass;
     }
     
     
