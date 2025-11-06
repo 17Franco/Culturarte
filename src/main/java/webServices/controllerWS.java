@@ -9,6 +9,8 @@ import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.xml.ws.Endpoint;
+import logica.Fabrica;
+import logica.IController;
 
 
 @WebService(serviceName = "controllerWS")
@@ -37,6 +39,14 @@ public class controllerWS {
     public Endpoint getEndpoint(){
         return this.endpoint;
     }
+    //public boolean existeUsuario(String nick, String email)
+    @WebMethod(operationName = "existe")
+    public boolean existeUsuario(String nick,String email) {
+       IController controller = Fabrica.getInstance().getController();
+        
+        return controller.existeUsuario(nick, email);
+    }
+    
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
