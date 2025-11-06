@@ -45,7 +45,7 @@ public class Propuesta {
     private LocalDate fechaExpiracion;
     private String estado="Activo";
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "comentarios", joinColumns = @JoinColumn(name = "propuesta"))
+    @CollectionTable(name = "Comentarios", joinColumns = @JoinColumn(name = "propuesta"))
     @MapKeyColumn(name = "usuario")   //Mapeo de la Key
     @Column(name = "comentario")       //Mapeo del value
     private Map<String,String> comentarios = new HashMap<>();

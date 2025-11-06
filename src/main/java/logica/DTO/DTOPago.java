@@ -15,6 +15,7 @@ public class DTOPago
     private LocalDateTime fechaPago;
     
     //Uso estos String genéricos y los adapto a cada circunstancia dependiendo de la variable "formaPago" (arriba).
+    //Así no queda con 300 variables sin uso por cada método de pago
     
     //INFO para el que caiga acá:
     
