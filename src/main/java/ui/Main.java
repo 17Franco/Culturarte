@@ -8,6 +8,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenuItem;
 import logica.Fabrica;
 import logica.IController;
+import webServices.controllerWS;
 
 public class Main extends javax.swing.JFrame {
     
@@ -355,6 +356,9 @@ public class Main extends javax.swing.JFrame {
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
+        
+        controllerWS ws = new controllerWS();
+        ws.publicar();
     }
 
     private void CargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarDatosActionPerformed

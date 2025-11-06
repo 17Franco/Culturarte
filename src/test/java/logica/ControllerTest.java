@@ -817,7 +817,7 @@ public class ControllerTest
 
     Controller controller = new Controller();
     String rutaEsperada = "IMG" + File.separator + nick + File.separator + nombreArchivo;
-    String carpetaDestino = "/home/fran/Escritorio/Lab2PA/IMG" + File.separator + nick;
+    String carpetaDestino = "/home/fran/Escritorio/Lab1PA/IMG" + File.separator + nick;
     Path destino = Paths.get(carpetaDestino, nombreArchivo);
 
     try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {

@@ -186,7 +186,7 @@ public class Controller  implements IController {
     public String obtenerPathImg(String nick,byte[] contenido,String nombreArchivo){
         if(!nombreArchivo.equals("")){
         //String RUTA_IMAGENES = "/IMG"; //RUTA PARA DOCKER
-        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab2PA/IMG"; //configurar en cada maquina o buscar solucion
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
         String resdir="IMG" + File.separator+ nick +File.separator+ nombreArchivo;//la direccion que guardare en la bd
         String carpetaDestino = RUTA_IMAGENES + File.separator + nick;
         File dir = new File(carpetaDestino);
@@ -209,7 +209,7 @@ public class Controller  implements IController {
     
     @Override
     public byte[] getImg(String ruta) {
-        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab2PA";
+        String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA";
         try{
         File img=new File(RUTA_IMAGENES + File.separator +ruta);
         //File img=new File(File.separator +ruta); //ESTO ES PARA DOCKER
