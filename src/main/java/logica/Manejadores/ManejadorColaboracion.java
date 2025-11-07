@@ -379,5 +379,28 @@ public class ManejadorColaboracion {
         }
     
     }
-    
+    //fn para traer la colab por id
+    public DTOColaboracion getColaboracionPorId(Long id) {
+    EntityManager em = PersistenciaManager.getEntityManager();
+    DTOColaboracion dto = null;
+
+    try {
+        Colaboracion colab = em.find(Colaboracion.class, id);
+        if (colab != null) {
+            dto = new DTOColaboracion(
+                colab.getTipoRetorno(),
+                colab.getMonto(),
+                colab.getColaborador().getNickname(),
+                colab.getPropuesta().getTitulo(),
+                colab.getCreado()
+            );
+            dto.setId(colab.getId());
+        }
+    } finally {
+        em.close();
+    }
+
+    return dto;
+}
+
 }
