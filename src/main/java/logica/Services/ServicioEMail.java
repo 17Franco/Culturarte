@@ -24,7 +24,7 @@ public class ServicioEMail
 
     public ServicioEMail(){}
 
-    public ServicioEMail(String smtpHost, int _mailPort) 
+    public ServicioEMail(int _mailPort) 
     {
         mailPort = _mailPort;
         
@@ -32,7 +32,7 @@ public class ServicioEMail
         
     }
 
-    public void notificarPagoConfirmado(DTOPago infoPago, String[] emails, String[] nombres, String tituloPropuesta) 
+    public void notificarPago(DTOPago infoPago, String[] emails, String[] nombres, String tituloPropuesta) 
     {
         
         //Array de String email: 0 es el del colaborador, 1 es el del proponente.
