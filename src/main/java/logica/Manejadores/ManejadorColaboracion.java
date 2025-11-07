@@ -14,6 +14,7 @@ import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
 import logica.DTO.TipoRetorno;
 import logica.DTO.Estado;
+import logica.Services.ServicioEMail;
 import persistencia.PersistenciaManager;
 
 
@@ -139,6 +140,14 @@ public class ManejadorColaboracion {
             Colaboracion colaboracionAPagar = dbManager.find(Colaboracion.class, id);
             datos.setFechaPago(LocalDateTime.now());
             colaboracionAPagar.setDatosPago(datos);
+            
+            ServicioEMail mailConfirmacion = new ServicioEMail(25);   //Solo le mando el puerto
+                    
+            String emails[] = {colaboracionAPagar.getColaborador().getEmail(), colaboracionAPagar.getPropuesta().getProponente().getEmail()};
+            String nombres[] = {colaboracionAPagar.getColaborador().getNombre(), colaboracionAPagar.getPropuesta().getProponente().getNombre()};
+            
+            mailConfirmacion.notificarPago(datos, emails, nombres, colaboracionAPagar.getPropuesta().getTitulo());
+            
             tr.commit();
             
             return true;  
