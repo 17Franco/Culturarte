@@ -141,7 +141,7 @@ public class ManejadorColaboracion {
             datos.setFechaPago(LocalDateTime.now());
             colaboracionAPagar.setDatosPago(datos);
             
-            ServicioEMail mailConfirmacion = new ServicioEMail(25);   //Solo le mando el puerto
+            ServicioEMail mailConfirmacion = new ServicioEMail(2500);   //Solo le mando el puerto
                     
             String emails[] = {colaboracionAPagar.getColaborador().getEmail(), colaboracionAPagar.getPropuesta().getProponente().getEmail()};
             String nombres[] = {colaboracionAPagar.getColaborador().getNombre(), colaboracionAPagar.getPropuesta().getProponente().getNombre()};
