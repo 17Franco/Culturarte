@@ -1,0 +1,14 @@
+Esto permitiría simular en envío y recepción, solo hay que ejecutar estos comandos en terminal para inicializarlo:
+
+Ir a la carpeta donde está el .jar en el proyecto, lo dejé en la carpeta "xEMailServer"
+
+    cd /home/tecnologo/proyectos/Culturarte/xEMailServer
+
+Luego ejecutar el comando:
+
+    java -jar DevNullSmtp.jar
+
+En la ventana que aparece hay un box donde va el puerto, borrar el 25 y agregar 2500
+
+Luego presionar start server.
+
