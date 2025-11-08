@@ -1474,29 +1474,34 @@ public void testGetFavoritasConPropuestas() {
         assertEquals(1,result); //Si es 1 todo ok.
     }
     
-//    @Test
-//    public void testAccionSobrePropuesta_casoEsColaborador() 
-//    {
-//        System.out.println("accionSobrePropuesta_casoEsColaborador");
-//        
-//        String nickUsuario = "Rodolfo";
-//        DTOPropuesta t1 = mock(DTOPropuesta.class);
-//        
-//        //La colaboracion para pasar por el for y entrar al if de adentro
-//        List<DTOColaboracion> listaTest = new ArrayList();
-//        DTOColaboracion colabTest = mock(DTOColaboracion.class);
-//        when(colabTest.getColaborador()).thenReturn(nickUsuario);
-//        
-//        listaTest.add(colabTest);
-//        
-//        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
-//        when(t1.getAporte()).thenReturn(listaTest);
-//        
-//        int result = controller.accionSobrePropuesta(nickUsuario, t1);
-//        
-//        assertEquals(2,result);  
-//    }
-//    
+    @Test
+    public void testAccionSobrePropuesta_casoEsColaborador() {
+   
+        Controller controllerMock = mock(Controller.class);
+
+        DTOPropuesta propuestaMock = mock(DTOPropuesta.class);
+        DTOColaborador dtoMock = mock(DTOColaborador.class);
+
+        String userNick = "colab1";
+        String accionUsuario = "COLABORAR";
+        String comentario = "";
+        String montoStr = "1000";
+        String tipoRetorno = "PorcentajeGanancia";
+        int permisos = 3;
+
+        when(propuestaMock.getTitulo()).thenReturn("PropuestaTest");
+        when(dtoMock.getNickname()).thenReturn("colab1");
+        
+        when(controllerMock.getDTOColaborador("colab1")).thenReturn(dtoMock);
+        doNothing().when(controllerMock).altaColaboracion(any(DTOColaboracion.class));
+
+        when(controllerMock.accionesSobrePropuesta(anyString(), anyInt(), anyString(), anyString(), any(DTOPropuesta.class), anyString(), anyString())).thenCallRealMethod();
+
+        int resultado = controllerMock.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaMock, montoStr, tipoRetorno);
+
+        assertEquals(4, resultado);
+    }
+    
     @Test
     public void testAccionSobrePropuesta_casoLol() 
     {
