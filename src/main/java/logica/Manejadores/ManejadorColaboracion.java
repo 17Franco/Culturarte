@@ -14,6 +14,7 @@ import logica.Propuesta.Propuesta;
 import logica.Usuario.Colaborador;
 import logica.DTO.TipoRetorno;
 import logica.DTO.Estado;
+import logica.Services.ServicioEMail;
 import persistencia.PersistenciaManager;
 
 
@@ -139,7 +140,17 @@ public class ManejadorColaboracion {
             Colaboracion colaboracionAPagar = dbManager.find(Colaboracion.class, id);
             datos.setFechaPago(LocalDateTime.now());
             colaboracionAPagar.setDatosPago(datos);
+            
+            String emails[] = {colaboracionAPagar.getColaborador().getEmail(), colaboracionAPagar.getPropuesta().getProponente().getEmail()};
+            String nombres[] = {colaboracionAPagar.getColaborador().getNombre(), colaboracionAPagar.getPropuesta().getProponente().getNombre()};
+            String tituloPropuesta = colaboracionAPagar.getPropuesta().getTitulo();
+            
             tr.commit();
+            
+            ServicioEMail mailConfirmacion = new ServicioEMail(2500);   //Solo le mando el puerto
+            mailConfirmacion.notificarPago(datos, emails, nombres, tituloPropuesta);
+            
+            
             
             return true;  
         }
@@ -368,5 +379,28 @@ public class ManejadorColaboracion {
         }
     
     }
-    
+    //fn para traer la colab por id
+    public DTOColaboracion getColaboracionPorId(Long id) {
+    EntityManager em = PersistenciaManager.getEntityManager();
+    DTOColaboracion dto = null;
+
+    try {
+        Colaboracion colab = em.find(Colaboracion.class, id);
+        if (colab != null) {
+            dto = new DTOColaboracion(
+                colab.getTipoRetorno(),
+                colab.getMonto(),
+                colab.getColaborador().getNickname(),
+                colab.getPropuesta().getTitulo(),
+                colab.getCreado()
+            );
+            dto.setId(colab.getId());
+        }
+    } finally {
+        em.close();
+    }
+
+    return dto;
+}
+
 }

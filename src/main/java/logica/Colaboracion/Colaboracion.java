@@ -1,6 +1,5 @@
 package logica.Colaboracion;
 
-import java.time.LocalDate;
 import logica.Colaboracion.Pago;
 import logica.DTO.DTOColaboracion;
 import logica.Propuesta.Propuesta;
@@ -8,7 +7,6 @@ import logica.Usuario.Colaborador;
 import logica.DTO.TipoRetorno;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import logica.DTO.DTOPago;
 
 @Entity
