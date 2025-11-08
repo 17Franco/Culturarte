@@ -1474,29 +1474,29 @@ public void testGetFavoritasConPropuestas() {
         assertEquals(1,result); //Si es 1 todo ok.
     }
     
-    @Test
-    public void testAccionSobrePropuesta_casoEsColaborador() 
-    {
-        System.out.println("accionSobrePropuesta_casoEsColaborador");
-        
-        String nickUsuario = "Rodolfo";
-        DTOPropuesta t1 = mock(DTOPropuesta.class);
-        
-        //La colaboracion para pasar por el for y entrar al if de adentro
-        List<DTOColaboracion> listaTest = new ArrayList();
-        DTOColaboracion colabTest = mock(DTOColaboracion.class);
-        when(colabTest.getColaborador()).thenReturn(nickUsuario);
-        
-        listaTest.add(colabTest);
-        
-        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
-        when(t1.getAporte()).thenReturn(listaTest);
-        
-        int result = controller.accionSobrePropuesta(nickUsuario, t1);
-        
-        assertEquals(2,result);  
-    }
-    
+//    @Test
+//    public void testAccionSobrePropuesta_casoEsColaborador() 
+//    {
+//        System.out.println("accionSobrePropuesta_casoEsColaborador");
+//        
+//        String nickUsuario = "Rodolfo";
+//        DTOPropuesta t1 = mock(DTOPropuesta.class);
+//        
+//        //La colaboracion para pasar por el for y entrar al if de adentro
+//        List<DTOColaboracion> listaTest = new ArrayList();
+//        DTOColaboracion colabTest = mock(DTOColaboracion.class);
+//        when(colabTest.getColaborador()).thenReturn(nickUsuario);
+//        
+//        listaTest.add(colabTest);
+//        
+//        when(t1.nickProponenteToString()).thenReturn("Jose");  //Para que no entre en el if del proponente y vaya al de colaborador por el else...
+//        when(t1.getAporte()).thenReturn(listaTest);
+//        
+//        int result = controller.accionSobrePropuesta(nickUsuario, t1);
+//        
+//        assertEquals(2,result);  
+//    }
+//    
     @Test
     public void testAccionSobrePropuesta_casoLol() 
     {

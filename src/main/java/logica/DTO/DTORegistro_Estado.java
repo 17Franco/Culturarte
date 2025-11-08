@@ -1,7 +1,12 @@
 package logica.DTO;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import logica.Propuesta.Registro_Estado;
 
+@XmlRootElement(name = "DTORegistro_Estado") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTORegistro_Estado 
 {
     private LocalDate fechaReg;

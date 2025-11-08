@@ -74,7 +74,7 @@ public class Controller  implements IController {
         return mUsuario.emailUsado(email);
     }
     
-     public boolean existe(String nick){
+    public boolean existe(String nick){
             return mUsuario.existe(nick);
     }
      
@@ -133,6 +133,7 @@ public class Controller  implements IController {
     public DTOProponente getDTOProponente(String nick) { 
         Proponente usr= (Proponente) mUsuario.getUsuario(nick);
         DTOProponente resu=new DTOProponente(usr);
+        resu.setFechaString(resu.getFecha().toString());
 
         return resu;
     }
@@ -141,7 +142,7 @@ public class Controller  implements IController {
     public DTOColaborador getDTOColaborador(String nick) { 
         Colaborador usr= (Colaborador) mUsuario.getUsuario(nick);
         DTOColaborador resu=new DTOColaborador(usr);
-
+        resu.setFechaString(resu.getFecha().toString());
         return resu;
     }
     
@@ -160,6 +161,7 @@ public class Controller  implements IController {
        return mUsuario.dejarDeSeguirUsuario(usuarioActual, usuarioToUnfollow);  
     }
     
+    @Override
     public Set<DTOPropuesta> getPropuestasCreadasPorProponente(String nick){
 
         return mUsuario.getPropuestasCreadasPorProponente(nick);
@@ -266,6 +268,8 @@ public class Controller  implements IController {
     public boolean eliminarProponente(String nick){
         return mUsuario.eliminarProponente(nick);
     }
+    
+    
     //FIN METODOS QUE SE USAN EN WEB (USUARIOS)
     
     //FIN USUARIOS

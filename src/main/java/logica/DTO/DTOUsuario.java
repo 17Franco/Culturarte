@@ -1,13 +1,17 @@
 
 package logica.DTO;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@XmlRootElement(name = "Usuario") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOUsuario {
     private String nickname;
     private String pass;
@@ -15,6 +19,7 @@ public class DTOUsuario {
     private String apellido;
     private String email;
     private LocalDate fecha;
+    private String fechaString;
     private String rutaImg;
     private String tipoUsr;
     private int cantSeguidores;
@@ -36,6 +41,14 @@ public class DTOUsuario {
 
     public void setTipoUsr(String tipoUsr) {
         this.tipoUsr = tipoUsr;
+    }
+
+    public void setFechaString(String fechaString) {
+        this.fechaString = fechaString;
+    }
+
+    public String getFechaString() {
+        return fechaString;
     }
     
     public DTOUsuario(String nickname, String pass, String nombre, String apellido, String email, LocalDate fecha, String rutaImg,String tipoUsr) {

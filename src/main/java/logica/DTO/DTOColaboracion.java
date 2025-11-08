@@ -1,11 +1,17 @@
 
 package logica.DTO;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import logica.Colaboracion.Colaboracion;
 import logica.Colaboracion.Pago;
 
+@XmlRootElement(name = "DTOColaboracion") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOColaboracion {
         private TipoRetorno tipoRetorno;
 
@@ -13,9 +19,12 @@ public class DTOColaboracion {
         private String imgDePropuesta;
         private String  colaborador;
         private String propuesta;
+        @XmlTransient
         private DTOPropuesta propuestaP;// veo inesesarios tener los punteros en el dtoColaboracion
+        @XmlTransient
         private DTOColaborador colaboradorP;
         private LocalDate creado;
+        private String creadoString;
         private Pago datosPago;
     
     private Long id;
@@ -53,6 +62,14 @@ public void setId(Long id) {
         this.creado = creado;
         this.datosPago = pago;
     }
+
+    public void setCreadoString(String creadoString) {
+        this.creadoString = creadoString;
+    }
+
+    public String getCreadoString() {
+        return creadoString;
+    }
     
     
     public DTOColaboracion(TipoRetorno tipoRetorno, int monto, String colaborador, String propuesta, LocalDate creado) {
@@ -79,6 +96,7 @@ public void setId(Long id) {
          tipoRetorno=colaboracion.getTipoRetorno();
          monto=colaboracion.getMonto();
          creado=colaboracion.getCreado();
+         creadoString=colaboracion.getCreado().toString();
          colaborador=colaboracion.getColaborador().getNickname();
          propuesta=colaboracion.getPropuesta().getTitulo();
          imgDePropuesta=colaboracion.getPropuesta().getImagen();

@@ -4,6 +4,9 @@
  */
 package logica.DTO;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +15,8 @@ import java.util.Map;
 import logica.Usuario.Colaborador;
 
 
-
+@XmlRootElement(name = "DTOColaborador") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOColaborador extends DTOUsuario{
     private List<DTOColaboracion> colaboraciones= new ArrayList<>();
     

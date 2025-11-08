@@ -1,6 +1,9 @@
 
 package logica.DTO;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +11,8 @@ import logica.Usuario.Proponente;
 
 
 
-
+@XmlRootElement(name = "DTOProponente") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOProponente extends DTOUsuario{
     private String direccion;
     private String biografia;

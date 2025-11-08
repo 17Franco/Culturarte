@@ -1,4 +1,7 @@
 package logica.DTO;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +12,8 @@ import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
 
 
-
+@XmlRootElement(name = "DTOPropuesta") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOPropuesta {
     
     private String Titulo;

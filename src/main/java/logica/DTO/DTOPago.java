@@ -1,4 +1,7 @@
 package logica.DTO;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 
 /**
@@ -6,6 +9,8 @@ import java.time.LocalDateTime;
  * @author klaas
  */
 
+@XmlRootElement(name = "DTOPago") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOPago 
 {
 

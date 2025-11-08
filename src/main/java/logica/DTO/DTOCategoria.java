@@ -1,15 +1,20 @@
 package logica.DTO;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
 import java.util.Set;
 import logica.Categoria.Categoria;
 
+@XmlRootElement(name = "DTOCategoria") 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOCategoria {
 
     private String nombreCategoria;
     private Set <DTOCategoria> subcategorias;
     private String catPadre;     //Es para saber si la ingreso como subcategoría o si no.
-    private Categoria catPadreNodo;
+    private Categoria catPadreNodo; //LPM
     
     public DTOCategoria()
     {
