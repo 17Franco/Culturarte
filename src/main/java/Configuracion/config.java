@@ -20,8 +20,7 @@ public class config {
     private Properties configProperties;
     
      private config() {
-        verificarfile();
-       
+        verificarfile();    
     }
      
     private void verificarfile() {
