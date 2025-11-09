@@ -2,6 +2,7 @@ package logica.DTO;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,10 +22,16 @@ public class DTOPropuesta {
     private String Imagen;
     private String Lugar;
     private LocalDate Fecha;
-    private int Precio;
-    private int MontoTotal;
     private LocalDate FechaPublicacion;
     private LocalDate fechaExpiracion;
+    
+    private String FechaString;
+    private String FechaPublicacionString;
+    private String fechaExpiracionString;
+    private int Precio;
+    private int MontoTotal;
+    
+    @XmlTransient
     private List<TipoRetorno> Retorno = new ArrayList<>();
     private DTOCategoria cat;
     private String categoria;
@@ -32,7 +39,9 @@ public class DTOPropuesta {
     private Estado EstadoAct;
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
     private List<DTOColaboracion> aporte =new ArrayList<>();
+    
     private Map<String,String> comentarios = new HashMap<>();
+            
             
     public DTOPropuesta(){}
     
@@ -104,9 +113,12 @@ public class DTOPropuesta {
         this.Imagen = p.getImagen();
         this.Lugar = p.getLugar();
         this.Fecha = p.getFecha();
+        this.FechaString = p.getFecha().toString();
         this.Precio = p.getPrecio();
         this.MontoTotal = p.getMontoTotal();
         this.FechaPublicacion = p.getFechaPublicacion();
+        this.FechaPublicacionString = p.getFechaPublicacion().toString();
+        this.fechaExpiracionString=p.getFechaExpiracion().toString();
         this.Retorno = p.getRetorno();
         this.cat = p.getCategoria().Cat_a_DTO();
         this.usr = proponente;
@@ -356,4 +368,31 @@ public class DTOPropuesta {
         
         return recaudo;
     }
+
+    public void setFechaString(String FechaString) {
+        this.FechaString = FechaString;
+    }
+
+    public void setFechaPublicacionString(String FechaPublicacionString) {
+        this.FechaPublicacionString = FechaPublicacionString;
+    }
+
+    public void setFechaExpiracionString(String fechaExpiracionString) {
+        this.fechaExpiracionString = fechaExpiracionString;
+    }
+
+    public String getFechaString() {
+        return FechaString;
+    }
+
+    public String getFechaPublicacionString() {
+        return FechaPublicacionString;
+    }
+
+    public String getFechaExpiracionString() {
+        return fechaExpiracionString;
+    }
+    
+    
 }
+
