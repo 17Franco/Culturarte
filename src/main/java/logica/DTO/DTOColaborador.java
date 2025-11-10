@@ -4,6 +4,7 @@
  */
 package logica.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -18,6 +19,7 @@ import logica.Usuario.Colaborador;
 @XmlRootElement(name = "DTOColaborador") 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DTOColaborador extends DTOUsuario{
+    @JsonIgnore
     private List<DTOColaboracion> colaboraciones= new ArrayList<>();
     
     public DTOColaborador(){}

@@ -1,13 +1,19 @@
 package ui;
+import Configuracion.config;
 import javax.swing.JOptionPane;
 
 import java.beans.PropertyVetoException;
+import java.net.URI;
 
 import java.util.TimeZone;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuItem;
 import logica.Fabrica;
 import logica.IController;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import webServices.RecursoProponente;
 import webServices.controllerWS;
 
 public class Main extends javax.swing.JFrame {
@@ -353,12 +359,33 @@ public class Main extends javax.swing.JFrame {
 
 }
     
+    public static HttpServer startServer() {
+        config conf = config.getInstance();
+        
+        //me traigo la ip desde el config.propertie
+        String host = conf.getProps("WEB_SERVICES_HOSTR");
+        //me traigo la port desde el config.propertie
+        String port = conf.getProps("WEB_SERVICES_PORTR");
+        
+        //genero url
+        String endpointUrl = "http://" + host + ":" + port;
+        
+        final ResourceConfig rc = new ResourceConfig().packages("webServices");
+        
+        // 3. Crear el servidor HTTP y enlazarlo a la URI y configuración
+        return GrizzlyHttpServerFactory.createHttpServer(URI.create(endpointUrl), rc);
+    }
     public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
         
+        //servicio soap
         controllerWS ws = new controllerWS();
         ws.publicar();
+        
+        //servicio rest
+        startServer();
+        
     }
 
     private void CargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarDatosActionPerformed

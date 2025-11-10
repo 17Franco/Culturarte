@@ -1,4 +1,7 @@
 package logica.DTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -15,14 +18,18 @@ import logica.Propuesta.Registro_Estado;
 
 @XmlRootElement(name = "DTOPropuesta") 
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonInclude(Include.NON_NULL)
 public class DTOPropuesta {
     
     private String Titulo;
     private String Descripcion;
     private String Imagen;
     private String Lugar;
+    @JsonIgnore
     private LocalDate Fecha;
+    @JsonIgnore
     private LocalDate FechaPublicacion;
+    @JsonIgnore
     private LocalDate fechaExpiracion;
     
     private String FechaString;
@@ -32,14 +39,25 @@ public class DTOPropuesta {
     private int MontoTotal;
     
     @XmlTransient
+    @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
+    @JsonIgnore
     private DTOCategoria cat;
     private String categoria;
+    @JsonIgnore //ignora en json
     private DTOProponente usr; 
-    private Estado EstadoAct;
-    private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
-    private List<DTOColaboracion> aporte =new ArrayList<>();
     
+    private Estado EstadoAct;
+    
+    @JsonInclude(Include.NON_EMPTY)
+    private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
+    
+    @JsonInclude(Include.NON_EMPTY)//ignora en caso vacio en json
+    private List<DTOColaboracion> aporte =new ArrayList<>();
+    @XmlTransient //ignora en xml
+    private List<String> aporteNick =new ArrayList<>();
+    
+    @JsonInclude(Include.NON_EMPTY)
     private Map<String,String> comentarios = new HashMap<>();
             
             
@@ -80,6 +98,10 @@ public class DTOPropuesta {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
+    public void setAporte(List<DTOColaboracion> aporte) {
+        this.aporte = aporte;
+    }
     
     
     public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
@@ -106,6 +128,16 @@ public class DTOPropuesta {
         }
         
     }
+
+    public List<String> getAporteNick() {
+        return aporteNick;
+    }
+
+    public void setAporteNick(List<String> aporteNick) {
+        this.aporteNick = aporteNick;
+    }
+    
+    
     public DTOPropuesta(Propuesta p, DTOProponente proponente) 
     {
         this.Titulo = p.getTitulo();

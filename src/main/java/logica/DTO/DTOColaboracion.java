@@ -1,6 +1,7 @@
 
 package logica.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -20,6 +21,7 @@ public class DTOColaboracion {
         private String  colaborador;
         private String propuesta;
         @XmlTransient
+        @JsonIgnore
         private DTOPropuesta propuestaP;// veo inesesarios tener los punteros en el dtoColaboracion
         @XmlTransient
         private DTOColaborador colaboradorP;
