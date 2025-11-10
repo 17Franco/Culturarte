@@ -169,6 +169,10 @@ public class controllerWS {
     public List<DTOColaboracion>  colaboraciones(String nick){
         return controller.colaboraciones(nick);
     }
+    @WebMethod
+    public boolean eliminarProponente(String nick){
+        return controller.eliminarProponente(nick);
+    }
     //FIN METODOS USUARIOS
     
     
