@@ -54,7 +54,8 @@ public class DTOPropuesta {
     
     @JsonInclude(Include.NON_EMPTY)//ignora en caso vacio en json
     private List<DTOColaboracion> aporte =new ArrayList<>();
-    @XmlTransient //ignora en xml
+    
+   
     private List<String> aporteNick =new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
