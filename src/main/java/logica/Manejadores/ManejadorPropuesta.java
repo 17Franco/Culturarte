@@ -549,6 +549,26 @@ public class ManejadorPropuesta {
         em.close();
         }
     }
+    
+    public List<DTOColaboracion> aportesPropuesta(String title){
+        EntityManager em = PersistenciaManager.getEntityManager();
+        List<DTOColaboracion> resu=new ArrayList<>();
+        try{
+            //Traigo propuesta
+            Propuesta p=em.find(Propuesta.class, title);
+            for(Colaboracion c:p.getAporte()){
+                DTOColaboracion colab=new DTOColaboracion(c);
+                resu.add(colab);
+            }
+             
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            em.close();
+        }
+        return resu;
+        
+    }
     public void cargarPropuesta() {
         EntityManager em = PersistenciaManager.getEntityManager();
         EntityTransaction t = em.getTransaction();

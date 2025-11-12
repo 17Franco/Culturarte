@@ -118,30 +118,33 @@
         </plugins>
     </build>
         <dependencies>
-            <dependency>
+         <!-- libreria que me da las anotaciones para hacer el recurso rest -->   
+        <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
             <version>3.1.0</version> 
         </dependency>
-
+        
+        <!-- libreria que me permite crear servidorembebido publicandome el recurso rest creado con jax-rs --> 
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-grizzly2-http</artifactId>
             <version>3.1.3</version>
         </dependency>
-
+        <!-- libreria que me mapea automáticamente objetos Java a JSON usando Jackson --> 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>3.1.3</version>
         </dependency>
         
+        <!--Este módulo proporciona el mecanismo de inyección de dependencias (DI) que utiliza Jersey.  --> 
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>3.1.3</version>
         </dependency>
-        
+        <!-- libreria que permite mapear a json datos como localdate  --> 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
