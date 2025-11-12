@@ -1,5 +1,6 @@
 package ui;
 import java.awt.Image;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -29,16 +30,17 @@ public class MostrarDatosPropuesta extends javax.swing.JInternalFrame {
     
     public void inicializarLista() 
     {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        
         DefaultListModel<String> listaFinal = new DefaultListModel<>();
         DTORegistro_Estado ultimoEstado = datos.getUltimoEstado();
         listaFinal.addElement("Título:                                 " + datos.getTitulo());
         listaFinal.addElement("Descripción:                       " + datos.getDescripcion());
         listaFinal.addElement("Lugar de realización:          " + datos.getLugar());
-        listaFinal.addElement("Fecha inicio:                       " + datos.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        listaFinal.addElement("Recaudación inicial:            " + datos.getPrecio());
+        listaFinal.addElement("Fecha inicio:                       " + sdf.format(datos.getFecha()));        listaFinal.addElement("Recaudación inicial:            " + datos.getPrecio());
         listaFinal.addElement("Recaudación esperada:      " + datos.getMontoTotal());
-        listaFinal.addElement("Fecha de publicación:         " + datos.getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        listaFinal.addElement("Ganancia Aceptada:           " + datos.getRetorno().toString());
+        listaFinal.addElement("Fecha de publicación:         " + sdf.format(datos.getFechaPublicacion()));        listaFinal.addElement("Ganancia Aceptada:           " + datos.getRetorno().toString());
         listaFinal.addElement("Categoría:                           " + datos.getCategoria().getNombreCategoria());
         listaFinal.addElement("Usuario Proponente:           " + datos.nickProponenteToString());
         listaFinal.addElement("Estado actual:                     " + ultimoEstado.getEstado().toString());                         //Estado actual
