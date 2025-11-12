@@ -16,6 +16,7 @@ import java.util.Set;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
+import logica.DTO.DTOPago;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
 import logica.DTO.DTOUsuario;
@@ -182,7 +183,7 @@ public class controllerWS {
         LocalDate fecha = LocalDate.parse(Fecha);
         LocalDate fechaP = LocalDate.parse(fechaPublicacio);
         controller.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, fecha,Precio, MontoTotal,fechaP, Retorno,cat, usr, est);
-    }
+    } 
     //FIN METODOS PROPUESTAS
     
     //METODOS CATEGORIA
@@ -194,6 +195,15 @@ public class controllerWS {
     //FIN METODOS CATEGORIA
     
     //METODOS COLABORACION
+    
+    @WebMethod
+    public boolean acreditarColaboracion(Long id, DTOPago datosPago) 
+    {
+        return controller.acreditarColaboracion(id, datosPago);
+    }
+    
+
+    
     //FIN METODOS COLABORACION
     
     //METODO EJEMPLO
