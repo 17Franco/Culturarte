@@ -10,6 +10,7 @@ import logica.DTO.DTOPropuesta;
 import logica.DTO.TipoRetorno;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
 import javax.swing.JDesktopPane;
@@ -488,7 +489,7 @@ public class ChangeDataProp extends javax.swing.JInternalFrame {
         String auxD = datos.getDescripcion();
         String auxL = datos.getLugar();
         String auxR = datos.getImagen();
-        LocalDate auxF = datos.getFecha();
+        LocalDate auxF = datos.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();;
         int auxP = datos.getPrecio();
         int auxM = datos.getMontoTotal();
         List<TipoRetorno> auxRet = datos.getRetorno();
