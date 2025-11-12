@@ -173,11 +173,19 @@ public class controllerWS {
     public boolean eliminarProponente(String nick){
         return controller.eliminarProponente(nick);
     }
+    @WebMethod
+    public void marcarComoFavorita(String nickname, String tituloPropuesta) {
+        controller.marcarComoFavorita(nickname, tituloPropuesta);
+    }
+    @WebMethod
+    public void quitarFavorita(String nickname, String tituloPropuesta) {
+        controller.quitarFavorita(nickname, tituloPropuesta);
+    }
     //FIN METODOS USUARIOS
     
     
     //METODOS PROPUESTAS
-    
+    @WebMethod
     public void altaPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, String Fecha, int Precio, int MontoTotal,String fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         LocalDate fecha = LocalDate.parse(Fecha);
         LocalDate fechaP = LocalDate.parse(fechaPublicacio);
