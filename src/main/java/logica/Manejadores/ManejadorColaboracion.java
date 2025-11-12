@@ -138,7 +138,7 @@ public class ManejadorColaboracion {
             tr.begin(); 
             
             Colaboracion colaboracionAPagar = dbManager.find(Colaboracion.class, id);
-            datos.setFechaPago(LocalDateTime.now());
+            datos.setFechaPago(LocalDateTime.now().minusHours(3));
             colaboracionAPagar.setDatosPago(datos);
             
             String emails[] = {colaboracionAPagar.getColaborador().getEmail(), colaboracionAPagar.getPropuesta().getProponente().getEmail()};
