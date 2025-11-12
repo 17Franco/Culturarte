@@ -1,6 +1,7 @@
 
 package logica.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -14,13 +15,16 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DTOUsuario {
     private String nickname;
+    @JsonIgnore
     private String pass;
     private String nombre;
     private String apellido;
     private String email;
+    @JsonIgnore
     private LocalDate fecha;
     private String fechaString;
     private String rutaImg;
+    @JsonIgnore
     private String tipoUsr;
     private int cantSeguidores;
     //private List<String> usuarioSeguido=new ArrayList<>(); las saco porque si solicito la info no pongo todo dentro del dto

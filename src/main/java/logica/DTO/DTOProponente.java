@@ -5,7 +5,9 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import logica.Usuario.Proponente;
 
@@ -17,7 +19,7 @@ public class DTOProponente extends DTOUsuario{
     private String direccion;
     private String biografia;
     private String webSite;
-    //private Map<String,DTOPropuesta> propCreadas=new HashMap<>();
+    private List<DTOPropuesta> propCreadas=new ArrayList<>();
     
     public DTOProponente(){}
     public DTOProponente(String direccion, String biografia, String webSite, String nickname, String nombre, String apellido, String email, LocalDate fecha, String rutaImg) {
@@ -78,6 +80,14 @@ public class DTOProponente extends DTOUsuario{
 
     public void setWebSite(String webSite) {
         this.webSite = webSite;
+    }
+
+    public List<DTOPropuesta> getPropCreadas() {
+        return propCreadas;
+    }
+
+    public void setPropCreadas(List<DTOPropuesta> propCreadas) {
+        this.propCreadas = propCreadas;
     }
     
 }

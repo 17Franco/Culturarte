@@ -274,27 +274,28 @@ public class Controller  implements IController {
     
     //FIN USUARIOS
     
-    // Funciones que devuelven Distintos DTO 
-    public DTOColaboracion getDTOAporte(Colaboracion r,String titulo){
-        return new DTOColaboracion(r.getTipoRetorno(),r.getMonto(),r.getColaborador().getNickname(),titulo,r.getCreado());
-    }
-    
-    public DTORegistro_Estado getDTORegistroEstado(Registro_Estado r){
-        return new DTORegistro_Estado(r.getFechaReg(),r.getEstado());
-    }
-    
-    //devuelve un dtoPropuesta con el historial de estado y aportes Recibido
-    public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
-            DTOPropuesta propuesta= new DTOPropuesta(p,prop);
-            List<Registro_Estado> r=p.getHistorialEstados();
-            List<Colaboracion> rA = p.getAporte();
-            
-            for(Registro_Estado re:r){
-                propuesta.setHistorialEstados(getDTORegistroEstado(re));
-            }
-
-            return propuesta;
-    }
+    //no se usan estos metodos mepa
+//    // Funciones que devuelven Distintos DTO 
+//    public DTOColaboracion getDTOAporte(Colaboracion r,String titulo){
+//        return new DTOColaboracion(r.getTipoRetorno(),r.getMonto(),r.getColaborador().getNickname(),titulo,r.getCreado());
+//    }
+//    
+//    public DTORegistro_Estado getDTORegistroEstado(Registro_Estado r){
+//        return new DTORegistro_Estado(r.getFechaReg(),r.getEstado());
+//    }
+//    
+//    //devuelve un dtoPropuesta con el historial de estado y aportes Recibido
+//    public DTOPropuesta getDTOPropuesta(Propuesta p,DTOProponente prop){
+//            DTOPropuesta propuesta= new DTOPropuesta(p,prop);
+//            List<Registro_Estado> r=p.getHistorialEstados();
+//            List<Colaboracion> rA = p.getAporte();
+//            
+//            for(Registro_Estado re:r){
+//                propuesta.setHistorialEstados(getDTORegistroEstado(re));
+//            }
+//
+//            return propuesta;
+//    }
     
     //PROPUESTAS
     
