@@ -181,6 +181,10 @@ public class controllerWS {
     public void quitarFavorita(String nickname, String tituloPropuesta) {
         controller.quitarFavorita(nickname, tituloPropuesta);
     }
+    @WebMethod
+    public boolean esFavorita(String nickname, String tituloPropuesta) {
+        return controller.esFavorita(nickname, tituloPropuesta);
+    }
     //FIN METODOS USUARIOS
     
     
@@ -190,6 +194,22 @@ public class controllerWS {
         LocalDate fecha = LocalDate.parse(Fecha);
         LocalDate fechaP = LocalDate.parse(fechaPublicacio);
         controller.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, fecha,Precio, MontoTotal,fechaP, Retorno,cat, usr, est);
+    }
+    @WebMethod
+    public DTOPropuesta getPropuestaDTO(String propuestaSel) {
+        return controller.getPropuestaDTO(propuestaSel);
+    }
+    @WebMethod
+    public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) {
+        return controller.accionSobrePropuesta(nickUsuario, propuestaSel);
+    }
+    @WebMethod
+    public int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual) {
+        return controller.permisosSobrePropuesta(userNick, tipoUsuario, propuestaActual);
+    }
+    @WebMethod
+    public int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario, String comentario, DTOPropuesta propuestaActual, String montoStr, String tipoRetorno) {
+        return controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
     }
     //FIN METODOS PROPUESTAS
     
