@@ -585,6 +585,11 @@ public class Controller  implements IController {
         return mColaboraciones.acreditarColaboracion(id, datosPago);
     }
     
+    public List<DTOColaboracion> apoertesPorpuesta(String title){
+        
+        return mPropuesta.aportesPropuesta(title);
+    
+    }
     //FIN COLABORACIONES
     
     //Inicio Registros

@@ -7,7 +7,9 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +28,11 @@ public class DTOPropuesta {
     private String Imagen;
     private String Lugar;
     @JsonIgnore
-    private LocalDate Fecha;
+    private Date Fecha;
     @JsonIgnore
-    private LocalDate FechaPublicacion;
+    private Date FechaPublicacion;
     @JsonIgnore
-    private LocalDate fechaExpiracion;
+    private Date fechaExpiracion;
     
     private String FechaString;
     private String FechaPublicacionString;
@@ -54,10 +56,7 @@ public class DTOPropuesta {
     
     @JsonInclude(Include.NON_EMPTY)//ignora en caso vacio en json
     private List<DTOColaboracion> aporte =new ArrayList<>();
-    
    
-    private List<String> aporteNick =new ArrayList<>();
-    
     @JsonInclude(Include.NON_EMPTY)
     private Map<String,String> comentarios = new HashMap<>();
             
@@ -67,7 +66,7 @@ public class DTOPropuesta {
     public DTOPropuesta(String titulo, LocalDate fechaExp)  //Es para el caso donde solo debo transportar el titulo y Fecha expriracion para algunas funciones que piden DTO
     {
         this.Titulo=titulo;
-        this.fechaExpiracion=fechaExp;
+        this.fechaExpiracion=Date.from(fechaExp.atStartOfDay(ZoneId.systemDefault()).toInstant());;
     
     }
     
@@ -77,10 +76,10 @@ public class DTOPropuesta {
         this.Descripcion = Descripcion;
         this.Imagen = Imagen;
         this.Lugar = Lugar;
-        this.Fecha = Fecha;
+        this.Fecha = Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());;
         this.Precio = Precio;
         this.MontoTotal = MontoTotal;
-        this.FechaPublicacion = FechaPublicacion;
+        this.FechaPublicacion = Date.from(FechaPublicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());;
         this.cat = cat;
         this.usr = usr;
         this.EstadoAct = EstadoAct;
@@ -111,10 +110,10 @@ public class DTOPropuesta {
         this.Descripcion=Descripcion;
         this.Imagen=Imagen;
         this.Lugar=Lugar;
-        this.Fecha=Fecha;
+        this.Fecha=Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());;
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
-        this.FechaPublicacion=FechaPublicacion;
+        this.FechaPublicacion=Date.from(FechaPublicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());;
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
@@ -130,13 +129,6 @@ public class DTOPropuesta {
         
     }
 
-    public List<String> getAporteNick() {
-        return aporteNick;
-    }
-
-    public void setAporteNick(List<String> aporteNick) {
-        this.aporteNick = aporteNick;
-    }
     
     
     public DTOPropuesta(Propuesta p, DTOProponente proponente) 
@@ -145,11 +137,11 @@ public class DTOPropuesta {
         this.Descripcion = p.getDescripcion();
         this.Imagen = p.getImagen();
         this.Lugar = p.getLugar();
-        this.Fecha = p.getFecha();
+        this.Fecha = Date.from(p.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant());;
         this.FechaString = p.getFecha().toString();
         this.Precio = p.getPrecio();
         this.MontoTotal = p.getMontoTotal();
-        this.FechaPublicacion = p.getFechaPublicacion();
+        this.FechaPublicacion = Date.from(p.getFechaPublicacion().atStartOfDay(ZoneId.systemDefault()).toInstant());;
         this.FechaPublicacionString = p.getFechaPublicacion().toString();
         this.fechaExpiracionString=p.getFechaExpiracion().toString();
         this.Retorno = p.getRetorno();
@@ -176,7 +168,7 @@ public class DTOPropuesta {
     public  String getCategorioToString() {
         return categoria;
     }
-    public  LocalDate getFecha() {
+    public  Date getFecha() {
         return Fecha;
     }
     public int getPrecio() {
@@ -185,7 +177,7 @@ public class DTOPropuesta {
     public int getMontoTotal() {
         return MontoTotal;
     }
-    public LocalDate getFechaPublicacion() {
+    public Date getFechaPublicacion() {
         return FechaPublicacion;
     }
     public List<TipoRetorno> getRetorno() {
@@ -225,7 +217,7 @@ public class DTOPropuesta {
     }
 
     public void setFecha(LocalDate fecha) {
-        Fecha = fecha;
+        Fecha = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());;
     }
 
     public void setPrecio(int precio) {
@@ -241,7 +233,7 @@ public class DTOPropuesta {
     }
 
     public void setFechaPublicacion(LocalDate fechaPublicacion) {
-        FechaPublicacion = fechaPublicacion;
+        FechaPublicacion = Date.from(fechaPublicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());;
     }
     public void setRetornos(List<TipoRetorno> retorno) { 
         this.Retorno = retorno;     
@@ -277,11 +269,11 @@ public class DTOPropuesta {
         Descripcion = in.getDescripcion();
         Imagen = in.getImagen();
         Lugar = in.getLugar();
-        Fecha = in.getFecha();           
+        Fecha = Date.from(in.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant());;           
         Precio = in.getPrecio();
         MontoTotal = in.getMontoTotal();
-        FechaPublicacion = in.getFechaPublicacion();
-        fechaExpiracion = in.getFechaExpiracion();
+        FechaPublicacion = Date.from(in.getFechaPublicacion().atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        fechaExpiracion = Date.from(in.getFechaExpiracion().atStartOfDay(ZoneId.systemDefault()).toInstant());;
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
         if (in.getCategoria() != null) {
@@ -367,7 +359,7 @@ public class DTOPropuesta {
         return usr.getNickname();
     }
     
-    public LocalDate getFechaExpiracion()
+    public Date getFechaExpiracion()
     {
         return fechaExpiracion;
     }

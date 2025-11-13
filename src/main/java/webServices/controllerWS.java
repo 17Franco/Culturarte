@@ -16,8 +16,10 @@ import java.util.Set;
 import logica.DTO.DTOCategoria;
 import logica.DTO.DTOColaboracion;
 import logica.DTO.DTOColaborador;
+import logica.DTO.DTOPago;
 import logica.DTO.DTOProponente;
 import logica.DTO.DTOPropuesta;
+import logica.DTO.DTORegistrosAccesoWeb;
 import logica.DTO.DTOUsuario;
 import logica.DTO.Estado;
 import logica.DTO.TipoRetorno;
@@ -222,7 +224,24 @@ public class controllerWS {
     //FIN METODOS CATEGORIA
     
     //METODOS COLABORACION
+    
+    @WebMethod
+    public boolean acreditarColaboracion(Long id, DTOPago datosPago) 
+    {
+        return controller.acreditarColaboracion(id, datosPago);
+    }
+
     //FIN METODOS COLABORACION
+    
+    //Registros de acceso web
+    
+    @WebMethod
+    public boolean agregarRegistroAccesoWeb(DTORegistrosAccesoWeb input) 
+    {
+        return controller.agregarRegistroAccesoWeb(input);
+    }
+    
+    //Fin Registros de acceso web
     
     //METODO EJEMPLO
     @WebMethod(operationName = "hello")

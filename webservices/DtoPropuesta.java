@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="EstadoAct" type="{http://webServices/}estado" minOccurs="0"/&gt;
  *         &lt;element name="historialEstados" type="{http://webServices/}dtoRegistroEstado" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="aporte" type="{http://webServices/}dtoColaboracion" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="aporteNick" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="comentarios"&gt;
  *           &lt;complexType&gt;
  *             &lt;complexContent&gt;
@@ -88,6 +89,7 @@ import javax.xml.bind.annotation.XmlType;
     "estadoAct",
     "historialEstados",
     "aporte",
+    "aporteNick",
     "comentarios"
 })
 public class DtoPropuesta {
@@ -124,6 +126,8 @@ public class DtoPropuesta {
     protected List<DtoRegistroEstado> historialEstados;
     @XmlElement(nillable = true)
     protected List<DtoColaboracion> aporte;
+    @XmlElement(nillable = true)
+    protected List<String> aporteNick;
     @XmlElement(required = true)
     protected DtoPropuesta.Comentarios comentarios;
 
@@ -551,6 +555,35 @@ public class DtoPropuesta {
             aporte = new ArrayList<DtoColaboracion>();
         }
         return this.aporte;
+    }
+
+    /**
+     * Gets the value of the aporteNick property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the aporteNick property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getAporteNick().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getAporteNick() {
+        if (aporteNick == null) {
+            aporteNick = new ArrayList<String>();
+        }
+        return this.aporteNick;
     }
 
     /**

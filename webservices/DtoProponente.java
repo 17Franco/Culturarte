@@ -1,8 +1,11 @@
 
 package webservices;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -19,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="direccion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="biografia" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="webSite" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="propCreadas" type="{http://webServices/}dtoPropuesta" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -31,7 +35,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "dtoProponente", propOrder = {
     "direccion",
     "biografia",
-    "webSite"
+    "webSite",
+    "propCreadas"
 })
 public class DtoProponente
     extends DtoUsuario
@@ -40,6 +45,8 @@ public class DtoProponente
     protected String direccion;
     protected String biografia;
     protected String webSite;
+    @XmlElement(nillable = true)
+    protected List<DtoPropuesta> propCreadas;
 
     /**
      * Gets the value of the direccion property.
@@ -111,6 +118,35 @@ public class DtoProponente
      */
     public void setWebSite(String value) {
         this.webSite = value;
+    }
+
+    /**
+     * Gets the value of the propCreadas property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the propCreadas property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getPropCreadas().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DtoPropuesta }
+     * 
+     * 
+     */
+    public List<DtoPropuesta> getPropCreadas() {
+        if (propCreadas == null) {
+            propCreadas = new ArrayList<DtoPropuesta>();
+        }
+        return this.propCreadas;
     }
 
 }

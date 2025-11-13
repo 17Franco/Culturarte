@@ -408,6 +408,24 @@ public interface ControllerWS {
 
     /**
      * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "esFavorita", targetNamespace = "http://webServices/", className = "webservices.EsFavorita")
+    @ResponseWrapper(localName = "esFavoritaResponse", targetNamespace = "http://webServices/", className = "webservices.EsFavoritaResponse")
+    @Action(input = "http://webServices/controllerWS/esFavoritaRequest", output = "http://webServices/controllerWS/esFavoritaResponse")
+    public boolean esFavorita(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1);
+
+    /**
+     * 
      * @param arg3
      * @param arg2
      * @param arg5
@@ -450,6 +468,93 @@ public interface ControllerWS {
         String arg10,
         @WebParam(name = "arg11", targetNamespace = "")
         Estado arg11);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns webservices.DtoPropuesta
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getPropuestaDTO", targetNamespace = "http://webServices/", className = "webservices.GetPropuestaDTO")
+    @ResponseWrapper(localName = "getPropuestaDTOResponse", targetNamespace = "http://webServices/", className = "webservices.GetPropuestaDTOResponse")
+    @Action(input = "http://webServices/controllerWS/getPropuestaDTORequest", output = "http://webServices/controllerWS/getPropuestaDTOResponse")
+    public DtoPropuesta getPropuestaDTO(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "accionSobrePropuesta", targetNamespace = "http://webServices/", className = "webservices.AccionSobrePropuesta")
+    @ResponseWrapper(localName = "accionSobrePropuestaResponse", targetNamespace = "http://webServices/", className = "webservices.AccionSobrePropuestaResponse")
+    @Action(input = "http://webServices/controllerWS/accionSobrePropuestaRequest", output = "http://webServices/controllerWS/accionSobrePropuestaResponse")
+    public int accionSobrePropuesta(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        DtoPropuesta arg1);
+
+    /**
+     * 
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "permisosSobrePropuesta", targetNamespace = "http://webServices/", className = "webservices.PermisosSobrePropuesta")
+    @ResponseWrapper(localName = "permisosSobrePropuestaResponse", targetNamespace = "http://webServices/", className = "webservices.PermisosSobrePropuestaResponse")
+    @Action(input = "http://webServices/controllerWS/permisosSobrePropuestaRequest", output = "http://webServices/controllerWS/permisosSobrePropuestaResponse")
+    public int permisosSobrePropuesta(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        DtoPropuesta arg2);
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @param arg6
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "accionesSobrePropuesta", targetNamespace = "http://webServices/", className = "webservices.AccionesSobrePropuesta")
+    @ResponseWrapper(localName = "accionesSobrePropuestaResponse", targetNamespace = "http://webServices/", className = "webservices.AccionesSobrePropuestaResponse")
+    @Action(input = "http://webServices/controllerWS/accionesSobrePropuestaRequest", output = "http://webServices/controllerWS/accionesSobrePropuestaResponse")
+    public int accionesSobrePropuesta(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        int arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        String arg2,
+        @WebParam(name = "arg3", targetNamespace = "")
+        String arg3,
+        @WebParam(name = "arg4", targetNamespace = "")
+        DtoPropuesta arg4,
+        @WebParam(name = "arg5", targetNamespace = "")
+        String arg5,
+        @WebParam(name = "arg6", targetNamespace = "")
+        String arg6);
 
     /**
      * 

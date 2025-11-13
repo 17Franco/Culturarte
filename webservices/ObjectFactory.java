@@ -37,6 +37,10 @@ public class ObjectFactory {
     private final static QName _Seguidos_QNAME = new QName("http://webServices/", "Seguidos");
     private final static QName _SeguidosResponse_QNAME = new QName("http://webServices/", "SeguidosResponse");
     private final static QName _Usuario_QNAME = new QName("http://webServices/", "Usuario");
+    private final static QName _AccionSobrePropuesta_QNAME = new QName("http://webServices/", "accionSobrePropuesta");
+    private final static QName _AccionSobrePropuestaResponse_QNAME = new QName("http://webServices/", "accionSobrePropuestaResponse");
+    private final static QName _AccionesSobrePropuesta_QNAME = new QName("http://webServices/", "accionesSobrePropuesta");
+    private final static QName _AccionesSobrePropuestaResponse_QNAME = new QName("http://webServices/", "accionesSobrePropuestaResponse");
     private final static QName _AltaPropuesta_QNAME = new QName("http://webServices/", "altaPropuesta");
     private final static QName _AltaPropuestaResponse_QNAME = new QName("http://webServices/", "altaPropuestaResponse");
     private final static QName _Colaboraciones_QNAME = new QName("http://webServices/", "colaboraciones");
@@ -45,6 +49,8 @@ public class ObjectFactory {
     private final static QName _EliminarProponenteResponse_QNAME = new QName("http://webServices/", "eliminarProponenteResponse");
     private final static QName _EmailUsado_QNAME = new QName("http://webServices/", "emailUsado");
     private final static QName _EmailUsadoResponse_QNAME = new QName("http://webServices/", "emailUsadoResponse");
+    private final static QName _EsFavorita_QNAME = new QName("http://webServices/", "esFavorita");
+    private final static QName _EsFavoritaResponse_QNAME = new QName("http://webServices/", "esFavoritaResponse");
     private final static QName _Existe_QNAME = new QName("http://webServices/", "existe");
     private final static QName _ExisteResponse_QNAME = new QName("http://webServices/", "existeResponse");
     private final static QName _ExisteUsuario_QNAME = new QName("http://webServices/", "existeUsuario");
@@ -59,6 +65,8 @@ public class ObjectFactory {
     private final static QName _GetFavoritasResponse_QNAME = new QName("http://webServices/", "getFavoritasResponse");
     private final static QName _GetImg_QNAME = new QName("http://webServices/", "getImg");
     private final static QName _GetImgResponse_QNAME = new QName("http://webServices/", "getImgResponse");
+    private final static QName _GetPropuestaDTO_QNAME = new QName("http://webServices/", "getPropuestaDTO");
+    private final static QName _GetPropuestaDTOResponse_QNAME = new QName("http://webServices/", "getPropuestaDTOResponse");
     private final static QName _GetPropuestasCreadasPorProponente_QNAME = new QName("http://webServices/", "getPropuestasCreadasPorProponente");
     private final static QName _GetPropuestasCreadasPorProponenteResponse_QNAME = new QName("http://webServices/", "getPropuestasCreadasPorProponenteResponse");
     private final static QName _GetSeguidores_QNAME = new QName("http://webServices/", "getSeguidores");
@@ -71,6 +79,8 @@ public class ObjectFactory {
     private final static QName _LoginResponse_QNAME = new QName("http://webServices/", "loginResponse");
     private final static QName _MarcarComoFavorita_QNAME = new QName("http://webServices/", "marcarComoFavorita");
     private final static QName _MarcarComoFavoritaResponse_QNAME = new QName("http://webServices/", "marcarComoFavoritaResponse");
+    private final static QName _PermisosSobrePropuesta_QNAME = new QName("http://webServices/", "permisosSobrePropuesta");
+    private final static QName _PermisosSobrePropuestaResponse_QNAME = new QName("http://webServices/", "permisosSobrePropuestaResponse");
     private final static QName _QuitarFavorita_QNAME = new QName("http://webServices/", "quitarFavorita");
     private final static QName _QuitarFavoritaResponse_QNAME = new QName("http://webServices/", "quitarFavoritaResponse");
     private final static QName _RankingUsuarios_QNAME = new QName("http://webServices/", "rankingUsuarios");
@@ -206,6 +216,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AccionSobrePropuesta }
+     * 
+     */
+    public AccionSobrePropuesta createAccionSobrePropuesta() {
+        return new AccionSobrePropuesta();
+    }
+
+    /**
+     * Create an instance of {@link AccionSobrePropuestaResponse }
+     * 
+     */
+    public AccionSobrePropuestaResponse createAccionSobrePropuestaResponse() {
+        return new AccionSobrePropuestaResponse();
+    }
+
+    /**
+     * Create an instance of {@link AccionesSobrePropuesta }
+     * 
+     */
+    public AccionesSobrePropuesta createAccionesSobrePropuesta() {
+        return new AccionesSobrePropuesta();
+    }
+
+    /**
+     * Create an instance of {@link AccionesSobrePropuestaResponse }
+     * 
+     */
+    public AccionesSobrePropuestaResponse createAccionesSobrePropuestaResponse() {
+        return new AccionesSobrePropuestaResponse();
+    }
+
+    /**
      * Create an instance of {@link AltaPropuesta }
      * 
      */
@@ -267,6 +309,22 @@ public class ObjectFactory {
      */
     public EmailUsadoResponse createEmailUsadoResponse() {
         return new EmailUsadoResponse();
+    }
+
+    /**
+     * Create an instance of {@link EsFavorita }
+     * 
+     */
+    public EsFavorita createEsFavorita() {
+        return new EsFavorita();
+    }
+
+    /**
+     * Create an instance of {@link EsFavoritaResponse }
+     * 
+     */
+    public EsFavoritaResponse createEsFavoritaResponse() {
+        return new EsFavoritaResponse();
     }
 
     /**
@@ -382,6 +440,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetPropuestaDTO }
+     * 
+     */
+    public GetPropuestaDTO createGetPropuestaDTO() {
+        return new GetPropuestaDTO();
+    }
+
+    /**
+     * Create an instance of {@link GetPropuestaDTOResponse }
+     * 
+     */
+    public GetPropuestaDTOResponse createGetPropuestaDTOResponse() {
+        return new GetPropuestaDTOResponse();
+    }
+
+    /**
      * Create an instance of {@link GetPropuestasCreadasPorProponente }
      * 
      */
@@ -475,6 +549,22 @@ public class ObjectFactory {
      */
     public MarcarComoFavoritaResponse createMarcarComoFavoritaResponse() {
         return new MarcarComoFavoritaResponse();
+    }
+
+    /**
+     * Create an instance of {@link PermisosSobrePropuesta }
+     * 
+     */
+    public PermisosSobrePropuesta createPermisosSobrePropuesta() {
+        return new PermisosSobrePropuesta();
+    }
+
+    /**
+     * Create an instance of {@link PermisosSobrePropuestaResponse }
+     * 
+     */
+    public PermisosSobrePropuestaResponse createPermisosSobrePropuestaResponse() {
+        return new PermisosSobrePropuestaResponse();
     }
 
     /**
@@ -582,6 +672,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Categoria }
+     * 
+     */
+    public Categoria createCategoria() {
+        return new Categoria();
+    }
+
+    /**
      * Create an instance of {@link Pago }
      * 
      */
@@ -595,14 +693,6 @@ public class ObjectFactory {
      */
     public LocalDateTime createLocalDateTime() {
         return new LocalDateTime();
-    }
-
-    /**
-     * Create an instance of {@link Categoria }
-     * 
-     */
-    public Categoria createCategoria() {
-        return new Categoria();
     }
 
     /**
@@ -783,6 +873,58 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AccionSobrePropuesta }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link AccionSobrePropuesta }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "accionSobrePropuesta")
+    public JAXBElement<AccionSobrePropuesta> createAccionSobrePropuesta(AccionSobrePropuesta value) {
+        return new JAXBElement<AccionSobrePropuesta>(_AccionSobrePropuesta_QNAME, AccionSobrePropuesta.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AccionSobrePropuestaResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link AccionSobrePropuestaResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "accionSobrePropuestaResponse")
+    public JAXBElement<AccionSobrePropuestaResponse> createAccionSobrePropuestaResponse(AccionSobrePropuestaResponse value) {
+        return new JAXBElement<AccionSobrePropuestaResponse>(_AccionSobrePropuestaResponse_QNAME, AccionSobrePropuestaResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AccionesSobrePropuesta }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link AccionesSobrePropuesta }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "accionesSobrePropuesta")
+    public JAXBElement<AccionesSobrePropuesta> createAccionesSobrePropuesta(AccionesSobrePropuesta value) {
+        return new JAXBElement<AccionesSobrePropuesta>(_AccionesSobrePropuesta_QNAME, AccionesSobrePropuesta.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AccionesSobrePropuestaResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link AccionesSobrePropuestaResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "accionesSobrePropuestaResponse")
+    public JAXBElement<AccionesSobrePropuestaResponse> createAccionesSobrePropuestaResponse(AccionesSobrePropuestaResponse value) {
+        return new JAXBElement<AccionesSobrePropuestaResponse>(_AccionesSobrePropuestaResponse_QNAME, AccionesSobrePropuestaResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AltaPropuesta }{@code >}
      * 
      * @param value
@@ -884,6 +1026,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webServices/", name = "emailUsadoResponse")
     public JAXBElement<EmailUsadoResponse> createEmailUsadoResponse(EmailUsadoResponse value) {
         return new JAXBElement<EmailUsadoResponse>(_EmailUsadoResponse_QNAME, EmailUsadoResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EsFavorita }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link EsFavorita }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "esFavorita")
+    public JAXBElement<EsFavorita> createEsFavorita(EsFavorita value) {
+        return new JAXBElement<EsFavorita>(_EsFavorita_QNAME, EsFavorita.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EsFavoritaResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link EsFavoritaResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "esFavoritaResponse")
+    public JAXBElement<EsFavoritaResponse> createEsFavoritaResponse(EsFavoritaResponse value) {
+        return new JAXBElement<EsFavoritaResponse>(_EsFavoritaResponse_QNAME, EsFavoritaResponse.class, null, value);
     }
 
     /**
@@ -1069,6 +1237,32 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetPropuestaDTO }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetPropuestaDTO }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "getPropuestaDTO")
+    public JAXBElement<GetPropuestaDTO> createGetPropuestaDTO(GetPropuestaDTO value) {
+        return new JAXBElement<GetPropuestaDTO>(_GetPropuestaDTO_QNAME, GetPropuestaDTO.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetPropuestaDTOResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link GetPropuestaDTOResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "getPropuestaDTOResponse")
+    public JAXBElement<GetPropuestaDTOResponse> createGetPropuestaDTOResponse(GetPropuestaDTOResponse value) {
+        return new JAXBElement<GetPropuestaDTOResponse>(_GetPropuestaDTOResponse_QNAME, GetPropuestaDTOResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetPropuestasCreadasPorProponente }{@code >}
      * 
      * @param value
@@ -1222,6 +1416,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webServices/", name = "marcarComoFavoritaResponse")
     public JAXBElement<MarcarComoFavoritaResponse> createMarcarComoFavoritaResponse(MarcarComoFavoritaResponse value) {
         return new JAXBElement<MarcarComoFavoritaResponse>(_MarcarComoFavoritaResponse_QNAME, MarcarComoFavoritaResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PermisosSobrePropuesta }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link PermisosSobrePropuesta }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "permisosSobrePropuesta")
+    public JAXBElement<PermisosSobrePropuesta> createPermisosSobrePropuesta(PermisosSobrePropuesta value) {
+        return new JAXBElement<PermisosSobrePropuesta>(_PermisosSobrePropuesta_QNAME, PermisosSobrePropuesta.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PermisosSobrePropuestaResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link PermisosSobrePropuestaResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://webServices/", name = "permisosSobrePropuestaResponse")
+    public JAXBElement<PermisosSobrePropuestaResponse> createPermisosSobrePropuestaResponse(PermisosSobrePropuestaResponse value) {
+        return new JAXBElement<PermisosSobrePropuestaResponse>(_PermisosSobrePropuestaResponse_QNAME, PermisosSobrePropuestaResponse.class, null, value);
     }
 
     /**
