@@ -130,8 +130,7 @@ PersonalizarConfig(){
 	sed -i "s/^WEB_SERVICES_PORTR=.*/WEB_SERVICES_PORTR=$portR_final/" "$DESTINO" 
 	
 	sed -i "s/^WEB_HOST=.*/WEB_HOST=$WebHost_final/" "$DESTINO" 
-	
-	
+		
 }
 configuracionPersonalizada(){
 	DESTINO="$HOME/.Culturarte/config.properties"
@@ -186,17 +185,53 @@ crearArchivoConfig(){
 
 }
 
-DeployServidorWeb(){
-	echo " Crear Archivo de Configuracion"
-}
-
 DeployServidorCentral(){
- 	echo "2Crear Archivo de Configuracion"
+ 	echo "compilando Proyecto Servidor Central y desplegando Servico y Estacion de trabajo"
+	
+	echo "compilando Proyecto Servidor Central"
+   mvn clean install
+	echo "Desplegando Web Service y estacion de trabajo"
+	
+ 	NAME_JAR="Lab1PA-1.0-SNAPSHOT-jar-with-dependencies.jar"
+ 	
+ 	chmod +x target/$NAME_JAR
+ 	
+ 	java -jar target/$NAME_JAR
 }
-
 DeployProject(){
+	
+	config="$HOME/.Culturarte/config.properties"
+	
+	port_actual=$(grep '^WEB_SERVICES_PORT=' "$config" | cut -d'=' -f2)
+	
+	portR_actual=$(grep '^WEB_SERVICES_PORTR=' "$config" | cut -d'=' -f2)
+	
+	##compruebo si los puerto estan usados si estan hago kill si no muestro mensjae y sigo
+	##puero servicio soap
+	##deberia controlar que el proceso sea del programa y no otra cosa que justo este usando puerto 
+	if  lsof -i:$port_actual &>/dev/null || lsof -i:$portR_actual &>/dev/null; then
+	    
+		 pidWebServiceSoap=$(lsof -ti :$port_actual)
+		 
+		 pidWebServiceRest=$(lsof -ti :$portR_actual)
+		 
+		 [ -n "$pidWebServiceSoap" ] && kill $pidWebServiceSoap
+		 
+       [ -n "$pidWebServiceRest" ] && kill $pidWebServiceRest
+		 
+		 echo -e "\nSe ha terminado la ejecución de los WebServices correctamente \n"
+		 exit 1
+	else
+		 echo -e "\nNo hay ningún servicio escuchando en el puertos\n"
+	fi
+	
+	
+	##compilar y ejecutar
 	DeployServidorCentral
-	DeployServidorWeb
+	
+	echo
+	read -p "Presiona Enter para volver al menú..."
+ 	clear
 }
 while true; do
     clear
@@ -204,13 +239,11 @@ while true; do
     echo "        MENÚ PRINCIPAL"
     echo "=============================="
     echo "1) Crear Archivo de Configuracion"
-    echo "2) DeployProjects"
-    echo "3) Deploy Servidor Central"
-    echo "4) Deploy Servidor Web"
-    echo "5) Help"
-    echo "6) Salir"
+    echo "2) Deploy Project"
+    echo "3) Help"
+    echo "4) Salir"
     echo "------------------------------"
-    read -p "Elige una opción [1-6]: " opcion
+    read -p "Elige una opción [1-4]: " opcion
 
     case $opcion in
         1)
@@ -223,18 +256,10 @@ while true; do
             DeployProject
            	;;
         3)
-        		clear
-            DeployServidorCentral 
-            ;;
-        4)	
-        		clear
-            DeployServidorWeb
-            ;;
-        5)
             echo "Help"
             ;;
             
-		  6)
+		  4)
             echo "Saliendo..."
             break
             ;;
