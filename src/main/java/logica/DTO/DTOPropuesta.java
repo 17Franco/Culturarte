@@ -8,13 +8,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import logica.Colaboracion.Colaboracion;
+import logica.Propuesta.Comentario;
 import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
-import java.time.format.DateTimeFormatter;
+
 
 
 @XmlRootElement(name = "DTOPropuesta") 
@@ -57,9 +57,7 @@ public class DTOPropuesta {
     private List<DTOColaboracion> aporte =new ArrayList<>();
    
     @JsonInclude(Include.NON_EMPTY)
-    private Map<String,String> comentarios = new HashMap<>();
-    @JsonInclude(Include.NON_EMPTY)
-    private List<String> usrComentadores = new ArrayList();        
+    private List<Comentario> comentarios = new ArrayList<>();       
             
     public DTOPropuesta(){}
     
@@ -70,7 +68,7 @@ public class DTOPropuesta {
     
     }
     
-    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, Map<String, String> _comentarios) 
+    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, List<Comentario> _comentarios) 
     {
         this.Titulo = Titulo;
         this.Descripcion = Descripcion;
@@ -84,7 +82,6 @@ public class DTOPropuesta {
         this.usr = usr;
         this.EstadoAct = EstadoAct;
         this.comentarios = _comentarios; 
-        this.usrComentadores.addAll(_comentarios.keySet());
 
         for (int i = 0; i < _historialEstados.size(); i++) //Pasa de Lista Class normal a lista de DTO
         {
@@ -102,16 +99,6 @@ public class DTOPropuesta {
 
     public void setAporte(List<DTOColaboracion> aporte) {
         this.aporte = aporte;
-    }
-    
-    public void SetUsrComentadores(String input)
-    {
-        usrComentadores.add(input);
-    }
-    
-    public List<String> GetUsrComentadores(String input) 
-    {
-       return usrComentadores;
     }
     
     public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
@@ -260,7 +247,7 @@ public class DTOPropuesta {
         this.EstadoAct = EstadoAct;
     }
     
-    public void setComentarios(Map<String,String> input)
+    public void setComentarios(List<Comentario> input)
     {
         this.comentarios = input;
     }
@@ -269,7 +256,9 @@ public class DTOPropuesta {
     {
         if(!usuario.isEmpty() && !comentario.isEmpty())
         {
-            this.comentarios.put(usuario,comentario);
+            
+            Comentario temp = new Comentario (usuario,comentario);
+            this.comentarios.add(temp);
         }
        
     }
@@ -375,19 +364,9 @@ public class DTOPropuesta {
         return fechaExpiracion;
     }
     
-    public Map<String,String> getComentarios()
+    public List<Comentario> getComentarios()
     {
         return comentarios;
-    }
-    
-    public boolean usuarioHaComentadoSN(String nick)    
-    {
-        if(comentarios.containsKey(nick))
-        {
-            return true;    //El usuario ya comentó
-        }
-        
-        return false;
     }
    
     public int chequearRecaudado(List<DTOColaboracion> aporteInput)
