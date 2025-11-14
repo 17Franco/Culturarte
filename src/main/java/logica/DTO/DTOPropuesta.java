@@ -408,6 +408,17 @@ public class DTOPropuesta {
         return fechaExpiracionString;
     }
     
-    
+    public boolean usuarioHaComentadoSN(String userNick)
+    {
+        for(Comentario ct : comentarios)
+        {
+            if(ct.getNickUsuario().equals(userNick))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
 
