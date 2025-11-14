@@ -64,6 +64,7 @@ public class DTOPropuesta {
     {
         this.Titulo=titulo;
         this.fechaExpiracion=fechaExp;
+        this.FechaString = fechaExp.toString();
     
     }
     
@@ -77,6 +78,8 @@ public class DTOPropuesta {
         this.Precio = Precio;
         this.MontoTotal = MontoTotal;
         this.FechaPublicacion = FechaPublicacion;
+        this.FechaString = Fecha.toString();
+        this.FechaPublicacionString=FechaPublicacion.toString();
         this.cat = cat;
         this.usr = usr;
         this.EstadoAct = EstadoAct;
@@ -107,9 +110,11 @@ public class DTOPropuesta {
         this.Imagen=Imagen;
         this.Lugar=Lugar;
         this.Fecha=Fecha;
+        this.FechaString = Fecha.toString();
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
+        this.FechaPublicacionString=FechaPublicacion.toString();
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
@@ -273,6 +278,9 @@ public class DTOPropuesta {
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         fechaExpiracion = in.getFechaExpiracion();
+        FechaPublicacionString = in.getFechaPublicacion().toString();
+        fechaExpiracionString = in.getFechaExpiracion().toString();
+        FechaString = getFecha().toString();
         EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
