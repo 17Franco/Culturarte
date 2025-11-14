@@ -64,7 +64,7 @@ public class DTOPropuesta {
     {
         this.Titulo=titulo;
         this.fechaExpiracion=fechaExp;
-        this.FechaString = fechaExp.toString();
+        this.fechaExpiracionString = (fechaExp != null) ? fechaExp.toString() : "";
     
     }
     
@@ -110,11 +110,11 @@ public class DTOPropuesta {
         this.Imagen=Imagen;
         this.Lugar=Lugar;
         this.Fecha=Fecha;
-        this.FechaString = Fecha.toString();
+        this.FechaString = (Fecha != null) ? Fecha.toString() : "";
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
-        this.FechaPublicacionString=FechaPublicacion.toString();
+        this.FechaPublicacionString = (FechaPublicacion != null) ? FechaPublicacion.toString() : "";  
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
@@ -140,12 +140,12 @@ public class DTOPropuesta {
         this.Imagen = p.getImagen();
         this.Lugar = p.getLugar();
         this.Fecha = p.getFecha();
-        this.FechaString = p.getFecha().toString();
+        this.FechaString = (p.getFecha() != null) ? p.getFecha().toString() : "";       
         this.Precio = p.getPrecio();
         this.MontoTotal = p.getMontoTotal();
         this.FechaPublicacion = p.getFechaPublicacion();
-        this.FechaPublicacionString = p.getFechaPublicacion().toString();
-        this.fechaExpiracionString=p.getFechaExpiracion().toString();
+        this.FechaPublicacionString = (p.getFechaPublicacion() != null) ? p.getFechaPublicacion().toString() : "";
+        this.fechaExpiracionString = (p.getFechaExpiracion() != null) ? p.getFechaExpiracion().toString() : "";
         this.Retorno = p.getRetorno();
         this.cat = p.getCategoria().Cat_a_DTO();
         this.usr = proponente;
@@ -273,14 +273,14 @@ public class DTOPropuesta {
         Descripcion = in.getDescripcion();
         Imagen = in.getImagen();
         Lugar = in.getLugar();
-        Fecha = getFecha();           
+        Fecha = in.getFecha();
+        FechaString = (this.Fecha != null) ? this.Fecha.toString() : "";
         Precio = in.getPrecio();
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         fechaExpiracion = in.getFechaExpiracion();
-        FechaPublicacionString = in.getFechaPublicacion().toString();
-        fechaExpiracionString = in.getFechaExpiracion().toString();
-        FechaString = getFecha().toString();
+        FechaPublicacionString = (this.FechaPublicacion != null) ? this.FechaPublicacion.toString() : "";
+        fechaExpiracionString = (this.fechaExpiracion != null) ? this.fechaExpiracion.toString() : ""; 
         EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
