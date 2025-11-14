@@ -43,10 +43,11 @@ public class Propuesta
     private LocalDate FechaPublicacion;
     private LocalDate fechaExpiracion;
     private String estado="Activo";
+    
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "Comentarios", joinColumns = @JoinColumn(name = "propuesta"))
-    @MapKeyColumn(name = "usuario")   //Mapeo de la Key
-    @Column(name = "comentario")       //Mapeo del value
+    @ElementCollection(targetClass = Comentario.class)
+    @CollectionTable(name = "comentarios",joinColumns = @JoinColumn(name = "propuesta"))
+    @Column(name = "comentarios")
     private List<Comentario> comentarios = new ArrayList();
             
     @ElementCollection(targetClass = TipoRetorno.class)
