@@ -22,16 +22,15 @@ import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOPropuesta;
+import logica.Propuesta.Comentario;
 import logica.DTO.DTORegistro_Estado;
 import logica.DTO.Estado;
-import org.hibernate.annotations.Where;
 
 @Entity
-public class Propuesta {
+public class Propuesta 
+{
     @Id
     public String Titulo;
     @Column(length = 2000)
@@ -48,7 +47,7 @@ public class Propuesta {
     @CollectionTable(name = "Comentarios", joinColumns = @JoinColumn(name = "propuesta"))
     @MapKeyColumn(name = "usuario")   //Mapeo de la Key
     @Column(name = "comentario")       //Mapeo del value
-    private Map<String,String> comentarios = new HashMap<>();
+    private List<Comentario> comentarios = new ArrayList();
             
     @ElementCollection(targetClass = TipoRetorno.class)
     @Enumerated(EnumType.STRING)
@@ -191,7 +190,7 @@ public class Propuesta {
         historialEstados = _historial;
     }
     
-    public void setComentarios(Map<String,String> input)
+    public void setComentarios(List<Comentario> input)
     {
         this.comentarios = input;
     }
@@ -208,7 +207,9 @@ public class Propuesta {
             LocalDate fechaActual = LocalDate.now(ZoneId.of("America/Montevideo"));                              //Fuerzo a la región
             String fechaConFormatoDeAca = fechaActual.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));         //Con esto queda el tipico formato de aca y en string
             String comentarioConFecha = "<span style='color:gray; font-style:italic;'>" + fechaConFormatoDeAca + "</span><br><p>" + comentario + "</p>"; // El <br> ese es un salto de línea  y le agrego italc gris a la fecha en HTML
-            this.comentarios.put(usuario,comentarioConFecha);
+            
+            Comentario temp = new Comentario(usuario, comentarioConFecha);
+            this.comentarios.add(temp);
         }
        
     }
@@ -257,20 +258,11 @@ public class Propuesta {
                
     }
     
-    public Map<String,String> getComentarios()
+    public List<Comentario> getComentarios()
     {
         return comentarios;
     }
-    
-    public boolean usuarioHaComentadoSN(String nick)    
-    {
-        if(comentarios.containsKey(nick))
-        {
-            return true;    //El usuario ya comentó
-        }
-        
-        return false;
-    }
+
     public DTOPropuesta toDTO() {
         DTOPropuesta dto= new DTOPropuesta();
         dto.setTitulo(this.getTitulo());
