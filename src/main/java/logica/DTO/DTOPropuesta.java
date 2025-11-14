@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
+import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class DTOPropuesta {
     private int Precio;
     private int MontoTotal;
     private byte[] img;
+    private List<String> RetornosString = new ArrayList();
     
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
@@ -292,10 +294,30 @@ public class DTOPropuesta {
         EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
+        
+        if(Retorno.size() == 2)
+        {
+            this.RetornosString.add("Porcentaje Ganancia");
+            this.RetornosString.add("Entrada Gratis");
+        }
+        else
+        {
+            if(Retorno.get(0).equals(TipoRetorno.PorcentajeGanancia))
+            {
+                this.RetornosString.add("Porcentaje Ganancia");
+            }
+            if(Retorno.get(0).equals(TipoRetorno.EntradaGratis))
+            {
+                this.RetornosString.add("Entrada Gratis");
+            }
+        }
+             
         if (in.getCategoria() != null) {
             this.cat = in.getCategoria().Cat_a_DTO();
+            categoria = in.getCategoria().getNombreCategoria();
         } 
-        else {
+        else 
+        {
             this.cat = null; // o crear un DTO de categoría vacío si quieres
         }
         usr = new DTOProponente(in.getProponente().getDireccion(),in.getProponente().getBiografia(),
