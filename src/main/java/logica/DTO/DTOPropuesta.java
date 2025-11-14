@@ -40,6 +40,8 @@ public class DTOPropuesta {
     private int Precio;
     private int MontoTotal;
     private byte[] img;
+    
+    @JsonInclude(Include.NON_EMPTY)
     private List<String> RetornosString = new ArrayList();
     
     @JsonIgnore
