@@ -22,15 +22,15 @@ import logica.Categoria.Categoria;
 import logica.Usuario.Proponente;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOPropuesta;
-import logica.Propuesta.Comentario;
 import logica.DTO.DTORegistro_Estado;
 import logica.DTO.Estado;
 
 @Entity
-public class Propuesta 
-{
+public class Propuesta {
     @Id
     public String Titulo;
     @Column(length = 2000)
@@ -47,7 +47,7 @@ public class Propuesta
     @CollectionTable(name = "Comentarios", joinColumns = @JoinColumn(name = "propuesta"))
     @MapKeyColumn(name = "usuario")   //Mapeo de la Key
     @Column(name = "comentario")       //Mapeo del value
-    private List<Comentario> comentarios = new ArrayList();
+    private Map<String,String> comentarios = new HashMap<>();
             
     @ElementCollection(targetClass = TipoRetorno.class)
     @Enumerated(EnumType.STRING)
@@ -190,7 +190,7 @@ public class Propuesta
         historialEstados = _historial;
     }
     
-    public void setComentarios(List<Comentario> input)
+    public void setComentarios(Map<String,String> input)
     {
         this.comentarios = input;
     }
@@ -207,9 +207,7 @@ public class Propuesta
             LocalDate fechaActual = LocalDate.now(ZoneId.of("America/Montevideo"));                              //Fuerzo a la región
             String fechaConFormatoDeAca = fechaActual.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));         //Con esto queda el tipico formato de aca y en string
             String comentarioConFecha = "<span style='color:gray; font-style:italic;'>" + fechaConFormatoDeAca + "</span><br><p>" + comentario + "</p>"; // El <br> ese es un salto de línea  y le agrego italc gris a la fecha en HTML
-            
-            Comentario temp = new Comentario(usuario, comentarioConFecha);
-            this.comentarios.add(temp);
+            this.comentarios.put(usuario,comentarioConFecha);
         }
        
     }
@@ -258,11 +256,10 @@ public class Propuesta
                
     }
     
-    public List<Comentario> getComentarios()
+    public Map<String,String> getComentarios()
     {
         return comentarios;
     }
-
     public DTOPropuesta toDTO() {
         DTOPropuesta dto= new DTOPropuesta();
         dto.setTitulo(this.getTitulo());
