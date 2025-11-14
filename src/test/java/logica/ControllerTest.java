@@ -25,7 +25,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1570,7 +1569,7 @@ public void testGetFavoritasConPropuestas() {
         
         DTOPropuesta p1 = controller.getPropuestaDTO("Cine en el Botanico");
        
-        controller.modificarPropuesta(p1.getTitulo(), p1.getDescripcion(), p1.getImagen(), p1.getLugar(), p1.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), p1.getPrecio(), p1.getMontoTotal(), p1.getRetorno(), "Cine al Aire Libre", "USER_TEST_MODIFICAR_PROPUESTA", p1.getEstado());
+        controller.modificarPropuesta(p1.getTitulo(), p1.getDescripcion(), p1.getImagen(), p1.getLugar(), p1.getFecha(), p1.getPrecio(), p1.getMontoTotal(), p1.getRetorno(), "Cine al Aire Libre", "USER_TEST_MODIFICAR_PROPUESTA", p1.getEstado());
     }
     
     @Test

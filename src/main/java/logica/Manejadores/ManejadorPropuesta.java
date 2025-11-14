@@ -154,7 +154,7 @@ public class ManejadorPropuesta {
 
             for (DTOPropuesta ct : setInput)   //Se analiza el estado actual de la propuesta y su fecha de cierre para verificar si debe ser cancelada.
             {
-                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(LocalDate.now()) && (ct.getEstadoAct() == Estado.EN_FINANCIACION || ct.getEstadoAct() == Estado.PUBLICADA))  //Si la fecha actual es mayor a la de vencimiento...
+                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().isBefore(LocalDate.now()) && (ct.getEstadoAct() == Estado.EN_FINANCIACION || ct.getEstadoAct() == Estado.PUBLICADA))  //Si la fecha actual es mayor a la de vencimiento...
                 {
                     int recaudado = ct.chequearRecaudado(ct.getAporte());   //Obtengo recaudo total en este momento.
                     
@@ -177,7 +177,7 @@ public class ManejadorPropuesta {
         }
         
         //Si se envió un DTO unicamente:
-        if(singleInput != null && singleInput.getFechaExpiracion() != null && singleInput.getFechaExpiracion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(LocalDate.now()) && (singleInput.getEstadoAct() == Estado.EN_FINANCIACION || singleInput.getEstadoAct() == Estado.PUBLICADA))
+        if(singleInput != null && singleInput.getFechaExpiracion() != null && singleInput.getFechaExpiracion().isBefore(LocalDate.now()) && (singleInput.getEstadoAct() == Estado.EN_FINANCIACION || singleInput.getEstadoAct() == Estado.PUBLICADA))
         {            
             int recaudado = singleInput.chequearRecaudado(singleInput.getAporte());   //Obtengo recaudo total en este momento.
 
