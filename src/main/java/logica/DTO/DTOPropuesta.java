@@ -39,6 +39,7 @@ public class DTOPropuesta {
     private String fechaExpiracionString;
     private int Precio;
     private int MontoTotal;
+    private byte[] img;
     
     @XmlTransient
     @JsonIgnore
@@ -129,7 +130,14 @@ public class DTOPropuesta {
         
     }
 
-    
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
     
     public DTOPropuesta(Propuesta p, DTOProponente proponente) 
     {
