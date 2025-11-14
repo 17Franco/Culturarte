@@ -58,7 +58,8 @@ public class DTOPropuesta {
    
     @JsonInclude(Include.NON_EMPTY)
     private Map<String,String> comentarios = new HashMap<>();
-            
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> usrComentadores = new ArrayList();        
             
     public DTOPropuesta(){}
     
@@ -69,7 +70,7 @@ public class DTOPropuesta {
     
     }
     
-    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, Map<String, String> comentarios) 
+    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, Map<String, String> _comentarios) 
     {
         this.Titulo = Titulo;
         this.Descripcion = Descripcion;
@@ -82,7 +83,8 @@ public class DTOPropuesta {
         this.cat = cat;
         this.usr = usr;
         this.EstadoAct = EstadoAct;
-        this.comentarios = comentarios;
+        this.comentarios = _comentarios; 
+        this.usrComentadores.addAll(_comentarios.keySet());
 
         for (int i = 0; i < _historialEstados.size(); i++) //Pasa de Lista Class normal a lista de DTO
         {
@@ -102,6 +104,15 @@ public class DTOPropuesta {
         this.aporte = aporte;
     }
     
+    public void SetUsrComentadores(String input)
+    {
+        usrComentadores.add(input);
+    }
+    
+    public List<String> GetUsrComentadores(String input) 
+    {
+       return usrComentadores;
+    }
     
     public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
@@ -125,6 +136,7 @@ public class DTOPropuesta {
         {
             aporte.add(new DTOColaboracion(_colaboradores.get(b).getTipoRetorno(), _colaboradores.get(b).getMonto(), _colaboradores.get(b).getColaborador().getNickname(), _colaboradores.get(b).getPropuesta().getTitulo(), _colaboradores.get(b).getCreado()));
         }
+
         
     }
 
