@@ -291,6 +291,8 @@ public class DTOPropuesta {
         EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
+        categoria = in.getCategoria().getNombreCategoria();
+        
         if (in.getCategoria() != null) {
             this.cat = in.getCategoria().Cat_a_DTO();
         } 
