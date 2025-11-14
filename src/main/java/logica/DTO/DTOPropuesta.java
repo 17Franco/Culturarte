@@ -38,6 +38,7 @@ public class DTOPropuesta {
     private String fechaExpiracionString;
     private int Precio;
     private int MontoTotal;
+    private byte[] img;
     
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
@@ -131,7 +132,14 @@ public class DTOPropuesta {
         
     }
 
-    
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
     
     public DTOPropuesta(Propuesta p, DTOProponente proponente) 
     {

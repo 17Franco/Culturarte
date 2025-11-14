@@ -28,6 +28,9 @@ public class RecursoProponente {
         DTOProponente proponenteEncontrado = controller.getDTOProponente(idProponente);
         proponenteEncontrado.setPropCreadas(new ArrayList<>(controller.getPropuestasCreadasPorProponente(idProponente)));
         for(DTOPropuesta p: proponenteEncontrado.getPropCreadas()){
+           if(! "".equals(p.getImagen())){ 
+            p.setImg(controller.getImg(p.getImagen()));
+           }
            p.setAporte(controller.apoertesPorpuesta(p.getTitulo()));
         }
        
