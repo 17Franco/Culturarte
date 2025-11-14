@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -146,6 +147,8 @@ public interface IController {
     
     boolean acreditarColaboracion(Long id, DTOPago datosPago);
     List<DTOColaboracion> apoertesPorpuesta(String title);
+    
+    File GenerarPDF (long id );
 
     //Registros
     
