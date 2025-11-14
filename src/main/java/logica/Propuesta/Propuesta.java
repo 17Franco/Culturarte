@@ -11,7 +11,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.ArrayList;
 import logica.Colaboracion.Colaboracion;
 import logica.DTO.DTOPropuesta;
-import logica.Propuesta.Comentario;
 import logica.DTO.DTORegistro_Estado;
 import logica.DTO.Estado;
 
@@ -45,10 +43,8 @@ public class Propuesta
     private String estado="Activo";
     
     @ElementCollection(fetch = FetchType.EAGER)
-    @ElementCollection(targetClass = Comentario.class)
-    @CollectionTable(name = "comentarios",joinColumns = @JoinColumn(name = "propuesta"))
-    @Column(name = "comentarios")
-    private List<Comentario> comentarios = new ArrayList();
+    @CollectionTable(name = "comentarios", joinColumns = @JoinColumn(name = "propuesta_titulo"))
+    private List<Comentario> comentarios = new ArrayList<>();
             
     @ElementCollection(targetClass = TipoRetorno.class)
     @Enumerated(EnumType.STRING)
@@ -213,6 +209,19 @@ public class Propuesta
             this.comentarios.add(temp);
         }
        
+    }
+    
+    public boolean usuarioHaComentadoSN(String userNick)
+    {
+        for(Comentario ct : comentarios)
+        {
+            if(ct.getNickUsuario().equals(userNick))
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public List<Colaboracion> getAporte() {
