@@ -28,7 +28,7 @@ public class RecursoProponente {
         DTOProponente proponenteEncontrado = controller.getDTOProponente(idProponente);
         proponenteEncontrado.setPropCreadas(new ArrayList<>(controller.getPropuestasCreadasPorProponente(idProponente)));
         for(DTOPropuesta p: proponenteEncontrado.getPropCreadas()){
-           p.setAporteNick(controller.colaboradoresAPropuesta(p.getTitulo()));
+           p.setAporte(controller.apoertesPorpuesta(p.getTitulo()));
         }
        
         return proponenteEncontrado; 

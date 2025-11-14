@@ -56,10 +56,7 @@ public class DTOPropuesta {
     
     @JsonInclude(Include.NON_EMPTY)//ignora en caso vacio en json
     private List<DTOColaboracion> aporte =new ArrayList<>();
-    
    
-    private List<String> aporteNick =new ArrayList<>();
-    
     @JsonInclude(Include.NON_EMPTY)
     private Map<String,String> comentarios = new HashMap<>();
             
@@ -132,13 +129,6 @@ public class DTOPropuesta {
         
     }
 
-    public List<String> getAporteNick() {
-        return aporteNick;
-    }
-
-    public void setAporteNick(List<String> aporteNick) {
-        this.aporteNick = aporteNick;
-    }
     
     
     public DTOPropuesta(Propuesta p, DTOProponente proponente) 

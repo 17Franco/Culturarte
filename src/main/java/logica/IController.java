@@ -145,6 +145,7 @@ public interface IController {
     Set<DTOColaboracion> getDTOColaboraciones();
     
     boolean acreditarColaboracion(Long id, DTOPago datosPago);
+    List<DTOColaboracion> apoertesPorpuesta(String title);
 
     //Registros
     

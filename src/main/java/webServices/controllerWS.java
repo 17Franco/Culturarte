@@ -175,16 +175,44 @@ public class controllerWS {
     public boolean eliminarProponente(String nick){
         return controller.eliminarProponente(nick);
     }
+    @WebMethod
+    public void marcarComoFavorita(String nickname, String tituloPropuesta) {
+        controller.marcarComoFavorita(nickname, tituloPropuesta);
+    }
+    @WebMethod
+    public void quitarFavorita(String nickname, String tituloPropuesta) {
+        controller.quitarFavorita(nickname, tituloPropuesta);
+    }
+    @WebMethod
+    public boolean esFavorita(String nickname, String tituloPropuesta) {
+        return controller.esFavorita(nickname, tituloPropuesta);
+    }
     //FIN METODOS USUARIOS
     
     
     //METODOS PROPUESTAS
-    
+    @WebMethod
     public void altaPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, String Fecha, int Precio, int MontoTotal,String fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr,Estado est) {
         LocalDate fecha = LocalDate.parse(Fecha);
         LocalDate fechaP = LocalDate.parse(fechaPublicacio);
         controller.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, fecha,Precio, MontoTotal,fechaP, Retorno,cat, usr, est);
-    } 
+    }
+    @WebMethod
+    public DTOPropuesta getPropuestaDTO(String propuestaSel) {
+        return controller.getPropuestaDTO(propuestaSel);
+    }
+    @WebMethod
+    public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) {
+        return controller.accionSobrePropuesta(nickUsuario, propuestaSel);
+    }
+    @WebMethod
+    public int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual) {
+        return controller.permisosSobrePropuesta(userNick, tipoUsuario, propuestaActual);
+    }
+    @WebMethod
+    public int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario, String comentario, DTOPropuesta propuestaActual, String montoStr, String tipoRetorno) {
+        return controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
+    }
     //FIN METODOS PROPUESTAS
     
     //METODOS CATEGORIA
