@@ -9,8 +9,12 @@ import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.xml.ws.Endpoint;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 import logica.DTO.DTOCategoria;
@@ -230,6 +234,17 @@ public class controllerWS {
     {
         return controller.acreditarColaboracion(id, datosPago);
     }
+    
+    
+
+    public String GenerarPDF (long id ) throws IOException{
+        //DTOColaboracion dto = mColaboraciones.getColaboracionPorId(id);
+        File PDF = controller.GenerarPDF(id);
+         byte[] pdfbyte = Files.readAllBytes(PDF.toPath());
+        String base64 = Base64.getEncoder().encodeToString(pdfbyte);
+        return base64;
+
+       }
 
     //FIN METODOS COLABORACION
     
