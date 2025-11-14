@@ -4,7 +4,6 @@
  */
 package ui;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import logica.DTO.DTOPropuesta;
 import logica.Fabrica;
@@ -160,7 +159,7 @@ public class EvaluarPropuesta extends javax.swing.JInternalFrame {
         String auxD = propuestaSeleccionada.getDescripcion();
         String auxL = propuestaSeleccionada.getLugar();
         String auxR = propuestaSeleccionada.getImagen();
-        LocalDate auxF = propuestaSeleccionada.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate auxF = propuestaSeleccionada.getFecha();
         int auxP = propuestaSeleccionada.getPrecio();
         int auxM = propuestaSeleccionada.getMontoTotal();
         List<TipoRetorno> auxRet = propuestaSeleccionada.getRetorno();

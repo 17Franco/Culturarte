@@ -7,15 +7,14 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import logica.Colaboracion.Colaboracion;
+import logica.Propuesta.Comentario;
 import logica.Propuesta.Propuesta;
 import logica.Propuesta.Registro_Estado;
+
 
 
 @XmlRootElement(name = "DTOPropuesta") 
@@ -28,19 +27,19 @@ public class DTOPropuesta {
     private String Imagen;
     private String Lugar;
     @JsonIgnore
-    private Date Fecha;
+    private LocalDate Fecha;
     @JsonIgnore
-    private Date FechaPublicacion;
+    private LocalDate FechaPublicacion;
     @JsonIgnore
-    private Date fechaExpiracion;
+    private LocalDate fechaExpiracion;
     
     private String FechaString;
     private String FechaPublicacionString;
     private String fechaExpiracionString;
     private int Precio;
     private int MontoTotal;
+    private byte[] img;
     
-    @XmlTransient
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
     @JsonIgnore
@@ -58,32 +57,34 @@ public class DTOPropuesta {
     private List<DTOColaboracion> aporte =new ArrayList<>();
    
     @JsonInclude(Include.NON_EMPTY)
-    private Map<String,String> comentarios = new HashMap<>();
-            
+    private List<Comentario> comentarios = new ArrayList<>();       
             
     public DTOPropuesta(){}
     
     public DTOPropuesta(String titulo, LocalDate fechaExp)  //Es para el caso donde solo debo transportar el titulo y Fecha expriracion para algunas funciones que piden DTO
     {
         this.Titulo=titulo;
-        this.fechaExpiracion=Date.from(fechaExp.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        this.fechaExpiracion=fechaExp;
+        this.fechaExpiracionString = (fechaExp != null) ? fechaExp.toString() : "";
     
     }
     
-    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, Map<String, String> comentarios) 
+    public DTOPropuesta(String Titulo, String Descripcion, String Imagen, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate FechaPublicacion, List<TipoRetorno> Retorno, DTOCategoria cat, DTOProponente usr, Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores, List<Comentario> _comentarios) 
     {
         this.Titulo = Titulo;
         this.Descripcion = Descripcion;
         this.Imagen = Imagen;
         this.Lugar = Lugar;
-        this.Fecha = Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        this.Fecha = Fecha;
         this.Precio = Precio;
         this.MontoTotal = MontoTotal;
-        this.FechaPublicacion = Date.from(FechaPublicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        this.FechaPublicacion = FechaPublicacion;
+        this.FechaString = Fecha.toString();
+        this.FechaPublicacionString=FechaPublicacion.toString();
         this.cat = cat;
         this.usr = usr;
         this.EstadoAct = EstadoAct;
-        this.comentarios = comentarios;
+        this.comentarios = _comentarios; 
 
         for (int i = 0; i < _historialEstados.size(); i++) //Pasa de Lista Class normal a lista de DTO
         {
@@ -103,17 +104,18 @@ public class DTOPropuesta {
         this.aporte = aporte;
     }
     
-    
     public DTOPropuesta(String Titulo,String Descripcion,String Imagen ,String Lugar, LocalDate Fecha, int Precio, int MontoTotal,LocalDate FechaPublicacion,List<TipoRetorno> Retorno,DTOCategoria cat,DTOProponente usr,Estado EstadoAct, List<Registro_Estado> _historialEstados, List<Colaboracion> _colaboradores)
     {
         this.Titulo=Titulo;
         this.Descripcion=Descripcion;
         this.Imagen=Imagen;
         this.Lugar=Lugar;
-        this.Fecha=Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        this.Fecha=Fecha;
+        this.FechaString = (Fecha != null) ? Fecha.toString() : "";
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
-        this.FechaPublicacion=Date.from(FechaPublicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        this.FechaPublicacion=FechaPublicacion;
+        this.FechaPublicacionString = (FechaPublicacion != null) ? FechaPublicacion.toString() : "";  
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
@@ -126,10 +128,18 @@ public class DTOPropuesta {
         {
             aporte.add(new DTOColaboracion(_colaboradores.get(b).getTipoRetorno(), _colaboradores.get(b).getMonto(), _colaboradores.get(b).getColaborador().getNickname(), _colaboradores.get(b).getPropuesta().getTitulo(), _colaboradores.get(b).getCreado()));
         }
+
         
     }
 
-    
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
     
     public DTOPropuesta(Propuesta p, DTOProponente proponente) 
     {
@@ -137,13 +147,13 @@ public class DTOPropuesta {
         this.Descripcion = p.getDescripcion();
         this.Imagen = p.getImagen();
         this.Lugar = p.getLugar();
-        this.Fecha = Date.from(p.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant());;
-        this.FechaString = p.getFecha().toString();
+        this.Fecha = p.getFecha();
+        this.FechaString = (p.getFecha() != null) ? p.getFecha().toString() : "";       
         this.Precio = p.getPrecio();
         this.MontoTotal = p.getMontoTotal();
-        this.FechaPublicacion = Date.from(p.getFechaPublicacion().atStartOfDay(ZoneId.systemDefault()).toInstant());;
-        this.FechaPublicacionString = p.getFechaPublicacion().toString();
-        this.fechaExpiracionString=p.getFechaExpiracion().toString();
+        this.FechaPublicacion = p.getFechaPublicacion();
+        this.FechaPublicacionString = (p.getFechaPublicacion() != null) ? p.getFechaPublicacion().toString() : "";
+        this.fechaExpiracionString = (p.getFechaExpiracion() != null) ? p.getFechaExpiracion().toString() : "";
         this.Retorno = p.getRetorno();
         this.cat = p.getCategoria().Cat_a_DTO();
         this.usr = proponente;
@@ -168,7 +178,7 @@ public class DTOPropuesta {
     public  String getCategorioToString() {
         return categoria;
     }
-    public  Date getFecha() {
+    public  LocalDate getFecha() {
         return Fecha;
     }
     public int getPrecio() {
@@ -177,7 +187,7 @@ public class DTOPropuesta {
     public int getMontoTotal() {
         return MontoTotal;
     }
-    public Date getFechaPublicacion() {
+    public LocalDate getFechaPublicacion() {
         return FechaPublicacion;
     }
     public List<TipoRetorno> getRetorno() {
@@ -217,7 +227,7 @@ public class DTOPropuesta {
     }
 
     public void setFecha(LocalDate fecha) {
-        Fecha = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        Fecha = fecha;
     }
 
     public void setPrecio(int precio) {
@@ -233,7 +243,7 @@ public class DTOPropuesta {
     }
 
     public void setFechaPublicacion(LocalDate fechaPublicacion) {
-        FechaPublicacion = Date.from(fechaPublicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        FechaPublicacion = fechaPublicacion;
     }
     public void setRetornos(List<TipoRetorno> retorno) { 
         this.Retorno = retorno;     
@@ -249,7 +259,7 @@ public class DTOPropuesta {
         this.EstadoAct = EstadoAct;
     }
     
-    public void setComentarios(Map<String,String> input)
+    public void setComentarios(List<Comentario> input)
     {
         this.comentarios = input;
     }
@@ -258,7 +268,9 @@ public class DTOPropuesta {
     {
         if(!usuario.isEmpty() && !comentario.isEmpty())
         {
-            this.comentarios.put(usuario,comentario);
+            
+            Comentario temp = new Comentario (usuario,comentario);
+            this.comentarios.add(temp);
         }
        
     }
@@ -269,11 +281,15 @@ public class DTOPropuesta {
         Descripcion = in.getDescripcion();
         Imagen = in.getImagen();
         Lugar = in.getLugar();
-        Fecha = Date.from(in.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant());;           
+        Fecha = in.getFecha();
+        FechaString = (this.Fecha != null) ? this.Fecha.toString() : "";
         Precio = in.getPrecio();
         MontoTotal = in.getMontoTotal();
-        FechaPublicacion = Date.from(in.getFechaPublicacion().atStartOfDay(ZoneId.systemDefault()).toInstant());;
-        fechaExpiracion = Date.from(in.getFechaExpiracion().atStartOfDay(ZoneId.systemDefault()).toInstant());;
+        FechaPublicacion = in.getFechaPublicacion();
+        fechaExpiracion = in.getFechaExpiracion();
+        FechaPublicacionString = (this.FechaPublicacion != null) ? this.FechaPublicacion.toString() : "";
+        fechaExpiracionString = (this.fechaExpiracion != null) ? this.fechaExpiracion.toString() : ""; 
+        EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
         if (in.getCategoria() != null) {
@@ -359,24 +375,14 @@ public class DTOPropuesta {
         return usr.getNickname();
     }
     
-    public Date getFechaExpiracion()
+    public LocalDate getFechaExpiracion()
     {
         return fechaExpiracion;
     }
     
-    public Map<String,String> getComentarios()
+    public List<Comentario> getComentarios()
     {
         return comentarios;
-    }
-    
-    public boolean usuarioHaComentadoSN(String nick)    
-    {
-        if(comentarios.containsKey(nick))
-        {
-            return true;    //El usuario ya comentó
-        }
-        
-        return false;
     }
    
     public int chequearRecaudado(List<DTOColaboracion> aporteInput)
@@ -418,6 +424,17 @@ public class DTOPropuesta {
         return fechaExpiracionString;
     }
     
-    
+    public boolean usuarioHaComentadoSN(String userNick)
+    {
+        for(Comentario ct : comentarios)
+        {
+            if(ct.getNickUsuario().equals(userNick))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
 

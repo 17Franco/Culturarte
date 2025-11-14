@@ -202,15 +202,21 @@ public class controllerWS {
         return controller.getPropuestaDTO(propuestaSel);
     }
     @WebMethod
-    public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) {
+    public int accionSobrePropuesta(String nickUsuario, String tituloProp) 
+    {
+        DTOPropuesta propuestaSel = controller.getPropuestaDTO(tituloProp);
         return controller.accionSobrePropuesta(nickUsuario, propuestaSel);
     }
     @WebMethod
-    public int permisosSobrePropuesta(String userNick, String tipoUsuario, DTOPropuesta propuestaActual) {
+    public int permisosSobrePropuesta(String userNick, String tipoUsuario, String tituloProp) 
+    {
+        DTOPropuesta propuestaActual = controller.getPropuestaDTO(tituloProp);
         return controller.permisosSobrePropuesta(userNick, tipoUsuario, propuestaActual);
     }
     @WebMethod
-    public int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario, String comentario, DTOPropuesta propuestaActual, String montoStr, String tipoRetorno) {
+    public int accionesSobrePropuesta(String userNick, int permisos, String accionUsuario, String comentario, String tituloProp, String montoStr, String tipoRetorno) 
+    {
+        DTOPropuesta propuestaActual = controller.getPropuestaDTO(tituloProp);
         return controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
     }
     @WebMethod
