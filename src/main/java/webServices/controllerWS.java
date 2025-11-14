@@ -202,7 +202,9 @@ public class controllerWS {
         return controller.getPropuestaDTO(propuestaSel);
     }
     @WebMethod
-    public int accionSobrePropuesta(String nickUsuario, DTOPropuesta propuestaSel) {
+    public int accionSobrePropuesta(String nickUsuario, String tituloProp) 
+    {
+        DTOPropuesta propuestaSel = controller.getPropuestaDTO(tituloProp);
         return controller.accionSobrePropuesta(nickUsuario, propuestaSel);
     }
     @WebMethod
