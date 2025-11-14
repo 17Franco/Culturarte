@@ -10,6 +10,7 @@ import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -151,10 +152,10 @@ public class ManejadorPropuesta {
         //Si se envió un Set:
         if(setInput != null && !setInput.isEmpty())
         {
-
+                
             for (DTOPropuesta ct : setInput)   //Se analiza el estado actual de la propuesta y su fecha de cierre para verificar si debe ser cancelada.
             {
-                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(LocalDate.now()) && (ct.getEstadoAct() == Estado.EN_FINANCIACION || ct.getEstadoAct() == Estado.PUBLICADA))  //Si la fecha actual es mayor a la de vencimiento...
+                if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().before(new Date()) && (ct.getEstadoAct() == Estado.EN_FINANCIACION || ct.getEstadoAct() == Estado.PUBLICADA))  //Si la fecha actual es mayor a la de vencimiento...
                 {
                     int recaudado = ct.chequearRecaudado(ct.getAporte());   //Obtengo recaudo total en este momento.
                     
