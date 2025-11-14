@@ -9,6 +9,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import logica.Colaboracion.Colaboracion;
 import logica.Propuesta.Comentario;
 import logica.Propuesta.Propuesta;
@@ -25,14 +26,10 @@ public class DTOPropuesta {
     private String Descripcion;
     private String Imagen;
     private String Lugar;
-    
-    @XmlTransient
     @JsonIgnore
     private LocalDate Fecha;
-    @XmlTransient
     @JsonIgnore
     private LocalDate FechaPublicacion;
-    @XmlTransient
     @JsonIgnore
     private LocalDate fechaExpiracion;
     
@@ -41,17 +38,9 @@ public class DTOPropuesta {
     private String fechaExpiracionString;
     private int Precio;
     private int MontoTotal;
-    private String CategoriaString;
     
-     
-     
-    private List<String> RetornoString = new ArrayList();
-    
-    @XmlTransient
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
-    
-    @XmlTransient
     @JsonIgnore
     private DTOCategoria cat;
     private String categoria;
@@ -92,25 +81,6 @@ public class DTOPropuesta {
         this.usr = usr;
         this.EstadoAct = EstadoAct;
         this.comentarios = _comentarios; 
-        this.CategoriaString = cat.getNombreCategoria();
-        
-        
-        if(Retorno.size() == 2)
-        {
-            this.RetornoString.add("PorcentajeGanancia");
-            this.RetornoString.add("EntradaGratis");
-        }
-        else
-        {
-            if(Retorno.get(0).equals(TipoRetorno.PorcentajeGanancia))
-            {
-                this.RetornoString.add("PorcentajeGanancia");
-            }
-            if(Retorno.get(0).equals(TipoRetorno.EntradaGratis))
-            {
-                this.RetornoString.add("EntradaGratis");
-            }
-        }
 
         for (int i = 0; i < _historialEstados.size(); i++) //Pasa de Lista Class normal a lista de DTO
         {
@@ -143,25 +113,6 @@ public class DTOPropuesta {
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
-        this.CategoriaString = cat.getNombreCategoria();
-        
-        
-        if(Retorno.size() == 2)
-        {
-            this.RetornoString.add("PorcentajeGanancia");
-            this.RetornoString.add("EntradaGratis");
-        }
-        else
-        {
-            if(Retorno.get(0).equals(TipoRetorno.PorcentajeGanancia))
-            {
-                this.RetornoString.add("PorcentajeGanancia");
-            }
-            if(Retorno.get(0).equals(TipoRetorno.EntradaGratis))
-            {
-                this.RetornoString.add("EntradaGratis");
-            }
-        }
         
         for (int i = 0; i < _historialEstados.size(); i++)   //Pasa de Lista Class normal a lista de DTO
         {
@@ -194,37 +145,10 @@ public class DTOPropuesta {
         this.cat = p.getCategoria().Cat_a_DTO();
         this.usr = proponente;
         this.comentarios = p.getComentarios();
-        this.CategoriaString = p.getCategoria().getNombreCategoria();
-        
-        
-        if(p.getRetorno().size() == 2)
-        {
-            this.RetornoString.add("PorcentajeGanancia");
-            this.RetornoString.add("EntradaGratis");
-        }
-        else
-        {
-            if(p.getRetorno().get(0).equals(TipoRetorno.PorcentajeGanancia))
-            {
-                this.RetornoString.add("PorcentajeGanancia");
-            }
-            if(p.getRetorno().get(0).equals(TipoRetorno.EntradaGratis))
-            {
-                this.RetornoString.add("EntradaGratis");
-            }
-        }
     }
 
     public Estado getEstado(){
         return EstadoAct;
-    }
-    public String getCategoriaString()
-    {
-        return CategoriaString;
-    }
-    public List<String> getRetornoString()
-    {
-        return RetornoString;
     }
     public  String getTitulo() {
         return Titulo;
@@ -352,27 +276,6 @@ public class DTOPropuesta {
         EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
-        CategoriaString = in.getCategoria().getNombreCategoria();
-        
-        
-        if(in.getRetorno().size() == 2)
-        {
-            this.RetornoString.add("PorcentajeGanancia");
-            this.RetornoString.add("EntradaGratis");
-        }
-        else
-        {
-            if(in.getRetorno().get(0).equals(TipoRetorno.PorcentajeGanancia))
-            {
-                this.RetornoString.add("PorcentajeGanancia");
-            }
-            if(in.getRetorno().get(0).equals(TipoRetorno.EntradaGratis))
-            {
-                this.RetornoString.add("EntradaGratis");
-            }
-        }
-        
-        
         if (in.getCategoria() != null) {
             this.cat = in.getCategoria().Cat_a_DTO();
         } 
