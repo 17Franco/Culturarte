@@ -64,7 +64,7 @@ public class DTOPropuesta {
     {
         this.Titulo=titulo;
         this.fechaExpiracion=fechaExp;
-        this.fechaExpiracionString = (fechaExp != null) ? fechaExp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+        this.fechaExpiracionString = (fechaExp != null) ? fechaExp.toString() : "";
 
     }
     
@@ -78,8 +78,8 @@ public class DTOPropuesta {
         this.Precio = Precio;
         this.MontoTotal = MontoTotal;
         this.FechaPublicacion = FechaPublicacion;
-        this.FechaString = (Fecha != null) ? Fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
-        this.FechaPublicacionString=(FechaPublicacion != null) ? FechaPublicacion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+        this.FechaString = Fecha.toString();
+        this.FechaPublicacionString=FechaPublicacion.toString();
         this.cat = cat;
         this.usr = usr;
         this.EstadoAct = EstadoAct;
@@ -110,11 +110,11 @@ public class DTOPropuesta {
         this.Imagen=Imagen;
         this.Lugar=Lugar;
         this.Fecha=Fecha;
-        this.FechaString = (Fecha != null) ? Fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+        this.FechaString = (Fecha != null) ? Fecha.toString() : "";
         this.Precio=Precio;
         this.MontoTotal=MontoTotal;
         this.FechaPublicacion=FechaPublicacion;
-        this.FechaPublicacionString = (FechaPublicacion != null) ? FechaPublicacion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";  
+        this.FechaPublicacionString = (FechaPublicacion != null) ? FechaPublicacion.toString() : "";  
         this.cat=cat;
         this.usr = usr;
         this.EstadoAct=EstadoAct;
@@ -147,12 +147,12 @@ public class DTOPropuesta {
         this.Imagen = p.getImagen();
         this.Lugar = p.getLugar();
         this.Fecha = p.getFecha();
-        this.FechaString = (p.getFecha() != null) ? p.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";       
+        this.FechaString = (p.getFecha() != null) ? p.getFecha().toString() : "";       
         this.Precio = p.getPrecio();
         this.MontoTotal = p.getMontoTotal();
         this.FechaPublicacion = p.getFechaPublicacion();
-        this.FechaPublicacionString = (p.getFechaPublicacion() != null) ? p.getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
-        this.fechaExpiracionString = (p.getFechaExpiracion() != null) ? p.getFechaExpiracion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+        this.FechaPublicacionString = (p.getFechaPublicacion() != null) ? p.getFechaPublicacion().toString() : "";
+        this.fechaExpiracionString = (p.getFechaExpiracion() != null) ? p.getFechaExpiracion().toString() : "";
         this.Retorno = p.getRetorno();
         this.cat = p.getCategoria().Cat_a_DTO();
         this.usr = proponente;
@@ -281,13 +281,13 @@ public class DTOPropuesta {
         Imagen = in.getImagen();
         Lugar = in.getLugar();
         Fecha = in.getFecha();
-        FechaString = (this.Fecha != null) ? this.Fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+        FechaString = (this.Fecha != null) ? this.Fecha.toString() : "";
         Precio = in.getPrecio();
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         fechaExpiracion = in.getFechaExpiracion();
-        FechaPublicacionString = (this.FechaPublicacion != null) ? this.FechaPublicacion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
-        fechaExpiracionString = (this.fechaExpiracion != null) ? this.fechaExpiracion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+        FechaPublicacionString = (this.FechaPublicacion != null) ? this.FechaPublicacion.toString() : "";
+        fechaExpiracionString = (this.fechaExpiracion != null) ? this.fechaExpiracion.toString() : ""; 
         EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
