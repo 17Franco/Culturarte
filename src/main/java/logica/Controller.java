@@ -30,6 +30,7 @@ import logica.DTO.Estado;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import static logica.Colaboracion.GeneradorPDF.generar;
 import logica.DTO.DTOPago;
 import logica.DTO.DTORegistrosAccesoWeb;
 
@@ -590,6 +591,13 @@ public class Controller  implements IController {
         return mPropuesta.aportesPropuesta(title);
     
     }
+    public File GenerarPDF (long id )
+    {
+            DTOColaboracion dto = mColaboraciones.getColaboracionPorId(id);
+            return generar(dto) ;
+
+    }
+
     //FIN COLABORACIONES
     
     //Inicio Registros
