@@ -4,12 +4,18 @@
  */
 package logica.Propuesta;
 
+import jakarta.persistence.Embeddable;
+
+
 /**
  *
  * @author klaas
  */
+
+@Embeddable
 public class Comentario 
 {
+
     private String nickUsuario;
     private String comentario;
     

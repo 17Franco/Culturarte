@@ -39,7 +39,6 @@ public class DTOPropuesta {
     private int Precio;
     private int MontoTotal;
     
-    @XmlTransient
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
     @JsonIgnore
@@ -274,6 +273,7 @@ public class DTOPropuesta {
         MontoTotal = in.getMontoTotal();
         FechaPublicacion = in.getFechaPublicacion();
         fechaExpiracion = in.getFechaExpiracion();
+        EstadoAct = in.getHistorialEstados().get(0).getEstado();
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
         if (in.getCategoria() != null) {
