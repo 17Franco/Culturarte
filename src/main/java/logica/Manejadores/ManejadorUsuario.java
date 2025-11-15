@@ -220,7 +220,7 @@ public class ManejadorUsuario {
                     aux.setImagen(prop.getImagen());
                     aux.setCategoria(prop.getCategoria().getNombreCategoria());
                     aux.setEstadoAct(prop.getUltimoEstado().getEstado());
-                    aux.setFechaPublicacion(prop.getFechaPublicacion());
+                    aux.setFechaPublicacionString(prop.getFechaPublicacion().toString());
                     p.add(aux);
                 }
             }

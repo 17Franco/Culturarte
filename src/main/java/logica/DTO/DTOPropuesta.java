@@ -38,7 +38,7 @@ public class DTOPropuesta {
     private int Precio;
     private int MontoTotal;
     private byte[] img;
-
+    @XmlTransient
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
     @JsonIgnore
@@ -46,7 +46,8 @@ public class DTOPropuesta {
     private String categoria;
     @JsonIgnore //ignora en json
     private DTOProponente usr;
-
+    
+    private List<String> RetornoString = new ArrayList<>();
     private Estado EstadoAct;
 
     @JsonInclude(Include.NON_EMPTY)
@@ -154,6 +155,14 @@ public class DTOPropuesta {
         this.comentarios = p.getComentarios();
     }
 
+    public void setRetornoString(List<String> RetornoString) {
+        this.RetornoString = RetornoString;
+    }
+
+    public List<String> getRetornoString() {
+        return RetornoString;
+    }
+    
     public Estado getEstado() {
         return EstadoAct;
     }
@@ -299,7 +308,9 @@ public class DTOPropuesta {
         Retorno = in.getRetorno();
         comentarios = in.getComentarios();
         categoria = in.getCategoria().getNombreCategoria();
-
+        for(TipoRetorno t:in.getRetorno()){
+            RetornoString.add(t.name());
+        }
         if (in.getCategoria() != null) {
             this.cat = in.getCategoria().Cat_a_DTO();
         } else {
