@@ -453,7 +453,7 @@ public class Controller  implements IController {
         }  
     
         //Si es colaborador que ya colaboró...
-        if(permisos == 2)
+        if(permisos == 2 || permisos == 4)
         {
             if(accionUsuario.equals("COMENTAR"))
             {
