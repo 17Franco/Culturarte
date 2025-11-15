@@ -798,6 +798,7 @@ public class ControllerTest
     @Test
     public void testGetImg_exception() throws Exception {
     String ruta = "archivo.jpg";
+    //devuelve la ruta donde se ejecuta el projecto 
     File baseDir=new File(System.getProperty("user.dir"));
     String rutaCompleta = baseDir + File.separator + ruta;
 
@@ -816,12 +817,15 @@ public class ControllerTest
     String nick = "Rick";
     String nombreArchivo = "foto.jpg";
     byte[] contenido = new byte[]{1,2,3};
-
-    Controller controller = new Controller();
-    String rutaEsperada = "IMG" + File.separator + nick + File.separator + nombreArchivo;
-    File baseDir=new File(System.getProperty("user.dir"));
     //String carpetaDestino = "/home/fran/Escritorio/Lab1PA/IMG" + File.separator + nick;
-     File dir = new File(baseDir + "IMG" + File.separator +nick);
+    Controller controller = new Controller();
+    
+    String rutaEsperada = "IMG" + File.separator + nick + File.separator + nombreArchivo;
+    
+    //devuelve la ruta donde se ejecuta el projecto 
+    File baseDir=new File(System.getProperty("user.dir"));
+     
+    File dir = new File(baseDir + "IMG" + File.separator +nick);
     Path destino = Paths.get(dir.getAbsolutePath(), nombreArchivo);
 
     try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
