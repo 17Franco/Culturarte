@@ -192,7 +192,7 @@ public class Controller  implements IController {
         //String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
         String resdir="IMG" + File.separator+ nick +File.separator+ nombreArchivo;//la direccion que guardare en la bd
         File baseDir=new File(System.getProperty("user.dir"));
-        System.out.print(baseDir);
+        //System.out.print(baseDir);
         File dir = new File(baseDir + "IMG" + File.separator +nick);
         //String carpetaDestino = RUTA_IMAGENES + File.separator + nick;
         //File dir = new File(carpetaDestino);
@@ -219,7 +219,7 @@ public class Controller  implements IController {
         try{
         //File img=new File(RUTA_IMAGENES + File.separator +ruta);
         File baseDir=new File(System.getProperty("user.dir"));
-        System.out.print(baseDir);
+        //System.out.print(baseDir);
         File img=new File(baseDir + File.separator + ruta);
         //File img=new File(File.separator +ruta); //ESTO ES PARA DOCKER
         if(!img.exists()) return null;
