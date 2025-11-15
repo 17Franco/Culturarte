@@ -1951,7 +1951,7 @@ public void testGetFavoritasConPropuestas() {
         System.out.println("ObtenerPropuestaPorSubCategoria");
         
         String subCat = "Ballet";
-        Set<DTOPropuesta> result = controller.ObtenerPropuestaPorSubCategoria(subCat);
+        List<DTOPropuesta> result = controller.ObtenerPropuestaPorSubCategoria(subCat);
         assertNotNull(result);
 
     }

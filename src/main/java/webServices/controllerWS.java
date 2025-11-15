@@ -224,7 +224,7 @@ public class controllerWS {
         return controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
     }
     @WebMethod
-    public Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
+    public List<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
         return controller.ObtenerPropuestaPorSubCategoria(subcategoria);
     }
     @WebMethod

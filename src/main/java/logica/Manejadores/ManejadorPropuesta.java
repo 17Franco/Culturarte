@@ -814,9 +814,9 @@ public class ManejadorPropuesta {
     }
     
     
-    public Set<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias){
+    public List<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias){
         EntityManager em = PersistenciaManager.getEntityManager();
-        Set<DTOPropuesta> result = new HashSet<>();
+        List<DTOPropuesta> result = new ArrayList<>();
  
         try 
         {

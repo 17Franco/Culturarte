@@ -173,7 +173,7 @@ public interface IController {
     
     //FIN CARGA DE DATOS
    
-    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria);
+    List<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria);
     // private Set <DTOCategoria> subcategorias;
     // al hacer click en la subcat traer las propu que en la BD en la columna ca
     // crear manejadorSubCat?
