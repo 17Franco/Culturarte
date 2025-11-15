@@ -281,7 +281,7 @@ public class Propuesta
         dto.setLugar(this.getLugar());
         dto.setFecha(this.getFecha());
         dto.setPrecio(this.getPrecio());            
-
+        dto.setFechaString(this.getFecha().toString());
         dto.setEstadoAct(this.getUltimoEstado().getEstado());
        return dto;
     }

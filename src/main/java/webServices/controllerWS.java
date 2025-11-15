@@ -223,6 +223,14 @@ public class controllerWS {
         DTOPropuesta propuestaActual = controller.getPropuestaDTO(tituloProp);
         return controller.accionesSobrePropuesta(userNick, permisos, accionUsuario, comentario, propuestaActual, montoStr, tipoRetorno);
     }
+    @WebMethod
+    public List<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
+        return controller.ObtenerPropuestaPorSubCategoria(subcategoria);
+    }
+    @WebMethod
+    public List<DTOPropuesta> BuscarPropuestas(String filtro) {
+        return controller.BuscarPropuestas(filtro);
+    }
     //FIN METODOS PROPUESTAS
     
     //METODOS CATEGORIA

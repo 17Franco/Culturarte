@@ -10,6 +10,7 @@ import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -151,7 +152,7 @@ public class ManejadorPropuesta {
         //Si se envió un Set:
         if(setInput != null && !setInput.isEmpty())
         {
-
+                
             for (DTOPropuesta ct : setInput)   //Se analiza el estado actual de la propuesta y su fecha de cierre para verificar si debe ser cancelada.
             {
                 if(ct.getFechaExpiracion() != null && ct.getFechaExpiracion().isBefore(LocalDate.now()) && (ct.getEstadoAct() == Estado.EN_FINANCIACION || ct.getEstadoAct() == Estado.PUBLICADA))  //Si la fecha actual es mayor a la de vencimiento...
@@ -813,9 +814,9 @@ public class ManejadorPropuesta {
     }
     
     
-    public Set<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias){
+    public List<DTOPropuesta> ObtenerPropuestasPorSubCategoria(String subcategorias){
         EntityManager em = PersistenciaManager.getEntityManager();
-        Set<DTOPropuesta> result = new HashSet<>();
+        List<DTOPropuesta> result = new ArrayList<>();
  
         try 
         {

@@ -651,7 +651,7 @@ public class Controller  implements IController {
     //private ManejadorPropuesta mPropuesta=ManejadorPropuesta.getinstance();
     //cabecera icontroles:    Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategorias);
     @Override
-    public Set<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
+    public List<DTOPropuesta> ObtenerPropuestaPorSubCategoria(String subcategoria) {
        return  mPropuesta.ObtenerPropuestasPorSubCategoria(subcategoria);
     }
 
