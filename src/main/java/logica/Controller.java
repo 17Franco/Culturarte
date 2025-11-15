@@ -191,6 +191,7 @@ public class Controller  implements IController {
         //String RUTA_IMAGENES = "/IMG"; //RUTA PARA DOCKER
         //String RUTA_IMAGENES = "/home/fran/Escritorio/Lab1PA/IMG"; //configurar en cada maquina o buscar solucion
         String resdir="IMG" + File.separator+ nick +File.separator+ nombreArchivo;//la direccion que guardare en la bd
+        //devuelve la ruta donde se ejecuta el projecto 
         File baseDir=new File(System.getProperty("user.dir"));
         //System.out.print(baseDir);
         File dir = new File(baseDir + "IMG" + File.separator +nick);
