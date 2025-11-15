@@ -26,13 +26,10 @@ public class DTOPropuesta {
     private String Imagen;
     private String Lugar;
     @JsonIgnore
-    @XmlTransient
     private LocalDate Fecha;
     @JsonIgnore
-    @XmlTransient
     private LocalDate FechaPublicacion;
     @JsonIgnore
-    @XmlTransient
     private LocalDate fechaExpiracion;
     
     private String FechaString;
