@@ -28,6 +28,7 @@ public class DTOColaboracion {
         private LocalDate creado;
         private String creadoString;
         private Pago datosPago;
+        private boolean acreditada;
     
     private Long id;
 
@@ -62,9 +63,16 @@ public void setId(Long id) {
         this.colaborador = colaborador;
         this.propuesta = propuesta;
         this.creado = creado;
-        if(pago != null) { this.datosPago = pago;}
-        else{this.datosPago = null;}
+        this.datosPago = pago;
         
+        if(pago != null)
+        {
+            this.acreditada = true;
+        }
+        else
+        {
+            this.acreditada = false;
+        }
     }
 
     public void setCreadoString(String creadoString) {
@@ -73,6 +81,11 @@ public void setId(Long id) {
 
     public String getCreadoString() {
         return creadoString;
+    }
+    
+    public boolean getAcreditada()
+    {
+        return acreditada;
     }
     
     
