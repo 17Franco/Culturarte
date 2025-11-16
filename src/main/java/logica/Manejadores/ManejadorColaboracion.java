@@ -392,7 +392,8 @@ public class ManejadorColaboracion {
                 colab.getMonto(),
                 colab.getColaborador().getNickname(),
                 colab.getPropuesta().getTitulo(),
-                colab.getCreado()
+                colab.getCreado(),
+                colab.getDatosPago()
             );
             dto.setId(colab.getId());
         }

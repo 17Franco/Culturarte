@@ -62,9 +62,28 @@ public class GeneradorPDF {
             Paragraph datosPago = new Paragraph("DATOS DEL PAGO", subtituloFont);
             datosPago.setSpacingAfter(5);
             document.add(datosPago);
-
-            document.add(new Paragraph("Monto aportado: $" + dto.getMonto(), textoFont));
-            document.add(new Paragraph("Medio de pago: Plataforma Culturarte", textoFont)); // ejemplo, podés cambiarlo
+            
+            
+            document.add(new Paragraph("Fecha Pago: " + dto.getDatosPago().getFechaPago().toString(), textoFont));
+            document.add(new Paragraph("Metodo De pago: " + dto.getDatosPago().getFormaPago(), textoFont));
+            
+            if("tarjeta".equals(dto.getDatosPago().getFormaPago())){
+                document.add(new Paragraph("Titular Tarjeta: " + dto.getDatosPago().getDato1(), textoFont));
+                document.add(new Paragraph("Nombre tarjeta: " + dto.getDatosPago().getDato3(), textoFont));
+                document.add(new Paragraph("Numero Tarjeta: " + dto.getDatosPago().getDato2(), textoFont));
+                document.add(new Paragraph("Vencimiento Tarjeta: " + dto.getDatosPago().getDato4(), textoFont)); 
+                document.add(new Paragraph("Monto aportado: $" + dto.getDatosPago().getMonto(), textoFont));
+            }else if("transferencia".equals(dto.getDatosPago().getFormaPago())){
+                document.add(new Paragraph("Titular Cuenta: " + dto.getDatosPago().getDato1(), textoFont));
+                document.add(new Paragraph("Nombre Banco: " + dto.getDatosPago().getDato3(), textoFont));
+                document.add(new Paragraph("Numero Cuenta: " + dto.getDatosPago().getDato2(), textoFont));        
+                document.add(new Paragraph("Monto aportado: $" + dto.getDatosPago().getMonto(), textoFont));
+            }else if("paypal".equals(dto.getDatosPago().getFormaPago())){
+                document.add(new Paragraph("Nombre Titular Paypal: " + dto.getDatosPago().getDato1(), textoFont));
+                document.add(new Paragraph("Numero Cuenta Paypal: " + dto.getDatosPago().getDato1(), textoFont));
+                document.add(new Paragraph("Monto aportado: $" + dto.getDatosPago().getMonto(), textoFont));
+            }
+           
             document.add(new Paragraph(" "));
 
             document.add(new Paragraph("-----------------------------------------------------------------------------------------"));
