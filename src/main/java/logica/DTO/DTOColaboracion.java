@@ -102,6 +102,7 @@ public void setId(Long id) {
          colaborador=colaboracion.getColaborador().getNickname();
          propuesta=colaboracion.getPropuesta().getTitulo();
          imgDePropuesta=colaboracion.getPropuesta().getImagen();
+         datosPago=colaboracion.getDatosPago();
      }
 
      
