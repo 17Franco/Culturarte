@@ -28,7 +28,6 @@ public class DTOColaboracion {
         private LocalDate creado;
         private String creadoString;
         private Pago datosPago;
-        private boolean acreditada;
     
     private Long id;
 
@@ -64,15 +63,6 @@ public void setId(Long id) {
         this.propuesta = propuesta;
         this.creado = creado;
         this.datosPago = pago;
-        
-        if(pago != null)
-        {
-            this.acreditada = true;
-        }
-        else
-        {
-            this.acreditada = false;
-        }
     }
 
     public void setCreadoString(String creadoString) {
@@ -81,11 +71,6 @@ public void setId(Long id) {
 
     public String getCreadoString() {
         return creadoString;
-    }
-    
-    public boolean getAcreditada()
-    {
-        return acreditada;
     }
     
     
@@ -117,6 +102,7 @@ public void setId(Long id) {
          colaborador=colaboracion.getColaborador().getNickname();
          propuesta=colaboracion.getPropuesta().getTitulo();
          imgDePropuesta=colaboracion.getPropuesta().getImagen();
+         datosPago = colaboracion.getDatosPago();
      }
 
      
