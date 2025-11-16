@@ -62,7 +62,9 @@ public void setId(Long id) {
         this.colaborador = colaborador;
         this.propuesta = propuesta;
         this.creado = creado;
-        this.datosPago = pago;
+        if(pago != null) { this.datosPago = pago;}
+        else{this.datosPago = null;}
+        
     }
 
     public void setCreadoString(String creadoString) {
