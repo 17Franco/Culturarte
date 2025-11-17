@@ -53,7 +53,7 @@ public class DTOPropuesta {
     @JsonInclude(Include.NON_EMPTY)
     private List<DTORegistro_Estado> historialEstados = new ArrayList<>();
 
-    @JsonInclude(Include.NON_EMPTY)//ignora en caso vacio en json
+    
     private List<DTOColaboracion> aporte = new ArrayList<>();
 
     @JsonInclude(Include.NON_EMPTY)
