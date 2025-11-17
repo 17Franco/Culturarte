@@ -18,7 +18,7 @@ import logica.Propuesta.Registro_Estado;
 
 @XmlRootElement(name = "DTOPropuesta")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JsonInclude(Include.NON_NULL)
+
 public class DTOPropuesta {
 
     private String Titulo;
@@ -37,7 +37,7 @@ public class DTOPropuesta {
     private String fechaExpiracionString;
     private int Precio;
     private int MontoTotal;
-    private byte[] img;
+    private byte[] img=new byte[0];
     @XmlTransient
     @JsonIgnore
     private List<TipoRetorno> Retorno = new ArrayList<>();
