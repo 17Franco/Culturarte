@@ -201,6 +201,11 @@ public class controllerWS {
         LocalDate fechaP = LocalDate.parse(fechaPublicacio);
         controller.altaPropuesta(Titulo, Descripcion, Imagen, Lugar, fecha,Precio, MontoTotal,fechaP, Retorno,cat, usr, est);
     }
+    public void altaPropuestaNew(String Titulo, String Descripcion, String FileName, byte[] contenido, String Lugar, String FechaW, int Precio, int MontoTotal, String fechaPublicacioW, List<TipoRetorno> Retorno, String cat, String usr, Estado est) {
+        LocalDate fecha = LocalDate.parse(FechaW);
+        LocalDate fechaP = LocalDate.parse(fechaPublicacioW);
+        controller.altaPropuestaNew(Titulo, Descripcion, FileName, contenido, Lugar, fecha, Precio, MontoTotal, fechaP, Retorno, cat,  usr, est);
+    }
     @WebMethod
     public DTOPropuesta getPropuestaDTO(String propuestaSel) {
         return controller.getPropuestaDTO(propuestaSel);

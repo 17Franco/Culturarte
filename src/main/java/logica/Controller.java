@@ -313,7 +313,12 @@ public class Controller  implements IController {
         Propuesta propuesta = new Propuesta (Titulo, Descripcion,Imagen, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio ,Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr),est);
         mPropuesta.nuevaPropuesta(propuesta);
     }
-    
+    @Override
+    public void altaPropuestaNew(String Titulo, String Descripcion, String FileName, byte[] contenido, String Lugar, LocalDate Fecha, int Precio, int MontoTotal, LocalDate fechaPublicacio, List<TipoRetorno> Retorno, String cat, String usr, Estado est) {
+        String ruta = obtenerPathImg(Titulo, contenido, FileName);
+        Propuesta propuesta = new Propuesta(Titulo, Descripcion, ruta, Lugar, Fecha, Precio, MontoTotal, fechaPublicacio, Retorno, mCategoria.buscadorC(cat), (Proponente) mUsuario.getUsuario(usr), est);
+        mPropuesta.nuevaPropuesta(propuesta);
+    }
     @Override
     public void modificarPropuesta(String titulo, String descripcion,String rutaImagen, String lugar, LocalDate fechaEvento,int precio, int montoTotal, List<TipoRetorno> retorno,String categoria, String usuarios, Estado estado) {
         Propuesta propuestaSeleccionada = null;
