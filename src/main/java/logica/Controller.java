@@ -194,7 +194,7 @@ public class Controller  implements IController {
         //devuelve la ruta donde se ejecuta el projecto 
         File baseDir=new File(System.getProperty("user.dir"));
         //System.out.print(baseDir);
-        File dir = new File(baseDir + "IMG" + File.separator +nick);
+        File dir = new File(baseDir + "/IMG" + File.separator +nick);
         //String carpetaDestino = RUTA_IMAGENES + File.separator + nick;
         //File dir = new File(carpetaDestino);
         if (!dir.exists()) dir.mkdirs();
