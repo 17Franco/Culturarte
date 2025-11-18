@@ -82,6 +82,14 @@ public class ControllerTest
         mUsuario = ManejadorUsuario.getInstance();
         
         controller = new Controller();
+        // CARGA DE DATOS DE PRUEBA
+        controller.cargarDatosPruebaProponente();
+        controller.cargarDatosPruebaColaborador();
+        controller.cargarSeguidos();
+        controller.cargarCategorias();
+        controller.cargarPropuesta();
+        controller.cargarColaboraciones();
+        // CARGA DE DATOS DE PRUEBA
         
         Field mCategoriaField = Controller.class.getDeclaredField("mCategoria");
         mCategoriaField.setAccessible(true);
