@@ -80,7 +80,7 @@ public class GeneradorPDF {
                 document.add(new Paragraph("Monto aportado: $" + dto.getDatosPago().getMonto(), textoFont));
             }else if("paypal".equals(dto.getDatosPago().getFormaPago())){
                 document.add(new Paragraph("Nombre Titular Paypal: " + dto.getDatosPago().getDato1(), textoFont));
-                document.add(new Paragraph("Numero Cuenta Paypal: " + dto.getDatosPago().getDato1(), textoFont));
+                document.add(new Paragraph("Numero Cuenta Paypal: " + dto.getDatosPago().getDato2(), textoFont));
                 document.add(new Paragraph("Monto aportado: $" + dto.getDatosPago().getMonto(), textoFont));
             }
            
