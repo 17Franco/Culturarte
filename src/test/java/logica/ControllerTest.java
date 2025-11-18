@@ -825,7 +825,7 @@ public class ControllerTest
     //devuelve la ruta donde se ejecuta el projecto 
     File baseDir=new File(System.getProperty("user.dir"));
      
-    File dir = new File(baseDir + "IMG" + File.separator +nick);
+    File dir = new File(baseDir + "/IMG" + File.separator +nick);
     Path destino = Paths.get(dir.getAbsolutePath(), nombreArchivo);
 
     try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
