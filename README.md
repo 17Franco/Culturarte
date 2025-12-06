@@ -16,7 +16,7 @@ Además, incluye una interfaz gráfica desarrollada con Java Swing, destinada al
 - Martin Fernandez
 
 
-## Features
+## Stack Tecnológico
 
 - Java 21 – Lenguaje de desarrollo principal del proyecto.
 
