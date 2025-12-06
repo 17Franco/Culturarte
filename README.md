@@ -34,3 +34,10 @@ Además, incluye una interfaz gráfica desarrollada con Java Swing, destinada al
 
 - JUnit – Framework principal para ejecutar las pruebas unitarias del proyecto.
 
+
+## Configuración
+
+## Creacion Base de datos
+
+## Uso de Scritp de compilacion y deploy
+
