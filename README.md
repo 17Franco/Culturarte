@@ -35,9 +35,17 @@ Además, incluye una interfaz gráfica desarrollada con Java Swing, destinada al
 - JUnit – Framework principal para ejecutar las pruebas unitarias del proyecto.
 
 
-## Configuración
-
 ## Creacion Base de datos
+
+Antes de usar el script de compilación y deploy, se debe crear la base de datos y el usuario correspondiente.
+
+    CREATE DATABASE culturarte;
+
+    CREATE USER 'equipo7'@'localhost' IDENTIFIED BY 'equipo7';
+
+    GRANT ALL PRIVILEGES ON culturarte.* TO 'equipo7'@'localhost';
+
+    FLUSH PRIVILEGES;
 
 ## Uso de Scritp de compilacion y deploy
 
