@@ -39,7 +39,7 @@ Además, incluye una interfaz gráfica desarrollada con Java Swing, destinada al
 
 Antes de usar el script de compilación y deploy, se debe crear la base de datos y el usuario correspondiente.
 
-    CREATE DATABASE culturarte;
+    CREATE DATABASE Culturarte;
 
     CREATE USER 'equipo7'@'localhost' IDENTIFIED BY 'equipo7';
 
