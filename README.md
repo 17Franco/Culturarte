@@ -53,7 +53,7 @@ Antes de usar el script de compilación y deploy, se debe crear la base de datos
 
 Se debe importar el script SQL incluido en el proyecto.
 
-    mysql -u equipo7 -p Culturarte < database/culturarte.sql 
+    mysql -u equipo7 -p Culturarte < culturarte.sql 
     
 ---
 
