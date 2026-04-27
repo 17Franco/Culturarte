@@ -118,10 +118,46 @@ El archivo `.config` generado será utilizado posteriormente por el script del S
 
 ---
 
-## ⚠️ Consideraciones importantes
+## ⚠️ Consideraciones para deploy remoto
 
-- El archivo `.config` es obligatorio antes de ejecutar el deploy  
-- Ambos scripts deben ejecutarse inicialmente en la misma máquina  
-- Para despliegue remoto:
-  - La máquina destino debe tener **SSH habilitado**
-  - Debe contar con **Tomcat 10** instalado  
+Para desplegar el Servidor Web en una máquina remota, se deben cumplir los siguientes requisitos:
+
+- Tener **SSH instalado y habilitado** en la máquina destino  
+- Tener **Java (OpenJDK 21)** instalado  
+- Tener **Tomcat 10** disponible en el sistema  
+
+Durante el proceso, el script utilizará SSH para:
+
+- Transferir el archivo `.war`  
+- Transferir el archivo de configuración (`.config`)  
+- Ejecutar comandos remotos
+  
+---
+
+> ⚠️ Por defecto, SSH solicitará la contraseña del usuario en cada operación.
+
+### 🔐 Opcional: evitar ingreso de contraseña
+
+Para evitar ingresar la contraseña en cada ejecución, se puede configurar autenticación por clave SSH (SSH keys).
+
+Esto permite automatizar completamente el deploy sin intervención manual.
+
+## 🔐 Configuración de SSH sin contraseña
+
+Para permitir que el deploy remoto se ejecute sin solicitar contraseña en cada paso, es necesario configurar autenticación mediante clave SSH.
+
+### 1. Generar clave SSH (en la máquina local)
+
+```bash
+ssh-keygen -t ed25519
+```
+Presionar Enter para aceptar valores por defecto.
+Se puede dejar la passphrase vacía para evitar solicitudes adicionales.
+
+### 2. Copiar la clave a la máquina remota
+
+```bash
+ssh-copy-id usuario@ip-remota
+```
+Se solicitará la contraseña del usuario remoto una única vez.
+
