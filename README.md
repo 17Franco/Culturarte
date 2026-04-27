@@ -46,14 +46,6 @@ Antes de usar el script de compilación y deploy, se debe crear la base de datos
     GRANT ALL PRIVILEGES ON Culturarte.* TO 'equipo7'@'localhost';
 
     FLUSH PRIVILEGES;
-
-### Importar estructura y datos
-
-⚠️ la base de datos no puede estar vacía. 
-
-Se debe importar el script SQL incluido en el proyecto.
-
-    mysql -u equipo7 -p Culturarte < culturarte.sql 
     
 ---
 
