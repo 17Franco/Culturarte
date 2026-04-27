@@ -47,15 +47,64 @@ Antes de usar el script de compilación y deploy, se debe crear la base de datos
 
     FLUSH PRIVILEGES;
 
-## Uso de Scritp de compilacion y deploy
+---
+## ⚠️ Antes de comenzar
+
+Asegurarse de cumplir con los siguientes requisitos antes de ejecutar el script:
+
+- Java (OpenJDK 21)
+- Maven (mvn)
+- SSH instalado (para deploy remoto)
+- Tomcat 10 (solo si se utiliza servidor web remoto)
+
+Verificar instalación:
+
+```bash
+java -version
+mvn -v
+ssh -V
+```
+
+---
+
+> ⚠️ Por defecto, SSH solicitará la contraseña del usuario en cada operación.
+
+### 🔐 Opcional: evitar ingreso de contraseña
+
+Para evitar ingresar la contraseña en cada ejecución, se puede configurar autenticación por clave SSH (SSH keys).
+
+Esto permite automatizar completamente el deploy sin intervención manual.
+
+## 🔐 Configuración de SSH sin contraseña
+
+Para permitir que el deploy remoto se ejecute sin solicitar contraseña en cada paso, es necesario configurar autenticación mediante clave SSH.
+
+---
+
+### 1. Generar clave SSH (en la máquina local)
+
+```bash
+ssh-keygen -t ed25519
+```
+Presionar Enter para aceptar valores por defecto.
+Se puede dejar la passphrase vacía para evitar solicitudes adicionales.
+
+### 2. Copiar la clave a la máquina remota
+
+```bash
+ssh-copy-id usuario@ip-remota
+```
+Se solicitará la contraseña del usuario remoto una única vez.
+
+---
+
+## Uso de Script de compilacion y deploy
 
 El script del Servidor Central permite:
 
 - Generar el archivo de configuración (`.config`)
 - Ejecutar el Servidor Central
 - Preparar el despliegue del Servidor Web
-
----
 Para ejecutar el script, abrir una terminal en la carpeta raíz del proyecto clonado y ejecutar el siguiente comando:
 
     ./DeployServidorCentral.sh
@@ -117,48 +166,3 @@ Esto levanta únicamente el Servidor Central en la máquina local.
 El archivo `.config` generado será utilizado posteriormente por el script del Servidor Web.
 
 ---
-
-## ⚠️ Consideraciones para deploy remoto
-
-Para desplegar el Servidor Web en una máquina remota, se deben cumplir los siguientes requisitos:
-
-- Tener **SSH instalado y habilitado** en la máquina destino  
-- Tener **Java (OpenJDK 21)** instalado
-- Maven (mvn)
-- Tener **Tomcat 10** disponible en el sistema  
-
-Durante el proceso, el script utilizará SSH para:
-
-- Transferir el archivo `.war`  
-- Transferir el archivo de configuración (`.config`)  
-- Ejecutar comandos remotos
-  
----
-
-> ⚠️ Por defecto, SSH solicitará la contraseña del usuario en cada operación.
-
-### 🔐 Opcional: evitar ingreso de contraseña
-
-Para evitar ingresar la contraseña en cada ejecución, se puede configurar autenticación por clave SSH (SSH keys).
-
-Esto permite automatizar completamente el deploy sin intervención manual.
-
-## 🔐 Configuración de SSH sin contraseña
-
-Para permitir que el deploy remoto se ejecute sin solicitar contraseña en cada paso, es necesario configurar autenticación mediante clave SSH.
-
-### 1. Generar clave SSH (en la máquina local)
-
-```bash
-ssh-keygen -t ed25519
-```
-Presionar Enter para aceptar valores por defecto.
-Se puede dejar la passphrase vacía para evitar solicitudes adicionales.
-
-### 2. Copiar la clave a la máquina remota
-
-```bash
-ssh-copy-id usuario@ip-remota
-```
-Se solicitará la contraseña del usuario remoto una única vez.
-
