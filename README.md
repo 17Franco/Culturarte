@@ -43,7 +43,7 @@ Antes de usar el script de compilación y deploy, se debe crear la base de datos
 
     CREATE USER 'equipo7'@'localhost' IDENTIFIED BY 'equipo7';
 
-    GRANT ALL PRIVILEGES ON culturarte.* TO 'equipo7'@'localhost';
+    GRANT ALL PRIVILEGES ON Culturarte.* TO 'equipo7'@'localhost';
 
     FLUSH PRIVILEGES;
 
