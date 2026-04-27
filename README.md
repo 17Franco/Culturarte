@@ -48,4 +48,9 @@ Antes de usar el script de compilación y deploy, se debe crear la base de datos
     FLUSH PRIVILEGES;
 
 ## Uso de Scritp de compilacion y deploy
+Para ejecutar el script, abrir una terminal en la carpeta raíz del proyecto clonado y ejecutar el siguiente comando:
+
+    ./DeployServidorCentral.sh
+
+Al ejecutar aparecera un Menu de opciones 
 
