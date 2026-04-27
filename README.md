@@ -123,7 +123,8 @@ El archivo `.config` generado será utilizado posteriormente por el script del S
 Para desplegar el Servidor Web en una máquina remota, se deben cumplir los siguientes requisitos:
 
 - Tener **SSH instalado y habilitado** en la máquina destino  
-- Tener **Java (OpenJDK 21)** instalado  
+- Tener **Java (OpenJDK 21)** instalado
+- Maven (mvn)
 - Tener **Tomcat 10** disponible en el sistema  
 
 Durante el proceso, el script utilizará SSH para:
