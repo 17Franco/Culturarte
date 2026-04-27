@@ -47,7 +47,16 @@ Antes de usar el script de compilación y deploy, se debe crear la base de datos
 
     FLUSH PRIVILEGES;
 
+### Importar estructura y datos
+
+⚠️ la base de datos no puede estar vacía. 
+
+Se debe importar el script SQL incluido en el proyecto.
+
+    mysql -u equipo7 -p Culturarte < database/culturarte.sql 
+    
 ---
+
 ## ⚠️ Antes de comenzar
 
 Asegurarse de cumplir con los siguientes requisitos antes de ejecutar el script:
@@ -59,11 +68,9 @@ Asegurarse de cumplir con los siguientes requisitos antes de ejecutar el script:
 
 Verificar instalación:
 
-```bash
-java -version
-mvn -v
-ssh -V
-```
+    java -version
+    mvn -v
+    ssh -V
 
 ---
 
